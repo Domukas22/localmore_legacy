@@ -1,0 +1,54 @@
+// create a city document according to the schema 
+const category_SCHEMA = new Schema(
+  {
+    slug: { type: String, required: true },
+    IS_endCateg: { type: Boolean, required: true },
+    tagGroups: [{ type: Schema.ObjectId, ref: "tag_groups" }],
+    IS_new: { type: Boolean },
+    city: { type: Schema.ObjectId, ref: "cities", required: true },
+    parent_CATEG: { type: Schema.ObjectId, ref: "categories" },
+    child_CATEG: [{ type: Schema.ObjectId, ref: "categories" }],
+    ancestor_CATEG: [{ type: Schema.ObjectId, ref: "categories" }],
+    icon: { type: String, required: true },
+    name: {
+      en: { type: String, required: true },
+      de: { type: String, required: true },
+    },
+  },
+  { timestamps: true }
+);
+###
+POST  http://localhost:3001/db/categories
+Content-Type: application/json
+
+{
+  "slug": "test",
+  "IS_endCateg": true,
+  "IS_new": true,
+  "city": "65e82eda79127295cc5a1c4c",
+  "icon": "TEST category",
+  "name": {
+    "en": "EN",
+    "de": "DE"
+  }
+}
+
+
+###
+
+PUT  http://localhost:3001/db/countries/65e982e6315dd3b7731f9417
+Content-Type: application/json
+
+{
+  "name": {
+    "en": "UPDATE",
+    "de": "tes"
+  }
+}
+
+###
+
+DELETE  http://localhost:3001/db/countries/65e97e25095ca3694eca6844
+###
+
+
