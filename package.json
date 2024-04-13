@@ -14,5 +14,9 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "@photo-sphere-viewer/core": "^5.7.2",
+    "@photo-sphere-viewer/markers-plugin": "^5.7.2-fix.1"
   }
 }

@@ -1,17 +1,62 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import LM_Logo from "/LM_logo_long.svg";
 import "./reset.css";
 import "./App.css";
 import { LIST_staticProfiles, LIST_allTags, LIST_tagUsages } from "./DB.js";
+import SphereViewer from "./SphereViewer.jsx";
+import { Cache } from "@photo-sphere-viewer/core";
+Cache.enabled = true;
 
-// create a componnent-modal html that pops up each time I click on a profile, filled with the information of the profile. Do this accoring to the schema:
-// the modal is an overlay that pops up when you click on a profile. It contains the profile's information.
+// const panoramas = {
+//   pan1: {
+//     img_URL: "https://photo-sphere-viewer-data.netlify.app/assets/tour/key-biscayne-2.jpg",
+//     markers: [
+//       {
+//         id: "pan2",
+//         position: { yaw: 360, pitch: 0 },
+//       },
+//       {
+//         id: "pan3",
+//         position: { yaw: 0.105, pitch: 0.004 },
+//       },
+//     ],
+//   },
+//   pan2: {
+//     img_URL: "https://photo-sphere-viewer-data.netlify.app/assets/sphere.jpg",
+//     markers: [
+//       {
+//         id: "pan1",
+//         position: { yaw: 0.265, pitch: 0.044 },
+//       },
+//       {
+//         id: "pan3",
+//         position: { yaw: 0.405, pitch: 0.004 },
+//       },
+//     ],
+//   },
+//   pan3: {
+//     img_URL: "https://photo-sphere-viewer-data.netlify.app/assets/tour/key-biscayne-6.jpg",
+//     markers: [
+//       {
+//         id: "pan1",
+//         position: { yaw: 0.165, pitch: 0.044 },
+//       },
+//       {
+//         id: "pan2",
+//         position: { yaw: 0.705, pitch: 0.004 },
+//       },
+//     ],
+//   },
+// };
 
 export function App() {
   const [staticProfiles, setStaticProfiles] = useState([]);
   const [tags, setTags] = useState([]);
   const [tagUsages, setTagUsages] = useState([]);
   const [img_VARIANT, SET_imgVariant] = useState("/Big");
+  const [panoramas, SET_panoramas] = useState(null);
+
+  const [modal360_open, setModal360_open] = useState(false);
 
   const [modalProfile, setModalProfile] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -64,6 +109,16 @@ export function App() {
                   }}
                 >
                   <img src={deskImg} className="profileImage" alt="Desk" />
+                  <div
+                    className="btn_360"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setModal360_open(true);
+                      SET_panoramas(profile.img.panoramas);
+                    }}
+                  >
+                    360
+                  </div>
                   <div className="profile_BOTTOM">
                     <div className="text_WRAP" data-bg="onImg">
                       <h4 className="profileTitle">{profile.name.en}</h4>
@@ -71,10 +126,6 @@ export function App() {
                     </div>
                     <div className="prof_tagWrap">
                       {profile.tags.map((tag) => {
-                        const tagCount = tagUsages
-                          .filter((tagUsage) => tagUsage.tag_ID === tag._id)
-                          .reduce((acc, tagUsage) => acc + tagUsage.count, 0);
-
                         return (
                           <div key={tag._id} className="tag" data-bg="onImg">
                             <img src={tag.icon?.url} className="tagIcon" />
@@ -107,11 +158,30 @@ export function App() {
           })}
         </div>
       )}
-
+      {modal360_open && <Modal360 panoramas={panoramas} setModal360_open={setModal360_open} />}
       {modalOpen && (
         <Modal profile={modalProfile} setModalOpen={setModalOpen} img_VARIANT={img_VARIANT} />
       )}
     </>
+  );
+}
+
+// create a react component that returns a fixed, full page modal with the 360 view inside like I have built
+
+function Modal360({ panoramas, setModal360_open }) {
+  return (
+    <div className="modal360">
+      <SphereViewer panoramas={panoramas} />
+      <div
+        className="btn_CLOSE"
+        onClick={(e) => {
+          e.stopPropagation();
+          setModal360_open(false);
+        }}
+      >
+        X
+      </div>
+    </div>
   );
 }
 
