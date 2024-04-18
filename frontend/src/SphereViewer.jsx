@@ -10,13 +10,17 @@ import { MarkersPlugin } from "@photo-sphere-viewer/markers-plugin";
 const SphereViewer = ({ panoramas }) => {
   const viewerRef = useRef(null);
 
+  console.log(panoramas);
+
   useEffect(() => {
     const viewer = new Viewer({
       container: viewerRef.current,
-      panorama: panoramas["pan1"].img_URL,
+      panorama: Object.values(panoramas)[0].img_URL,
       navbar: ["zoom", "fullscreen"],
       plugins: [MarkersPlugin],
       defaultZoomLvl: 0,
+      defaultYaw: Object.values(panoramas)[0].camera?.yaw || 0,
+      defaultPitch: Object.values(panoramas)[0].camera?.pitch || 0,
     });
 
     const panoramaContainer = viewerRef.current;
@@ -26,17 +30,15 @@ const SphereViewer = ({ panoramas }) => {
     let activeListener = null; // To track the active event listener
 
     const setupMarkers = (panoramaId) => {
-      const panorama = panoramas[panoramaId];
+      const panorama = panoramas[panoramaId]; // Access the specific panorama object
       markersPlugin.clearMarkers();
       panorama.markers.forEach((marker) => {
         markersPlugin.addMarker({
           id: marker.id,
           image: "https://photo-sphere-viewer-data.netlify.app/assets/pictos/pin-red.png",
           position: marker.position,
-          tooltip: "Come here",
+          tooltip: marker.id,
           size: { width: 50, height: 50 },
-          defaultYaw: 0,
-          defaultPitch: 0,
         });
       });
 
@@ -47,12 +49,12 @@ const SphereViewer = ({ panoramas }) => {
 
       activeListener = (e) => {
         const newPanoramaId = e.marker.id;
-        const { img_URL, camera } = panoramas[newPanoramaId];
+        const newPanorama = panoramas[newPanoramaId]; // Access the new panorama object
         markersPlugin.clearMarkers();
         viewer
-          .setPanorama(img_URL, {
+          .setPanorama(newPanorama.img_URL, {
             speed: 500,
-            position: { yaw: camera.yaw, pitch: camera.pitch },
+            position: { yaw: newPanorama.camera?.yaw || 0, pitch: newPanorama.camera?.pitch || 0 },
           })
           .then(() => {
             setupMarkers(newPanoramaId); // Re-setup markers for the new panorama
@@ -62,7 +64,7 @@ const SphereViewer = ({ panoramas }) => {
       markersPlugin.addEventListener("select-marker", activeListener);
     };
 
-    setupMarkers("pan1");
+    setupMarkers(Object.keys(panoramas)[0]);
 
     return () => {
       viewer.destroy();

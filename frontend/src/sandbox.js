@@ -6,4 +6,6 @@ const obj = {
   pan3: { pan_3_stuff: "stuff_3" },
 };
 
-obj["pan1"];
+const x = Object. keys(obj)[0]
+
+x 

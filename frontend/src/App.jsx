@@ -1,10 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import LM_Logo from "/LM_logo_long.svg";
-import "./reset.css";
+import "./styles/reset.css";
 import "./App.css";
 import { LIST_staticProfiles, LIST_allTags, LIST_tagUsages } from "./DB.js";
 import SphereViewer from "./SphereViewer.jsx";
 import { Cache } from "@photo-sphere-viewer/core";
+import Pagination from "./components/pagination/pagination.jsx";
+
+import Btn from "./components/btn/btn.jsx";
 Cache.enabled = true;
 
 // const panoramas = {
@@ -92,6 +95,8 @@ export function App() {
           Tags
         </div>
       </nav>
+      {/* <Btn text="Brand button" style="brand" />
+      <Btn text="Inverted brand button" style="brand-inverted" /> */}
       {currentTab === "profiles" && staticProfiles.length > 0 && (
         <div className="allWrap">
           <div className="profilesWrap">

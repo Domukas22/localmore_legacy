@@ -10,4 +10,9 @@ export default defineConfig({
   // base: "/localmore/",
   base: isProduction ? "/localmore/" : "/",
   plugins: [react()],
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: "./testSetup.js",
+  },
 });
