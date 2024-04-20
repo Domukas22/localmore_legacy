@@ -1,13 +1,15 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import LM_Logo from "/LM_logo_long.svg";
+import Pagination from "./components/pagination/pagination.jsx";
 import "./styles/reset.css";
-import "./App.css";
+import "./styles/App.css";
 import { LIST_staticProfiles, LIST_allTags, LIST_tagUsages } from "./DB.js";
 import SphereViewer from "./SphereViewer.jsx";
 import { Cache } from "@photo-sphere-viewer/core";
-import Pagination from "./components/pagination/pagination.jsx";
+import ProfilePreview from "./components/ProfilePreview/ProfilePreview.jsx";
+import Swipe from "./swipertest.jsx";
 
-import Btn from "./components/btn/btn.jsx";
+import { Btn } from "./components/btn/btn.jsx";
 Cache.enabled = true;
 
 // const panoramas = {
@@ -57,9 +59,9 @@ export function App() {
   const [tags, setTags] = useState([]);
   const [tagUsages, setTagUsages] = useState([]);
   const [img_VARIANT, SET_imgVariant] = useState("/Big");
-  const [panoramas, SET_panoramas] = useState(null);
 
-  const [modal360_open, setModal360_open] = useState(false);
+  const [panoramas, SET_panoramas] = useState(null);
+  const [SHOW_360, SET_show360] = useState(false);
 
   const [modalProfile, setModalProfile] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -76,6 +78,11 @@ export function App() {
       .then((data) => setTagUsages(data))
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
+
+  function OPEN_panorama(panoramas) {
+    SET_show360(true);
+    SET_panoramas(panoramas);
+  }
 
   return (
     <>
@@ -101,51 +108,14 @@ export function App() {
         <div className="allWrap">
           <div className="profilesWrap">
             {staticProfiles.map((profile) => {
-              const deskImg =
-                profile.img && profile.img.desktop && profile.img.desktop.length > 0
-                  ? profile.img.desktop[0] + img_VARIANT
-                  : "";
               return (
-                <div
-                  key={profile._id}
-                  className="profile"
-                  onClick={() => {
-                    setModalOpen(true), setModalProfile(profile);
-                  }}
-                >
-                  <img src={deskImg} className="profileImage" alt="Desk" />
-                  <div
-                    className="btn_360"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setModal360_open(true);
-                      SET_panoramas(profile.img.panoramas);
-                    }}
-                  >
-                    360
-                  </div>
-                  <div className="profile_BOTTOM">
-                    <div className="text_WRAP" data-bg="onImg">
-                      <h4 className="profileTitle">{profile.name.en}</h4>
-                      <p className="profileSubtitle">{profile.subname.en}</p>
-                    </div>
-                    <div className="prof_tagWrap">
-                      {profile.tags.map((tag) => {
-                        return (
-                          <div key={tag._id} className="tag" data-bg="onImg">
-                            <img src={tag.icon?.url} className="tagIcon" />
-                            <p className="profileSubtitle">{tag.name.en}</p>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
+                <ProfilePreview key={profile._id} profile={profile} OPEN_panorama={OPEN_panorama} />
               );
             })}
           </div>
         </div>
       )}
+
       {currentTab === "tags" && tags.length > 0 && (
         <div className="tagWrap">
           {tags.map((tag) => {
@@ -163,7 +133,7 @@ export function App() {
           })}
         </div>
       )}
-      {modal360_open && <Modal360 panoramas={panoramas} setModal360_open={setModal360_open} />}
+      {SHOW_360 && <Modal360 panoramas={panoramas} setModal360_open={SET_show360} />}
       {modalOpen && (
         <Modal profile={modalProfile} setModalOpen={setModalOpen} img_VARIANT={img_VARIANT} />
       )}

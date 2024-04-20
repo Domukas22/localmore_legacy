@@ -15,4 +15,9 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: "./testSetup.js",
   },
+  resolve: {
+    alias: {
+      "@styles": new URL("src/styles", import.meta.url).pathname,
+    },
+  },
 });

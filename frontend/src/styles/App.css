@@ -1,6 +1,40 @@
 /*  */
 /*  */
 
+@font-face {
+  font-family: "Nunito";
+  src: url(../assets/fonts/Nunito-Light.ttf);
+  font-weight: 300;
+  font-style: light;
+}
+@font-face {
+  font-family: "Nunito";
+  src: url(../assets/fonts/Nunito-Regular.ttf);
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Nunito";
+  src: url(../assets/fonts/Nunito-Medium.ttf);
+  font-weight: 500;
+  font-style: medium;
+}
+@font-face {
+  font-family: "Nunito";
+  src: url(../assets/fonts/Nunito-SemiBold.ttf);
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Nunito";
+  src: url(../assets/fonts/Nunito-Bold.ttf);
+  font-weight: 700;
+}
+@font-face {
+  font-family: "Nunito";
+  src: url(../assets/fonts/Nunito-Black.ttf);
+  font-weight: 800;
+}
+
 #root {
 
   margin: 0 auto;
@@ -9,18 +43,22 @@
 }
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Nunito" !important;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* color-scheme: light dark; */
+
+  background-color: #EAEDF5;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  font-family: "Nunito" !important;
 }
 
 .allWrap {
@@ -34,9 +72,9 @@
 .profilesWrap {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-  grid-template-rows: clamp(240px, 40vh, 400px); 
-  grid-auto-rows: clamp(240px, 40vh, 400px); 
+  grid-template-columns: repeat(2, 750px);
+  grid-template-rows: clamp(240px, 46vh, 450px); 
+  grid-auto-rows: clamp(240px, 46vh, 450px); 
   gap: 20px;
 }
 
@@ -102,8 +140,8 @@
   border-radius: var(--Size-round-round_12, 12px);
   border: 1px solid var(---border-border_white_15, rgba(255, 255, 255, 0.15));
   background: var(---btn-btn_black_60, rgba(0, 0, 0, 0.60));
-  box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(20px);
+  box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.35);
   white-space: nowrap;
 }
 
@@ -152,7 +190,7 @@
   -webkit-user-drag: none;
 }
 
-/*  */
+/* //////////////////////////////////////////////////////////////////////////////////////////////// */
 
 .modal {
   position: fixed;
@@ -307,6 +345,7 @@ nav {
   height: 100%;
   top: 0px;
   left: 0px;
+  z-index: 5;
 }
 
 .btn_CLOSE {
@@ -320,4 +359,5 @@ nav {
   border: rgba(255, 255, 255, 0.05);
   z-index: 50;
 }
+/* /////////// */
 

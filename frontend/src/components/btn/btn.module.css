@@ -1,54 +1,87 @@
 /*  */
-@define-mixin center {
+
+@import '@styles/globals.css';
+
+.btn {
   display: flex;
   align-items: center;
   justify-content: center; 
-}
 
-@custom-media --test (max-width: 2000px);
-@media (--test) {
-  .btn {
-    border: 1px solid red !important;
-  }
-}
+  border: 1px solid transparent;
+  border-radius: var(--radius-12);
 
+  transition: 100ms;
+  opacity: 100%;
 
-.btn {
-  @mixin center;
-  padding: 12px 16px;
-  border-radius: 8px;
-  transition: 150ms;
   cursor: pointer;
-  user-select: none !important;
-  p {
-    span {
-      color: yellow;
-    }
-  }
-  > div {
-    background-image: url('search.png');
-    /* background-image: url('/src/assets/search.png'); */
-    background-color: green;
+  font-size: 17px;
+  font-weight: 500;
+  text-wrap: nowrap;
+
+  column-gap: 8px;
+
+  .icon {
     width: 20px;
     height: 20px;
+    object-fit: contain;
   }
-  
-}
-.brand {
-  composes: btn;
-  color: white;
-  background-color: rgb(178, 85, 35);
 
 }
-.brand:hover {
-  background-color: rgb(148, 70, 27);
-}
-.brand-inverted {
+.btn-48 {
   composes: btn;
-  color: rgb(178, 85, 35);
-  background-color: rgba(255, 255, 255, 0);
-  border: 1px solid rgb(178, 85, 35);
+  height: 48px;
+  padding: 0px 16px;
 }
-.brand-inverted:hover {
-  background-color: rgba(148, 69, 27, 0.347);
+.btn-44 {
+  composes: btn;
+  height: 44px;
+  padding: 12px 16px;
 }
+.btn-40 {
+  composes: btn;
+  height: 40px;
+  padding: 12px 16px;
+}
+
+.round {
+  border-radius: 100px;
+}
+.onImg {
+  composes: btn;
+  border: var(--border-white-15);
+  background: rgba(0, 0, 0, 0.60);
+  backdrop-filter: blur(20px);
+  color: white;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.40);
+  }
+  &:active {
+    border: 1px solid white;
+  }
+}
+/* .rainbow {
+
+} */
+/* //////////////////////////////////////// */
+/* only used in one place / in one form */
+
+.btn-text-onImg {
+  composes: btn;
+  composes: onImg;
+
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px 16px;
+
+  height: 70px;
+  row-gap: 4px;
+}
+/* .btn[data-show="false"] {
+  width: 0px !important;
+  opacity: 0%;
+  user-select: none;
+  border: 0px solid transparent;
+  padding: 0px;
+} */
+
+/* //////////////////////////////////////// */

@@ -53,36 +53,3 @@ select:focus {
   outline: none;
 }
 
-@font-face {
-  font-family: "Nunito";
-  src: url(../assets/fonts/Nunito-Light.ttf);
-  font-weight: 300;
-  font-style: light;
-}
-@font-face {
-  font-family: "Nunito";
-  src: url(../assets/fonts/Nunito-Regular.ttf);
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Nunito";
-  src: url(../assets/fonts/Nunito-Medium.ttf);
-  font-weight: 500;
-  font-style: medium;
-}
-@font-face {
-  font-family: "Nunito";
-  src: url(../assets/fonts/Nunito-SemiBold.ttf);
-  font-weight: 600;
-}
-@font-face {
-  font-family: "Nunito";
-  src: url(../assets/fonts/Nunito-Bold.ttf);
-  font-weight: 700;
-}
-@font-face {
-  font-family: "Nunito";
-  src: url(../assets/fonts/Nunito-Black.ttf);
-  font-weight: 800;
-}
