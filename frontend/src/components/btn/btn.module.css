@@ -2,6 +2,8 @@
 
 @import '@styles/globals.css';
 
+@custom-media --mobile (max-width: 700px);
+
 .btn {
   display: flex;
   align-items: center;
@@ -14,7 +16,7 @@
   opacity: 100%;
 
   cursor: pointer;
-  font-size: 17px;
+  font-size: inherit;
   font-weight: 500;
   text-wrap: nowrap;
 
@@ -40,10 +42,13 @@
   height: 44px;
   padding: 12px 16px;
 }
-.btn-40 {
+.btn-36 {
   composes: btn;
-  height: 40px;
-  padding: 12px 16px;
+  height: 36px;
+  padding: 12px;
+  @media (--mobile) {
+    height: 40px;
+  }
 }
 
 .round {
@@ -84,10 +89,16 @@
 
   flex-direction: column;
   align-items: flex-start;
-  padding: 0px 16px;
+  padding: 8px 12px;  
 
-  height: 70px;
-  row-gap: 4px;
+  p {
+    font-weight: 300
+  }
+}
+
+.btn-show-icons {
+  composes: btn-36;
+  composes: onImg;
 }
 /* .btn[data-show="false"] {
   width: 0px !important;

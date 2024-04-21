@@ -15,53 +15,28 @@
   box-shadow: var(--shadow-small);
 
   .top, .bottom {
-    position: relative;
+    position: absolute;
+    left: 0px;
+    width: 100%;
+    display: flex;
+    padding: 8px;
     z-index: 2;
-    display: flex;
-  }
-}
-
-.profile_IMG {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  object-fit: cover;
-}
-
-.top {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 8px;
-
-  .top_LEFT {
-    display: flex;
-    column-gap: 8px;
-  }
-
-  .top_RIGHT {
-    display: flex;
     column-gap: 4px;
   }
 }
+.top {
+  justify-content: space-between;
 
+  & :last-child {
+    margin-left: auto
+  }
+}
 .bottom {
-  width: 100%;
-  padding: 8px 8px 8px 0px;
   align-items: flex-end;
-  column-gap: 8px;
+  bottom: 0px;
 
-  .bottom_LEFT {
-    display: flex;
-    column-gap: 8px;
-    flex: 1;
-    overflow-x: auto;
-    align-items: flex-end;
-    scrollbar-width: none;
-    padding-left: 8px;
+  & :first-child {
+    margin-right: auto
   }
 }
 
@@ -74,10 +49,8 @@
   color: white;
   text-shadow: 1px 1px 4px rgba(0,0,0,1);
   place-content: center;
-
   box-shadow: var(--shadow-small);
 }
-
 .labelNew {
   composes: label;
   background: linear-gradient(
@@ -94,9 +67,17 @@
     rgba(255, 100, 100, 1) 100% /* Red */
   ) 0 0/200% 200%;  animation: move 4s linear infinite; /* Continuous moving animation */
 }
-
 @keyframes move {
   to {
     background-position: 200% 200%; /* Move the background diagonally to the opposite corner */
   }
 }
+
+.profile_IMG {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+

@@ -8,6 +8,7 @@ import SphereViewer from "./SphereViewer.jsx";
 import { Cache } from "@photo-sphere-viewer/core";
 import ProfilePreview from "./components/ProfilePreview/ProfilePreview.jsx";
 import Swipe from "./swipertest.jsx";
+import Explore from "./pages/explore/explore.jsx";
 
 import { Btn } from "./components/btn/btn.jsx";
 Cache.enabled = true;
@@ -59,6 +60,20 @@ export function App() {
   const [tags, setTags] = useState([]);
   const [tagUsages, setTagUsages] = useState([]);
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const [panoramas, SET_panoramas] = useState(null);
   const [SHOW_360, SET_show360] = useState(false);
 
@@ -81,17 +96,27 @@ export function App() {
 
   return (
     <>
-      <div className="allWrap">
+      <Explore
+        profiles={staticProfiles}
+        tags={tags}
+        tagUsages={tagUsages}
+        windowWidth={windowWidth}
+      />
+      {/* <div className="allWrap">
         <div className="profilesWrap">
           {staticProfiles.map((profile) => {
             return (
-              <ProfilePreview key={profile._id} profile={profile} OPEN_panorama={OPEN_panorama} />
+              <ProfilePreview
+                key={profile._id}
+                profile={profile}
+                OPEN_panorama={OPEN_panorama}
+                windowWidth={windowWidth}
+              />
             );
           })}
         </div>
       </div>
-
-      {SHOW_360 && <Modal360 panoramas={panoramas} setModal360_open={SET_show360} />}
+      {SHOW_360 && <Modal360 panoramas={panoramas} setModal360_open={SET_show360} />} */}
     </>
   );
 }

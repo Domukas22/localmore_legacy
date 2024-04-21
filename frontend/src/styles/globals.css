@@ -26,12 +26,16 @@
 }
 
 :root {
+
+  --break-mobile: 700px;
+
   --radius-8: 8px;
   --radius-12: 12px;
   --radius-16: 16px;
 
   --tran-fast: 100ms;
 
+  --shadow-text: 0px 1px 8px black;
   --shadow-small: 0px 1px 5px 1px rgba(0,0,0, 0.40);
 }
 

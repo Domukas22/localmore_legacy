@@ -26,3 +26,19 @@ export function Btn_text({ name, subname }) {
     </button>
   );
 }
+
+export function Btn_showIcons({ icons, profile_ID }) {
+  const MAX_TAGS_DISPLAYED = 6;
+
+  let displayedIcons = icons.slice(0, MAX_TAGS_DISPLAYED);
+  let remainingTagsCount = icons.length - MAX_TAGS_DISPLAYED;
+
+  return (
+    <button className={css["btn-show-icons"]} data-testid="btn">
+      {displayedIcons.map((icon) => {
+        return <img key={icon + "-" + profile_ID} src={icon} alt="" className={css.icon} />;
+      })}
+      {remainingTagsCount > 0 && ` +${remainingTagsCount}`}
+    </button>
+  );
+}

@@ -1,0 +1,38 @@
+/*  */
+
+@custom-media --mobile (max-width: 700px);
+
+.explore_WRAP {
+  width: 100%;
+  min-height: 80vh;
+  display: flex;
+  column-gap: 28px;
+  padding: 28px;
+
+  .left {
+    flex: 1;
+  }
+  .right {
+    width: 300px;
+  }
+
+  @media (--mobile) {
+    padding: 4vmin;
+  }
+}
+
+.profile_GRID {
+  width: 100%;
+  display: grid;
+  /* grid-template-columns: repeat(2, 750px); */
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 480px; 
+  grid-auto-rows: 480px; 
+  gap: 20px;
+
+  @media (--mobile) {
+    grid-template-columns: 1fr;
+    grid-template-rows: 60vh; 
+  grid-auto-rows: 60vh; 
+  }
+}
