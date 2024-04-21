@@ -93,6 +93,7 @@
 
   background: rgba(0, 0, 0, 0.60);
   backdrop-filter: blur(20px);
+  box-shadow: 0px -1px 20px #000000bd;
 
   & .tagPreview_TOP {
     width: 100%;

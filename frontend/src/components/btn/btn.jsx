@@ -27,11 +27,9 @@ export function Btn_text({ name, subname }) {
   );
 }
 
-export function Btn_showIcons({ icons, profile_ID, onClick }) {
-  const MAX_TAGS_DISPLAYED = 3;
-
-  let displayedIcons = icons.slice(0, MAX_TAGS_DISPLAYED);
-  let remainingTagsCount = icons.length - MAX_TAGS_DISPLAYED;
+export function Btn_showIcons({ icons, profile_ID, onClick, iconCount }) {
+  let displayedIcons = icons.slice(0, iconCount);
+  let remainingTagsCount = icons.length - iconCount;
 
   return (
     <button className={css["btn-show-icons"]} data-testid="btn" onClick={onClick}>

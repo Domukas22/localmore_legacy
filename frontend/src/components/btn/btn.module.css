@@ -108,9 +108,7 @@
   composes: onImg;
 }
 
-.prev, .next {
-  border-radius: 100px;
-}
+
 /* .btn[data-show="false"] {
   width: 0px !important;
   opacity: 0%;

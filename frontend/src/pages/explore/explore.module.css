@@ -1,7 +1,7 @@
 /*  */
 
-/* @custom-media --mobile (max-width: 700px);
-@custom-media --tablet (max-width: 1100px); */
+@custom-media --mobile (max-width: 700px);
+@custom-media --tablet (max-width: 1100px);
 
 .explore_WRAP {
   width: 100%;
