@@ -21,8 +21,29 @@ export default function ProfilePreview({ profile, OPEN_panorama }) {
   const [mouseDown, setMouseDown] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+
+  const [scroll_START, SET_scrollStart] = useState(true);
+  const [scroll_END, SET_scrollEnd] = useState(false);
+
   const IS_new = (new Date() - new Date(profile.createdAt)) / (1000 * 60 * 60) <= 72; // 72 hours
-  console.log(IS_new);
+
+  const HANDLE_arrowVisibility = useCallback(
+    (scrolled) => {
+      if (scrollable.current) {
+        if (scrolled <= 0) {
+          SET_scrollStart(true);
+        } else {
+          SET_scrollStart(false);
+        }
+        if (scrolled >= scrollable.current.scrollWidth - scrollable.current.clientWidth) {
+          SET_scrollEnd(true);
+        } else {
+          SET_scrollEnd(false);
+        }
+      }
+    },
+    [scrollable]
+  );
 
   const HANDLE_mouseDown = (event) => {
     setMouseDown(true);
@@ -34,7 +55,9 @@ export default function ProfilePreview({ profile, OPEN_panorama }) {
     event.preventDefault();
     const x = event.pageX - scrollable.current.offsetLeft;
     const walk = (x - startX) * 2; // Adjust the scrolling speed here
-    scrollable.current.scrollLeft = scrollLeft - walk;
+    const result = scrollLeft - walk;
+    scrollable.current.scrollLeft = result;
+    HANDLE_arrowVisibility(result);
   };
   const scroll = (scrollOffset) => {
     if (scrollable.current) {
@@ -42,6 +65,7 @@ export default function ProfilePreview({ profile, OPEN_panorama }) {
       const x = scrollable.current.scrollLeft + scrollOffset;
       scrollable.current.scrollLeft = x > 0 ? x : 0;
       scrollable.current.style.scrollBehavior = "auto";
+      HANDLE_arrowVisibility(x > 0 ? x : 0);
     }
   };
 
@@ -83,16 +107,21 @@ export default function ProfilePreview({ profile, OPEN_panorama }) {
             );
           })}
         </div>
-        <Btn
-          styles={["btn-40", "onImg", "round"]}
-          right_ICON={arrowLeft}
-          onClick={() => scroll(-200)}
-        />
-        <Btn
-          styles={["btn-40", "onImg", "round"]}
-          right_ICON={arrowRight}
-          onClick={() => scroll(200)}
-        />
+
+        {window.innerWidth >= 1000 && (
+          <Btn
+            styles={["btn-40", "onImg", "round", `${scroll_START && "disabled"}`]}
+            right_ICON={arrowLeft}
+            onClick={() => scroll(-200)}
+          />
+        )}
+        {window.innerWidth >= 1000 && (
+          <Btn
+            styles={["btn-40", "onImg", "round", `${scroll_END && "disabled"}`]}
+            right_ICON={arrowRight}
+            onClick={() => scroll(200)}
+          />
+        )}
       </div>
     </div>
   );

@@ -3,7 +3,6 @@
 import css from "./btn.module.css";
 
 export function Btn({ styles, text, left_ICON, right_ICON, onClick }) {
-  console.log("btna");
   return (
     <button
       className={styles ? styles.map((style) => css[style]).join(" ") : css.btn}

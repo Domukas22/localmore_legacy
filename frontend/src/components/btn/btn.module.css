@@ -25,7 +25,10 @@
     height: 20px;
     object-fit: contain;
   }
-
+  * {
+    -webkit-user-drag: none;
+    user-select: none;
+  }
 }
 .btn-48 {
   composes: btn;
@@ -59,6 +62,16 @@
     border: 1px solid white;
   }
 }
+.disabled {
+  user-select: none;
+  pointer-events: none;
+  cursor: auto;
+  * {
+    opacity: 20%
+  }
+  
+}
+
 /* .rainbow {
 
 } */
