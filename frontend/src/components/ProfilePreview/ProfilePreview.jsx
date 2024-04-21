@@ -31,19 +31,30 @@ export default function ProfilePreview({ profile, OPEN_panorama, windowWidth }) 
       </Swiper>
       <div className={css.top}>
         {IS_new && <div className={css.labelNew}>New</div>}
-        <Btn_showIcons icons={profile.tags.map((t) => t.icon.url)} profile_ID={profile._id} />
+        <div className={css.top_RIGHT}>
+          <Btn_showIcons icons={profile.tags.map((t) => t.icon.url)} profile_ID={profile._id} />
+          {Object.keys(profile.img.panoramas).length > 0 && (
+            <Btn
+              styles={["btn-36", "onImg", "rainbow"]}
+              onClick={() => OPEN_panorama(profile.img.panoramas)}
+              text={"360"}
+            />
+          )}
+
+          <Btn styles={["btn-36", "onImg"]} onClick={() => ""} left_ICON={save} />
+        </div>
       </div>
       <div className={css.bottom}>
         <Btn_text name={profile.name.en} subname={profile.subname.en} />
-        {Object.keys(profile.img.panoramas).length > 0 && (
-          <Btn
-            styles={["btn-36", "onImg", "rainbow"]}
-            onClick={() => OPEN_panorama(profile.img.panoramas)}
-            text={"360"}
-          />
-        )}
-        <Btn styles={["btn-36", "onImg"]} onClick={() => ""} left_ICON={save} />
       </div>
+      {/* <div className={css.bottom_new}>
+        <div className={css.bottom_new_LEFT}>
+          <h4>{profile.name.en}</h4>
+          <p>{profile.subname.en}</p>
+        </div>
+        <div className={css.bottom_new_RIGHT}>
+        </div>
+      </div>  */}
     </div>
   );
 }

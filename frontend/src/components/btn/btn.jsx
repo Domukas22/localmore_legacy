@@ -28,7 +28,7 @@ export function Btn_text({ name, subname }) {
 }
 
 export function Btn_showIcons({ icons, profile_ID }) {
-  const MAX_TAGS_DISPLAYED = 6;
+  const MAX_TAGS_DISPLAYED = 3;
 
   let displayedIcons = icons.slice(0, MAX_TAGS_DISPLAYED);
   let remainingTagsCount = icons.length - MAX_TAGS_DISPLAYED;
