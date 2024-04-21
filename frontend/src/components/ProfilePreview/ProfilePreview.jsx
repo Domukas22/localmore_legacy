@@ -19,10 +19,30 @@ import "swiper/css/free-mode";
 export default function ProfilePreview({ profile, OPEN_panorama, windowWidth }) {
   const IS_new = (new Date() - new Date(profile.createdAt)) / (1000 * 60 * 60) <= 72; // 72 hours
 
+  const sliderRef = useRef(null);
+
+  const handlePrev = useCallback(() => {
+    if (!sliderRef.current) return;
+    sliderRef.current.swiper.slidePrev();
+  }, []);
+
+  const handleNext = useCallback(() => {
+    if (!sliderRef.current) return;
+    sliderRef.current.swiper.slideNext();
+  }, []);
+
   return (
     <div className={css.profile_PREVIEW}>
       {/* <img src={profile.img.desktop[0] + "/Big"} className={css.profile_IMG} alt="" /> */}
-      <Swiper slidesPerView={1} loop={true}>
+      <Swiper
+        slidesPerView={1}
+        loop={true}
+        navigation={{
+          prevEl: ".prev",
+          nextEl: ".next",
+        }}
+        ref={sliderRef}
+      >
         {profile.img.desktop.map((img, i) => (
           <SwiperSlide key={i}>
             <img src={img + "/Big"} className={css.profile_IMG} alt="" />
@@ -46,6 +66,16 @@ export default function ProfilePreview({ profile, OPEN_panorama, windowWidth }) 
       </div>
       <div className={css.bottom}>
         <Btn_text name={profile.name.en} subname={profile.subname.en} />
+        <Btn
+          styles={["btn-36", "onImg", "round", "prev"]}
+          onClick={() => handlePrev()}
+          left_ICON={arrowLeft}
+        />
+        <Btn
+          styles={["btn-36", "onImg", "round", "next"]}
+          onClick={() => handleNext()}
+          left_ICON={arrowRight}
+        />
       </div>
       {/* <div className={css.bottom_new}>
         <div className={css.bottom_new_LEFT}>

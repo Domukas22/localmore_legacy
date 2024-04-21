@@ -32,7 +32,7 @@
 
   @media (--mobile) {
     grid-template-columns: 1fr;
-    grid-template-rows: 50vh; 
-    grid-auto-rows: 50vh; 
+    grid-template-rows: 60vh; 
+    grid-auto-rows: 60vh; 
   }
 }
