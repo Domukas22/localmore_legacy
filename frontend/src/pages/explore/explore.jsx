@@ -33,7 +33,7 @@ export default function Explore({ profiles, tags, tagUsages, windowWidth }) {
             })}
           </div>
         </div>
-        {windowWidth > 700 && (
+        {windowWidth > 1100 && (
           <div className={css.right}>
             <SidePanel />
           </div>

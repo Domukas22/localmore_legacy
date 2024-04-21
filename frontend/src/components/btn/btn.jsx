@@ -27,14 +27,14 @@ export function Btn_text({ name, subname }) {
   );
 }
 
-export function Btn_showIcons({ icons, profile_ID }) {
+export function Btn_showIcons({ icons, profile_ID, onClick }) {
   const MAX_TAGS_DISPLAYED = 3;
 
   let displayedIcons = icons.slice(0, MAX_TAGS_DISPLAYED);
   let remainingTagsCount = icons.length - MAX_TAGS_DISPLAYED;
 
   return (
-    <button className={css["btn-show-icons"]} data-testid="btn">
+    <button className={css["btn-show-icons"]} data-testid="btn" onClick={onClick}>
       {displayedIcons.map((icon) => {
         return <img key={icon + "-" + profile_ID} src={icon} alt="" className={css.icon} />;
       })}
