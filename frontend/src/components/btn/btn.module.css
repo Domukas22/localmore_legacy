@@ -124,7 +124,7 @@
 .btn-text-searchResults {
   composes: btn-text-onImg;
   width: 100%;
-
+  max-width: 100%;
   
   & .highlight {
 

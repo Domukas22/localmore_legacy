@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import LM_Logo from "/LM_logo_long.svg";
 import Pagination from "./components/pagination/pagination.jsx";
 import "./styles/reset.css";
@@ -61,6 +61,11 @@ export function App() {
   const [tagUsages, setTagUsages] = useState([]);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const IS_touchDevice = useMemo(
+    () =>
+      "ontouchstart" in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0,
+    []
+  );
 
   useEffect(() => {
     const handleResize = () => {
@@ -101,6 +106,7 @@ export function App() {
         tags={tags}
         tagUsages={tagUsages}
         windowWidth={windowWidth}
+        IS_touchDevice={IS_touchDevice}
       />
       {/* <div className="allWrap">
         <div className="profilesWrap">

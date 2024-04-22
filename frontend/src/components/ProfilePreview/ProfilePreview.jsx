@@ -14,7 +14,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 
-export default function ProfilePreview({ profile, OPEN_panorama, windowWidth, search }) {
+export default function ProfilePreview({
+  profile,
+  OPEN_panorama,
+  windowWidth,
+  IS_touchDevice,
+  search,
+}) {
   const IS_new = (new Date() - new Date(profile.createdAt)) / (1000 * 60 * 60) <= 72; // 72 hours
   const sliderRef = useRef(null);
   const [SHOW_tags, SET_showTags] = useState(false);
@@ -59,6 +65,7 @@ export default function ProfilePreview({ profile, OPEN_panorama, windowWidth, se
           HAS_swiper: profile.img.desktop && profile.img.desktop.length > 1,
           hovered,
           windowWidth,
+          IS_touchDevice,
           search,
         })}
         {SHOW_tags &&
@@ -70,22 +77,15 @@ export default function ProfilePreview({ profile, OPEN_panorama, windowWidth, se
 
 function CREATE_swiper({ sliderRef, images, img_END }) {
   return (
-    <Swiper
-      slidesPerView={1}
-      loop={true}
-      navigation={{
-        prevEl: ".prev",
-        nextEl: ".next",
-      }}
-      ref={sliderRef}
-      speed={700}
-    >
-      {images.map((img, i) => (
-        <SwiperSlide key={i}>
-          <img src={img + img_END} className={css.profile_IMG} alt="" />
-        </SwiperSlide>
-      ))}
-    </Swiper>
+    <>
+      <Swiper loop={true} ref={sliderRef} speed={500}>
+        {images.map((img, i) => (
+          <SwiperSlide key={i}>
+            <img src={img + img_END} className={css.profile_IMG} alt="" />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </>
   );
 }
 function CREATE_previewTop({
@@ -130,11 +130,14 @@ function CREATE_previewBottom({
   subname_OBJ,
   search,
   windowWidth,
+  IS_touchDevice,
 }) {
   return (
     <div className={css.bottom}>
       {search === "" && <Btn_text name={name_OBJ.en} subname={subname_OBJ.en} />}
-      {((HAS_swiper && hovered) || (HAS_swiper && windowWidth < 700)) && (
+      {((HAS_swiper && hovered) ||
+        (HAS_swiper && windowWidth < 700) ||
+        (HAS_swiper && IS_touchDevice)) && (
         <div style={{ marginLeft: "auto", display: "flex", gap: "4px" }}>
           <Btn
             styles={["btn-36", "onImg", "round", "prev"]}

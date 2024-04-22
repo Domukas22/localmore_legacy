@@ -7,7 +7,7 @@ import SidePanel from "./sidepanel/sidepanel";
 import ProfilePreview from "../../components/ProfilePreview/ProfilePreview";
 import SphereViewer from "../../SphereViewer";
 
-export default function Explore({ profiles, tags, tagUsages, windowWidth }) {
+export default function Explore({ profiles, tags, tagUsages, windowWidth, IS_touchDevice }) {
   const [panoramas, SET_panoramas] = useState(null);
   const [SHOW_360, SET_show360] = useState(false);
   const [search, SET_search] = useState("");
@@ -20,6 +20,7 @@ export default function Explore({ profiles, tags, tagUsages, windowWidth }) {
   return (
     <>
       <input type="text" value={search} onChange={(e) => SET_search(e.target.value)} />
+      {/* <div style={{ background: "red", height: "770px" }}></div> */}
       <div className={css.explore_WRAP}>
         <div className={css.left}>
           <div className={css.profile_GRID}>
@@ -30,6 +31,7 @@ export default function Explore({ profiles, tags, tagUsages, windowWidth }) {
                   profile={profile}
                   OPEN_panorama={OPEN_panorama}
                   windowWidth={windowWidth}
+                  IS_touchDevice={IS_touchDevice}
                   search={search}
                 />
               );
