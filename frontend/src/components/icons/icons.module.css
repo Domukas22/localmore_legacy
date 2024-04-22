@@ -1,0 +1,73 @@
+/*  */
+
+@import '@styles/globals.css';
+
+.ICON_activeDigit {
+  width: 20px;
+  height: 20px;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  color: var(--text-fade);
+  background-color: var(--btn-dark);
+  border: var(--border-black-01);
+  border-radius: 50%;
+
+  &[data-active="true"] {
+    color: var(--brand);
+    background-color: var(--brand-active);
+    border: var(--border-brand-active);
+  }
+
+}
+.ICON_x {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    background-color: white;
+    border-radius: 50px;
+  }
+
+  &::before {
+    transform: rotate(45deg);
+  }
+
+  &::after {
+    transform: rotate(-45deg);
+  }
+
+  &[data-rotate="true"] {
+    transform: rotate(45deg);
+    &::before,
+    &::after {
+      height: 80%;
+    }
+  }
+}
+.ICON_save {
+  & path {
+    &[data-style="white"] {
+        stroke: white;
+    }
+    &[data-style="dark"] {
+      stroke: var(--text-fade);
+    }
+    &[data-style="active"] {
+      stroke: var(--brand);
+      fill: var(--brand);
+    }
+  }
+  
+
+}

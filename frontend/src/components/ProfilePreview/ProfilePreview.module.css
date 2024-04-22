@@ -52,11 +52,15 @@
   border-radius: 8px;
   padding: 4px 8px;
   height: 32px;
-  font-weight: 800;
+  font-weight: 700;
   color: white;
   text-shadow: 1px 1px 4px rgba(0,0,0,1);
-  place-content: center;
   box-shadow: var(--shadow-small);
+
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+
 }
 .labelNew {
   composes: label;
@@ -72,7 +76,7 @@
     rgba(150, 30, 200, 1) 80%, /* Purple */
     rgba(220, 30, 180, 1) 90%, /* Magenta */
     rgba(255, 100, 100, 1) 100% /* Red */
-  ) 0 0/200% 200%;  animation: move 4s linear infinite; /* Continuous moving animation */
+  ) 0 0/200% 200%;  animation: move 3s linear infinite; /* Continuous moving animation */
 }
 @keyframes move {
   to {
@@ -101,17 +105,35 @@
 
   & .tagPreview_TOP {
     width: 100%;
-    color: white;
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 16px 12px;
+    align-items: center;
+    padding: 8px 10px 8px 16px;
+    
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+    color: rgba(255, 255, 255, 0.90);
+
   }
   & .tagPreview_BOTTOM {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px;
-    padding: 8px;
+    gap: 8px 6px;
+    padding: 12px 8px;
+
+    
+  }
+  
+  & button {
+    backdrop-filter: none;
+    background: rgba(0, 0, 0, 0);
+
+    &:hover {background: rgba(255, 255, 255, 0.1) !important}
   }
 }
 
+path {
+  &[data-color="brand"] {fill: var(--brand)}
+  /* white, brnt brand dark */
+  &[data-color="dark"] {fill: var(--brand-black)}
+  &[data-color="white"] {fill: white}
+}

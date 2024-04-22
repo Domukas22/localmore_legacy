@@ -9,13 +9,7 @@ import SphereViewer from "../../SphereViewer";
 
 export default function Explore({ profiles, tags, tagUsages, windowWidth, IS_touchDevice }) {
   const [panoramas, SET_panoramas] = useState(null);
-  const [SHOW_360, SET_show360] = useState(false);
   const [search, SET_search] = useState("");
-
-  function OPEN_panorama(panoramas) {
-    SET_show360(true);
-    SET_panoramas(panoramas);
-  }
 
   return (
     <>
@@ -29,7 +23,7 @@ export default function Explore({ profiles, tags, tagUsages, windowWidth, IS_tou
                 <ProfilePreview
                   key={profile._id}
                   profile={profile}
-                  OPEN_panorama={OPEN_panorama}
+                  SET_panoramas={SET_panoramas}
                   windowWidth={windowWidth}
                   IS_touchDevice={IS_touchDevice}
                   search={search}
@@ -44,12 +38,12 @@ export default function Explore({ profiles, tags, tagUsages, windowWidth, IS_tou
           </div>
         )}
       </div>
-      {SHOW_360 && <Modal360 panoramas={panoramas} setModal360_open={SET_show360} />}
+      {panoramas !== null && <Modal360 panoramas={panoramas} SET_panoramas={SET_panoramas} />}
     </>
   );
 }
 
-function Modal360({ panoramas, setModal360_open }) {
+function Modal360({ panoramas, SET_panoramas }) {
   return (
     <div className="modal360">
       <SphereViewer panoramas={panoramas} />
@@ -57,7 +51,7 @@ function Modal360({ panoramas, setModal360_open }) {
         className="btn_CLOSE"
         onClick={(e) => {
           e.stopPropagation();
-          setModal360_open(false);
+          SET_panoramas(null);
         }}
       >
         X

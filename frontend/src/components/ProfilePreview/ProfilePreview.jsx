@@ -2,7 +2,9 @@
 
 import { useState, useRef, useCallback } from "react";
 import css from "./ProfilePreview.module.css";
-import { Btn, Btn_text, Btn_showIcons, Btn_searchResults } from "../btn/btn";
+import { Btn, Btn_profilePreview, Btn_profilePreviewIcons } from "../btn/btn";
+import { ICON_x } from "../icons/icons";
+import { ICON_activeDigit, ICON_arrow, ICON_save } from "../icons/icons";
 
 import plus from "./plus.svg";
 import arrowRight from "./ar_ri.svg";
@@ -16,7 +18,7 @@ import "swiper/css/free-mode";
 
 export default function ProfilePreview({
   profile,
-  OPEN_panorama,
+  SET_panoramas,
   windowWidth,
   IS_touchDevice,
   search,
@@ -24,7 +26,7 @@ export default function ProfilePreview({
   const IS_new = (new Date() - new Date(profile.createdAt)) / (1000 * 60 * 60) <= 72; // 72 hours
   const sliderRef = useRef(null);
   const [SHOW_tags, SET_showTags] = useState(false);
-  const [hovered, SET_hovered] = useState(false);
+  const [hovered, SET_hovered] = useState(true);
 
   const TOGGLE_showTags = useCallback(() => {
     SET_showTags((prev) => !prev);
@@ -36,13 +38,12 @@ export default function ProfilePreview({
     if (direction === "prev") sliderRef.current.swiper.slidePrev();
   }, []);
 
-  // CREATE_previewTop(profile_ID, IS_new, tags, TOGGLE_showTags, panoramas, OPEN_panorama)
   return (
     <>
       <div
         className={css.profile_PREVIEW}
-        onMouseEnter={() => SET_hovered(true)}
-        onMouseLeave={() => SET_hovered(false)}
+        // onMouseEnter={() => SET_hovered(true)}
+        // onMouseLeave={() => SET_hovered(false)}
       >
         {CREATE_swiper({
           sliderRef,
@@ -55,8 +56,9 @@ export default function ProfilePreview({
           tags: profile.tags,
           TOGGLE_showTags,
           panorama_OBJs: profile.img.panoramas,
-          OPEN_panorama,
+          SET_panoramas,
           windowWidth,
+          SHOW_tags,
         })}
         {CREATE_previewBottom({
           slide,
@@ -94,30 +96,37 @@ function CREATE_previewTop({
   tags,
   TOGGLE_showTags,
   panorama_OBJs,
-  OPEN_panorama,
+  SET_panoramas,
   windowWidth,
+  SHOW_tags,
 }) {
   return (
     <div className={css.top}>
       {IS_new && <div className={css.labelNew}>New</div>}
       <div className={css.top_RIGHT}>
-        <Btn_showIcons
+        <Btn_profilePreviewIcons
           icons={tags.map((t) => t.icon.url)}
           profile_ID={profile_ID}
           onClick={() => {
             TOGGLE_showTags();
           }}
           iconCount={windowWidth > 600 ? 3 : windowWidth > 380 ? 2 : 1}
+          IS_open={SHOW_tags}
+          activeDigit={<ICON_activeDigit count={1 /* get mathcing tag count */} IS_active={true} />}
         />
         {Object.keys(panorama_OBJs).length > 0 && (
           <Btn
             styles={["btn-36", "onImg"]}
-            onClick={() => OPEN_panorama(panorama_OBJs)}
+            onClick={() => SET_panoramas(panorama_OBJs)}
             text={"360"}
           />
         )}
 
-        <Btn styles={["btn-36", "onImg"]} onClick={() => ""} left_ICON={save} />
+        <Btn
+          styles={["btn-36", "onImg"]}
+          onClick={() => ""}
+          left_ICON={<ICON_save style={"white"} />}
+        />
       </div>
     </div>
   );
@@ -134,24 +143,24 @@ function CREATE_previewBottom({
 }) {
   return (
     <div className={css.bottom}>
-      {search === "" && <Btn_text name={name_OBJ.en} subname={subname_OBJ.en} />}
+      {search === "" && <Btn_profilePreview name={name_OBJ.en} subname={subname_OBJ.en} />}
       {((HAS_swiper && hovered) ||
         (HAS_swiper && windowWidth < 700) ||
         (HAS_swiper && IS_touchDevice)) && (
         <div style={{ marginLeft: "auto", display: "flex", gap: "4px" }}>
           <Btn
-            styles={["btn-36", "onImg", "round", "prev"]}
+            styles={["btn-36", "onImg", "round", "next"]}
             onClick={() => slide("prev")}
-            left_ICON={arrowLeft}
+            right_ICON={<ICON_arrow direction="left" color="white" />}
           />
           <Btn
             styles={["btn-36", "onImg", "round", "next"]}
             onClick={() => slide("next")}
-            left_ICON={arrowRight}
+            right_ICON={<ICON_arrow direction="right" color="white" />}
           />
         </div>
       )}
-      {search !== "" && <Btn_searchResults name={name_OBJ.en} />}
+      {search !== "" && <Btn_profilePreview name={name_OBJ.en} search={search} />}
     </div>
   );
 }
@@ -159,8 +168,14 @@ function CREATE_tagPreview({ tags, name, TOGGLE_showTags }) {
   return (
     <div className={css.tag_PREVIEW}>
       <div className={css.tagPreview_TOP}>
-        <h4>Tags of {name}</h4>
-        <div onClick={() => TOGGLE_showTags()}>Close</div>
+        <h4>
+          {tags.length} Tags of {name}
+        </h4>
+        <Btn
+          styles={["btn-36", "onImg"]}
+          onClick={() => TOGGLE_showTags()}
+          right_ICON={<ICON_x />}
+        />
       </div>
       <div className={css.tagPreview_BOTTOM}>
         {tags.map((tag) => {
@@ -169,8 +184,8 @@ function CREATE_tagPreview({ tags, name, TOGGLE_showTags }) {
               key={tag._id}
               styles={["btn-36", "onImg", "round"]}
               onClick={() => ""}
-              left_ICON={tag.icon.url}
-              right_ICON={plus}
+              leftIcon_URL={tag.icon.url}
+              right_ICON={<ICON_x rotate={true} />}
               text={tag.name.en}
             />
           );

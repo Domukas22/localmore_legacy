@@ -129,7 +129,7 @@ export function App() {
 
 // create a react component that returns a fixed, full page modal with the 360 view inside like I have built
 
-function Modal360({ panoramas, setModal360_open }) {
+function Modal360({ panoramas, SET_panoramas }) {
   return (
     <div className="modal360">
       <SphereViewer panoramas={panoramas} />
@@ -137,7 +137,7 @@ function Modal360({ panoramas, setModal360_open }) {
         className="btn_CLOSE"
         onClick={(e) => {
           e.stopPropagation();
-          setModal360_open(false);
+          SET_panoramas(null);
         }}
       >
         X
