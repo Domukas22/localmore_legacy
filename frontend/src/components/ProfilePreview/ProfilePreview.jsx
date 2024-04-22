@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import css from "./ProfilePreview.module.css";
-import { Btn, Btn_text, Btn_showIcons } from "../btn/btn";
+import { Btn, Btn_text, Btn_showIcons, Btn_searchResults } from "../btn/btn";
 
 import plus from "./plus.svg";
 import arrowRight from "./ar_ri.svg";
@@ -14,10 +14,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 
-export default function ProfilePreview({ profile, OPEN_panorama, windowWidth }) {
+export default function ProfilePreview({ profile, OPEN_panorama, windowWidth, search }) {
   const IS_new = (new Date() - new Date(profile.createdAt)) / (1000 * 60 * 60) <= 72; // 72 hours
   const sliderRef = useRef(null);
   const [SHOW_tags, SET_showTags] = useState(false);
+  const [hovered, SET_hovered] = useState(false);
 
   const TOGGLE_showTags = useCallback(() => {
     SET_showTags((prev) => !prev);
@@ -31,12 +32,16 @@ export default function ProfilePreview({ profile, OPEN_panorama, windowWidth }) 
 
   // CREATE_previewTop(profile_ID, IS_new, tags, TOGGLE_showTags, panoramas, OPEN_panorama)
   return (
-    <div className={css.profile_PREVIEW}>
-      <div className={css.content}>
+    <>
+      <div
+        className={css.profile_PREVIEW}
+        onMouseEnter={() => SET_hovered(true)}
+        onMouseLeave={() => SET_hovered(false)}
+      >
         {CREATE_swiper({
           sliderRef,
-          images: profile.img[windowWidth > 700 ? "desktop" : "mobile"],
-          img_END: windowWidth > 700 ? "/Big" : "/Mobile",
+          images: profile.img[windowWidth > 700 ? "mobile" : "mobile"],
+          img_END: windowWidth > 700 ? "/Mobile" : "/Mobile",
         })}
         {CREATE_previewTop({
           profile_ID: profile._id,
@@ -49,19 +54,17 @@ export default function ProfilePreview({ profile, OPEN_panorama, windowWidth }) 
         })}
         {CREATE_previewBottom({
           slide,
-          HAS_swiper: profile.img.desktop && profile.img.desktop.length > 1,
           name_OBJ: profile.name,
           subname_OBJ: profile.subname,
+          HAS_swiper: profile.img.desktop && profile.img.desktop.length > 1,
+          hovered,
+          windowWidth,
+          search,
         })}
         {SHOW_tags &&
           CREATE_tagPreview({ tags: profile.tags, name: profile.name.en, TOGGLE_showTags })}
       </div>
-      <div className={css.searchResults}>
-        <p>
-          This is a text with <span className={css.highlight}>very</span> prett search results.
-        </p>
-      </div>
-    </div>
+    </>
   );
 }
 
@@ -104,7 +107,7 @@ function CREATE_previewTop({
           onClick={() => {
             TOGGLE_showTags();
           }}
-          iconCount={windowWidth > 1200 ? 5 : 3}
+          iconCount={windowWidth > 600 ? 3 : windowWidth > 380 ? 2 : 1}
         />
         {Object.keys(panorama_OBJs).length > 0 && (
           <Btn
@@ -119,12 +122,20 @@ function CREATE_previewTop({
     </div>
   );
 }
-function CREATE_previewBottom({ slide, HAS_swiper, name_OBJ, subname_OBJ }) {
+function CREATE_previewBottom({
+  slide,
+  HAS_swiper,
+  hovered,
+  name_OBJ,
+  subname_OBJ,
+  search,
+  windowWidth,
+}) {
   return (
     <div className={css.bottom}>
-      <Btn_text name={name_OBJ.en} subname={subname_OBJ.en} />
-      {HAS_swiper && (
-        <>
+      {search === "" && <Btn_text name={name_OBJ.en} subname={subname_OBJ.en} />}
+      {((HAS_swiper && hovered) || (HAS_swiper && windowWidth < 700)) && (
+        <div style={{ marginLeft: "auto", display: "flex", gap: "4px" }}>
           <Btn
             styles={["btn-36", "onImg", "round", "prev"]}
             onClick={() => slide("prev")}
@@ -135,8 +146,9 @@ function CREATE_previewBottom({ slide, HAS_swiper, name_OBJ, subname_OBJ }) {
             onClick={() => slide("next")}
             left_ICON={arrowRight}
           />
-        </>
+        </div>
       )}
+      {search !== "" && <Btn_searchResults name={name_OBJ.en} />}
     </div>
   );
 }

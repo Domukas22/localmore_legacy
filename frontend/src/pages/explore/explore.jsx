@@ -10,6 +10,7 @@ import SphereViewer from "../../SphereViewer";
 export default function Explore({ profiles, tags, tagUsages, windowWidth }) {
   const [panoramas, SET_panoramas] = useState(null);
   const [SHOW_360, SET_show360] = useState(false);
+  const [search, SET_search] = useState("");
 
   function OPEN_panorama(panoramas) {
     SET_show360(true);
@@ -18,6 +19,7 @@ export default function Explore({ profiles, tags, tagUsages, windowWidth }) {
 
   return (
     <>
+      <input type="text" value={search} onChange={(e) => SET_search(e.target.value)} />
       <div className={css.explore_WRAP}>
         <div className={css.left}>
           <div className={css.profile_GRID}>
@@ -28,6 +30,7 @@ export default function Explore({ profiles, tags, tagUsages, windowWidth }) {
                   profile={profile}
                   OPEN_panorama={OPEN_panorama}
                   windowWidth={windowWidth}
+                  search={search}
                 />
               );
             })}

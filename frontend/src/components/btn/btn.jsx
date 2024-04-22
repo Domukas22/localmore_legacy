@@ -26,6 +26,16 @@ export function Btn_text({ name, subname }) {
     </button>
   );
 }
+export function Btn_searchResults({ name }) {
+  return (
+    <button className={css["btn-text-searchResults"]} data-testid="btn">
+      <h4 className="name">{name}</h4>
+      <p>
+        This is a text with <span className={css.highlight}>very</span> prett search results.
+      </p>
+    </button>
+  );
+}
 
 export function Btn_showIcons({ icons, profile_ID, onClick, iconCount }) {
   let displayedIcons = icons.slice(0, iconCount);

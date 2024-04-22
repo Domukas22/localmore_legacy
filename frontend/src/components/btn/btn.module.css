@@ -57,9 +57,10 @@
 .onImg {
   composes: btn;
   border: var(--border-white-15);
-  background: rgba(0, 0, 0, 0.60);
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(20px);
   color: white;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
   &:hover {
     background-color: rgba(0, 0, 0, 0.40);
   }
@@ -101,15 +102,47 @@
 
   max-width: 100%;
   width: fit-content;
+  max-width: calc(100% - 90px);
   flex-direction: column;
   align-items: flex-start;
   padding: 8px 12px;  
 
-  p {
+  & h4, p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    text-align: left;
+  }
+
+  & p {
     font-weight: 300
   }
+
 }
 
+.btn-text-searchResults {
+  composes: btn-text-onImg;
+  width: 100%;
+
+  
+  & .highlight {
+
+    font-weight: 700;
+    background: var(--brand);
+    padding: 0px 6px;
+    border-radius: 8px;
+    & p {
+      text-align: left;
+    }
+}
+}
+
+.prev,
+.next {
+  padding: 12px 8px;
+
+}
 .btn-show-icons {
   composes: btn-36;
   composes: onImg;
