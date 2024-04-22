@@ -32,28 +32,35 @@ export default function ProfilePreview({ profile, OPEN_panorama, windowWidth }) 
   // CREATE_previewTop(profile_ID, IS_new, tags, TOGGLE_showTags, panoramas, OPEN_panorama)
   return (
     <div className={css.profile_PREVIEW}>
-      {console.log(profile.img)}
-      {CREATE_swiper({
-        sliderRef,
-        images: profile.img[windowWidth > 700 ? "desktop" : "mobile"],
-        img_END: windowWidth > 700 ? "/Big" : "/Mobile",
-      })}
-      {CREATE_previewTop({
-        profile_ID: profile._id,
-        IS_new,
-        tags: profile.tags,
-        TOGGLE_showTags,
-        panorama_OBJs: profile.img.panoramas,
-        OPEN_panorama,
-        windowWidth,
-      })}
-      {CREATE_previewBottom({
-        slide,
-        HAS_swiper: profile.img.desktop && profile.img.desktop.length > 1,
-        name_OBJ: profile.name,
-      })}
-      {SHOW_tags &&
-        CREATE_tagPreview({ tags: profile.tags, name: profile.name.en, TOGGLE_showTags })}
+      <div className={css.content}>
+        {CREATE_swiper({
+          sliderRef,
+          images: profile.img[windowWidth > 700 ? "desktop" : "mobile"],
+          img_END: windowWidth > 700 ? "/Big" : "/Mobile",
+        })}
+        {CREATE_previewTop({
+          profile_ID: profile._id,
+          IS_new,
+          tags: profile.tags,
+          TOGGLE_showTags,
+          panorama_OBJs: profile.img.panoramas,
+          OPEN_panorama,
+          windowWidth,
+        })}
+        {CREATE_previewBottom({
+          slide,
+          HAS_swiper: profile.img.desktop && profile.img.desktop.length > 1,
+          name_OBJ: profile.name,
+          subname_OBJ: profile.subname,
+        })}
+        {SHOW_tags &&
+          CREATE_tagPreview({ tags: profile.tags, name: profile.name.en, TOGGLE_showTags })}
+      </div>
+      <div className={css.searchResults}>
+        <p>
+          This is a text with <span className={css.highlight}>very</span> prett search results.
+        </p>
+      </div>
     </div>
   );
 }
@@ -112,10 +119,10 @@ function CREATE_previewTop({
     </div>
   );
 }
-function CREATE_previewBottom({ slide, HAS_swiper, name_OBJ }) {
+function CREATE_previewBottom({ slide, HAS_swiper, name_OBJ, subname_OBJ }) {
   return (
     <div className={css.bottom}>
-      <Btn_text name={name_OBJ.en} subname={name_OBJ.en} />
+      <Btn_text name={name_OBJ.en} subname={subname_OBJ.en} />
       {HAS_swiper && (
         <>
           <Btn

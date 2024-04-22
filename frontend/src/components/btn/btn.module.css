@@ -90,10 +90,17 @@
 /* //////////////////////////////////////// */
 /* only used in one place / in one form */
 
+
+
 .btn-text-onImg {
   composes: btn;
   composes: onImg;
 
+  text-wrap: wrap;
+  text-overflow: ellipsis;
+
+  max-width: 100%;
+  width: fit-content;
   flex-direction: column;
   align-items: flex-start;
   padding: 8px 12px;  

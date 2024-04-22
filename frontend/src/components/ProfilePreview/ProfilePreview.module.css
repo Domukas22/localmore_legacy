@@ -15,6 +15,13 @@
   box-shadow: var(--shadow-small);
   background: white;
 
+  & .content {
+    position: relative;
+    flex: 1;
+    height: 400px;
+    min-height: 400px;
+  }
+
   & .top, .bottom {
     position: absolute;
     left: 0px;
@@ -26,6 +33,9 @@
   }
 }
 .top {
+  top: 0px;
+
+
   & .top_RIGHT {
     display: flex;
     gap: 4px;
@@ -108,6 +118,20 @@
     flex-wrap: wrap;
     gap: 4px;
     padding: 8px;
+  }
+}
+
+.searchResults {
+  padding: 8px 12px;
+  
+   background: rgba(0, 0, 0, 0.85); 
+   color: white; 
+
+  .highlight {
+    font-weight: 700;
+    background: var(--brand);
+    padding: 0px 6px;
+    border-radius: 8px;
   }
 }
 

@@ -2,6 +2,7 @@
 /*  */
 
 @import '@styles/globals.css';
+@custom-media --mobile (max-width: 700px);
 
 @font-face {
   font-family: "Nunito";
@@ -45,6 +46,11 @@
   background-color: var(--fill-bg);
   font-size: 16px;
   font-weight: 300;
+  
+
+  @media (--mobile) {
+    font-size: 17px;
+  }
 }
 
 * {
