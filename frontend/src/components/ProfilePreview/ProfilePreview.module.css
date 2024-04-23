@@ -1,6 +1,6 @@
 /*  */
 
-@import '@styles/globals.css';
+@import '@styles/global.css';
 /* @import "~swiper/swiper-bundle.css"; */
 
 .profile_PREVIEW {
@@ -50,13 +50,33 @@
     gap: 4px;  
     grid-row: 1;
     grid-column: 2;
+
+
+    & svg {
+      
+    }
+    &[data-arrowmove="prev"] > :first-child > svg,
+    &[data-arrowmove="next"] > :last-child > svg {
+      animation: pop-to-side 0.3s ease-out;
+    }
   }
 
-  &[data-hasSearch="true"] {
+  &[data-search="true"] {
     & .btnProfilePreview_WRAP {
       grid-column: 1 / -1;
       grid-row: 2;
     }
+  }
+}
+@keyframes pop-to-side {
+  0% {
+    transform: translateX(0px);
+  }
+  30% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0px);
   }
 }
 

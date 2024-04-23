@@ -1,20 +1,28 @@
 //
 //
 //
-import { useState } from "react";
+import { useState, useContext } from "react";
 import css from "./explore.module.css";
 import SidePanel from "./sidepanel/sidepanel";
 import ProfilePreview from "../../components/ProfilePreview/ProfilePreview";
-import SphereViewer from "../../SphereViewer";
+import Panorama from "../../components/panorama/panorama";
+import { savedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
 
 export default function Explore({ profiles, tags, tagUsages, windowWidth, IS_touchDevice }) {
   const [panoramas, SET_panoramas] = useState(null);
   const [search, SET_search] = useState("");
-  // const [saved_PROFILES, SET_savedProfiles] = useState([]); 
+
+  const { savedProfile_IDs } = useContext(savedProfileIDs_CONTEXT);
 
   return (
     <>
-      <input type="text" value={search} onChange={(e) => SET_search(e.target.value)} />
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => SET_search(e.target.value)}
+        style={{ fontSize: "17px", width: "300px" }}
+      />
+      <h4>Saved ids: {savedProfile_IDs.size}</h4>
       {/* <div style={{ background: "red", height: "770px" }}></div> */}
       <div className={css.explore_WRAP}>
         <div className={css.left}>
@@ -47,7 +55,7 @@ export default function Explore({ profiles, tags, tagUsages, windowWidth, IS_tou
 function Modal360({ panoramas, SET_panoramas }) {
   return (
     <div className="modal360">
-      <SphereViewer panoramas={panoramas} />
+      <Panorama panoramas={panoramas} />
       <div
         className="btn_CLOSE"
         onClick={(e) => {

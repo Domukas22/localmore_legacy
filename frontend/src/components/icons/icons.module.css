@@ -1,6 +1,8 @@
 /*  */
 
-@import '@styles/globals.css';
+@import '@styles/global.css';
+
+
 
 .ICON_activeDigit {
   width: 20px;
@@ -22,7 +24,6 @@
 
 }
 .ICON_x {
-  position: relative;
   width: 20px;
   height: 20px;
   display: flex;
@@ -68,6 +69,4 @@
       fill: var(--brand);
     }
   }
-  
-
 }

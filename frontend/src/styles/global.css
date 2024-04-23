@@ -1,5 +1,8 @@
 /*  */
 
+@custom-media --mobile (max-width: 700px);
+@custom-media --landscape (max-height: 550px) and (max-width: 1100px);
+
 :root {
   --brand: rgba(184, 70, 0, 1);
   --brand-hover: rgba(170, 69, 7, 1);
@@ -19,6 +22,7 @@
   --btn-dark: rgba(243, 243, 246, 1);
   --btn-darkest: rgba(230, 230, 235, 1);
 
+  --border-brand:  1px solid rgba(184, 70, 0, 1);
   --border-brand-active:  1px solid rgba(244, 220, 204, 1);
   --border-black-01:  1px solid rgba(0, 0, 0, 0.1);
   --border-white-15: 1px solid rgba(255, 255, 255, 0.15);
@@ -26,9 +30,6 @@
 }
 
 :root {
-
-  --break-mobile: 700px;
-
   --radius-8: 8px;
   --radius-12: 12px;
   --radius-16: 16px;

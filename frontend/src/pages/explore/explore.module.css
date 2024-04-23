@@ -1,7 +1,7 @@
 /*  */
 
-@custom-media --mobile (max-width: 700px);
-@custom-media --tablet (max-width: 1100px);
+@import '@styles/global.css';
+
 
 .explore_WRAP {
   width: 100%;
@@ -27,17 +27,18 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   grid-auto-rows: 500px;
-
   gap: 20px;
+
+  /* background: green; */
   
-
-  @media (max-width: 1400px) {
-    /* grid-auto-rows: minmax(300px, 350px); */
-  }
-
-  @media (max-width: 700px) {
+  @media (--mobile) {
     grid-template-columns: 1fr;
     grid-auto-rows: calc(100vw * (4 / 3) - 8vmin); 
+  }
+
+  @media (--landscape) {
+    background: green;
+    grid-auto-rows: 300px;
   }
 }
 

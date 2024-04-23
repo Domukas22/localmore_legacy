@@ -1,15 +1,11 @@
 //
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useContext, useEffect } from "react";
 import css from "./ProfilePreview.module.css";
 import { Btn, Btn_profilePreview, Btn_profilePreviewIcons } from "../btn/btn";
 import { ICON_x } from "../icons/icons";
 import { ICON_activeDigit, ICON_arrow, ICON_save } from "../icons/icons";
-
-import plus from "./plus.svg";
-import arrowRight from "./ar_ri.svg";
-import arrowLeft from "./ar_le.svg";
-import save from "./Save.png";
+import { savedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -100,6 +96,9 @@ function CREATE_previewTop({
   windowWidth,
   SHOW_tags,
 }) {
+  const { savedProfile_IDs, ADD_toSaved, REMOVE_fromSaved } = useContext(savedProfileIDs_CONTEXT);
+  const IS_saved = savedProfile_IDs.has(profile_ID);
+
   return (
     <div className={css.top}>
       {IS_new && <div className={css.labelNew}>New</div>}
@@ -110,7 +109,7 @@ function CREATE_previewTop({
           onClick={() => {
             TOGGLE_showTags();
           }}
-          iconCount={windowWidth > 600 ? 3 : windowWidth > 380 ? 2 : 1}
+          iconCount={windowWidth > 400 ? 3 : windowWidth > 380 ? 2 : 1}
           IS_open={SHOW_tags}
           activeDigit={<ICON_activeDigit count={1 /* get mathcing tag count */} IS_active={true} />}
         />
@@ -123,9 +122,10 @@ function CREATE_previewTop({
         )}
 
         <Btn
-          styles={["btn-36", "onImg"]}
-          onClick={() => ""}
-          left_ICON={<ICON_save style={"white"} />}
+          styles={["btn-36", "onImg", "save"]}
+          onClick={() => (IS_saved ? REMOVE_fromSaved(profile_ID) : ADD_toSaved(profile_ID))}
+          active={IS_saved}
+          left_ICON={<ICON_save style={IS_saved ? "active" : "white"} />}
         />
       </div>
     </div>
@@ -144,21 +144,40 @@ function CREATE_previewBottom({
   const SHOW_slierArrows =
     (HAS_swiper && hovered) || (HAS_swiper && windowWidth < 700) || (HAS_swiper && IS_touchDevice);
 
+  const [arrow_DIRECTION, SET_arrowDirection] = useState("");
+  const [ARE_arrowsDisabled, SET_arrowsDisabled] = useState(false);
+
+  const HANLDE_arrowClick = (direction) => {
+    if (ARE_arrowsDisabled) return;
+    SET_arrowsDisabled(true);
+    slide(direction);
+    SET_arrowDirection(direction);
+    // Set timeout to reset the arrow after 200ms
+    setTimeout(() => {
+      SET_arrowDirection("");
+      SET_arrowsDisabled(false);
+    }, 499);
+  };
+
   return (
-    <div className={css.bottom} data-hasSearch={search !== ""}>
+    <div className={css.bottom} data-search={search !== ""}>
       <div className={css.btnProfilePreview_WRAP}>
         <Btn_profilePreview name={name_OBJ.en} subname={subname_OBJ.en} search={search} />
       </div>
       {SHOW_slierArrows && (
-        <div className={css.slider_ARROWS}>
+        <div className={css.slider_ARROWS} data-arrowmove={arrow_DIRECTION}>
           <Btn
             styles={["btn-36", "onImg", "round", "next"]}
-            onClick={() => slide("prev")}
+            onClick={() => {
+              HANLDE_arrowClick("prev");
+            }}
             right_ICON={<ICON_arrow direction="left" color="white" />}
           />
           <Btn
             styles={["btn-36", "onImg", "round", "next"]}
-            onClick={() => slide("next")}
+            onClick={() => {
+              HANLDE_arrowClick("next");
+            }}
             right_ICON={<ICON_arrow direction="right" color="white" />}
           />
         </div>
@@ -174,7 +193,7 @@ function CREATE_tagPreview({ tags, name, TOGGLE_showTags }) {
           {tags.length} Tags of {name}
         </h4>
         <Btn
-          styles={["btn-36", "onImg"]}
+          styles={["btn-36", "onImg", "close"]}
           onClick={() => TOGGLE_showTags()}
           right_ICON={<ICON_x />}
         />

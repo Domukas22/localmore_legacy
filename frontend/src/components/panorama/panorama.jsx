@@ -1,13 +1,13 @@
 //https://photo-sphere-viewer-data.netlify.app/assets/tour/key-biscayne-1.jpg
 // {image_URL, position,}
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Viewer } from "@photo-sphere-viewer/core";
 import { MarkersPlugin } from "@photo-sphere-viewer/markers-plugin";
 
 // !!!! somehtign is wrong with the code. Each time I switch panoramas, it gets slower and slower. Its somehow stacking up on eachtoher
 
-const SphereViewer = ({ panoramas }) => {
+const Panorama = ({ panoramas }) => {
   const viewerRef = useRef(null);
 
   console.log(panoramas);
@@ -77,4 +77,4 @@ const SphereViewer = ({ panoramas }) => {
   return <div ref={viewerRef} style={{ width: "100vw", height: "100vh" }} />;
 };
 
-export default SphereViewer;
+export default Panorama;
