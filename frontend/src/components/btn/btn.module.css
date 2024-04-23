@@ -91,37 +91,34 @@
   composes: btn;
   composes: onImg;
 
-  text-wrap: wrap;
-  text-overflow: ellipsis;
-
-  width: fit-content;
-  max-width: calc(100% - 100px);
-
   flex-direction: column;
   align-items: flex-start;
   padding: 8px 12px;  
 
-  & h4, p {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    width: 100%;
-    text-align: left;
+  text-align: left;
+  font-weight: 300;
+
+  width: 100%;
+  max-width: fit-content;
+
+  &[data-hasSearch="true"] {
+    max-width: 100%;
   }
 
-  & p {
-    font-weight: 300
-  }
-  &[data-searchActive="true"] {
+  & h4, p {
     width: 100%;
-    max-width: 100% 
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+
   & .highlight {
     font-weight: 700;
     background: var(--brand);
     padding: 0px 6px;
     border-radius: 8px;
-}
+  }
+
+  
 }
 .btn-show-icons {
   composes: btn-36;

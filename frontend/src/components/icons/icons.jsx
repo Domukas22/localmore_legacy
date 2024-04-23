@@ -41,7 +41,6 @@ export function ICON_arrow({ direction, color }) {
   );
 }
 export function ICON_save({ style }) {
-  console.log(style);
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

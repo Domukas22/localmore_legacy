@@ -10,6 +10,7 @@ import SphereViewer from "../../SphereViewer";
 export default function Explore({ profiles, tags, tagUsages, windowWidth, IS_touchDevice }) {
   const [panoramas, SET_panoramas] = useState(null);
   const [search, SET_search] = useState("");
+  // const [saved_PROFILES, SET_savedProfiles] = useState([]); 
 
   return (
     <>

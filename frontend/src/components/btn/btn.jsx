@@ -22,16 +22,13 @@ export function Btn({ styles, text, leftIcon_URL, rightIcon_URL, onClick, left_I
 
 export function Btn_profilePreview({ name, subname, search }) {
   return (
-    <button
-      className={css["btn-profile-preview"]}
-      data-searchActive={search !== undefined}
-      data-testid="btn"
-    >
+    <button className={css["btn-profile-preview"]} data-hasSearch={search !== ""} data-testid="btn">
       <h4 className="name">{name}</h4>
-      {subname && <p className="subname">{subname}</p>}
-      {search && (
+      {search === "" && <p className="subname">{subname}</p>}
+      {search !== "" && (
         <p>
           This is a text with <span className={css.highlight}>very</span> prett search results.
+          There is a lot more where that came from.
         </p>
       )}
     </button>

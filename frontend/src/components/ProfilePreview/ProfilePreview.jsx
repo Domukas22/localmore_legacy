@@ -141,13 +141,16 @@ function CREATE_previewBottom({
   windowWidth,
   IS_touchDevice,
 }) {
+  const SHOW_slierArrows =
+    (HAS_swiper && hovered) || (HAS_swiper && windowWidth < 700) || (HAS_swiper && IS_touchDevice);
+
   return (
-    <div className={css.bottom}>
-      {search === "" && <Btn_profilePreview name={name_OBJ.en} subname={subname_OBJ.en} />}
-      {((HAS_swiper && hovered) ||
-        (HAS_swiper && windowWidth < 700) ||
-        (HAS_swiper && IS_touchDevice)) && (
-        <div style={{ marginLeft: "auto", display: "flex", gap: "4px" }}>
+    <div className={css.bottom} data-hasSearch={search !== ""}>
+      <div className={css.btnProfilePreview_WRAP}>
+        <Btn_profilePreview name={name_OBJ.en} subname={subname_OBJ.en} search={search} />
+      </div>
+      {SHOW_slierArrows && (
+        <div className={css.slider_ARROWS}>
           <Btn
             styles={["btn-36", "onImg", "round", "next"]}
             onClick={() => slide("prev")}
@@ -160,7 +163,6 @@ function CREATE_previewBottom({
           />
         </div>
       )}
-      {search !== "" && <Btn_profilePreview name={name_OBJ.en} search={search} />}
     </div>
   );
 }
