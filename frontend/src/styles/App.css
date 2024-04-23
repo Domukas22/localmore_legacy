@@ -209,7 +209,7 @@ nav {
   height: 100%;
   top: 0px;
   left: 0px;
-  z-index: 5;
+  z-index: 100;
 }
 
 .btn_CLOSE {

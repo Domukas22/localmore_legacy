@@ -69,14 +69,12 @@ export default function ProfilePreview({
           dampen,
           search,
         })}
-        {/* {SHOW_tags &&
-          CREATE_tagPreview({ tags: profile.tags, name: profile.name.en, TOGGLE_showTags })} */}
         <AnimatePresence>
           {SHOW_tags && (
             <motion.div
-              initial={{ opacity: 0, y: 30 }} // Start below the viewport
-              animate={{ opacity: 1, y: 0 }} // Move up to the current position
-              exit={{ opacity: 0, y: 30 }} // Move back down
+              initial={{ opacity: 0, y: [30] }}
+              animate={{ opacity: 1, y: [30, -3, 0] }}
+              exit={{ opacity: 0, y: [0, 15, 30] }}
               transition={{ ease: "easeOut", duration: 0.2 }}
               className={css.tag_PREVIEW}
             >

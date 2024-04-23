@@ -43,11 +43,6 @@
   grid-template-columns: minmax(0px, 1fr) auto;
   align-items: end;
 
-  /* & .btnProfilePreview_WRAP {
-    grid-column: 1;
-    transition: 150ms;
-
-  } */
   & .slider_ARROWS {
     transition: 150ms;
     display: flex;
@@ -125,10 +120,17 @@
 
 .tag_PREVIEW {
   width: 100%;
-  height: fit-content;
+  border-radius: 16px 16px 0px 0px;
 
+  max-height: 350px;
+  display: flex;
+  flex-direction: column;
+  
+  
+  /* so there is no gap under the tag preview when it jumps up upon animation */
+  bottom: -5px;
+  
   position: absolute;
-  bottom: 0px;
   left: 0px;
   width: 100%;
   z-index: 10;
@@ -137,6 +139,7 @@
   box-shadow: 0px -1px 20px #000000bd;
 
   & .tagPreview_TOP {
+    
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -148,11 +151,32 @@
 
   }
   & .tagPreview_BOTTOM {
+    flex:1;
     display: flex;
     flex-wrap: wrap;
     gap: 8px 6px;
-    padding: 12px 8px;
+    padding: 12px 8px 17px 8px;  /* so there is no gap under the tag preview when it jumps up upon animation */
+    align-content: flex-start;
+    overflow-y: auto;
 
+
+    scrollbar-width: auto;
+    scrollbar-color: #828282 #333333;
+  
+
+ ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #828282;
+    border-radius: 10px;
+    border: 0px solid #ffffff;
+  }
     
   }
   
