@@ -6,6 +6,7 @@ import { Btn, Btn_profilePreview, Btn_profilePreviewIcons } from "../btn/btn";
 import { ICON_x } from "../icons/icons";
 import { ICON_activeDigit, ICON_arrow, ICON_save } from "../icons/icons";
 import { savedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -66,8 +67,21 @@ export default function ProfilePreview({
           IS_touchDevice,
           search,
         })}
-        {SHOW_tags &&
-          CREATE_tagPreview({ tags: profile.tags, name: profile.name.en, TOGGLE_showTags })}
+        {/* {SHOW_tags &&
+          CREATE_tagPreview({ tags: profile.tags, name: profile.name.en, TOGGLE_showTags })} */}
+        <AnimatePresence>
+          {SHOW_tags && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }} // Start below the viewport
+              animate={{ opacity: 1, y: 0 }} // Move up to the current position
+              exit={{ opacity: 0, y: 30 }} // Move back down
+              transition={{ ease: "easeOut", duration: 0.2 }}
+              className={css.tag_PREVIEW}
+            >
+              {CREATE_tagPreview({ tags: profile.tags, name: profile.name.en, TOGGLE_showTags })}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </>
   );
@@ -187,7 +201,7 @@ function CREATE_previewBottom({
 }
 function CREATE_tagPreview({ tags, name, TOGGLE_showTags }) {
   return (
-    <div className={css.tag_PREVIEW}>
+    <>
       <div className={css.tagPreview_TOP}>
         <h4>
           {tags.length} Tags of {name}
@@ -212,6 +226,6 @@ function CREATE_tagPreview({ tags, name, TOGGLE_showTags }) {
           );
         })}
       </div>
-    </div>
+    </>
   );
 }
