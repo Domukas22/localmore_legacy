@@ -31,21 +31,32 @@ export function Btn({
   );
 }
 
-export function Btn_profilePreview({ name, subname, search }) {
+export function Btn_profileSearch({ name, search }) {
   return (
-    <button className={css["btn-profile-preview"]} data-search={search !== ""} data-testid="btn">
-      <h4 className="name">{name}</h4>
-      {search === "" && <p className="subname">{subname}</p>}
-      {search !== "" && (
-        <p>
-          This is a text with <span className={css.highlight}>very</span> prett search results.
-          There is a lot more where that came from.
-        </p>
-      )}
+    <button className={css["btn-profile-search"]} data-search={search !== ""} data-testid="btn">
+      <h4>{name}</h4>
+      <p>
+        This is a text with <span className={css.highlight}>very</span> prett search results. There
+        is a lot more where that came from.
+      </p>
     </button>
   );
 }
-export function Btn_profilePreviewIcons({ icons, onClick, iconCount, IS_open, activeDigit }) {
+export function Btn_profileName({ name }) {
+  return (
+    <button className={css["btn-profile-name"]}>
+      <h4>{name}</h4>
+    </button>
+  );
+}
+export function Btn_profilePreviewIcons({
+  icons,
+  onClick,
+  iconCount,
+  IS_open,
+  activeDigit,
+  dampen,
+}) {
   let displayedIcons = icons.slice(0, iconCount);
   let remainingTagsCount = icons.length - iconCount;
 
@@ -63,7 +74,10 @@ export function Btn_profilePreviewIcons({ icons, onClick, iconCount, IS_open, ac
 
   return (
     <button
-      className={css["btn-show-icons"]}
+      className={["btn-show-icons", `${dampen ? "dampen" : ""}`]
+        .map((style) => css[style])
+        .join(" ")}
+      // className={styles ? styles : css.btn}
       data-active={IS_open}
       onClick={() => {
         onClick();

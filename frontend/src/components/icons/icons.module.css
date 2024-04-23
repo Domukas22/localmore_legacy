@@ -32,6 +32,7 @@
 
   &::before,
   &::after {
+    transition: 100ms;
     content: '';
     position: absolute;
     width: 2px;

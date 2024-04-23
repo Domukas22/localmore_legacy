@@ -31,10 +31,11 @@
   & .top_RIGHT {
     display: flex;
     gap: 4px;
-    margin-left: auto;
     flex-wrap: wrap;
+    margin-left: auto;
     justify-content: flex-end;
   }
+
 }
 .bottom {
   bottom: 0px;
@@ -42,19 +43,18 @@
   grid-template-columns: minmax(0px, 1fr) auto;
   align-items: end;
 
-  & .btnProfilePreview_WRAP {
+  /* & .btnProfilePreview_WRAP {
     grid-column: 1;
-  }
+    transition: 150ms;
+
+  } */
   & .slider_ARROWS {
+    transition: 150ms;
     display: flex;
     gap: 4px;  
     grid-row: 1;
     grid-column: 2;
 
-
-    & svg {
-      
-    }
     &[data-arrowmove="prev"] > :first-child > svg,
     &[data-arrowmove="next"] > :last-child > svg {
       animation: pop-to-side 0.3s ease-out;
