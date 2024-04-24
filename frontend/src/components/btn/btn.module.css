@@ -66,19 +66,19 @@
 .onImg {
   composes: btn;
   border: var(--border-white-15);
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(20px);
   color: rgba(255, 255, 255, 0.9);
   text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
   
   &:hover {
-    background-color: rgba(0, 0, 0, 0.40);
+    background-color: rgba(0, 0, 0, 0.5);
   }
   &:active {
     border: 1px solid white;
   }
   &[data-active="true"]  {
-    background-color: rgba(0, 0, 0, 0.40);
+    background-color: rgba(0, 0, 0, 0.5);
     border: 1px solid white;
   }
 }

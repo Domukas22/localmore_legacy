@@ -1,10 +1,11 @@
 // //
 
 import css from "./icons.module.css";
+import PropTypes from "prop-types";
 
 export function ICON_activeDigit({ count, IS_active }) {
   return (
-    <div className={css.ICON_activeDigit} data-active={IS_active}>
+    <div className={css.ICON_activeDigit} data-active={IS_active} data-testid="icon-active-digit">
       <p>{count}</p>
     </div>
   );
@@ -49,6 +50,7 @@ export function ICON_save({ style }) {
       viewBox="0 0 15 20"
       fill="none"
       className={css.ICON_save}
+      data-testid="icon-save"
     >
       <path
         fillRule="evenodd"
@@ -62,3 +64,22 @@ export function ICON_save({ style }) {
     </svg>
   );
 }
+
+ICON_activeDigit.propTypes = {
+  count: PropTypes.number,
+  IS_active: PropTypes.bool,
+};
+
+ICON_x.propTypes = {
+  rotate: PropTypes.string,
+  color: PropTypes.string,
+};
+
+ICON_arrow.propTypes = {
+  direction: PropTypes.string,
+  color: PropTypes.string,
+};
+
+ICON_save.propTypes = {
+  style: PropTypes.string,
+};

@@ -23,7 +23,6 @@ export default function Explore({ profiles, tags, tagUsages, windowWidth, IS_tou
         style={{ fontSize: "17px", width: "300px" }}
       />
       <h4>Saved ids: {savedProfile_IDs.size}</h4>
-      {/* <div style={{ background: "red", height: "770px" }}></div> */}
       <div className={css.explore_WRAP}>
         <div className={css.left}>
           <div className={css.profile_GRID}>
