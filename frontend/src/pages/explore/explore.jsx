@@ -7,6 +7,9 @@ import SidePanel from "./sidepanel/sidepanel";
 import ProfilePreview from "../../components/ProfilePreview/ProfilePreview";
 import Panorama from "../../components/panorama/panorama";
 import { savedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
+import { ToggleButton } from "react-aria-components";
+import BtnCSS from "../../components/btn/btn.module.css";
+import { Btn } from "../../components/btn/btn";
 
 export default function Explore({ profiles, tags, tagUsages, windowWidth, IS_touchDevice }) {
   const [panoramas, SET_panoramas] = useState(null);
@@ -23,6 +26,7 @@ export default function Explore({ profiles, tags, tagUsages, windowWidth, IS_tou
         style={{ fontSize: "17px", width: "300px" }}
       />
       <h4>Saved ids: {savedProfile_IDs.size}</h4>
+      <Btn text="Button" onClick={() => {}}></Btn>
       <div className={css.explore_WRAP}>
         <div className={css.left}>
           <div className={css.profile_GRID}>

@@ -3,23 +3,26 @@
 import { useState } from "react";
 import css from "./btn.module.css";
 import PropTypes from "prop-types";
+import { Button } from "react-aria-components";
 
 export function Btn({
-  styles = ["btn-36"],
+  styles,
   text,
   leftIcon_URL,
   rightIcon_URL,
   onClick = () => alert("No function provided"),
   left_ICON,
   right_ICON,
-  active,
+  saved,
+  aria_LABEL,
 }) {
   return (
-    <button
-      className={styles ? styles.map((style) => css[style]).join(" ") : css.btn}
+    <Button
+      className={styles ? styles.map((style) => css[style]).join(" ") : css["btn-36"]}
       data-testid="btn"
-      data-active={active}
-      onClick={() => onClick()}
+      data-saved={saved}
+      onPress={onClick}
+      aria-label={aria_LABEL}
     >
       {leftIcon_URL && (
         <img src={leftIcon_URL} alt="" className={css.icon} data-testid="left-icon" />
@@ -36,48 +39,80 @@ export function Btn({
         />
       )}
       {right_ICON && right_ICON}
-    </button>
+    </Button>
   );
 }
+// export function Btn_test({
+//   text,
+//   leftIcon_URL,
+//   rightIcon_URL,
+//   left_ICON,
+//   right_ICON,
+// }) {
+//   return (
+//     <>
+//       {leftIcon_URL && (
+//         <img src={leftIcon_URL} alt="" className={css.icon} data-testid="left-icon" />
+//       )}
+//       {left_ICON && left_ICON}
+//       {text && <p className={css.text}>{text}</p>}
+//       {rightIcon_URL && (
+//         <img
+//           src={rightIcon_URL}
+//           alt=""
+//           className={css.icon}
+//           style={{ height: "18px" }}
+//           data-testid="right-icon"
+//         />
+//       )}
+//       {right_ICON && right_ICON}
+//     </>
+//   );
+// }
 export function Btn_profileSearch({
-  name = "Profile name",
-  search = "...search...",
+  name,
+  search,
+  aria_LABEL,
   onClick = () => alert("No function provided"),
 }) {
   return (
-    <button
+    <Button
       className={css["btn-profile-search"]}
       data-search={search !== ""}
       data-testid="btn-profile-search"
-      onClick={() => onClick()}
+      onPress={onClick}
+      aria-label={aria_LABEL}
     >
-      <h4>{name}</h4>
+      <h4>{name ?? "Profile name"}</h4>
       <p>
-        Search for <span className={css.highlight}>{search}</span>
+        Search for <span className={css.highlight}>{search ?? "...search..."}</span>
       </p>
-    </button>
+    </Button>
   );
 }
 export function Btn_profileName({
-  name = "Profile name",
+  name,
+  aria_LABEL,
   onClick = () => alert("No function provided"),
 }) {
   return (
-    <button
+    <Button
       className={css["btn-profile-name"]}
-      onClick={() => onClick()}
+      onPress={onClick}
+      aria-label={aria_LABEL}
       data-testid="btn-profile-name"
     >
-      <h4>{name}</h4>
-    </button>
+      <h4>{name ?? "Profile name"}</h4>
+    </Button>
   );
 }
 export function Btn_profilePreviewIcons({
-  icons = [],
+  icons,
   onClick = () => alert("No function provided"),
   visibleIcon_COUNT = 1,
   IS_open,
   activeDigit,
+  aria_LABEL,
 }) {
   const [dance, setDance] = useState(false);
 
@@ -90,29 +125,51 @@ export function Btn_profilePreviewIcons({
     }, 1000);
   };
 
-  const displayedIcons = icons.slice(0, visibleIcon_COUNT);
-  const remainingTagsCount = Math.max(0, icons.length - visibleIcon_COUNT);
+  const displayedIcons = icons ? icons.slice(0, visibleIcon_COUNT) : [];
+  const remainingTagsCount =
+    displayedIcons.length > 0 ? Math.max(0, icons.length - visibleIcon_COUNT) : 0;
 
   return (
-    <button
+    <Button
       className={css["btn-show-icons"]}
-      data-active={IS_open}
+      data-open={IS_open}
       onClick={() => {
         onClick();
         handleDance();
       }}
       data-dance={dance}
       data-testid="btn-profile-preview-icons"
+      aria-label={aria_LABEL}
     >
       {activeDigit}
-      {displayedIcons.map((icon) => (
-        <img key={icon} src={icon} alt="" className={css.icon} data-testid="tag-preview-btn-icon" />
-      ))}
-      {icons.length === 0 && <p data-testid="no-tags">No tags</p>}
+      {icons &&
+        displayedIcons.map((icon) => (
+          <img
+            key={icon}
+            src={icon}
+            alt=""
+            className={css.icon}
+            data-testid="tag-preview-btn-icon"
+          />
+        ))}
+      {!icons && <p data-testid="no-tags">No tags</p>}
       {remainingTagsCount > 0 && visibleIcon_COUNT && (
-        <p data-testid="hidden-icon-count">+{remainingTagsCount}</p>
+        <>
+          {remainingTagsCount === 1 ? (
+            icons && (
+              <img
+                src={icons[visibleIcon_COUNT]}
+                alt=""
+                className={css.icon}
+                data-testid="tag-preview-btn-icon"
+              />
+            )
+          ) : (
+            <p data-testid="hidden-icon-count">+{remainingTagsCount}</p>
+          )}
+        </>
       )}
-    </button>
+    </Button>
   );
 }
 
@@ -124,18 +181,21 @@ Btn.propTypes = {
   onClick: PropTypes.func.isRequired,
   left_ICON: PropTypes.element,
   right_ICON: PropTypes.element,
-  active: PropTypes.bool,
+  saved: PropTypes.bool,
+  aria_LABEL: PropTypes.string.isRequired,
 };
 
 Btn_profileSearch.propTypes = {
   name: PropTypes.string.isRequired,
   search: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+  aria_LABEL: PropTypes.string.isRequired,
 };
 
 Btn_profileName.propTypes = {
   name: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+  aria_LABEL: PropTypes.string.isRequired,
 };
 
 Btn_profilePreviewIcons.propTypes = {
@@ -144,4 +204,5 @@ Btn_profilePreviewIcons.propTypes = {
   visibleIcon_COUNT: PropTypes.number.isRequired,
   IS_open: PropTypes.bool.isRequired,
   activeDigit: PropTypes.element.isRequired,
+  aria_LABEL: PropTypes.string.isRequired,
 };

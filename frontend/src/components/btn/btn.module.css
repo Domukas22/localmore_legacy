@@ -12,6 +12,9 @@
 
   border: 1px solid transparent;
   border-radius: var(--radius-12);
+  box-shadow: var(--shadow-btn);
+  background-color: var(--btn-white);
+
   transition: 100ms;
   opacity: 100%;
 
@@ -20,23 +23,36 @@
   font-weight: 500;
   text-wrap: nowrap;
   
+  text-decoration: none;
+  outline: 2px solid transparent;
   position: relative;
-  & * {
-    position: relative;
+
+  
+  &[data-hovered="true"] {
+    background: var(--btn-dark);
+  }
+  &[data-pressed] {
+    background: var(--btn-dark);
+    border-color: var(--brand-black);
+    box-shadow: none;
+  }
+  &[data-focus-visible] {
+    outline: var(--outline-brand-black);
+    outline-offset: -1px;
   }
 
-  .icon {
-    width: 20px;
-    height: 20px;
-    object-fit: contain;
-  }
-  * {
+  & * {
+    position: relative;
     user-select: none;
     -webkit-user-drag: none;
     pointer-events: none;
     transition: 100ms;
   }
-
+  & .icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
   & svg {
     transition: transform 0.2s ease;
   }
@@ -66,21 +82,23 @@
 .onImg {
   composes: btn;
   border: var(--border-white-15);
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--btn-onImg);
+
   backdrop-filter: blur(20px);
-  color: rgba(255, 255, 255, 0.9);
-  text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+  color: var(--text-white);
+  text-shadow: var(--shadow-onImg-text);
   
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.5);
+  &[data-hovered="true"]{
+    background-color: var(--btn-onImg-hover);
   }
-  &:active {
-    border: 1px solid white;
+  &[data-pressed="true"] {
+    background-color: var(--btn-onImg-hover);
+    border: var(--border-white);
   }
-  &[data-active="true"]  {
-    background-color: rgba(0, 0, 0, 0.5);
-    border: 1px solid white;
+  &[data-focus-visible] {
+    outline: var(--outline-white);
   }
+  
 }
 .disabled {
   user-select: none;
@@ -93,25 +111,27 @@
 }
 .save {
 
-  &:active{
+  &[data-pressed="true"] {
     svg {
       transform: scale(0.9);
     }
   }
-
-  &[data-active="true"] {
+  &[data-saved="true"] {
     background-color: var(--brand-active);
     border: var(--border-brand-active);
     opacity: 100% !important;
 
-    &:hover {
+    &[data-hovered="true"] {
       background-color: var(--brand-active-hover);
     }
-    &:active {
+    &[data-pressed="true"]  {
       border: var(--border-brand);
     }
+    &[data-focus-visible] {
+      outline: var(--outline-brand);
+    }
 
-    svg {
+    & svg {
       animation: pop 0.3s ease-out;
     }
   }
@@ -124,9 +144,6 @@
       transform: scale(0.9);
     }
   }
-}
-.dampen {
-  opacity: 0;
 }
 @keyframes pop {
   0% {
@@ -212,6 +229,11 @@
     animation: jump 0.5s ease 0.4s;
   }
 
+  &[data-open="true"]  {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid white;
+  }
+
 }
 @keyframes jump {
   0%, 100% {
@@ -225,5 +247,4 @@
   }
 }
 
-
-/* //////////////////////////////////////// */
+/* /////////////////////////////////////// */

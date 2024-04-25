@@ -3,11 +3,14 @@
 @import '@styles/global.css';
 
 
-
-.ICON_activeDigit {
+.all {
   width: 20px;
   height: 20px;
+  object-fit: contain;
+}
 
+.ICON_activeDigit {
+  composes: all;
   font-size: 14px;
   font-weight: 800;
 
@@ -24,8 +27,7 @@
 
 }
 .ICON_x {
-  width: 20px;
-  height: 20px;
+  composes: all;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,6 +60,7 @@
   }
 }
 .ICON_save {
+  composes: all;
   & path {
     &[data-style="white"] {
         stroke: white;
