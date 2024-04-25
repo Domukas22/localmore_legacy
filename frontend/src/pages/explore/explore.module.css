@@ -33,7 +33,7 @@
   
   @media (--mobile) {
     grid-template-columns: 1fr;
-    grid-auto-rows: calc(100vw * (4 / 3) - 8vmin); 
+    grid-auto-rows: calc(100vw * (4 / 3.5)); 
   }
 
   @media (--landscape) {
