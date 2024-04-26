@@ -2,11 +2,11 @@
 // TODO ==> show the correct icon digit count (after implementing filtering)
 
 import userEvent from "@testing-library/user-event";
-import { Btn, Btn_profileSearch, Btn_profileName, Btn_profilePreviewIcons } from "./btn";
-import { ICON_save, ICON_activeDigit } from "../icons/icons";
-
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
+
+import { Btn, Btn_profileSearch, Btn_profileName, Btn_profilePreviewIcons } from "./btn";
+import { ICON_save, ICON_activeDigit } from "../icons/icons";
 
 describe("Btn", () => {
   it("renders", () => {

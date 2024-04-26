@@ -30,7 +30,7 @@ export function Btn({
         <img
           src={rightIcon_URL}
           className={css.icon}
-          style={{ height: "18px" }}
+          // style={{ height: "18px" }}
           data-testid="right-icon"
         />
       )}
@@ -64,7 +64,12 @@ export function Btn_profileName({
   onClick = () => alert("No function provided"),
 }) {
   return (
-    <Button className={css["btn-profile-name"]} onPress={onClick} aria-label={aria_LABEL}>
+    <Button
+      className={css["btn-profile-name"]}
+      onPress={onClick}
+      aria-label={aria_LABEL}
+      data-testid="btn-profile-name"
+    >
       <h4>{name ?? "Profile name"}</h4>
     </Button>
   );
@@ -96,7 +101,7 @@ export function Btn_profilePreviewIcons({
     <Button
       className={css["btn-show-icons"]}
       data-open={IS_open}
-      onClick={() => {
+      onPress={() => {
         onClick();
         handleDance();
       }}

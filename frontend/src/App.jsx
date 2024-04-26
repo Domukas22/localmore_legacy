@@ -3,7 +3,8 @@ import "./styles/App.css";
 import { useState, useEffect, useMemo } from "react";
 import { LIST_staticProfiles, LIST_allTags, LIST_tagUsages } from "./DB.js";
 import Explore from "./pages/explore/explore.jsx";
-import { savedProfileIDs_CONTEXT } from "./contexts/savedProfiles.jsx";
+import { SavedProfileIDs_PROVIDER } from "./contexts/savedProfiles.jsx";
+import { Lang_PROVIDER } from "./contexts/lang.jsx";
 
 export function App() {
   const [staticProfiles, setStaticProfiles] = useState([]);
@@ -37,34 +38,19 @@ export function App() {
     };
   }, []);
 
-  const [savedProfile_IDs, SET_savedProfileIDs] = useState(
-    new Set(JSON.parse(localStorage.getItem("savedProfile_IDs")) || [])
-  );
-
-  const ADD_toSaved = (profileID) =>
-    SET_savedProfileIDs((prevIDs) => new Set([...prevIDs, profileID]));
-
-  const REMOVE_fromSaved = (profileID) => {
-    const newIDs = new Set(savedProfile_IDs);
-    newIDs.delete(profileID);
-    SET_savedProfileIDs(newIDs);
-  };
-
-  useEffect(() => {
-    localStorage.setItem("savedProfile_IDs", JSON.stringify(Array.from(savedProfile_IDs)));
-  }, [savedProfile_IDs]);
-
   return (
     <>
-      <savedProfileIDs_CONTEXT.Provider value={{ savedProfile_IDs, ADD_toSaved, REMOVE_fromSaved }}>
-        <Explore
-          profiles={staticProfiles}
-          tags={tags}
-          tagUsages={tagUsages}
-          windowWidth={windowWidth}
-          IS_touchDevice={IS_touchDevice}
-        />
-      </savedProfileIDs_CONTEXT.Provider>
+      <Lang_PROVIDER>
+        <SavedProfileIDs_PROVIDER>
+          <Explore
+            profiles={staticProfiles}
+            tags={tags}
+            tagUsages={tagUsages}
+            windowWidth={windowWidth}
+            IS_touchDevice={IS_touchDevice}
+          />
+        </SavedProfileIDs_PROVIDER>
+      </Lang_PROVIDER>
     </>
   );
 }

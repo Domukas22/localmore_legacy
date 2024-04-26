@@ -71,7 +71,7 @@ ICON_activeDigit.propTypes = {
 };
 
 ICON_x.propTypes = {
-  rotate: PropTypes.string,
+  rotate: PropTypes.bool,
   color: PropTypes.string,
 };
 
