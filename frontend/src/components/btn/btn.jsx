@@ -19,20 +19,16 @@ export function Btn({
   return (
     <Button
       className={styles ? styles.map((style) => css[style]).join(" ") : css["btn-36"]}
-      data-testid="btn"
       data-saved={saved}
       onPress={onClick}
       aria-label={aria_LABEL}
     >
-      {leftIcon_URL && (
-        <img src={leftIcon_URL} alt="" className={css.icon} data-testid="left-icon" />
-      )}
+      {leftIcon_URL && <img src={leftIcon_URL} className={css.icon} data-testid="left-icon" />}
       {left_ICON && left_ICON}
       {text && <p className={css.text}>{text}</p>}
       {rightIcon_URL && (
         <img
           src={rightIcon_URL}
-          alt=""
           className={css.icon}
           style={{ height: "18px" }}
           data-testid="right-icon"
@@ -42,33 +38,6 @@ export function Btn({
     </Button>
   );
 }
-// export function Btn_test({
-//   text,
-//   leftIcon_URL,
-//   rightIcon_URL,
-//   left_ICON,
-//   right_ICON,
-// }) {
-//   return (
-//     <>
-//       {leftIcon_URL && (
-//         <img src={leftIcon_URL} alt="" className={css.icon} data-testid="left-icon" />
-//       )}
-//       {left_ICON && left_ICON}
-//       {text && <p className={css.text}>{text}</p>}
-//       {rightIcon_URL && (
-//         <img
-//           src={rightIcon_URL}
-//           alt=""
-//           className={css.icon}
-//           style={{ height: "18px" }}
-//           data-testid="right-icon"
-//         />
-//       )}
-//       {right_ICON && right_ICON}
-//     </>
-//   );
-// }
 export function Btn_profileSearch({
   name,
   search,
@@ -79,7 +48,6 @@ export function Btn_profileSearch({
     <Button
       className={css["btn-profile-search"]}
       data-search={search !== ""}
-      data-testid="btn-profile-search"
       onPress={onClick}
       aria-label={aria_LABEL}
     >
@@ -96,12 +64,7 @@ export function Btn_profileName({
   onClick = () => alert("No function provided"),
 }) {
   return (
-    <Button
-      className={css["btn-profile-name"]}
-      onPress={onClick}
-      aria-label={aria_LABEL}
-      data-testid="btn-profile-name"
-    >
+    <Button className={css["btn-profile-name"]} onPress={onClick} aria-label={aria_LABEL}>
       <h4>{name ?? "Profile name"}</h4>
     </Button>
   );
@@ -138,34 +101,17 @@ export function Btn_profilePreviewIcons({
         handleDance();
       }}
       data-dance={dance}
-      data-testid="btn-profile-preview-icons"
       aria-label={aria_LABEL}
     >
       {activeDigit}
-      {icons &&
-        displayedIcons.map((icon) => (
-          <img
-            key={icon}
-            src={icon}
-            alt=""
-            className={css.icon}
-            data-testid="tag-preview-btn-icon"
-          />
-        ))}
-      {!icons && <p data-testid="no-tags">No tags</p>}
+      {icons && displayedIcons.map((icon) => <img key={icon} src={icon} className={css.icon} />)}
+      {!icons && <p>No tags</p>}
       {remainingTagsCount > 0 && visibleIcon_COUNT && (
         <>
           {remainingTagsCount === 1 ? (
-            icons && (
-              <img
-                src={icons[visibleIcon_COUNT]}
-                alt=""
-                className={css.icon}
-                data-testid="tag-preview-btn-icon"
-              />
-            )
+            icons && <img src={icons[visibleIcon_COUNT]} className={css.icon} />
           ) : (
-            <p data-testid="hidden-icon-count">+{remainingTagsCount}</p>
+            <p>+{remainingTagsCount}</p>
           )}
         </>
       )}

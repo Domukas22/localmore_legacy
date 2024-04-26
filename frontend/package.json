@@ -14,8 +14,10 @@
     "both": "cd .. && npm run both"
   },
   "dependencies": {
+    "@adobe/react-spectrum": "^3.34.1",
     "@photo-sphere-viewer/core": "^5.7.2",
     "@photo-sphere-viewer/markers-plugin": "^5.7.2-fix.1",
+    "@react-spectrum/datepicker": "^3.9.4",
     "aframe": "^1.5.0",
     "aframe-react": "^4.4.0",
     "framer-motion": "^11.1.7",
@@ -23,6 +25,7 @@
     "react": "^18.2.0",
     "react-admin": "^4.16.12",
     "react-aria": "^3.32.1",
+    "react-aria-components": "^1.1.1",
     "react-dom": "^18.2.0",
     "swiper": "^11.1.1"
   },

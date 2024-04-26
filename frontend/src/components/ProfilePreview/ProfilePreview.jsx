@@ -10,7 +10,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import PropTypes from "prop-types";
 
 // import { Button, TextField } from "react-aria-components";
-import { Button, FieldError, Form, Input, Label, TextField } from "react-aria-components";
+// import { Button, FieldError, Form, Input, Label, TextField, DateField } from "react-aria-components";
+
+// import { DateField, DateInput, DateSegment, Label } from "react-aria-components";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -39,6 +41,7 @@ export default function ProfilePreview({ profile, SET_panoramas, windowWidth, se
           <Input />
           <FieldError />
         </TextField> */}
+
         {CREATE_swiper({
           sliderRef,
           images: profile.img[windowWidth > 700 ? "mobile" : "mobile"],
