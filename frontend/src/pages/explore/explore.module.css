@@ -8,7 +8,8 @@
   min-height: 80vh;
   display: flex;
   column-gap: 28px;
-  padding: 28px 28px 120px;
+  padding: 28px 28px 400px;
+  padding-bottom: 400px !important;
 
   .left {
     flex: 1;

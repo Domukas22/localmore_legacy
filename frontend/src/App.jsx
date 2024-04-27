@@ -11,12 +11,11 @@ export function App() {
   const [tags, setTags] = useState([]);
   const [tagUsages, setTagUsages] = useState([]);
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const IS_touchDevice = useMemo(
-    () =>
-      "ontouchstart" in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0,
-    []
-  );
+  // const IS_touchDevice = useMemo(
+  //   () =>
+  //   "ontouchstart" in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0,
+  //   []
+  // );
 
   useEffect(function FETCH_dataFromDB() {
     LIST_staticProfiles()
@@ -30,6 +29,7 @@ export function App() {
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(function HANDLE_windowSize() {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
@@ -47,7 +47,6 @@ export function App() {
             tags={tags}
             tagUsages={tagUsages}
             windowWidth={windowWidth}
-            IS_touchDevice={IS_touchDevice}
           />
         </SavedProfileIDs_PROVIDER>
       </Lang_PROVIDER>

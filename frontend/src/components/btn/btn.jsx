@@ -1,9 +1,10 @@
 //
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import css from "./btn.module.css";
 import PropTypes from "prop-types";
 import { Button } from "react-aria-components";
+import { ICON_activeDigit } from "../icons/icons";
 
 export function Btn({
   styles,
@@ -15,6 +16,7 @@ export function Btn({
   right_ICON,
   saved,
   aria_LABEL,
+  test_ID,
 }) {
   return (
     <Button
@@ -22,6 +24,7 @@ export function Btn({
       data-saved={saved}
       onPress={onClick}
       aria-label={aria_LABEL}
+      data-testid={test_ID}
     >
       {leftIcon_URL && <img src={leftIcon_URL} className={css.icon} data-testid="left-icon" />}
       {left_ICON && left_ICON}
@@ -38,7 +41,7 @@ export function Btn({
     </Button>
   );
 }
-export function Btn_profileSearch({
+export function ProfileSearch_BTN({
   name,
   search,
   aria_LABEL,
@@ -46,7 +49,7 @@ export function Btn_profileSearch({
 }) {
   return (
     <Button
-      className={css["btn-profile-search"]}
+      className={css["profile-search-btn"]}
       data-search={search !== ""}
       onPress={onClick}
       aria-label={aria_LABEL}
@@ -58,31 +61,35 @@ export function Btn_profileSearch({
     </Button>
   );
 }
-export function Btn_profileName({
+export function ProfileName_BTN({
   name,
   aria_LABEL,
   onClick = () => alert("No function provided"),
 }) {
   return (
     <Button
-      className={css["btn-profile-name"]}
+      className={css["profile-name-btn"]}
       onPress={onClick}
       aria-label={aria_LABEL}
-      data-testid="btn-profile-name"
+      data-testid="profile-name-btn"
     >
       <h4>{name ?? "Profile name"}</h4>
     </Button>
   );
 }
-export function Btn_profilePreviewIcons({
+export function ShowTags_BTN({
   icons,
   onClick = () => alert("No function provided"),
-  visibleIcon_COUNT = 1,
   IS_open,
-  activeDigit,
+  visibleIcon_COUNT = 1,
+  matchedTags_COUNT,
   aria_LABEL,
 }) {
   const [dance, setDance] = useState(false);
+
+  const displayedIcons = icons ? icons.slice(0, visibleIcon_COUNT) : [];
+  const remainingTagsCount =
+    displayedIcons.length > 0 ? Math.max(0, icons.length - visibleIcon_COUNT) : 0;
 
   const handleDance = () => {
     if (dance) return;
@@ -93,13 +100,9 @@ export function Btn_profilePreviewIcons({
     }, 1000);
   };
 
-  const displayedIcons = icons ? icons.slice(0, visibleIcon_COUNT) : [];
-  const remainingTagsCount =
-    displayedIcons.length > 0 ? Math.max(0, icons.length - visibleIcon_COUNT) : 0;
-
   return (
     <Button
-      className={css["btn-show-icons"]}
+      className={css["show-icons-btn"]}
       data-open={IS_open}
       onPress={() => {
         onClick();
@@ -107,8 +110,9 @@ export function Btn_profilePreviewIcons({
       }}
       data-dance={dance}
       aria-label={aria_LABEL}
+      data-testid="show-icons-btn"
     >
-      {activeDigit}
+      {matchedTags_COUNT > 0 && <ICON_activeDigit count={matchedTags_COUNT} IS_active={true} />}
       {icons && displayedIcons.map((icon) => <img key={icon} src={icon} className={css.icon} />)}
       {!icons && <p>No tags</p>}
       {remainingTagsCount > 0 && visibleIcon_COUNT && (
@@ -134,26 +138,26 @@ Btn.propTypes = {
   right_ICON: PropTypes.element,
   saved: PropTypes.bool,
   aria_LABEL: PropTypes.string.isRequired,
+  test_ID: PropTypes.string,
 };
 
-Btn_profileSearch.propTypes = {
+ProfileSearch_BTN.propTypes = {
   name: PropTypes.string.isRequired,
   search: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   aria_LABEL: PropTypes.string.isRequired,
 };
 
-Btn_profileName.propTypes = {
+ProfileName_BTN.propTypes = {
   name: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   aria_LABEL: PropTypes.string.isRequired,
 };
 
-Btn_profilePreviewIcons.propTypes = {
+ShowTags_BTN.propTypes = {
   icons: PropTypes.array.isRequired,
   onClick: PropTypes.func.isRequired,
-  visibleIcon_COUNT: PropTypes.number.isRequired,
   IS_open: PropTypes.bool.isRequired,
-  activeDigit: PropTypes.element.isRequired,
+  matchedTags_COUNT: PropTypes.number.isRequired,
   aria_LABEL: PropTypes.string.isRequired,
 };

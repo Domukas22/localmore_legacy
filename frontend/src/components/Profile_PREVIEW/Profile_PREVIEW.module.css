@@ -23,6 +23,7 @@
     z-index: 2;
     gap: 4px;
   }
+
 }
 .top {
   top: 0px;
@@ -138,6 +139,12 @@
   background-color: rgba(0, 0, 0, 0.6);
   box-shadow: 0px -1px 20px #000000bd;
 
+  & button {
+    backdrop-filter: none;
+    background: rgba(0, 0, 0, 0);
+    &:hover {background: rgba(255, 255, 255, 0.1) !important}
+  }
+
   & .tagPreview_TOP {
     
     width: 100%;
@@ -159,34 +166,66 @@
     align-content: flex-start;
     overflow-y: auto;
 
-
     scrollbar-width: auto;
     scrollbar-color: #828282 #333333;
-  
 
- ::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0);
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: #828282;
-    border-radius: 10px;
-    border: 0px solid #ffffff;
-  }
     
+  
+    ::-webkit-scrollbar {width: 8px;}
+    ::-webkit-scrollbar-track {background: rgba(0, 0, 0, 0);}
+    ::-webkit-scrollbar-thumb {
+      background-color: #828282;
+      border-radius: 10px;
+      border: 0px solid #ffffff;
+    }
+   
+    
+
+    /* & > :first-child {
+      animation: tagFade 0.2s ease-out;
+    }
+    & > :nth-child(2) {
+      animation: tagFade 0.2s ease-out 0.05s;
+    }
+    & > :nth-child(3) {
+      animation: tagFade 0.2s ease-out 0.1s;
+    }
+    & > :nth-child(4) {
+      animation: tagFade 0.2s ease-out 0.15s;
+    }
+    & > :nth-child(5) {
+      animation: tagFade 0.2s ease-out 0.2s;
+    }
+    & > :nth-child(6) {
+      animation: tagFade 0.2s ease-out 0.25s;
+    }
+    & > :nth-child(7) {
+      animation: tagFade 0.2s ease-out 0.3s;
+    }
+    & > :nth-child(8) {
+      animation: tagFade 0.2s ease-out 0.35s;
+    }
+    & > :nth-child(9) {
+      animation: tagFade 0.2s ease-out 0.4s;
+    }
+    & > :nth-child(10) {
+      animation: tagFade 0.2s ease-out 0.45s;
+    } */
   }
   
-  & button {
-    backdrop-filter: none;
-    background: rgba(0, 0, 0, 0);
-
-    &:hover {background: rgba(255, 255, 255, 0.1) !important}
-  }
+  
 }
+
+/* @keyframes tagFade {
+  0% { 
+    opacity: 0; 
+    transform: translateY(10px);
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0px) ;
+  }
+} */
 
 path {
   &[data-color="brand"] {fill: var(--brand)}

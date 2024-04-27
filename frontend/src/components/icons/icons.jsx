@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 export function ICON_activeDigit({ count, IS_active }) {
   return (
-    <div className={css.ICON_activeDigit} data-active={IS_active} data-testid="icon-active-digit">
+    <div className={css.ICON_activeDigit} data-active={IS_active} data-testid="active-digit-icon">
       <p>{count}</p>
     </div>
   );

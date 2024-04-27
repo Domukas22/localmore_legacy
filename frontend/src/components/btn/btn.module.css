@@ -16,7 +16,7 @@
   background-color: var(--btn-white);
 
   transition: 100ms;
-  opacity: 100%;
+  /* opacity: 100%; */
 
   cursor: pointer;
   font-size: inherit;
@@ -163,7 +163,7 @@
 /* //////////////////////////////////////// */
 /* only used in one place / in one form */
 
-.btn-profile-search {
+.profile-search-btn {
   composes: btn;
   composes: onImg;
 
@@ -192,7 +192,7 @@
     border-radius: 8px;
   }
 }
-.btn-profile-name {
+.profile-name-btn {
   composes: btn-36;
   composes: onImg;
   composes: round;
@@ -209,7 +209,7 @@
     white-space: nowrap;
   }
 }
-.btn-show-icons {
+.show-icons-btn {
   composes: btn-36;
   composes: onImg;
 

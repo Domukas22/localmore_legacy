@@ -1,11 +1,11 @@
-//
+// TODO => activeDigit now appears conditionally /// {matchedTags_COUNT > 0 && <ICON_activeDigit count={matchedTags_COUNT} IS_active={true} />}
 // TODO ==> show the correct icon digit count (after implementing filtering)
 
 import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
-import { Btn, Btn_profileSearch, Btn_profileName, Btn_profilePreviewIcons } from "./btn";
+import { Btn, ProfileSearch_BTN, ProfileName_BTN, ShowTags_BTN } from "./btn";
 import { ICON_save, ICON_activeDigit } from "../icons/icons";
 
 describe("Btn", () => {
@@ -43,119 +43,117 @@ describe("Btn", () => {
 });
 describe("Btn_profileSearch", () => {
   it("renders", () => {
-    render(<Btn_profileSearch />);
+    render(<ProfileSearch_BTN />);
     expect(screen.getByRole("button")).toBeInTheDocument();
   });
 
   it("has correct name", () => {
-    render(<Btn_profileSearch name="John" />);
+    render(<ProfileSearch_BTN name="John" />);
     expect(screen.getByRole("heading")).toHaveTextContent("John");
   });
   it("has correct search", () => {
-    render(<Btn_profileSearch search="searchResult" />);
+    render(<ProfileSearch_BTN search="searchResult" />);
     expect(screen.getByRole("paragraph")).toHaveTextContent("searchResult");
   });
   it("fires onClick() when clicked", async () => {
     const onClickMock = vi.fn();
-    render(<Btn_profileSearch onClick={onClickMock} />);
+    render(<ProfileSearch_BTN onClick={onClickMock} />);
     await userEvent.click(screen.getByRole("button"));
     expect(onClickMock).toHaveBeenCalledTimes(1);
   });
 });
 describe("Btn_profileName", () => {
   it("renders", () => {
-    render(<Btn_profileName />);
+    render(<ProfileName_BTN />);
     expect(screen.getByRole("button")).toBeInTheDocument();
   });
   it("has correct name", () => {
-    render(<Btn_profileName name="John" />);
+    render(<ProfileName_BTN name="John" />);
     expect(screen.getByRole("heading")).toHaveTextContent("John");
   });
   it("fires onClick() when clicked", async () => {
     const onClickMock = vi.fn();
-    render(<Btn_profileName onClick={onClickMock} />);
+    render(<ProfileName_BTN onClick={onClickMock} />);
     await userEvent.click(screen.getByRole("button"));
     expect(onClickMock).toHaveBeenCalledTimes(1);
   });
 });
 describe("Btn_profilePreviewIcons", () => {
   it("renders", () => {
-    render(<Btn_profileName />);
+    render(<ProfileName_BTN />);
     expect(screen.getByRole("button")).toBeInTheDocument();
   });
   describe("active digit", () => {
     it("shows active digit", () => {
-      const { getByTestId } = render(
-        <Btn_profilePreviewIcons activeDigit={<ICON_activeDigit count={1} />} />
-      );
-      expect(getByTestId("icon-active-digit")).toBeInTheDocument();
+      const { getByTestId } = render(<ShowTags_BTN matchedTags_COUNT={1} />);
+      expect(getByTestId("active-digit-icon")).toBeInTheDocument();
+    });
+    it("has correct number", () => {
+      const { getByTestId } = render(<ShowTags_BTN matchedTags_COUNT={5} />);
+      expect(getByTestId("active-digit-icon")).toHaveTextContent("5");
     });
     it("hides active digit", () => {
-      const { queryByTestId } = render(<Btn_profilePreviewIcons />);
-      expect(queryByTestId("icon-active-digit")).toBeNull();
+      const { queryByTestId } = render(<ShowTags_BTN />);
+      expect(queryByTestId("active-digit-icon")).toBeNull();
     });
   });
   describe("tag icons", () => {
     it("shows no icons if not provided", () => {
-      render(<Btn_profilePreviewIcons />);
+      render(<ShowTags_BTN />);
       expect(screen.queryByRole("img")).toBeNull();
     });
+    it("icon has correcnt url", () => {
+      render(<ShowTags_BTN visibleIcon_COUNT={1} icons={["url-1"]} />);
+      expect(screen.getByRole("img")).toHaveAttribute("src", "url-1");
+    });
     it("shows 1 tagIcon by default", () => {
-      render(<Btn_profilePreviewIcons icons={["url-1"]} />);
+      render(<ShowTags_BTN icons={["url-1"]} />);
       expect(screen.getByRole("img")).toBeInTheDocument();
     });
     it("shows 2 tagIcons when 2 are available", () => {
-      render(<Btn_profilePreviewIcons visibleIcon_COUNT={2} icons={["url-1", "url-2"]} />);
+      render(<ShowTags_BTN visibleIcon_COUNT={2} icons={["url-1", "url-2"]} />);
       expect(screen.getAllByRole("img").length).toBe(2);
     });
     it("shows 2 tagIcons when more are available", () => {
-      render(
-        <Btn_profilePreviewIcons
-          visibleIcon_COUNT={2}
-          icons={["url-1", "url-2", "url-3", "url-4"]}
-        />
-      );
+      render(<ShowTags_BTN visibleIcon_COUNT={2} icons={["url-1", "url-2", "url-3", "url-4"]} />);
       expect(screen.getAllByRole("img").length).toBe(2);
     });
     it("shows 2 tagIcons when 2 icons are available and visibleCount is 1", () => {
-      render(<Btn_profilePreviewIcons visibleIcon_COUNT={1} icons={["url-1", "url-2"]} />);
+      render(<ShowTags_BTN visibleIcon_COUNT={1} icons={["url-1", "url-2"]} />);
       expect(screen.getAllByRole("img").length).toBe(2);
     });
   });
   describe("hidden tags text", () => {
     it("hides hidden tags text", () => {
-      render(<Btn_profilePreviewIcons visibleIcon_COUNT={3} icons={["url-1", "url-2", "url-3"]} />);
+      render(<ShowTags_BTN visibleIcon_COUNT={3} icons={["url-1", "url-2", "url-3"]} />);
       expect(screen.queryByRole("paragraph")).toBeNull();
     });
     it("hides '+1' text", () => {
-      render(<Btn_profilePreviewIcons visibleIcon_COUNT={1} icons={["url-1", "url-2"]} />);
+      render(<ShowTags_BTN visibleIcon_COUNT={1} icons={["url-1", "url-2"]} />);
       expect(screen.queryByRole("paragraph")).toBeNull();
     });
     it("shows '+2' hidden tags", () => {
-      render(<Btn_profilePreviewIcons visibleIcon_COUNT={1} icons={["url-1", "url-2", "url-3"]} />);
+      render(<ShowTags_BTN visibleIcon_COUNT={1} icons={["url-1", "url-2", "url-3"]} />);
       expect(screen.getByRole("paragraph")).toHaveTextContent("+2");
     });
     it("shows '+3' hidden tags", () => {
       render(
-        <Btn_profilePreviewIcons
-          visibleIcon_COUNT={2}
-          icons={["url-1", "url-2", "url-3", "url-4", "url-5"]}
-        />
+        <ShowTags_BTN visibleIcon_COUNT={2} icons={["url-1", "url-2", "url-3", "url-4", "url-5"]} />
       );
       expect(screen.getByRole("paragraph")).toHaveTextContent("+3");
     });
     it("shows 'No Tags' result", () => {
-      render(<Btn_profilePreviewIcons />);
+      render(<ShowTags_BTN />);
       expect(screen.getByRole("paragraph")).toBeInTheDocument();
     });
     it("defaults to 1 visible tag if no count povided", () => {
-      render(<Btn_profilePreviewIcons icons={["url-1", "url-2", "url-3"]} />);
+      render(<ShowTags_BTN icons={["url-1", "url-2", "url-3"]} />);
       expect(screen.getByRole("paragraph")).toHaveTextContent("+2");
     });
   });
   it("fires onClick() when clicked", async () => {
     const onClickMock = vi.fn();
-    render(<Btn_profilePreviewIcons onClick={onClickMock} />);
+    render(<ShowTags_BTN onClick={onClickMock} />);
     await userEvent.click(screen.getByRole("button"));
     expect(onClickMock).toHaveBeenCalledTimes(1);
   });
