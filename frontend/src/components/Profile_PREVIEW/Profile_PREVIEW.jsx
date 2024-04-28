@@ -264,15 +264,18 @@ function Tag_OVERLAY({ profile, TOGGLE_showTags, lang, name, tr, global_TR }) {
             return (
               <motion.li
                 key={tag._id}
-                initial={{ y: 10 }}
-                animate={{ y: [10, -4, 0] }}
-                exit={{ y: 0 }}
+                initial={{ y: 20 + index }}
+                animate={{ y: [20 + index, -4, 0] }}
                 transition={{
                   ease: "easeIn",
+                  times: [0, 0.7, 1],
+                  // duration: 0.3,
                   duration: 0.3,
+                  // delay: (index + 1) * 0.02,
                   delay: (index + 1) * 0.02,
                 }}
               >
+                {console.log((index + 1) * 0.02)}
                 <Btn
                   key={tag._id}
                   styles={["btn-36", "onImg", "round"]}
