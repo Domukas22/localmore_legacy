@@ -4,8 +4,26 @@ import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import Profile_PREVIEW from "./Profile_PREVIEW";
-import { Lang_CONTEXT } from "../../contexts/lang";
-import { profilePreview_TR } from "./translations";
+import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
+
+// profilePreview_TOP
+// - check 360 visibility / click
+// - check "saved" state / click
+
+// profilePreview_BOTTOM
+// - check nameBtn visibility / click / correct name
+// - check searchBtn visibility / click / correct name / correct search
+// check arrowWrapper visibility
+// check arrow click
+
+// swiper visibility 
+
+// tag_PREVIEW
+// check visibility / name / closeBtn click / tagCount
+
+
+
+
 
 describe("Profile_PREVIEW", () => {
   const _3daysAnd1SecondAgo = new Date(

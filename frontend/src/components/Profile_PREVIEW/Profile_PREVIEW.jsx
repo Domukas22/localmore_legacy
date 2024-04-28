@@ -62,10 +62,10 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search = "", l
         <AnimatePresence>
           {SHOW_tags && (
             <motion.aside
-              initial={{ opacity: 0, y: [30] }}
-              animate={{ opacity: 1, y: [30, -3, 0] }}
-              exit={{ opacity: 0, y: [0, 20, 30] }}
-              transition={{ ease: "easeOut", duration: 0.3 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 30 }}
+              transition={{ ease: "easeOut", duration: 0.2 }}
               className={css.tag_PREVIEW}
               data-testid="tag-preview"
             >
@@ -259,7 +259,7 @@ function Tag_OVERLAY({ profile, TOGGLE_showTags, lang, name }) {
                 transition={{
                   ease: "easeOut",
                   duration: 0.3,
-                  delay: index * 0.05 - 0.1,
+                  delay: (index + 1) * 0.02,
                 }}
               >
                 <Btn
