@@ -9,6 +9,9 @@ import Panorama from "../../components/panorama/panorama";
 import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
 import { Lang_CONTEXT } from "../../contexts/lang";
 
+import { tr } from "../../components/Profile_PREVIEW/translations";
+import { global_TR } from "../../global_TRANSLATIONS";
+
 export default function Explore({ profiles, tags, tagUsages, windowWidth }) {
   const [panoramas, SET_panoramas] = useState(null);
   const [search, SET_search] = useState("");
@@ -38,30 +41,44 @@ export default function Explore({ profiles, tags, tagUsages, windowWidth }) {
         DE
       </button>
 
-      <div className={css.explore_WRAP}>
-        <div className={css.left}>
-          <div className={css.profile_GRID}>
-            {profiles.map((profile) => {
-              return (
-                <Profile_PREVIEW
-                  key={profile._id}
-                  profile={profile}
-                  SET_panoramas={SET_panoramas}
-                  search={search}
-                  lang={lang}
-                />
-              );
-            })}
-          </div>
-        </div>
-        {windowWidth > 1100 && (
-          <div className={css.right}>
-            <SidePanel />
-          </div>
-        )}
-      </div>
+      <Explore_GRID
+        profiles={profiles}
+        SET_panoramas={SET_panoramas}
+        search={search}
+        lang={lang}
+        windowWidth={windowWidth}
+      />
       {panoramas !== null && <Modal360 panoramas={panoramas} SET_panoramas={SET_panoramas} />}
     </>
+  );
+}
+
+function Explore_GRID({ profiles, SET_panoramas, search, lang, windowWidth }) {
+  return (
+    <div className={css.explore_WRAP}>
+      <div className={css.left}>
+        <div className={css.profile_GRID}>
+          {profiles.map((profile) => {
+            return (
+              <Profile_PREVIEW
+                key={profile._id}
+                profile={profile}
+                SET_panoramas={SET_panoramas}
+                search={search}
+                lang={lang}
+                tr={tr}
+                global_TR={global_TR}
+              />
+            );
+          })}
+        </div>
+      </div>
+      {windowWidth > 1100 && (
+        <div className={css.right}>
+          <SidePanel />
+        </div>
+      )}
+    </div>
   );
 }
 

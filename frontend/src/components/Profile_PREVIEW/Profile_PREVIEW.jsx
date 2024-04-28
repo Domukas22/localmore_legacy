@@ -10,15 +10,12 @@ import { ICON_arrow, ICON_save, ICON_x } from "../icons/icons";
 import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
 import { Btn, ProfileName_BTN, ProfileSearch_BTN, ShowTags_BTN } from "../btn/btn";
 
-import { tr } from "./translations";
-import { global_TR } from "../../global_TRANSLATIONS";
-
 import "swiper/css";
 import "swiper/css/free-mode";
 
 // TODO => implement differnt view grid
 
-export default function Profile_PREVIEW({ profile, SET_panoramas, search = "", lang = "en" }) {
+export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang, tr, global_TR }) {
   const sliderRef = useRef(null);
   const [SHOW_tags, SET_showTags] = useState(false);
   const SHOW_swiper = profile?.img?.mobile && profile?.img?.mobile.length > 1;
@@ -45,11 +42,14 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search = "", l
     };
   }, []);
 
-  const name = profile?.name?.[lang] && profile.name[lang] !== "" && profile.name[lang];
+  const name = profile?.name?.[lang] && profile?.name?.[lang] !== "" && profile?.name?.[lang];
 
   return (
     <>
-      <article className={css.profile_PREVIEW}>
+      <article
+        className={css.profile_PREVIEW}
+        aria-label={tr?.profileIntro_ARIA(profile?.name?.[lang], profile?.subname?.[lang])[lang]}
+      >
         <Preview_TOP
           profile={profile}
           SET_panoramas={SET_panoramas}
@@ -58,6 +58,8 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search = "", l
           lang={lang}
           name={name}
           visibleIcon_COUNT={visibleIcon_COUNT}
+          tr={tr}
+          global_TR={global_TR}
         />
         <AnimatePresence>
           {SHOW_tags && (
@@ -65,7 +67,7 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search = "", l
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 30 }}
-              transition={{ ease: "easeOut", duration: 0.2 }}
+              transition={{ ease: "easeInOut", duration: 0.2 }}
               className={css.tag_PREVIEW}
               data-testid="tag-preview"
             >
@@ -74,6 +76,8 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search = "", l
                 TOGGLE_showTags={TOGGLE_showTags}
                 lang={lang}
                 name={name}
+                tr={tr}
+                global_TR={global_TR}
               />
             </motion.aside>
           )}
@@ -93,6 +97,7 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search = "", l
           name={name}
           lang={lang}
           SHOW_swiper={SHOW_swiper}
+          tr={tr}
         />
       </article>
     </>
@@ -106,6 +111,8 @@ function Preview_TOP({
   lang,
   name,
   visibleIcon_COUNT,
+  tr,
+  global_TR,
 }) {
   const { savedProfile_IDs, ADD_toSaved, REMOVE_fromSaved } = useContext(SavedProfileIDs_CONTEXT);
   const IS_saved = savedProfile_IDs instanceof Set && savedProfile_IDs.has(profile?._id);
@@ -115,7 +122,7 @@ function Preview_TOP({
     <header className={css.top}>
       {IS_new && (
         <span className={css.labelNew} data-testid="label-new">
-          {global_TR.new_TEXT[lang]}
+          {global_TR?.new_TEXT?.[lang] || "New"}
         </span>
       )}
 
@@ -131,7 +138,7 @@ function Preview_TOP({
             visibleIcon_COUNT={visibleIcon_COUNT}
             matchedTags_COUNT={0} // get matching tags count
             aria_LABEL={
-              SHOW_tags ? tr.hideTagsBtn_ARIA(name)[lang] : tr.showTagsBtn_ARIA(name)[lang]
+              SHOW_tags ? tr?.hideTagsBtn_ARIA(name)[lang] : tr?.showTagsBtn_ARIA(name)[lang]
             }
           />
         )}
@@ -140,7 +147,8 @@ function Preview_TOP({
             styles={["btn-36", "onImg"]}
             onClick={() => SET_panoramas(profile?.img?.panoramas)}
             text={"360"}
-            aria_LABEL={tr.panoramaBtn_ARIA(name)[lang]}
+            aria_LABEL={tr?.panoramaBtn_ARIA(name)[lang]}
+            test_ID="panorama-btn"
           />
         )}
         <Btn
@@ -148,7 +156,8 @@ function Preview_TOP({
           onClick={() => (IS_saved ? REMOVE_fromSaved(profile?._id) : ADD_toSaved(profile?._id))}
           saved={IS_saved}
           left_ICON={<ICON_save style={IS_saved ? "active" : "white"} />}
-          aria_LABEL={tr.saveBtn_ARIA(name)[lang]}
+          aria_LABEL={tr?.saveBtn_ARIA(name)[lang]}
+          test_ID="save-btn"
         />
       </div>
     </header>
@@ -172,7 +181,7 @@ function Preview_IMAGES({ sliderRef, images, img_END, profile, lang, SHOW_swiper
     </>
   );
 }
-function Preview_BOTTOM({ slide, search, name, lang, SHOW_swiper }) {
+function Preview_BOTTOM({ slide, search, name, lang, SHOW_swiper, tr }) {
   const [arrow_DIRECTION, SET_arrowDirection] = useState("");
   const [ARE_arrowsDisabled, SET_arrowsDisabled] = useState(false);
 
@@ -192,7 +201,7 @@ function Preview_BOTTOM({ slide, search, name, lang, SHOW_swiper }) {
       {search === "" && (
         <ProfileName_BTN
           name={name}
-          aria_LABEL={tr.visitProfileBtn_ARIA(name)[lang]}
+          aria_LABEL={tr?.visitProfileBtn_ARIA(name)[lang]}
           onClick={() => alert("No function provided")}
         />
       )}
@@ -200,7 +209,7 @@ function Preview_BOTTOM({ slide, search, name, lang, SHOW_swiper }) {
         <ProfileSearch_BTN
           name={name}
           search={search}
-          aria_LABEL={tr.visitProfileBtn_ARIA(name)[lang]}
+          aria_LABEL={tr?.visitProfileBtn_ARIA(name)[lang]}
           onClick={() => alert("No function provided")}
         />
       )}
@@ -216,7 +225,7 @@ function Preview_BOTTOM({ slide, search, name, lang, SHOW_swiper }) {
               HANLDE_arrowClick("prev");
             }}
             right_ICON={<ICON_arrow direction="left" color="white" />}
-            aria_LABEL={tr.prevImageBtn_ARIA(name)[lang]}
+            aria_LABEL={tr?.prevImageBtn_ARIA(name)[lang]}
             data-testid="arrow-prev"
           />
           <Btn
@@ -225,7 +234,7 @@ function Preview_BOTTOM({ slide, search, name, lang, SHOW_swiper }) {
               HANLDE_arrowClick("next");
             }}
             right_ICON={<ICON_arrow direction="right" color="white" />}
-            aria_LABEL={tr.nextImageBtn_ARIA(name)[lang]}
+            aria_LABEL={tr?.nextImageBtn_ARIA(name)[lang]}
             data-testid="arrow-prev"
           />
         </div>
@@ -233,31 +242,31 @@ function Preview_BOTTOM({ slide, search, name, lang, SHOW_swiper }) {
     </footer>
   );
 }
-function Tag_OVERLAY({ profile, TOGGLE_showTags, lang, name }) {
+function Tag_OVERLAY({ profile, TOGGLE_showTags, lang, name, tr, global_TR }) {
   return (
     <>
       <div className={css.tagPreview_TOP}>
         <h4>
-          {profile?.tags.length} {global_TR.tagsOf_TITLE(name)[lang]}
+          {profile?.tags.length} {global_TR?.tagsOf_TITLE(name)[lang]}
         </h4>
         <Btn
           styles={["btn-36", "onImg", "close"]}
           onClick={() => TOGGLE_showTags()}
           right_ICON={<ICON_x />}
-          aria_LABEL={tr.hideTagsBtn_ARIA(name)[lang]}
+          aria_LABEL={tr?.hideTagsBtn_ARIA(name)[lang]}
         />
       </div>
       <AnimatePresence>
-        <motion.ul key={profile._id + profile._id} className={css.tagPreview_BOTTOM}>
+        <motion.ul key={profile?._id + profile?._id} className={css.tagPreview_BOTTOM}>
           {profile?.tags.map((tag, index) => {
             return (
               <motion.li
                 key={tag._id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 0 }}
+                initial={{ y: 10 }}
+                animate={{ y: [10, -4, 0] }}
+                exit={{ y: 0 }}
                 transition={{
-                  ease: "easeOut",
+                  ease: "easeIn",
                   duration: 0.3,
                   delay: (index + 1) * 0.02,
                 }}
@@ -268,7 +277,7 @@ function Tag_OVERLAY({ profile, TOGGLE_showTags, lang, name }) {
                   leftIcon_URL={tag.icon?.url ? tag.icon.url : ""}
                   right_ICON={<ICON_x rotate={true} />}
                   text={tag.name.en}
-                  aria_LABEL={tr.filterTagBtn_ARIA(tag.name?.[lang])[lang]}
+                  aria_LABEL={tr?.filterTagBtn_ARIA(tag.name?.[lang])[lang]}
                   onClick={() => alert("No function provided")}
                 />
               </motion.li>
@@ -304,16 +313,20 @@ Profile_PREVIEW.propTypes = {
   profile: PropTypes.object.isRequired,
   SET_panoramas: PropTypes.func.isRequired,
   search: PropTypes.string,
-  lang: PropTypes.string,
+  lang: PropTypes.string.isRequired,
+  tr: PropTypes.object.isRequired,
+  global_TR: PropTypes.object.isRequired,
 };
 Preview_TOP.propTypes = {
   profile: PropTypes.object.isRequired,
-  SET_panoramas: PropTypes.func.isRequired,
   TOGGLE_showTags: PropTypes.func.isRequired,
+  SET_panoramas: PropTypes.func.isRequired,
   SHOW_tags: PropTypes.bool.isRequired,
   lang: PropTypes.string.isRequired,
   name: PropTypes.string,
   visibleIcon_COUNT: PropTypes.number.isRequired,
+  tr: PropTypes.object.isRequired,
+  global_TR: PropTypes.object.isRequired,
 };
 Preview_IMAGES.propTypes = {
   sliderRef: PropTypes.object,
@@ -325,14 +338,18 @@ Preview_IMAGES.propTypes = {
 };
 Preview_BOTTOM.propTypes = {
   slide: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
   search: PropTypes.string,
   name: PropTypes.string,
   lang: PropTypes.string.isRequired,
   SHOW_swiper: PropTypes.bool.isRequired,
+  tr: PropTypes.object.isRequired,
 };
 Tag_OVERLAY.propTypes = {
   profile: PropTypes.object.isRequired,
   TOGGLE_showTags: PropTypes.func.isRequired,
   lang: PropTypes.string.isRequired,
   name: PropTypes.string,
+  tr: PropTypes.object.isRequired,
+  global_TR: PropTypes.object.isRequired,
 };

@@ -1,36 +1,40 @@
 //
 
 export const tr = {
-  showTagsBtn_ARIA: (word) => ({
-    en: word ? `Show tags of ${word}` : "Show tags",
-    de: word ? `Tags von ${word} anzeigen` : "Tags anzeigen",
+  profileIntro_ARIA: (name, subname) => ({
+    en: name || subname ? `${name}, ${subname}` : "Profile",
+    de: name || subname ? `${name}, ${subname}` : "Profil",
   }),
-  hideTagsBtn_ARIA: (word) => ({
-    en: word ? `Hide tags of ${word}` : "Hide tags",
-    de: word ? `Tags von ${word} verstecken` : "Tags verstecken",
+  showTagsBtn_ARIA: (name) => ({
+    en: name ? `Show tags of ${name}` : "Show tags",
+    de: name ? `Tags von ${name} anzeigen` : "Tags anzeigen",
   }),
-  panoramaBtn_ARIA: (word) => ({
-    en: word ? `Show panorama of ${word}` : "Show panorama",
-    de: word ? `Panorama von ${word} anzeigen` : "Panorama anzeigen",
+  hideTagsBtn_ARIA: (name) => ({
+    en: name ? `Hide tags of ${name}` : "Hide tags",
+    de: name ? `Tags von ${name} verstecken` : "Tags verstecken",
   }),
-  saveBtn_ARIA: (word) => ({
-    en: word ? `Save ${word}` : "Save profile",
-    de: word ? `${word} speichern` : "Profil peichern",
+  panoramaBtn_ARIA: (name) => ({
+    en: name ? `Show panorama of ${name}` : "Show panorama",
+    de: name ? `Panorama von ${name} anzeigen` : "Panorama anzeigen",
   }),
-  visitProfileBtn_ARIA: (word) => ({
-    en: word ? `Visit ${word} profile` : "Visit profile",
-    de: word ? `Profil ${word} besuchen` : "Profil besuchen",
+  saveBtn_ARIA: (name) => ({
+    en: name ? `Save ${name}` : "Save profile",
+    de: name ? `${name} speichern` : "Profil peichern",
   }),
-  prevImageBtn_ARIA: (word) => ({
-    en: word ? `Show previous image of ${word}` : "Show previous image",
-    de: word ? `Vorheriges Bild von ${word} anzeigen` : "Vorheriges Bild anzeigen",
+  visitProfileBtn_ARIA: (name) => ({
+    en: name ? `Visit ${name} profile` : "Visit profile",
+    de: name ? `Profil ${name} besuchen` : "Profil besuchen",
   }),
-  nextImageBtn_ARIA: (word) => ({
-    en: word ? `Show next image of ${word}` : "Show next image",
-    de: word ? `Nächstes Bild von ${word} anzeigen` : "Nächstes Bild anzeigen",
+  prevImageBtn_ARIA: (name) => ({
+    en: name ? `Show previous image of ${name}` : "Show previous image",
+    de: name ? `Vorheriges Bild von ${name} anzeigen` : "Vorheriges Bild anzeigen",
   }),
-  filterTagBtn_ARIA: (word) => ({
-    en: word ? `Add tag ${word} to filters` : `Add tag to filters`,
-    de: word ? `Tag ${word} zu Filtern hinfügen` : `Tag zu Filtern hinfügen`,
+  nextImageBtn_ARIA: (name) => ({
+    en: name ? `Show next image of ${name}` : "Show next image",
+    de: name ? `Nächstes Bild von ${name} anzeigen` : "Nächstes Bild anzeigen",
+  }),
+  filterTagBtn_ARIA: (name) => ({
+    en: name ? `Add tag ${name} to filters` : `Add tag to filters`,
+    de: name ? `Tag ${name} zu Filtern hinfügen` : `Tag zu Filtern hinfügen`,
   }),
 };

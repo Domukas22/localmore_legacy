@@ -4,11 +4,9 @@ import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import Profile_PREVIEW from "./Profile_PREVIEW";
+import { tr } from "./translations";
+import { global_TR } from "../../global_TRANSLATIONS";
 import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
-
-// profilePreview_TOP
-// - check 360 visibility / click
-// - check "saved" state / click
 
 // profilePreview_BOTTOM
 // - check nameBtn visibility / click / correct name
@@ -16,14 +14,10 @@ import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
 // check arrowWrapper visibility
 // check arrow click
 
-// swiper visibility 
+// swiper visibility
 
 // tag_PREVIEW
 // check visibility / name / closeBtn click / tagCount
-
-
-
-
 
 describe("Profile_PREVIEW", () => {
   const _3daysAnd1SecondAgo = new Date(
@@ -49,6 +43,19 @@ describe("Profile_PREVIEW", () => {
     render(<Profile_PREVIEW />);
     expect(screen.getByRole("article")).toBeInTheDocument();
   });
+  it("has correct aria-label", () => {
+    render(
+      <Profile_PREVIEW
+        profile={{ name: { de: "German name" }, subname: { de: "German subname" } }}
+        lang="de"
+        tr={tr}
+        global_TR={global_TR}
+      />
+    );
+    // expect(
+    //   screen.getByLabelText(tr.profileIntro_ARIA("German name", "German subname").de)
+    // ).toBeInTheDocument();
+  });
 
   describe("Preview_TOP", () => {
     it("renders", () => {
@@ -65,7 +72,14 @@ describe("Profile_PREVIEW", () => {
         expect(screen.queryByTestId("label-new")).toBeNull();
       });
       it("has correct language", () => {
-        render(<Profile_PREVIEW profile={{ createdAt: new Date().toISOString() }} lang="de" />);
+        render(
+          <Profile_PREVIEW
+            profile={{ createdAt: new Date().toISOString() }}
+            lang="de"
+            global_TR={global_TR}
+          />
+        );
+        screen.debug();
         expect(screen.getByTestId("label-new")).toHaveTextContent("Neu");
       });
     });
@@ -80,7 +94,6 @@ describe("Profile_PREVIEW", () => {
       });
       it("toggles tagPreview on click", async () => {
         render(<Profile_PREVIEW profile={{ tags: _2simpleTags }} />);
-        screen.debug();
         const btn = screen.getByTestId("show-icons-btn");
         await userEvent.click(btn);
         expect(btn).toHaveAttribute("data-open", "true");
@@ -90,15 +103,79 @@ describe("Profile_PREVIEW", () => {
           expect(screen.queryByTestId("tag-preview")).toBeNull();
         }, 1000);
       });
-      // it("fires onClick() when clicked", async () => {
-      //   const onClickMock = vi.fn();
-      //   render(<Btn onClick={onClickMock} />);
-      //   await userEvent.click(screen.getByRole("button"));
-      //   expect(onClickMock).toHaveBeenCalledTimes(1);
-      // });
+    });
+    describe("Btn show panoramas", () => {
+      it("renders when there are panoramas", () => {
+        render(<Profile_PREVIEW profile={{ img: { panoramas: ["obj", "obj"] } }} />);
+        expect(screen.getByTestId("panorama-btn")).toBeInTheDocument();
+      });
+      it("hides when there are no panoramas", () => {
+        render(<Profile_PREVIEW />);
+        expect(screen.queryByTestId("panorama-btn")).toBeNull();
+      });
+      it("calls SET_panoramas()", async () => {
+        const SET_panoramas = vi.fn();
+        render(
+          <Profile_PREVIEW
+            profile={{ img: { panoramas: ["obj", "obj"] } }}
+            SET_panoramas={SET_panoramas}
+          />
+        );
+        await userEvent.click(screen.getByTestId("panorama-btn"));
+        expect(SET_panoramas).toHaveBeenCalled();
+      });
+    });
+    describe("Btn save", () => {
+      it("renders", () => {
+        render(<Profile_PREVIEW />);
+        expect(screen.getByTestId("save-btn")).toBeInTheDocument();
+      });
+      it("data-saved='true' if saved in context", () => {
+        render(
+          <SavedProfileIDs_CONTEXT.Provider value={{ savedProfile_IDs: new Set(["123"]) }}>
+            <Profile_PREVIEW profile={{ _id: "123" }} />
+          </SavedProfileIDs_CONTEXT.Provider>
+        );
+        expect(screen.getByTestId("save-btn")).toHaveAttribute("data-saved", "true");
+      });
+      it("data-saved='false' if not saved in context ", () => {
+        render(
+          <SavedProfileIDs_CONTEXT.Provider value={{ savedProfile_IDs: new Set(["123"]) }}>
+            <Profile_PREVIEW profile={{ _id: "55555" }} />
+          </SavedProfileIDs_CONTEXT.Provider>
+        );
+        expect(screen.getByTestId("save-btn")).toHaveAttribute("data-saved", "false");
+      });
+      it("calls ADD_toSaved() if not saved in context", async () => {
+        const ADD_toSaved = vi.fn();
+
+        render(
+          <SavedProfileIDs_CONTEXT.Provider value={{ savedProfile_IDs: new Set(), ADD_toSaved }}>
+            <Profile_PREVIEW profile={{ _id: "123" }} />
+          </SavedProfileIDs_CONTEXT.Provider>
+        );
+
+        await userEvent.click(screen.getByTestId("save-btn"));
+        expect(ADD_toSaved).toHaveBeenCalledWith("123");
+      });
+      it("calls REMOVE_fromSaved() if saved in context", async () => {
+        const REMOVE_fromSaved = vi.fn();
+
+        render(
+          <SavedProfileIDs_CONTEXT.Provider
+            value={{ savedProfile_IDs: new Set(["123"]), REMOVE_fromSaved }}
+          >
+            <Profile_PREVIEW profile={{ _id: "123" }} />
+          </SavedProfileIDs_CONTEXT.Provider>
+        );
+
+        await userEvent.click(screen.getByTestId("save-btn"));
+        expect(REMOVE_fromSaved).toHaveBeenCalledWith("123");
+      });
     });
   });
-  describe.skip("Preview_BOTTOM", () => {
+
+  describe("Preview_BOTTOM", () => {
     it("renders", () => {
       render(<Profile_PREVIEW />);
       expect(screen.getByRole("contentinfo")).toBeInTheDocument();
