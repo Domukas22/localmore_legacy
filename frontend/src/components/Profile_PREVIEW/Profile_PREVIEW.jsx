@@ -69,7 +69,7 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang, 
               exit={{ opacity: 0, y: 30 }}
               transition={{ ease: "easeInOut", duration: 0.2 }}
               className={css.tag_PREVIEW}
-              data-testid="tag-preview"
+              data-testid="tag-overlay"
             >
               <Tag_OVERLAY
                 profile={profile}
@@ -89,6 +89,7 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang, 
           profile={profile}
           lang={lang}
           SHOW_swiper={SHOW_swiper}
+          tr={tr}
         />
         <Preview_BOTTOM
           slide={slide}
@@ -163,12 +164,14 @@ function Preview_TOP({
     </header>
   );
 }
-function Preview_IMAGES({ sliderRef, images, img_END, profile, lang, SHOW_swiper }) {
-  const img_ALT = `${profile?.name?.[lang]}, ${profile?.subname?.[lang]} ${profile?.city?.name?.[lang]}, ${profile?.adress?.["street"]}, ${profile?.adress?.["region"]} ${profile?.city?.name?.[lang]}`;
+function Preview_IMAGES({ sliderRef, images, img_END, profile, lang, SHOW_swiper, tr }) {
+  const img_ALT = tr?.img_ALT(profile?.name, profile?.subname, profile?.city, profile?.adress)[
+    lang
+  ];
   return (
     <>
       {SHOW_swiper ? (
-        <Swiper loop={true} ref={sliderRef} speed={500}>
+        <Swiper loop={true} ref={sliderRef} speed={500} data-testid="swiper">
           {images.map((img, i) => (
             <SwiperSlide key={i}>
               <img src={img + img_END} className={css.profile_IMG} alt={img_ALT} />
@@ -198,14 +201,14 @@ function Preview_BOTTOM({ slide, search, name, lang, SHOW_swiper, tr }) {
 
   return (
     <footer className={css.bottom} data-testid="profile-preview-bottom">
-      {search === "" && (
+      {(!search || search === "") && (
         <ProfileName_BTN
           name={name}
           aria_LABEL={tr?.visitProfileBtn_ARIA(name)[lang]}
           onClick={() => alert("No function provided")}
         />
       )}
-      {search !== "" && (
+      {search && search !== "" && (
         <ProfileSearch_BTN
           name={name}
           search={search}
@@ -246,19 +249,18 @@ function Tag_OVERLAY({ profile, TOGGLE_showTags, lang, name, tr, global_TR }) {
   return (
     <>
       <div className={css.tagPreview_TOP}>
-        <h4>
-          {profile?.tags.length} {global_TR?.tagsOf_TITLE(name)[lang]}
-        </h4>
+        <h4>{tr?.tagsOverlay_TITLE(profile?.tags?.length, name ? name : undefined)[lang]}</h4>
         <Btn
           styles={["btn-36", "onImg", "close"]}
           onClick={() => TOGGLE_showTags()}
           right_ICON={<ICON_x />}
           aria_LABEL={tr?.hideTagsBtn_ARIA(name)[lang]}
+          test_ID={"close-tag-overlay-btn"}
         />
       </div>
       <AnimatePresence>
         <motion.ul key={profile?._id + profile?._id} className={css.tagPreview_BOTTOM}>
-          {profile?.tags.map((tag, index) => {
+          {profile?.tags?.map((tag, index) => {
             return (
               <motion.li
                 key={tag._id}
@@ -274,37 +276,18 @@ function Tag_OVERLAY({ profile, TOGGLE_showTags, lang, name, tr, global_TR }) {
                 <Btn
                   key={tag._id}
                   styles={["btn-36", "onImg", "round"]}
-                  leftIcon_URL={tag.icon?.url ? tag.icon.url : ""}
+                  leftIcon_URL={tag.icon?.url ? tag.icon?.url : ""}
                   right_ICON={<ICON_x rotate={true} />}
-                  text={tag.name.en}
+                  text={tag.name?.en}
                   aria_LABEL={tr?.filterTagBtn_ARIA(tag.name?.[lang])[lang]}
                   onClick={() => alert("No function provided")}
+                  test_ID={"overlay-tag-btn"}
                 />
               </motion.li>
             );
           })}
         </motion.ul>
       </AnimatePresence>
-
-      {/* <AnimatePresence>
-          {SHOW_tags && (
-            <motion.aside
-              initial={{ opacity: 0, y: [30] }}
-              animate={{ opacity: 1, y: [30, -3, 0] }}
-              exit={{ opacity: 0, y: [0, 20, 30] }}
-              transition={{ ease: "easeOut", duration: 0.3 }}
-              className={css.tag_PREVIEW}
-              data-testid="tag-preview"
-            >
-              <Tag_OVERLAY
-                profile={profile}
-                TOGGLE_showTags={TOGGLE_showTags}
-                lang={lang}
-                name={name}
-              />
-            </motion.aside>
-          )}
-        </AnimatePresence> */}
     </>
   );
 }

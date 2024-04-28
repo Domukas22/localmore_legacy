@@ -4,20 +4,8 @@ import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import Profile_PREVIEW from "./Profile_PREVIEW";
-import { tr } from "./translations";
-import { global_TR } from "../../global_TRANSLATIONS";
+import { profilePreview_TR as tr, global_TR } from "../../translations";
 import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
-
-// profilePreview_BOTTOM
-// - check nameBtn visibility / click / correct name
-// - check searchBtn visibility / click / correct name / correct search
-// check arrowWrapper visibility
-// check arrow click
-
-// swiper visibility
-
-// tag_PREVIEW
-// check visibility / name / closeBtn click / tagCount
 
 describe("Profile_PREVIEW", () => {
   const _3daysAnd1SecondAgo = new Date(
@@ -43,18 +31,17 @@ describe("Profile_PREVIEW", () => {
     render(<Profile_PREVIEW />);
     expect(screen.getByRole("article")).toBeInTheDocument();
   });
-  it("has correct aria-label", () => {
+  it("correct ARIA", () => {
     render(
       <Profile_PREVIEW
         profile={{ name: { de: "German name" }, subname: { de: "German subname" } }}
         lang="de"
         tr={tr}
-        global_TR={global_TR}
       />
     );
-    // expect(
-    //   screen.getByLabelText(tr.profileIntro_ARIA("German name", "German subname").de)
-    // ).toBeInTheDocument();
+    expect(screen.getByRole("article")).toHaveAccessibleName(
+      tr.profileIntro_ARIA("German name", "German subname").de
+    );
   });
 
   describe("Preview_TOP", () => {
@@ -63,15 +50,15 @@ describe("Profile_PREVIEW", () => {
       expect(screen.getByRole("banner")).toBeInTheDocument();
     });
     describe("label_NEW", () => {
-      it("has label 'new'", () => {
+      it("not older than 3 days? ==> show", () => {
         render(<Profile_PREVIEW profile={{ createdAt: new Date().toISOString() }} />);
         expect(screen.getByTestId("label-new")).toBeInTheDocument();
       });
-      it("hides label 'new' if profile was created more than 3 days ago", () => {
+      it("older than 3 days? ==> hide", () => {
         render(<Profile_PREVIEW profile={{ createdAt: _3daysAnd1SecondAgo }} />);
         expect(screen.queryByTestId("label-new")).toBeNull();
       });
-      it("has correct language", () => {
+      it("correct text", () => {
         render(
           <Profile_PREVIEW
             profile={{ createdAt: new Date().toISOString() }}
@@ -79,37 +66,48 @@ describe("Profile_PREVIEW", () => {
             global_TR={global_TR}
           />
         );
-        screen.debug();
-        expect(screen.getByTestId("label-new")).toHaveTextContent("Neu");
+        expect(screen.getByTestId("label-new")).toHaveTextContent(global_TR.new_TEXT.de);
       });
     });
     describe("ShowTags_BTN", () => {
-      it("renders when there are tags", () => {
+      it("has tags? ==> show", () => {
         render(<Profile_PREVIEW profile={{ tags: _2simpleTags }} />);
         expect(screen.getByTestId("show-icons-btn")).toBeInTheDocument();
       });
-      it("hides when there are no tags", () => {
+      it("no tags? ==> hide", () => {
         render(<Profile_PREVIEW />);
         expect(screen.queryByTestId("show-icons-btn")).toBeNull();
       });
-      it("toggles tagPreview on click", async () => {
+      it("toggles tagPreview", async () => {
         render(<Profile_PREVIEW profile={{ tags: _2simpleTags }} />);
         const btn = screen.getByTestId("show-icons-btn");
         await userEvent.click(btn);
         expect(btn).toHaveAttribute("data-open", "true");
-        expect(screen.getByTestId("tag-preview")).toBeInTheDocument();
+        expect(screen.getByTestId("tag-overlay")).toBeInTheDocument();
         await userEvent.click(screen.getByTestId("show-icons-btn"));
         setTimeout(() => {
-          expect(screen.queryByTestId("tag-preview")).toBeNull();
+          expect(screen.queryByTestId("tag-overlay")).toBeNull();
         }, 1000);
+      });
+      it("correct ARIA", () => {
+        render(
+          <Profile_PREVIEW
+            profile={{ name: { de: "Deutsch" }, tags: _2simpleTags }}
+            lang="de"
+            tr={tr}
+          />
+        );
+        expect(
+          screen.getByRole("button", { name: tr.showTagsBtn_ARIA("Deutsch").de })
+        ).toBeInTheDocument();
       });
     });
     describe("Btn show panoramas", () => {
-      it("renders when there are panoramas", () => {
+      it("has panoramas? ==> show", () => {
         render(<Profile_PREVIEW profile={{ img: { panoramas: ["obj", "obj"] } }} />);
         expect(screen.getByTestId("panorama-btn")).toBeInTheDocument();
       });
-      it("hides when there are no panoramas", () => {
+      it("no panoramas? ==> hide", () => {
         render(<Profile_PREVIEW />);
         expect(screen.queryByTestId("panorama-btn")).toBeNull();
       });
@@ -124,13 +122,27 @@ describe("Profile_PREVIEW", () => {
         await userEvent.click(screen.getByTestId("panorama-btn"));
         expect(SET_panoramas).toHaveBeenCalled();
       });
+      it("correct ARIA", () => {
+        render(
+          <Profile_PREVIEW
+            profile={{ name: { de: "Deutsch Profil" }, img: { panoramas: ["obj", "obj"] } }}
+            lang="de"
+            tr={tr}
+          />
+        );
+        expect(
+          screen.getByRole("button", {
+            name: tr.panoramaBtn_ARIA("Deutsch Profil").de,
+          })
+        ).toBeInTheDocument();
+      });
     });
     describe("Btn save", () => {
       it("renders", () => {
         render(<Profile_PREVIEW />);
         expect(screen.getByTestId("save-btn")).toBeInTheDocument();
       });
-      it("data-saved='true' if saved in context", () => {
+      it("saved in context? ==> data-saved='true'", () => {
         render(
           <SavedProfileIDs_CONTEXT.Provider value={{ savedProfile_IDs: new Set(["123"]) }}>
             <Profile_PREVIEW profile={{ _id: "123" }} />
@@ -138,7 +150,7 @@ describe("Profile_PREVIEW", () => {
         );
         expect(screen.getByTestId("save-btn")).toHaveAttribute("data-saved", "true");
       });
-      it("data-saved='false' if not saved in context ", () => {
+      it("not saved in context? ==> data-saved='false'", () => {
         render(
           <SavedProfileIDs_CONTEXT.Provider value={{ savedProfile_IDs: new Set(["123"]) }}>
             <Profile_PREVIEW profile={{ _id: "55555" }} />
@@ -146,7 +158,7 @@ describe("Profile_PREVIEW", () => {
         );
         expect(screen.getByTestId("save-btn")).toHaveAttribute("data-saved", "false");
       });
-      it("calls ADD_toSaved() if not saved in context", async () => {
+      it("not saved in context? ==> click() ==> ADD_toSaved()", async () => {
         const ADD_toSaved = vi.fn();
 
         render(
@@ -158,9 +170,8 @@ describe("Profile_PREVIEW", () => {
         await userEvent.click(screen.getByTestId("save-btn"));
         expect(ADD_toSaved).toHaveBeenCalledWith("123");
       });
-      it("calls REMOVE_fromSaved() if saved in context", async () => {
+      it("saved in context? ==> click() ==> REMOVE_toSaved()", async () => {
         const REMOVE_fromSaved = vi.fn();
-
         render(
           <SavedProfileIDs_CONTEXT.Provider
             value={{ savedProfile_IDs: new Set(["123"]), REMOVE_fromSaved }}
@@ -168,9 +179,14 @@ describe("Profile_PREVIEW", () => {
             <Profile_PREVIEW profile={{ _id: "123" }} />
           </SavedProfileIDs_CONTEXT.Provider>
         );
-
         await userEvent.click(screen.getByTestId("save-btn"));
         expect(REMOVE_fromSaved).toHaveBeenCalledWith("123");
+      });
+      it("correct ARIA", () => {
+        render(<Profile_PREVIEW profile={{ name: { de: "Deutsch Profil" } }} lang="de" tr={tr} />);
+        expect(
+          screen.getByRole("button", { name: tr.saveBtn_ARIA("Deutsch Profil").de })
+        ).toBeInTheDocument();
       });
     });
   });
@@ -182,16 +198,190 @@ describe("Profile_PREVIEW", () => {
     });
 
     describe("ProfileName_BTN", () => {
-      it("has correct name", () => {
+      // TODO => does it link to profile page?
+      it("no search? ==> show", () => {
+        render(<Profile_PREVIEW tr={tr} />);
+        expect(screen.getByTestId("profile-name-btn")).toBeInTheDocument();
+      });
+      it("has search? ==> hide", () => {
+        render(<Profile_PREVIEW tr={tr} search="search" />);
+        expect(screen.queryByTestId("profile-name-btn")).toBeNull();
+      });
+      it("correct name", () => {
         render(<Profile_PREVIEW profile={{ name: { de: "German name" } }} lang="de" />);
         expect(screen.getByRole("heading")).toHaveTextContent("German name");
       });
-      it("has correct aria label", () => {
-        render(<Profile_PREVIEW profile={{ name: { de: "German name" } }} lang="de" />);
+      it("correct ARIA", () => {
+        render(<Profile_PREVIEW profile={{ name: { de: "Deutsch Profil" } }} lang="de" tr={tr} />);
+        expect(
+          screen.getByRole("button", {
+            name: tr.visitProfileBtn_ARIA("Deutsch Profil").de,
+          })
+        ).toBeInTheDocument();
+      });
+    });
+    describe("ProfileSearch_BTN", () => {
+      // TODO => does it link to profile page?
+      it("has search? ==> show", () => {
+        render(<Profile_PREVIEW search={"search"} />);
+        expect(screen.getByTestId("profile-search-btn")).toBeInTheDocument();
+      });
+      it("no search? ==> hide", () => {
+        render(<Profile_PREVIEW />);
+        expect(screen.queryByTestId("profile-search-btn")).toBeNull();
+      });
+      it("correct name", () => {
+        render(
+          <Profile_PREVIEW profile={{ name: { de: "German name" } }} lang="de" search={"search"} />
+        );
         expect(screen.getByRole("heading")).toHaveTextContent("German name");
+      });
+      it("correct search", () => {
+        render(
+          <Profile_PREVIEW profile={{ name: { de: "German name" } }} lang="de" search={"search"} />
+        );
+        expect(screen.getByRole("paragraph")).toHaveTextContent("search");
+      });
+      it("correct ARIA", () => {
+        render(<Profile_PREVIEW profile={{ name: { de: "Deutsch Profil" } }} lang="de" tr={tr} />);
+        expect(
+          screen.getByRole("button", {
+            name: tr.visitProfileBtn_ARIA("Deutsch Profil").de,
+          })
+        ).toBeInTheDocument();
+      });
+    });
+    describe("slider_ARROWS", () => {
+      it("has more than 1 image? ==> show", () => {
+        render(
+          <Profile_PREVIEW
+            profile={{ img: { desktop: ["img-1", "img-2"], mobile: ["img-1", "img-2"] } }}
+          />
+        );
+        expect(screen.getByTestId("swiper-arrows")).toBeInTheDocument();
+      });
+      it("has 1 or less images? ==> hide", () => {
+        render(<Profile_PREVIEW profile={{ img: { desktop: ["img-1"], mobile: ["img-1"] } }} />);
+        expect(screen.queryByTestId("swiper-arrows")).toBeNull();
+      });
+    });
+    describe("swiper", () => {
+      it("has more than 1 image? ==> show", () => {
+        render(
+          <Profile_PREVIEW
+            profile={{ img: { desktop: ["img-1", "img-2"], mobile: ["img-1", "img-2"] } }}
+          />
+        );
+        expect(screen.getByTestId("swiper")).toBeInTheDocument();
+      });
+      it("has 1 or less images? ==> hide", () => {
+        render(<Profile_PREVIEW profile={{ img: { desktop: ["img-1"], mobile: ["img-1"] } }} />);
+        expect(screen.queryByTestId("swiper")).toBeNull();
+      });
+      it("correct image ARIA", () => {
+        render(
+          <Profile_PREVIEW
+            lang={"de"}
+            profile={{
+              name: { de: "baby", en: "baby" },
+              img: { desktop: ["img-1", "img-2", "img-3"], mobile: ["img-1", "img-2", "img-3"] },
+            }}
+            tr={tr}
+          />
+        );
+        // checking the ARIA text of 3 images
+        const img_ALT = tr.img_ALT({ de: "baby" })["de"];
+        expect(screen.getAllByRole("img", { alt: img_ALT })).toHaveLength(3);
+      });
+    });
+  });
+
+  describe("Tag_OVERLAY", () => {
+    it("toggles after clicking ShowTags_BTN", async () => {
+      render(<Profile_PREVIEW profile={{ tags: _2simpleTags }} />);
+      const btn = screen.getByTestId("show-icons-btn");
+      await userEvent.click(btn);
+      expect(screen.getByRole("complementary")).toBeInTheDocument();
+      await userEvent.click(screen.getByTestId("show-icons-btn"));
+      setTimeout(() => {
+        expect(screen.queryByRole("complementary")).toBeNull();
+      }, 1000);
+    });
+    it("correct title", async () => {
+      render(
+        <Profile_PREVIEW
+          profile={{ tags: _2simpleTags, name: { de: "Kartoffel" } }}
+          tr={tr}
+          lang="de"
+        />
+      );
+      const btn = screen.getByTestId("show-icons-btn");
+      await userEvent.click(btn);
+
+      expect(
+        screen.getByText(tr.tagsOverlay_TITLE(_2simpleTags.length, "Kartoffel").de)
+      ).toBeInTheDocument();
+    });
+    describe("close overlay btn", () => {
+      it("correct ARIA", async () => {
+        render(
+          <Profile_PREVIEW
+            profile={{ tags: _2simpleTags, name: { de: "Kartoffel" } }}
+            lang="de"
+            tr={tr}
+          />
+        );
+        const btn = screen.getByTestId("show-icons-btn");
+        await userEvent.click(btn);
+
+        expect(screen.getByTestId("close-tag-overlay-btn")).toHaveAccessibleName(
+          tr?.hideTagsBtn_ARIA("Kartoffel").de
+        );
+      });
+      it("closes overlay", async () => {
+        render(
+          <Profile_PREVIEW
+            profile={{ tags: _2simpleTags, name: { de: "Kartoffel" } }}
+            lang="de"
+            tr={tr}
+          />
+        );
+        const btn = screen.getByTestId("show-icons-btn");
+        await userEvent.click(btn);
+        await userEvent.click(screen.getByTestId("close-tag-overlay-btn"));
+        setTimeout(() => {
+          expect(screen.queryByRole("complementary")).toBeNull();
+        }, 1000);
+      });
+    });
+    describe("tags", () => {
+      // TODO => applies / removes tags from filters
+      it("correct ARIA", async () => {
+        render(
+          <Profile_PREVIEW
+            profile={{
+              tags: [{ name: { de: "Bier" } }],
+            }}
+            lang="de"
+            tr={tr}
+          />
+        );
+        const btn = screen.getByTestId("show-icons-btn");
+        await userEvent.click(btn);
+        expect(screen.getByLabelText(tr.filterTagBtn_ARIA("Bier").de)).toBeInTheDocument();
+      });
+      it("correct number of tags printed", async () => {
+        render(
+          <Profile_PREVIEW
+            profile={{
+              tags: _2simpleTags,
+            }}
+          />
+        );
+        const btn = screen.getByTestId("show-icons-btn");
+        await userEvent.click(btn);
+        expect(screen.getAllByTestId("overlay-tag-btn")).toHaveLength(2);
       });
     });
   });
 });
-
-// slider changes on click. Test it or leave it out?

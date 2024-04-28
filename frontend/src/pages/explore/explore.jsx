@@ -9,8 +9,8 @@ import Panorama from "../../components/panorama/panorama";
 import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
 import { Lang_CONTEXT } from "../../contexts/lang";
 
-import { tr } from "../../components/Profile_PREVIEW/translations";
-import { global_TR } from "../../global_TRANSLATIONS";
+import { profilePreview_TR } from "../../translations";
+import { global_TR } from "../../translations";
 
 export default function Explore({ profiles, tags, tagUsages, windowWidth }) {
   const [panoramas, SET_panoramas] = useState(null);
@@ -66,7 +66,7 @@ function Explore_GRID({ profiles, SET_panoramas, search, lang, windowWidth }) {
                 SET_panoramas={SET_panoramas}
                 search={search}
                 lang={lang}
-                tr={tr}
+                tr={profilePreview_TR}
                 global_TR={global_TR}
               />
             );

@@ -1,6 +1,13 @@
 //
 
-export const tr = {
+export const global_TR = {
+  new_TEXT: {
+    en: "New",
+    de: "Neu",
+  },
+};
+
+export const profilePreview_TR = {
   profileIntro_ARIA: (name, subname) => ({
     en: name || subname ? `${name}, ${subname}` : "Profile",
     de: name || subname ? `${name}, ${subname}` : "Profil",
@@ -36,5 +43,13 @@ export const tr = {
   filterTagBtn_ARIA: (name) => ({
     en: name ? `Add tag ${name} to filters` : `Add tag to filters`,
     de: name ? `Tag ${name} zu Filtern hinfügen` : `Tag zu Filtern hinfügen`,
+  }),
+  img_ALT: (name_OBJ, subname_OBJ, city_OBJ, adress_OBJ) => ({
+    en: `${name_OBJ?.en}, ${subname_OBJ?.en} ${city_OBJ?.name?.en}, ${adress_OBJ?.street}, ${adress_OBJ?.region} ${city_OBJ?.name?.en}`,
+    de: `${name_OBJ?.de}, ${subname_OBJ?.de} ${city_OBJ?.name?.de}, ${adress_OBJ?.street}, ${adress_OBJ?.region} ${city_OBJ?.name?.de}`,
+  }),
+  tagsOverlay_TITLE: (count, word) => ({
+    en: word ? `${count} Tags of ${word}` : count ? `${count} tags` : "Tags",
+    de: word ? `${count} Tags von ${word}` : count ? `${count} tags` : "Tags",
   }),
 };

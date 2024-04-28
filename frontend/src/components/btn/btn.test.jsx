@@ -14,27 +14,27 @@ describe("Btn", () => {
     expect(screen.getByRole("button")).toBeInTheDocument();
   });
 
-  it("has correct text", () => {
+  it("correct text", () => {
     render(<Btn text="Button" />);
     expect(screen.getByRole("paragraph")).toHaveTextContent("Button");
   });
-  it("has left icon", () => {
+  it("shows left icon", () => {
     render(<Btn leftIcon_URL="http://example.com/url" />);
     expect(screen.getByRole("img")).toHaveProperty("src", "http://example.com/url");
   });
-  it("has right icon", () => {
+  it("shows right icon", () => {
     render(<Btn rightIcon_URL="http://example.com/url" />);
     expect(screen.getByRole("img")).toHaveProperty("src", "http://example.com/url");
   });
-  it("has left icon element", () => {
+  it("shows left icon element", () => {
     render(<Btn left_ICON={<ICON_save />} />);
     expect(screen.getByTestId("icon-save")).toBeInTheDocument();
   });
-  it("has right icon element", () => {
+  it("shows right icon element", () => {
     render(<Btn right_ICON={<ICON_save />} />);
     expect(screen.getByTestId("icon-save")).toBeInTheDocument();
   });
-  it("fires onClick() when clicked", async () => {
+  it("fires onClick()", async () => {
     const onClickMock = vi.fn();
     render(<Btn onClick={onClickMock} />);
     await userEvent.click(screen.getByRole("button"));
@@ -47,15 +47,15 @@ describe("Btn_profileSearch", () => {
     expect(screen.getByRole("button")).toBeInTheDocument();
   });
 
-  it("has correct name", () => {
+  it("correct name", () => {
     render(<ProfileSearch_BTN name="John" />);
     expect(screen.getByRole("heading")).toHaveTextContent("John");
   });
-  it("has correct search", () => {
+  it("correct search", () => {
     render(<ProfileSearch_BTN search="searchResult" />);
     expect(screen.getByRole("paragraph")).toHaveTextContent("searchResult");
   });
-  it("fires onClick() when clicked", async () => {
+  it("fires onClick()", async () => {
     const onClickMock = vi.fn();
     render(<ProfileSearch_BTN onClick={onClickMock} />);
     await userEvent.click(screen.getByRole("button"));
@@ -67,11 +67,11 @@ describe("Btn_profileName", () => {
     render(<ProfileName_BTN />);
     expect(screen.getByRole("button")).toBeInTheDocument();
   });
-  it("has correct name", () => {
+  it("correct name", () => {
     render(<ProfileName_BTN name="John" />);
     expect(screen.getByRole("heading")).toHaveTextContent("John");
   });
-  it("fires onClick() when clicked", async () => {
+  it("fires onClick()", async () => {
     const onClickMock = vi.fn();
     render(<ProfileName_BTN onClick={onClickMock} />);
     await userEvent.click(screen.getByRole("button"));
@@ -84,17 +84,17 @@ describe("Btn_profilePreviewIcons", () => {
     expect(screen.getByRole("button")).toBeInTheDocument();
   });
   describe("active digit", () => {
-    it("shows active digit", () => {
+    it("matchedTags_COUNT above 1? ==> shows", () => {
       const { getByTestId } = render(<ShowTags_BTN matchedTags_COUNT={1} />);
       expect(getByTestId("active-digit-icon")).toBeInTheDocument();
     });
-    it("has correct number", () => {
-      const { getByTestId } = render(<ShowTags_BTN matchedTags_COUNT={5} />);
-      expect(getByTestId("active-digit-icon")).toHaveTextContent("5");
-    });
-    it("hides active digit", () => {
+    it("matchedTags_COUNT under 1 or undefined? ==> hide", () => {
       const { queryByTestId } = render(<ShowTags_BTN />);
       expect(queryByTestId("active-digit-icon")).toBeNull();
+    });
+    it("correct number", () => {
+      const { getByTestId } = render(<ShowTags_BTN matchedTags_COUNT={5} />);
+      expect(getByTestId("active-digit-icon")).toHaveTextContent("5");
     });
   });
   describe("tag icons", () => {

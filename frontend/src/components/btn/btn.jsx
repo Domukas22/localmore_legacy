@@ -53,6 +53,7 @@ export function ProfileSearch_BTN({
       data-search={search !== ""}
       onPress={onClick}
       aria-label={aria_LABEL}
+      data-testid="profile-search-btn"
     >
       <h4>{name ?? "Profile name"}</h4>
       <p>
