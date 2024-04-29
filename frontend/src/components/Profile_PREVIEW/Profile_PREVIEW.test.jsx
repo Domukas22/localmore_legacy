@@ -6,6 +6,7 @@ import { describe, it, expect, vi } from "vitest";
 import Profile_PREVIEW from "./Profile_PREVIEW";
 import { profilePreview_TR as tr, global_TR } from "../../translations";
 import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
+import USE_imgAlt from "../../hooks/USE_imgAlt";
 
 describe("Profile_PREVIEW", () => {
   const _3daysAnd1SecondAgo = new Date(
@@ -290,7 +291,7 @@ describe("Profile_PREVIEW", () => {
           />
         );
         // checking the ARIA text of 3 images
-        const img_ALT = tr.img_ALT({ de: "baby" })["de"];
+        const img_ALT = USE_imgAlt({ name: { de: "baby", en: "baby" } })["de"];
         expect(screen.getAllByRole("img", { alt: img_ALT })).toHaveLength(3);
       });
     });

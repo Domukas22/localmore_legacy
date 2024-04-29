@@ -1,10 +1,12 @@
 //
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import css from "./btn.module.css";
 import PropTypes from "prop-types";
 import { Button } from "react-aria-components";
 import { ICON_activeDigit } from "../icons/icons";
+import { profilePreview_TR } from "../../translations";
+import { USE_windowWidth } from "../../hooks/USE_windowWidth";
 
 export function Btn({
   styles,
@@ -17,6 +19,7 @@ export function Btn({
   saved,
   aria_LABEL,
   test_ID,
+  active,
 }) {
   return (
     <Button
@@ -25,6 +28,7 @@ export function Btn({
       onPress={onClick}
       aria-label={aria_LABEL}
       data-testid={test_ID}
+      data-active={active}
     >
       {leftIcon_URL && <img src={leftIcon_URL} className={css.icon} data-testid="left-icon" />}
       {left_ICON && left_ICON}
@@ -79,15 +83,20 @@ export function ProfileName_BTN({
   );
 }
 export function ShowTags_BTN({
-  icons,
   onClick = () => alert("No function provided"),
   IS_open,
-  visibleIcon_COUNT = 1,
   matchedTags_COUNT,
-  aria_LABEL,
+  profile,
+  lang,
 }) {
   const [dance, setDance] = useState(false);
 
+  const name = profile?.name?.[lang] || "Profile name not found";
+
+  const windowWidth = USE_windowWidth();
+  const visibleIcon_COUNT = windowWidth > 400 ? 3 : windowWidth > 380 ? 2 : 1;
+
+  const icons = profile?.tags?.map((t) => (t.icon?.url ? t.icon.url : ""));
   const displayedIcons = icons ? icons.slice(0, visibleIcon_COUNT) : [];
   const remainingTagsCount =
     displayedIcons.length > 0 ? Math.max(0, icons.length - visibleIcon_COUNT) : 0;
@@ -110,7 +119,11 @@ export function ShowTags_BTN({
         handleDance();
       }}
       data-dance={dance}
-      aria-label={aria_LABEL}
+      aria-label={
+        IS_open
+          ? profilePreview_TR?.hideTagsBtn_ARIA(name)[lang]
+          : profilePreview_TR?.showTagsBtn_ARIA(name)[lang]
+      }
       data-testid="show-icons-btn"
     >
       {matchedTags_COUNT > 0 && <ICON_activeDigit count={matchedTags_COUNT} IS_active={true} />}
@@ -134,31 +147,31 @@ Btn.propTypes = {
   text: PropTypes.string,
   leftIcon_URL: PropTypes.string,
   rightIcon_URL: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   left_ICON: PropTypes.element,
   right_ICON: PropTypes.element,
   saved: PropTypes.bool,
-  aria_LABEL: PropTypes.string.isRequired,
+  aria_LABEL: PropTypes.string,
   test_ID: PropTypes.string,
 };
 
 ProfileSearch_BTN.propTypes = {
-  name: PropTypes.string.isRequired,
-  search: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-  aria_LABEL: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  search: PropTypes.string,
+  aria_LABEL: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 ProfileName_BTN.propTypes = {
-  name: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-  aria_LABEL: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  aria_LABEL: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 ShowTags_BTN.propTypes = {
-  icons: PropTypes.array.isRequired,
-  onClick: PropTypes.func.isRequired,
-  IS_open: PropTypes.bool.isRequired,
-  matchedTags_COUNT: PropTypes.number.isRequired,
-  aria_LABEL: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+  IS_open: PropTypes.bool,
+  matchedTags_COUNT: PropTypes.number,
+  profile: PropTypes.object,
+  lang: PropTypes.string,
 };

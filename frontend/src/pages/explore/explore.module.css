@@ -8,7 +8,7 @@
   min-height: 80vh;
   display: flex;
   column-gap: 28px;
-  padding: 28px 28px 400px;
+  padding: var(--padding-desk);
   padding-bottom: 400px !important;
 
   .left {
@@ -19,7 +19,7 @@
   }
 
   @media (--mobile) {
-    padding: 4vmin;
+    padding: var(--padding-mob);
   }
 }
 

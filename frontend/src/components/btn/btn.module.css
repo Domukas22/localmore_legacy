@@ -14,13 +14,14 @@
   border-radius: var(--radius-12);
   box-shadow: var(--shadow-btn);
   background-color: var(--btn-white);
+  color: var(--text-black);
 
   transition: 100ms;
   /* opacity: 100%; */
 
   cursor: pointer;
   font-size: inherit;
-  font-weight: 500;
+  font-weight: 400;
   text-wrap: nowrap;
   
   text-decoration: none;
@@ -48,7 +49,7 @@
     pointer-events: none;
     transition: 100ms;
   }
-  & .icon {
+  & .icon, img {
     width: 20px;
     height: 20px;
     object-fit: contain;
@@ -57,14 +58,14 @@
     transition: transform 0.2s ease;
   }
 }
-.btn-48 {
-  composes: btn;
-  height: 48px;
-  padding: 0px 16px;
-}
 .btn-44 {
   composes: btn;
   height: 44px;
+  padding: 0px 16px;
+}
+.btn-40 {
+  composes: btn;
+  height: 40px;
   padding: 12px 16px;
 }
 .btn-36 {
@@ -111,18 +112,13 @@
 }
 .save {
 
-  /* &[data-pressed="true"] {
-    svg {
-      transform: scale(0.9);
-    }
-  } */
   &[data-saved="true"] {
-    background-color: var(--brand-active);
+    background-color: var(--btn-brand-active);
     border: var(--border-brand-active);
     opacity: 100% !important;
 
     &[data-hovered="true"] {
-      background-color: var(--brand-active-hover);
+      background-color: var(--btn-brand-active-hover);
     }
     &[data-pressed="true"]  {
       border: var(--border-brand);
@@ -158,6 +154,37 @@
   }
   100% {
     transform: scale(1);
+  }
+}
+.grey {
+  background-color: var(--btn-dark);
+  border: var(--border-black-01);
+  box-shadow: none;
+
+  &[data-hovered="true"]{
+    background-color: var(--btn-darkest);
+  }
+  &[data-pressed="true"] {
+    background-color: var(--btn-darkest);
+    border: var(--border-brand-black);
+  }
+
+  &[data-active="true"] {
+    color: var(--text-brand);
+    background-color: var(--btn-brand-active);
+    border: var(--border-brand-active);
+
+    &[data-hovered="true"]{
+      background-color: var(--btn-brand-active-hover);
+    }
+    &[data-pressed="true"] {
+      background-color: var(--btn-brand-active-hover);
+      border: var(--border-brand);
+    }
+
+    &[data-focus-visible] {
+      outline: var(--outline-brand);
+    }
   }
 }
 

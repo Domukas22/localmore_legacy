@@ -1,0 +1,129 @@
+/*  */
+
+@import '@styles/global.css';
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  height: 60px;
+  
+  padding-left: var(--padding-desk);
+  padding-right: var(--padding-desk);
+  background-color: var(--fill-white);
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.10);
+
+
+
+
+  & h1 {
+    height: 100%;
+    display: flex;
+    place-items: center;
+    padding-bottom: 2px;
+    
+    & a {
+      display: flex;
+      height: 27.5px;
+      width: 172px;
+      align-items: center;
+
+      & * {
+        position: relative;
+      }
+    }
+  }
+
+  & nav  {
+    flex: 1;
+
+    & ul {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      column-gap: 8px;
+    }
+  }
+
+
+  & .react-aria-SearchField {
+    display: flex;
+    transition:150ms;
+    & * {transition: 150ms}
+    align-items: center;
+
+    width: 300px;
+    height: 40px;
+
+    border: var(--border-black-01);
+    border-radius: 100px;
+    overflow: hidden;
+
+    &:focus-within {
+      background-color: var(--btn-darkest);
+      border: var(--border-brand-black);
+
+
+      
+    }
+
+    /* &:has(:focus-visible) {
+      outline: var(--border-brand-black)
+    } */
+
+    &[data-hovered="true"]{
+        background-color: var(--btn-darkest);
+      }
+  
+    & .react-aria-Input {
+      color: var(--text-black);
+      background-color: var(--btn-dark);
+      padding: 0 12px 0 16px;
+      height: 100%;
+      flex: 1;
+      font-size: inherit;
+      border-radius: 100px;
+
+      &::-webkit-search-cancel-button,
+      &::-webkit-search-decoration {-webkit-appearance: none}
+      &::placeholder {color: var(--text-fade)}
+  
+      &[data-hovered="true"]{background-color: var(--btn-darkest)}
+      &[data-focused="true"]{background-color: var(--btn-dark)}
+      &[value]{border-radius: 100px 0 0 100px}
+
+    }
+    & .react-aria-Button {
+      padding: 0 18px 0 16px;
+      border-left: var(--border-black-01);
+      height: 100%;
+      cursor: pointer;
+      background-color: var(--btn-dark);
+      transition: 150ms;
+      
+      & .x_WRAP {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        & ::before, ::after{background-color: var(--brand-black)}
+      }
+
+      &[data-hovered="true"] {background-color: var(--btn-darkest)}
+      &[data-pressed] {border-left: var(--border-brand-black)}
+    }
+    &[data-empty] button {display: none}
+  }
+
+  @media (--mobile) {
+    padding-left: var(--padding-mob);
+    padding-right: var(--padding-mob);
+  }
+}
+

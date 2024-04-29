@@ -10,14 +10,16 @@
 }
 
 .ICON_activeDigit {
-  composes: all;
+
   font-size: 14px;
   font-weight: 800;
+  height: 20px;
+  padding: 0 4px;
 
   color: var(--text-fade);
   background-color: var(--btn-dark);
   border: var(--border-black-01);
-  border-radius: 50%;
+  border-radius: 100px;
 
   &[data-active="true"] {
     color: var(--brand);
