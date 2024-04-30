@@ -1,6 +1,7 @@
 import "./styles/reset.css";
 import "./styles/App.css";
 
+import { useState } from "react";
 import Explore from "./pages/explore/explore.jsx";
 import { SavedProfileIDs_PROVIDER } from "./contexts/savedProfiles.jsx";
 import { Lang_PROVIDER } from "./contexts/lang.jsx";
@@ -10,6 +11,8 @@ import { base_URL } from "./config.js";
 import Nav from "./components/Nav/Nav.jsx";
 
 export function App() {
+  const [search, SET_search] = useState("");
+
   const {
     data: profiles,
     loading: LOADING_profiles,
@@ -32,12 +35,13 @@ export function App() {
     <>
       <Lang_PROVIDER>
         <SavedProfileIDs_PROVIDER>
-          <Nav tagUsages={tagUsages} />
+          <Nav tagUsages={tagUsages} search={search} SET_search={SET_search} />
           <Explore
             profiles={profiles}
             tags={tags}
             tagUsages={tagUsages}
             windowWidth={USE_windowWidth()}
+            search={search}
           />
         </SavedProfileIDs_PROVIDER>
       </Lang_PROVIDER>

@@ -1,6 +1,6 @@
 //
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import css from "./btn.module.css";
 import PropTypes from "prop-types";
 import { Button } from "react-aria-components";
@@ -25,7 +25,11 @@ export function Btn({
     <Button
       className={styles ? styles.map((style) => css[style]).join(" ") : css["btn-36"]}
       data-saved={saved}
-      onPress={onClick}
+      onPress={() => {
+        onClick();
+        document.dispatchEvent(new Event("click")); // for the dropdowns
+        console.log("click");
+      }}
       aria-label={aria_LABEL}
       data-testid={test_ID}
       data-active={active}
@@ -33,14 +37,7 @@ export function Btn({
       {leftIcon_URL && <img src={leftIcon_URL} className={css.icon} data-testid="left-icon" />}
       {left_ICON && left_ICON}
       {text && <p className={css.text}>{text}</p>}
-      {rightIcon_URL && (
-        <img
-          src={rightIcon_URL}
-          className={css.icon}
-          // style={{ height: "18px" }}
-          data-testid="right-icon"
-        />
-      )}
+      {rightIcon_URL && <img src={rightIcon_URL} className={css.icon} data-testid="right-icon" />}
       {right_ICON && right_ICON}
     </Button>
   );
@@ -55,7 +52,11 @@ export function ProfileSearch_BTN({
     <Button
       className={css["profile-search-btn"]}
       data-search={search !== ""}
-      onPress={onClick}
+      onPress={() => {
+        onClick();
+        document.dispatchEvent(new Event("click")); // for the dropdowns
+        console.log("click");
+      }}
       aria-label={aria_LABEL}
       data-testid="profile-search-btn"
     >
@@ -74,7 +75,11 @@ export function ProfileName_BTN({
   return (
     <Button
       className={css["profile-name-btn"]}
-      onPress={onClick}
+      onPress={() => {
+        onClick();
+        document.dispatchEvent(new Event("click")); // for the dropdowns
+        console.log("click");
+      }}
       aria-label={aria_LABEL}
       data-testid="profile-name-btn"
     >
@@ -117,6 +122,8 @@ export function ShowTags_BTN({
       onPress={() => {
         onClick();
         handleDance();
+        document.dispatchEvent(new Event("click")); // for the dropdowns
+        console.log("click");
       }}
       data-dance={dance}
       aria-label={

@@ -12,35 +12,13 @@ import { Lang_CONTEXT } from "../../contexts/lang";
 import { profilePreview_TR } from "../../translations";
 import { global_TR } from "../../translations";
 
-export default function Explore({ profiles, tags, tagUsages, windowWidth }) {
+export default function Explore({ profiles, tags, tagUsages, windowWidth, search }) {
   const [panoramas, SET_panoramas] = useState(null);
-  const [search, SET_search] = useState("");
 
-  const { savedProfile_IDs } = useContext(SavedProfileIDs_CONTEXT);
-  const { lang, TOGGLE_lang } = useContext(Lang_CONTEXT);
+  const { lang } = useContext(Lang_CONTEXT);
 
   return (
     <>
-      <input
-        type="text"
-        value={search}
-        onChange={(e) => SET_search(e.target.value)}
-        style={{ fontSize: "17px", width: "300px" }}
-      />
-      <h4>Saved ids: {savedProfile_IDs.size}</h4>
-      <button
-        onClick={() => TOGGLE_lang("en")}
-        style={{ padding: "8px 12px", border: "1px solid grey", marginRight: "4px" }}
-      >
-        EN
-      </button>
-      <button
-        onClick={() => TOGGLE_lang("de")}
-        style={{ padding: "8px 12px", border: "1px solid grey" }}
-      >
-        DE
-      </button>
-
       <Explore_GRID
         profiles={profiles}
         SET_panoramas={SET_panoramas}

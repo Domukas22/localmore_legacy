@@ -50,7 +50,7 @@ export const LogoSvg_COMP = ({ IS_menuOpen }) => {
           </motion.g>
           <g id="ocal m">
             <rect
-              width={88.9025}
+              width={86.9025}
               height={18.3825}
               transform="translate(9.15845 5.75781)"
               fill="white"

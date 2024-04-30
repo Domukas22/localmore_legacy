@@ -25,18 +25,17 @@
   text-wrap: nowrap;
   
   text-decoration: none;
-  outline: 2px solid transparent;
   position: relative;
 
   
-  &[data-hovered="true"] {
-    background: var(--btn-dark);
-  }
+  &[data-hovered="true"] {background: var(--btn-dark)}
   &[data-pressed] {
     background: var(--btn-dark);
     border-color: var(--brand-black);
     box-shadow: none;
   }
+
+  outline: 2px solid transparent;
   &[data-focus-visible] {
     outline: var(--outline-brand-black);
     outline-offset: -1px;
@@ -56,6 +55,11 @@
   }
   & svg {
     transition: transform 0.2s ease;
+  }
+  & > span{
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-brand-black)
   }
 }
 .btn-44 {
