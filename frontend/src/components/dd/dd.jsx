@@ -3,6 +3,9 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import css from "./dd.module.css";
 // import {Button, Container, Menu} from './styles'
+import { Button } from "react-aria-components";
+import css_BTN from "../btn/btn.module.css";
+import { ICON_dropDownArrow, ICON_x } from "../icons/icons";
 
 const DD = forwardRef((props, ref) => {
   const { id, label, isMenu = true, children, search = true, onHover = false, href } = props;
@@ -300,44 +303,46 @@ const DD = forwardRef((props, ref) => {
 
   return (
     <>
-      {!!label && (
-        <div
-          ref={containerRef}
-          id={`dropdown-${theId}`}
-          className={css.container}
+      <div
+        ref={containerRef}
+        id={`dropdown-${theId}`}
+        className={css.container}
+        data-expanded={expanded}
+      >
+        <Button
+          as={href ? "a" : null}
+          href={href ? href : null}
+          ref={buttonRef}
+          // id={`button-${theId}`}
+          // className={css.button}
+          className={["btn-40", "round", "grey", "nav-DD"].map((style) => css_BTN[style]).join(" ")}
+          onPress={() => toggleMenu()}
+          // dangerouslySetInnerHTML={createMarkup(label)}
+          aria-expanded={expanded ? "true" : "false"}
+          aria-haspopup="true"
+          aria-controls={isMenu ? `menu-${theId}` : null}
+          onFocus={() => onHover && showMenu()}
+          onMouseEnter={() => onHover && showMenu()}
           data-expanded={expanded}
         >
-          <button
-            as={href ? "a" : null}
-            href={href ? href : null}
-            ref={buttonRef}
-            id={`button-${theId}`}
-            className={css.button}
-            onClick={() => toggleMenu()}
-            dangerouslySetInnerHTML={createMarkup(label)}
-            aria-expanded={expanded ? "true" : "false"}
-            aria-haspopup="true"
-            aria-controls={isMenu ? `menu-${theId}` : null}
-            onFocus={() => onHover && showMenu()}
-            onMouseEnter={() => onHover && showMenu()}
-            data-expanded={expanded}
-          ></button>
+          <p className={css_BTN.text}>{label}</p>
+          {expanded ? <ICON_x color={"dark"} /> : <ICON_dropDownArrow />}
+        </Button>
 
-          {!!children && (
-            <div
-              ref={menuRef}
-              id={`menu-${theId}`}
-              className={css.dropdown}
-              aria-hidden={expanded ? "false" : "true"}
-              aria-labelledby={isMenu ? `button-${theId}` : null}
-              role={isMenu ? `menu` : null}
-              data-expanded={expanded}
-            >
-              {children}
-            </div>
-          )}
-        </div>
-      )}
+        {!!children && (
+          /* expanded  &&*/ <div
+            ref={menuRef}
+            id={`menu-${theId}`}
+            className={css.dropdown}
+            aria-hidden={expanded ? "false" : "true"}
+            aria-labelledby={isMenu ? `button-${theId}` : null}
+            role={isMenu ? `menu` : null}
+            data-expanded={expanded}
+          >
+            {children}
+          </div>
+        )}
+      </div>
     </>
   );
 });

@@ -71,6 +71,9 @@
   composes: btn;
   height: 40px;
   padding: 12px 16px;
+  @media (--mobile) {
+    height: 44px;
+  }
 }
 .btn-36 {
   composes: btn;
@@ -189,6 +192,26 @@
     &[data-focus-visible] {
       outline: var(--outline-brand);
     }
+  }
+}
+.nav-DD {
+  &[data-expanded="true"] {
+    background-color: var(--btn-white);
+    border: var(--border-brand-black);
+
+    &[data-hovered="true"]{
+      background-color: var(--btn-dark);
+      & div {
+        &::before, &::after {
+          background-color: var(--red);
+        }
+      }
+    }
+    &[data-pressed="true"]{
+      background-color: var(--btn-darkest);
+    }
+   
+
   }
 }
 

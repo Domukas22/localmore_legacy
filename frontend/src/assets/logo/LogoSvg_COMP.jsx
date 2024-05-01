@@ -4,8 +4,6 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const LogoSvg_COMP = ({ IS_menuOpen }) => {
-  const [shrink, SET_shrink] = useState(true);
-
   const p = {
     "ocal more": IS_menuOpen ? { x: -65.5 } : { x: 0 },
     "ore >": IS_menuOpen ? { x: -49 } : { x: 0 },

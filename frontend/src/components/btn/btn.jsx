@@ -7,6 +7,7 @@ import { Button } from "react-aria-components";
 import { ICON_activeDigit } from "../icons/icons";
 import { profilePreview_TR } from "../../translations";
 import { USE_windowWidth } from "../../hooks/USE_windowWidth";
+import DD from "../dd/dd";
 
 export function Btn({
   styles,
@@ -42,6 +43,9 @@ export function Btn({
     </Button>
   );
 }
+
+export function Nav_DD({ text, left_ICON, aria_LABEL }) {}
+
 export function ProfileSearch_BTN({
   name,
   search,

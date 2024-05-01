@@ -60,6 +60,19 @@
       height: 80%;
     }
   }
+
+  &[data-color="dark"] {
+    &::before,
+    &::after {
+      background-color: var(--brand-black);
+    }
+  }
+  &[data-color="red"] {
+    &::before,
+    &::after {
+      background-color: var(--red);
+    }
+  }
 }
 .ICON_save {
   composes: all;

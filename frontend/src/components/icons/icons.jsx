@@ -80,16 +80,16 @@ export function ICON_search({ color }) {
       <path
         d="M13 13L19 19"
         stroke="#383940"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15Z"
         stroke="#383940"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -100,16 +100,16 @@ export function ICON_searchSmall({ color }) {
       <path
         d="M11.6739 11.6738L16.6739 16.6738"
         stroke="#383940"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M7.10869 12.8914C10.3023 12.8914 12.8913 10.3024 12.8913 7.10878C12.8913 3.91513 10.3023 1.32617 7.10869 1.32617C3.91504 1.32617 1.32608 3.91513 1.32608 7.10878C1.32608 10.3024 3.91504 12.8914 7.10869 12.8914Z"
         stroke="#383940"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

@@ -54,13 +54,13 @@ export default function Nav({ tagUsages, search, SET_search }) {
   return (
     <header className={css.header}>
       <AnimatePresence>
-        <h1>
+        <h1 key="nav-logo">
           <a href="http://localhost:5173/" title="← Back to the homepage">
             <LogoSvg_COMP IS_menuOpen={IS_menuOpen} />
           </a>
         </h1>
 
-        <nav>
+        <nav key="nav">
           <ul>
             <li>
               <SearchBar
@@ -78,6 +78,7 @@ export default function Nav({ tagUsages, search, SET_search }) {
                 aria_LABEL=""
                 onClick={() => {}}
                 active="true"
+                key="nav-btn-1"
               />
             </li>
             <li>
@@ -87,6 +88,7 @@ export default function Nav({ tagUsages, search, SET_search }) {
                 aria_LABEL=""
                 right_ICON={<ICON_dropDownArrow />}
                 onClick={() => ""}
+                key="nav-btn-2"
               />
             </li>
 
@@ -110,33 +112,33 @@ export default function Nav({ tagUsages, search, SET_search }) {
               />
             </li>
 
-            {/* <li>
-            <DD label="Lang">
-              <ul>
-                <li>
-                  <Btn
-                    styles={["btn-40"]}
-                    left_ICON={<img src={en_FLAG} style={{ borderRadius: "8px" }} />}
-                    text={"EN"}
-                    aria_LABEL=""
-                    onClick={() => TOGGLE_lang("en")}
-                  />
-                </li>
-                <li>
-                  <Btn
-                    styles={["btn-40"]}
-                    left_ICON={<img src={de_FLAG} style={{ borderRadius: "8px" }} />}
-                    text={"DE"}
-                    aria_LABEL=""
-                    onClick={() => TOGGLE_lang("de")}
-                  />
-                </li>
-              </ul>
-            </DD>
-          </li> */}
+            <li>
+              <DD label="Lang">
+                <ul>
+                  <li>
+                    <Btn
+                      styles={["btn-40"]}
+                      left_ICON={<img src={en_FLAG} style={{ borderRadius: "8px" }} />}
+                      text={"EN"}
+                      aria_LABEL=""
+                      onClick={() => TOGGLE_lang("en")}
+                    />
+                  </li>
+                  <li>
+                    <Btn
+                      styles={["btn-40"]}
+                      left_ICON={<img src={de_FLAG} style={{ borderRadius: "8px" }} />}
+                      text={"DE"}
+                      aria_LABEL=""
+                      onClick={() => TOGGLE_lang("de")}
+                    />
+                  </li>
+                </ul>
+              </DD>
+            </li>
           </ul>
         </nav>
-        <div style={{ display: "flex", columnGap: "8px" }}>
+        <div style={{ display: "flex", columnGap: "8px" }} key="nav-right">
           <Btn
             styles={["btn-40", "round", "grey"]}
             left_ICON={<img src={lightbulb} style={{ borderRadius: "8px" }} />}
@@ -159,16 +161,14 @@ export default function Nav({ tagUsages, search, SET_search }) {
             onClick={() => ""}
           />
 
-          {/* <Btn
-          styles={["btn-40", "round", "grey"]}
-          text="Menu"
-          right_ICON={<ICON_dropDownArrow />}
-          aria_LABEL="Gespeichert"
-          onClick={TOGGLE_menu}
-        /> */}
+          <Btn
+            styles={["btn-40", "round", "grey"]}
+            text="Menu"
+            right_ICON={<ICON_dropDownArrow />}
+            aria_LABEL="Gespeichert"
+            onClick={TOGGLE_menu}
+          />
         </div>
-
-        {/* <button onClick={TOGGLE_menu}>Menu</button> */}
       </AnimatePresence>
     </header>
   );
