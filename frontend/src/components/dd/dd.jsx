@@ -10,7 +10,7 @@ import en_FLAG from "../../assets/icons/flags/en.png";
 import de_FLAG from "../../assets/icons/flags/de.webp";
 
 const DD = forwardRef((props, ref) => {
-  const { id, btn_TEXT, btnLeft_ICON, width = undefined, children } = props;
+  const { id, btn_TEXT, btnLeft_ICON, width = undefined, align = "left", children } = props;
   const [expanded, setExpanded] = useState(false);
   const [theId] = useState(id ? id : generateId(10)); // Generate random ID if not specified.
   const containerRef = useRef();
@@ -93,10 +93,14 @@ const DD = forwardRef((props, ref) => {
             aria-labelledby={`button-${theId}`}
             role={"menu"}
             data-expanded={expanded}
-            style={{ width: width ? `${width}px` : "auto" }}
+            style={{
+              width: width ? `${width}px` : "auto",
+              left: align === "left" ? "0px" : "auto",
+              right: align === "right" ? "0px" : "auto",
+            }}
           >
             {console.log("Menu")}
-            {children}
+            <ul>{children ?? children}</ul>
           </div>
         )}
       </div>

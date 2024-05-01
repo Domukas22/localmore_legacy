@@ -125,7 +125,7 @@
 .opener_BTN {
   composes: btn;
   padding: 0 16px 0 14px;
-  height: calc(100% - 2px);
+  height: 100%;
   cursor: pointer;
 
   border: var(--border-black-01);

@@ -23,7 +23,7 @@
     height: 100%;
     display: flex;
     place-items: center;
-    padding-bottom: 2px;
+    padding-bottom: 4px;
     
     & a {
       display: flex;
