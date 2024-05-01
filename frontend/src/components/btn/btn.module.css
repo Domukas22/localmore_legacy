@@ -65,12 +65,12 @@
 .btn-44 {
   composes: btn;
   height: 44px;
-  padding: 0px 16px;
+  padding: 0px 14px;
 }
 .btn-40 {
   composes: btn;
   height: 40px;
-  padding: 12px 16px;
+  padding: 0px 16px;
   @media (--mobile) {
     height: 44px;
   }
@@ -212,6 +212,26 @@
     }
    
 
+  }
+}
+.navDD_BTN {
+  &[data-active="true"] {
+    color: var(--brand);
+    background-color: var(--btn-brand-active);
+    border: var(--border-brand-active);
+    box-shadow: none;
+
+    &[data-hovered="true"]{
+      background-color: var(--btn-brand-active-hover);
+    }
+    &[data-pressed="true"] {
+      background-color: var(--btn-brand-active-hover);
+      border: var(--border-brand);
+    }
+
+    &[data-focus-visible] {
+      outline: var(--outline-brand);
+    }
   }
 }
 

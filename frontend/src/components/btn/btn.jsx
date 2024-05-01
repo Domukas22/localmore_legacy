@@ -21,6 +21,7 @@ export function Btn({
   aria_LABEL,
   test_ID,
   active,
+  FIRE_clickEvent = true,
 }) {
   return (
     <Button
@@ -28,8 +29,10 @@ export function Btn({
       data-saved={saved}
       onPress={() => {
         onClick();
-        document.dispatchEvent(new Event("click")); // for the dropdowns
-        console.log("click");
+        if (FIRE_clickEvent) {
+          document.dispatchEvent(new Event("click")); // for the dropdowns
+          console.log("click");
+        }
       }}
       aria-label={aria_LABEL}
       data-testid={test_ID}

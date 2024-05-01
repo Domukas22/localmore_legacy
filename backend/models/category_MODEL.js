@@ -10,7 +10,7 @@ const category_SCHEMA = new Schema(
       notes: { type: String, required: true },
     },
     slug: { type: String, required: true },
-    icon: { type: String, required: true },
+    icon: { type: Schema.Types.ObjectId, ref: "icons", required: true },
     name: {
       en: { type: String, required: true },
       de: { type: String, required: true },

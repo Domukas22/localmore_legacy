@@ -8,11 +8,22 @@
   height: 20px;
   object-fit: contain;
 }
-
+.ICON_arrow {
+  &[data-color="dark"] {
+    & path {
+      fill: var(--brand-black)
+    }
+  }
+  &[data-color="white"] {
+    & path {
+      fill: white;
+    }
+  }
+}
 .ICON_activeDigit {
 
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 700;
   height: 20px;
   padding: 0 4px;
 
@@ -74,6 +85,11 @@
     }
   }
 }
+.ICON_x_small {
+  composes: ICON_x;
+  width: 16px;
+  height: 16px;
+}
 .ICON_save {
   composes: all;
   & path {
@@ -89,3 +105,4 @@
     }
   }
 }
+

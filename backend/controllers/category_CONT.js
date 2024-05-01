@@ -4,7 +4,7 @@ const category_MODEL = require("../models/category_MODEL");
 const asyncHandler = require("express-async-handler");
 
 exports.LIST_categories = asyncHandler(async (req, res, next) => {
-  const categories = await category_MODEL.find({}, "slug").exec();
+  const categories = await category_MODEL.find().populate("icon").exec();
   res.json(categories);
 });
 

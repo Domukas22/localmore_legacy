@@ -11,8 +11,6 @@ export default function SearchBar({ SET_search, IS_mobile, shrink, search, SET_s
   const clear_BTN = useRef(null);
   const opener_BTN = useRef(null);
 
-  console.log(`shrink: ${shrink}`);
-
   return (
     <div className={css.search_WRAP} data-shrink={shrink && IS_mobile}>
       {IS_mobile && shrink && (

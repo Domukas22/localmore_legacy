@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export const LogoSvg_COMP = ({ IS_menuOpen }) => {
+export const LogoSvg_COMP = ({ shrink }) => {
   const p = {
-    "ocal more": IS_menuOpen ? { x: -65.5 } : { x: 0 },
-    "ore >": IS_menuOpen ? { x: -49 } : { x: 0 },
-    ore: IS_menuOpen ? { opacity: 0 } : { opacity: 1 },
-    ocal: IS_menuOpen ? { opacity: 0 } : { opacity: 1 },
+    "ocal more": shrink ? { x: -65.5 } : { x: 0 },
+    "ore >": shrink ? { x: -49 } : { x: 0 },
+    ore: shrink ? { opacity: 0 } : { opacity: 1 },
+    ocal: shrink ? { opacity: 0 } : { opacity: 1 },
     d: 0.3,
     e: "easeOut",
   };

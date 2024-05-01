@@ -31,11 +31,22 @@ export function App() {
     error: tagUsages_ERROR,
   } = USE_fetchData(`${base_URL}/tagUsages`);
 
+  const {
+    data: categories,
+    loading: LOADING_categories,
+    error: categories_ERROR,
+  } = USE_fetchData(`${base_URL}/categories`);
+
   return (
     <>
       <Lang_PROVIDER>
         <SavedProfileIDs_PROVIDER>
-          <Nav tagUsages={tagUsages} search={search} SET_search={SET_search} />
+          <Nav
+            tagUsages={tagUsages}
+            search={search}
+            SET_search={SET_search}
+            categories={categories}
+          />
           <Explore
             profiles={profiles}
             tags={tags}
