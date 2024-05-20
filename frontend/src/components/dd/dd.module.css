@@ -11,28 +11,32 @@
   
   border-radius: var(--radius-16);
   overflow: hidden;
-  box-shadow: var(--shadow-img);
+  box-shadow: 0 0 10px #0000006b;
+  /* border: var(--border-brand-black); */
   width: 100%;
   min-width: fit-content;
+  background-color: var(--fill-bg);
 
   & ul {
     display: flex;
     flex-direction: column;
-    gap: 6px;
 
-    padding: 12px;
-    background-color: var(--fill-bg);
-  }
 
-  & button {
-    width: 100%;
-    justify-content: left;
 
-    & svg {
-      margin-left: auto;
-    
+    & button {
+      width: 100%;
+      justify-content: left;
+  
+      & p {
+        margin-right: auto;
+      
+      }
     }
   }
+
+  
+
+  
 }
 
 .dropdown.active {
@@ -47,4 +51,26 @@
 .container {
   width: auto;
   position: relative;
+}
+
+.option_WRAP {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 4px;
+  column-gap: 6px;
+  &:not(:last-child) {
+    margin-bottom: 8px;
+  }
+
+  & span:first-child {
+    width: 100%;
+  }
+
+  & li {
+    flex: 1;
+    
+    & button {
+      justify-content: center;
+    }
+  }
 }

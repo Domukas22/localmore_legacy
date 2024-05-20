@@ -46,6 +46,7 @@ export function App() {
             search={search}
             SET_search={SET_search}
             categories={categories}
+            profiles={profiles}
           />
           <Explore
             profiles={profiles}

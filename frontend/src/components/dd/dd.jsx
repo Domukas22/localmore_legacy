@@ -8,9 +8,19 @@ import css_BTN from "../btn/btn.module.css";
 import { ICON_dropDownArrow, ICON_x } from "../icons/icons";
 import en_FLAG from "../../assets/icons/flags/en.png";
 import de_FLAG from "../../assets/icons/flags/de.webp";
+import { AnimatePresence, motion } from "framer-motion";
 
 const DD = forwardRef((props, ref) => {
-  const { id, btn_TEXT, btnLeft_ICON, width = undefined, align = "left", children } = props;
+  const {
+    id,
+    btn_TEXT,
+    btnLeft_ICON,
+    width = undefined,
+    align = "left",
+    children,
+    onClose = () => {},
+    onOpen = () => {},
+  } = props;
   const [expanded, setExpanded] = useState(false);
   const [theId] = useState(id ? id : generateId(10)); // Generate random ID if not specified.
   const containerRef = useRef();
@@ -36,6 +46,8 @@ const DD = forwardRef((props, ref) => {
 
   useEffect(() => {
     FOCUS_first(menuRef, focusable);
+    if (expanded) onOpen();
+    if (!expanded) onClose();
   }, [expanded]);
 
   // Allow for setting the expanded state from parent components.
@@ -55,8 +67,6 @@ const DD = forwardRef((props, ref) => {
     []
   );
 
-  console.log(width);
-
   return (
     <>
       <div
@@ -72,7 +82,7 @@ const DD = forwardRef((props, ref) => {
           onPress={() => {
             if (!expanded) document.dispatchEvent(new Event("click")); // for the dropdowns
             setExpanded((expanded) => !expanded);
-            console.log(expanded);
+            // console.log(expanded);
           }}
           aria-expanded={expanded ? "true" : "false"}
           aria-haspopup="true"
@@ -83,26 +93,30 @@ const DD = forwardRef((props, ref) => {
           {btn_TEXT && <p className={css_BTN.text}>{btn_TEXT}</p>}
           {expanded ? <ICON_x color={"dark"} small={true} /> : <ICON_dropDownArrow />}
         </Button>
-
-        {!!children && expanded && (
-          <div
-            ref={menuRef}
-            id={`menu-${theId}`}
-            className={css.dropdown}
-            aria-hidden={expanded ? "false" : "true"}
-            aria-labelledby={`button-${theId}`}
-            role={"menu"}
-            data-expanded={expanded}
-            style={{
-              width: width ? `${width}px` : "auto",
-              left: align === "left" ? "0px" : "auto",
-              right: align === "right" ? "0px" : "auto",
-            }}
-          >
-            {console.log("Menu")}
-            <ul>{children ?? children}</ul>
-          </div>
-        )}
+        <AnimatePresence>
+          {!!children && expanded && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.15 } }}
+              exit={{ opacity: 0, transition: { duration: 0.15 } }}
+              ref={menuRef}
+              id={`menu-${theId}`}
+              className={css.dropdown}
+              aria-hidden={expanded ? "false" : "true"}
+              aria-labelledby={`button-${theId}`}
+              role={"menu"}
+              data-expanded={expanded}
+              style={{
+                width: width ? `${width}px` : "auto",
+                left: align === "left" ? "0px" : "auto",
+                right: align === "right" ? "0px" : "auto",
+              }}
+            >
+              {console.log("Menu")}
+              {children ?? children}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </>
   );
@@ -129,7 +143,8 @@ function clickOutside(e, menuRef, buttonRef, setExpanded) {
   if (!e || !e?.target) {
     return; // exit if event is null.
   }
-  if (!menuRef?.current?.contains(e.target) && !buttonRef?.current.contains(e.target)) {
+
+  if (!menuRef?.current?.contains(e.target) && !buttonRef?.current?.contains(e.target)) {
     setExpanded(false);
   }
 }
@@ -332,6 +347,7 @@ function ADD_eventListeners(menuRef, buttonRef, setExpanded, containerRef, HANDL
   document.addEventListener("keydown", HANDLE_keyPress);
 }
 function REMOVE_eventListeners(menuRef, buttonRef, setExpanded, containerRef, HANDLE_keyPress) {
+  console.log("REMOVE_eventListeners");
   document.removeEventListener("click", (e) => clickOutside(e, menuRef, buttonRef, setExpanded));
   document.removeEventListener("keyup", (e) => focusOutside(e, setExpanded, containerRef));
   document.removeEventListener("keydown", HANDLE_keyPress);

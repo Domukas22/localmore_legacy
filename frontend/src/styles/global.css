@@ -62,6 +62,52 @@
 :root {
   --padding-desk: 28px;
   --padding-mob: 4vmin;
+  --speed: 300ms;
+
 }
 
 
+.menu {
+
+  width: 100% !important;
+}
+
+
+.menu-primary-enter {
+  transform: translateX(calc(-100%  - 14px));
+  position: absolute;
+  opacity: 0;
+}
+.menu-primary-enter-active {
+  transition: all var(--speed) ease;
+  transform: translateX(0%);
+  opacity: 1;
+}
+.menu-primary-exit {
+  position: absolute;
+}
+.menu-primary-exit-active {
+  transition: all var(--speed) ease;
+  transform: translateX(calc(-100%  - 14px));
+  opacity: 0;
+}
+
+
+.menu-secondary-enter {
+  transform: translateX(calc(100%  + 14px));
+  opacity: 0;
+}
+.menu-secondary-enter-active {
+  transition: all var(--speed) ease;
+  transform: translateX(0%);
+  opacity: 1;
+}
+.menu-secondary-exit {
+  /* transform: translateX(0%);
+  opacity: 1; */
+}
+.menu-secondary-exit-active {
+  transition: all var(--speed) ease;
+  transform: translateX(calc(100%  + 14px));
+  opacity: 0;
+}

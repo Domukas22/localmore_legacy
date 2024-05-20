@@ -219,7 +219,7 @@
     color: var(--brand);
     background-color: var(--btn-brand-active);
     border: var(--border-brand-active);
-    box-shadow: none;
+    /* box-shadow: none; */
 
     &[data-hovered="true"]{
       background-color: var(--btn-brand-active-hover);

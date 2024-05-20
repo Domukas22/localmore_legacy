@@ -38,7 +38,7 @@ export default function SearchBar({ SET_search, IS_mobile, shrink, search, SET_s
       >
         {!shrink && (
           <Input
-            placeholder="Heidelberg durchsuchen..."
+            placeholder="Search places, businesses..."
             className={css["react-aria-Input"]}
             aria-label="Heidelberg durchsuchen..."
             ref={inputRef}

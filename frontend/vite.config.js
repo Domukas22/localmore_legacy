@@ -20,4 +20,7 @@ export default defineConfig({
       "@styles": new URL("src/styles", import.meta.url).pathname,
     },
   },
+  // server: {
+  //   host: "0.0.0.0",
+  // },
 });

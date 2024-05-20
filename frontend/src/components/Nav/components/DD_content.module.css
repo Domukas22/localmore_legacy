@@ -1,0 +1,30 @@
+/*  */
+/*  */
+
+@import '@styles/global.css';
+
+.block_WRAP {
+  display: flex;
+  flex-direction: column;  
+  gap: 6px;
+  padding: 12px;
+  border-bottom: var(--border-black-01);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+.inline_SPAN {
+  display: flex;
+  gap: 6px;
+  & li {
+    display: flex;
+    flex: 1;
+    
+
+    & button {
+      flex: 1;
+      justify-content: center;
+    }
+  }
+}
