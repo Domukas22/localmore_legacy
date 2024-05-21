@@ -1,90 +1,71 @@
 //
 //
 
-import { useState, useEffect, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 import { Btn } from "../../btn/btn";
 import DD from "../../dd/dd";
 import { ICON_arrow } from "../../icons/icons";
 import css from "./DD_content.module.css";
+import { USE_DDactions } from "../../../hooks/USE_DDactions";
+import { USE_getCategoryByID } from "../../../hooks/USE_getDDcategory";
+import { USE_filterCategType } from "../../../hooks/USE_filterCategType";
+import { BtnBack_BLOCK } from "./Transition_BLOCKS/BtnBack_BLOCK";
 
 export function Categories_DD({ categories }) {
-  const [activeMenu, setActiveMenu] = useState("all");
-  const [menuHeight, setMenuHeight] = useState(null);
-  const dropdownRef = useRef(null);
-  const IDs = {
-    businessCateg_ID: "6648757cd5d02a9c790a0782",
-    placesCateg_ID: "65eafad210e9fd0b015b91ae",
-  };
+  const [startCateg_ARR, endCateg_ARR, businessCateg_ARR, placesCateg_ARR] =
+    USE_filterCategType(categories);
 
-  useEffect(() => {
-    setMenuHeight(dropdownRef.current?.firstChild.offsetHeight);
-  }, []);
-
-  function open() {
-    setMenuHeight(dropdownRef.current?.firstChild.offsetHeight);
-  }
-
-  function calcHeight(el) {
-    const height = el.offsetHeight;
-    setMenuHeight(height);
-  }
-
-  function closeMenu() {
-    setMenuHeight(dropdownRef.current?.firstChild.offsetHeight);
-    setActiveMenu("all");
-  }
-  // ------------------------------
+  const [HANLDE_dd, current_MENU, menu_HEIGHT, SET_currentMenu, dropdown_REF] = USE_DDactions();
 
   return (
-    <DD btn_TEXT="Categories" width={260} onOpen={open} onClose={closeMenu}>
-      {/* <DropdownMenu /> */}
+    <DD
+      btn_TEXT="Categories"
+      width={260}
+      onOpen={() => HANLDE_dd("open")}
+      onClose={() => HANLDE_dd("close")}
+    >
       <div
-        ref={dropdownRef}
-        style={{ height: menuHeight, transition: "300ms", position: "relative" }}
+        ref={dropdown_REF}
+        style={{ height: menu_HEIGHT, transition: "300ms", position: "relative" }}
       >
         <AllCategories_BLOCK
-          categories={categories}
-          onEnter={calcHeight}
+          onEnter={(el) => HANLDE_dd("calculate", el)}
           timeout={300}
-          activeMenu={activeMenu}
-          setActiveMenu={setActiveMenu}
-          IDs={IDs}
+          current_MENU={current_MENU}
+          SET_currentMenu={SET_currentMenu}
+          startCateg_ARR={startCateg_ARR}
+          endCateg_ARR={endCateg_ARR}
         />
         <Business_BLOCK
-          categories={categories.filter((c) => c.parent_CATEG === IDs.businessCateg_ID)}
-          onEnter={calcHeight}
+          categories={businessCateg_ARR}
+          onEnter={(el) => HANLDE_dd("calculate", el)}
           timeout={300}
-          activeMenu={activeMenu}
-          setActiveMenu={setActiveMenu}
-          IDs={IDs}
+          current_MENU={current_MENU}
+          SET_currentMenu={SET_currentMenu}
         />
         <Places_BLOCK
-          categories={categories.filter((c) => c.parent_CATEG === IDs.placesCateg_ID)}
-          onEnter={calcHeight}
+          categories={placesCateg_ARR}
+          onEnter={(el) => HANLDE_dd("calculate", el)}
           timeout={300}
-          activeMenu={activeMenu}
-          setActiveMenu={setActiveMenu}
-          IDs={IDs}
+          current_MENU={current_MENU}
+          SET_currentMenu={SET_currentMenu}
         />
       </div>
     </DD>
   );
 }
 
-function AllCategories_BLOCK({ categories, onEnter, timeout, activeMenu, setActiveMenu, IDs }) {
-  // categories with .IS_endCategory === true should be up placed at the top, then the rest sorted alpahbaetically underneath
-  const start_CATEG = categories
-    .filter((c) => c.IS_startCategory && !c.IS_endCategory)
-    .sort((a, b) => a.name.en.localeCompare(b.name.en));
-  const end_CATEG = categories
-    .filter((c) => c.IS_endCategory && !c.IS_startCategory)
-    .sort((a, b) => a.name.en.localeCompare(b.name.en));
-  // const sorted_CATEG = [...start_CATEG, ...end_CATEG];
-
+function AllCategories_BLOCK({
+  onEnter,
+  timeout,
+  current_MENU,
+  SET_currentMenu,
+  startCateg_ARR,
+  endCateg_ARR,
+}) {
   return (
     <CSSTransition
-      in={activeMenu === "all"}
+      in={current_MENU === "all"}
       timeout={timeout}
       classNames="menu-primary"
       unmountOnExit
@@ -101,7 +82,7 @@ function AllCategories_BLOCK({ categories, onEnter, timeout, activeMenu, setActi
               FIRE_clickEvent={false}
             />
           </li>
-          {start_CATEG.map((categ) => {
+          {startCateg_ARR.map((categ) => {
             return (
               <li key={categ.id}>
                 <Btn
@@ -110,13 +91,7 @@ function AllCategories_BLOCK({ categories, onEnter, timeout, activeMenu, setActi
                   right_ICON={<ICON_arrow direction="right" />}
                   text={categ.name.en}
                   aria_LABEL=""
-                  onClick={() => {
-                    if (categ._id === IDs.businessCateg_ID) {
-                      setActiveMenu("business");
-                    } else if (categ._id === IDs.placesCateg_ID) {
-                      setActiveMenu("places");
-                    }
-                  }}
+                  onClick={() => SET_currentMenu(USE_getCategoryByID(categ._id))}
                   FIRE_clickEvent={false}
                 />
               </li>
@@ -124,7 +99,7 @@ function AllCategories_BLOCK({ categories, onEnter, timeout, activeMenu, setActi
           })}
         </div>
         <div className={css.block_WRAP}>
-          {end_CATEG.map((categ) => {
+          {endCateg_ARR.map((categ) => {
             return (
               <li key={categ.id}>
                 <Btn
@@ -144,28 +119,21 @@ function AllCategories_BLOCK({ categories, onEnter, timeout, activeMenu, setActi
     </CSSTransition>
   );
 }
-function Business_BLOCK({ categories, onEnter, timeout, activeMenu, setActiveMenu }) {
+function Business_BLOCK({ categories, onEnter, timeout, current_MENU, SET_currentMenu }) {
   return (
     <CSSTransition
-      in={activeMenu === "business"}
+      in={current_MENU === "businesses"}
       timeout={timeout}
       classNames="menu-secondary"
       unmountOnExit
       onEnter={onEnter}
     >
       <ul className="menu">
-        <div className={css.block_WRAP}>
-          <li key={"business-categories"}>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              left_ICON={<ICON_arrow direction="left" />}
-              text="All Categories"
-              aria_LABEL=""
-              onClick={() => setActiveMenu("all")}
-              FIRE_clickEvent={false}
-            />
-          </li>
-        </div>
+        <BtnBack_BLOCK
+          title="All categories"
+          onClick={() => SET_currentMenu("all")}
+          aria_LABEL=""
+        />
         <div className={css.block_WRAP}>
           <p>Find businesses</p>
           {categories.map((categ) => {
@@ -188,28 +156,21 @@ function Business_BLOCK({ categories, onEnter, timeout, activeMenu, setActiveMen
     </CSSTransition>
   );
 }
-function Places_BLOCK({ categories, onEnter, timeout, activeMenu, setActiveMenu }) {
+function Places_BLOCK({ categories, onEnter, timeout, current_MENU, SET_currentMenu }) {
   return (
     <CSSTransition
-      in={activeMenu === "places"}
+      in={current_MENU === "places"}
       timeout={timeout}
       classNames="menu-secondary"
       unmountOnExit
       onEnter={onEnter}
     >
       <ul className="menu">
-        <div className={css.block_WRAP}>
-          <li key={"places-categories"}>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              left_ICON={<ICON_arrow direction="left" />}
-              text="All Categories"
-              aria_LABEL=""
-              onClick={() => setActiveMenu("all")}
-              FIRE_clickEvent={false}
-            />
-          </li>
-        </div>
+        <BtnBack_BLOCK
+          title="All categories"
+          onClick={() => SET_currentMenu("all")}
+          aria_LABEL=""
+        />
         <div className={css.block_WRAP}>
           <p>Find places</p>
           {categories.map((categ) => {

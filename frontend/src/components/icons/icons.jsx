@@ -10,7 +10,7 @@ export function ICON_activeDigit({ count, IS_active }) {
     </div>
   );
 }
-export function ICON_x({ rotate, color, small = false }) {
+export function ICON_x({ rotate, color = "dark", small = false }) {
   return (
     <div
       className={small ? css.ICON_x_small : css.ICON_x}

@@ -72,6 +72,12 @@
     }
   }
 
+  &[data-color="white"] {
+    &::before,
+    &::after {
+      background-color: white;
+    }
+  }
   &[data-color="dark"] {
     &::before,
     &::after {

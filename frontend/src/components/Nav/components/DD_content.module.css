@@ -26,10 +26,7 @@
     flex: 1;
     
 
-    & button {
-      flex: 1;
-      justify-content: center;
-    }
+    
   }
 }
 .Modal_MENU {
@@ -37,6 +34,11 @@
     width: 100%;
     & p {
       margin-right: auto
+    }
+  }
+  & .block_WRAP {
+    &:last-child {
+      border-bottom: var(--border-black-01);
     }
   }
 }

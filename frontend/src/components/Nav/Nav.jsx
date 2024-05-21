@@ -1,6 +1,6 @@
 //
 
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import { LogoSvg_COMP } from "../../assets/logo/LogoSvg_COMP";
 import { ICON_x, ICON_dropDownArrow, ICON_save, ICON_search } from "../icons/icons";
@@ -41,7 +41,13 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
   const { lang, TOGGLE_lang } = useContext(Lang_CONTEXT);
 
   const window_WIDTH = USE_windowWidth();
+
   const layout = window_WIDTH > 1150 ? "desktop" : window_WIDTH > 900 ? "tablet" : "mobile";
+  useEffect(() => {
+    if (window_WIDTH > 900) {
+      SET_menuOpen(false);
+    }
+  }, [window_WIDTH]);
 
   const SHRINK_logo = window_WIDTH > 580 || IS_menuOpen ? false : true;
   const [SHRINK_search, SET_shrinkSearch] = USE_Toggle(true);
@@ -117,7 +123,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
         {layout !== "desktop" && (
           <nav key="nav-second">
             <ul style={{ display: "flex", columnGap: "8px" }} key="nav-right">
-              {window_WIDTH > 450 && (
+              {window_WIDTH > 450 && !IS_menuOpen && (
                 <li>
                   <Saved_DD profiles={profiles} />
                 </li>
@@ -161,17 +167,10 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
 
               {window_WIDTH < 860 && (
                 <li>
-                  {/* <Mobile_MENU
-                    categories={categories}
-                    tagUsages={tagUsages}
-                    lang={lang}
-                    TOGGLE_lang={TOGGLE_lang}
-                    TOGGLE_menu={TOGGLE_menu}
-                  /> */}
                   <Btn
                     styles={["btn-40", "round", "grey"]}
                     text="Menu"
-                    right_ICON={<ICON_dropDownArrow />}
+                    right_ICON={IS_menuOpen ? <ICON_x small={true} /> : <ICON_dropDownArrow />}
                     aria_LABEL=""
                     onClick={TOGGLE_menu}
                   />
@@ -192,6 +191,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
             lang={lang}
             TOGGLE_lang={TOGGLE_lang}
             categories={categories}
+            TOGGLE_menu={TOGGLE_menu}
           />
         )}
       </AnimatePresence>

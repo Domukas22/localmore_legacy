@@ -4,7 +4,7 @@ import { Dialog, Modal } from "react-aria-components";
 import { Btn } from "../../btn/btn";
 import { useEffect, useRef, useState } from "react";
 import { CSSTransition } from "react-transition-group";
-import { ICON_activeDigit } from "../../icons/icons";
+import { ICON_activeDigit, ICON_x } from "../../icons/icons";
 import lightbulb from "../../../assets/icons/lightbulb.png";
 import settings_ICON from "../../../assets/icons/settings.png";
 import css from "./DD_content.module.css";
@@ -12,14 +12,20 @@ import { ICON_arrow } from "../../icons/icons";
 import en_FLAG from "../../../assets/icons/flags/en.png";
 import de_FLAG from "../../../assets/icons/flags/de.webp";
 import light from "../../../assets/icons/light.png";
+import { Settings_BLOCKS } from "./Transition_BLOCKS/Settings_BLOCKS";
+import { BtnBack_BLOCK } from "./Transition_BLOCKS/BtnBack_BLOCK";
+import { Legal_BLOCK } from "./Transition_BLOCKS/Legal_BLOCK";
+import { USE_getCategIDs } from "../../../hooks/USE_getCategIDs";
+import { USE_getCategoryByID } from "../../../hooks/USE_getDDcategory";
+import { USE_filterCategType } from "../../../hooks/USE_filterCategType";
+import logo from "../../../assets/icons/logo.png";
 
-export function Mobile_MENU({ tagUsage_COUNT, lang, TOGGLE_lang, categories }) {
-  const [activeMenu, setActiveMenu] = useState("all");
-  const IDs = {
-    businessCateg_ID: "6648757cd5d02a9c790a0782",
-    placesCateg_ID: "65eafad210e9fd0b015b91ae",
-  };
+export function Mobile_MENU({ tagUsage_COUNT, lang, TOGGLE_lang, categories, TOGGLE_menu }) {
+  const [current_MENU, SET_currentMenu] = useState("all");
   const timeout = 300;
+
+  const [startCateg_ARR, endCateg_ARR, businessCateg_ARR, placesCateg_ARR] =
+    USE_filterCategType(categories);
 
   return (
     <Modal isOpen={true} className={css.Modal_MENU}>
@@ -38,50 +44,54 @@ export function Mobile_MENU({ tagUsage_COUNT, lang, TOGGLE_lang, categories }) {
         }}
         aria-label="Menu"
       >
-        <All_BLOCK
+        <All_MENU
           timeout={timeout}
-          activeMenu={activeMenu}
-          setActiveMenu={setActiveMenu}
+          current_MENU={current_MENU}
+          SET_currentMenu={SET_currentMenu}
           tagUsage_COUNT={tagUsage_COUNT}
+          TOGGLE_menu={TOGGLE_menu}
         />
-        <Legal_BLOCK timeout={timeout} activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
-        <Settings_BLOCK
+        <Legal_MENU
           timeout={timeout}
-          activeMenu={activeMenu}
-          setActiveMenu={setActiveMenu}
+          current_MENU={current_MENU}
+          SET_currentMenu={SET_currentMenu}
+        />
+        <Settings_MENU
+          timeout={timeout}
+          current_MENU={current_MENU}
+          SET_currentMenu={SET_currentMenu}
           lang={lang}
           TOGGLE_lang={TOGGLE_lang}
         />
-        <AllCategories_BLOCK
+        <AllCategories_MENU
           timeout={timeout}
-          activeMenu={activeMenu}
-          setActiveMenu={setActiveMenu}
+          current_MENU={current_MENU}
+          SET_currentMenu={SET_currentMenu}
           categories={categories}
-          IDs={IDs}
+          startCateg_ARR={startCateg_ARR}
+          endCateg_ARR={endCateg_ARR}
         />
-        <Business_BLOCK
-          categories={categories.filter((c) => c.parent_CATEG === IDs.businessCateg_ID)}
+        <Business_MENU
+          categories={businessCateg_ARR}
           timeout={timeout}
-          activeMenu={activeMenu}
-          setActiveMenu={setActiveMenu}
-          IDs={IDs}
+          current_MENU={current_MENU}
+          SET_currentMenu={SET_currentMenu}
         />
-        <Places_BLOCK
-          categories={categories.filter((c) => c.parent_CATEG === IDs.placesCateg_ID)}
+        <Places_MENU
+          categories={placesCateg_ARR}
           timeout={timeout}
-          activeMenu={activeMenu}
-          setActiveMenu={setActiveMenu}
-          IDs={IDs}
+          current_MENU={current_MENU}
+          SET_currentMenu={SET_currentMenu}
         />
       </Dialog>
     </Modal>
   );
 }
 
-function All_BLOCK({ timeout, activeMenu, setActiveMenu, tagUsage_COUNT }) {
+function All_MENU({ timeout, current_MENU, SET_currentMenu, tagUsage_COUNT, TOGGLE_menu }) {
   return (
     <CSSTransition
-      in={activeMenu === "all"}
+      in={current_MENU === "all"}
       timeout={timeout}
       classNames="menu-primary"
       unmountOnExit
@@ -92,6 +102,7 @@ function All_BLOCK({ timeout, activeMenu, setActiveMenu, tagUsage_COUNT }) {
             <Btn
               styles={["btn-44", "navDD_BTN"]}
               text="Home"
+              left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/609/609803.png"></img>}
               aria_LABEL=""
               // left_ICON={<ICON_activeDigit count={tagUsage_COUNT} IS_active={true} />}
               onClick={() => {}}
@@ -102,19 +113,23 @@ function All_BLOCK({ timeout, activeMenu, setActiveMenu, tagUsage_COUNT }) {
             <Btn
               styles={["btn-44", "navDD_BTN"]}
               text="Categories"
+              left_ICON={
+                <img src="https://cdn-icons-png.flaticon.com/512/11244/11244162.png"></img>
+              }
               aria_LABEL=""
               right_ICON={<ICON_arrow direction="right" />}
-              onClick={() => setActiveMenu("categories")}
+              onClick={() => SET_currentMenu("categories")}
               FIRE_clickEvent={false}
             />
           </li>
           <li>
             <Btn
               styles={["btn-44", "navDD_BTN"]}
-              text="Saved - 3"
+              text="Saved (3)"
+              left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/2107/2107845.png"></img>}
               aria_LABEL=""
               right_ICON={<ICON_arrow direction="right" />}
-              onClick={() => setActiveMenu("saved")}
+              onClick={() => SET_currentMenu("saved")}
               FIRE_clickEvent={false}
             />
           </li>
@@ -123,8 +138,9 @@ function All_BLOCK({ timeout, activeMenu, setActiveMenu, tagUsage_COUNT }) {
               styles={["btn-44", "navDD_BTN"]}
               text="Settings"
               aria_LABEL=""
+              left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/3953/3953226.png"></img>}
               right_ICON={<ICON_arrow direction="right" />}
-              onClick={() => setActiveMenu("settings")}
+              onClick={() => SET_currentMenu("settings")}
               FIRE_clickEvent={false}
             />
           </li>
@@ -153,6 +169,9 @@ function All_BLOCK({ timeout, activeMenu, setActiveMenu, tagUsage_COUNT }) {
             <Btn
               styles={["btn-44", "navDD_BTN"]}
               text="Feedback geben"
+              left_ICON={
+                <img src="https://cdn-icons-png.freepik.com/512/4066/4066310.png?ga=GA1.1.807612306.1716024941" />
+              }
               aria_LABEL=""
               onClick={() => {}}
               FIRE_clickEvent={false}
@@ -164,6 +183,7 @@ function All_BLOCK({ timeout, activeMenu, setActiveMenu, tagUsage_COUNT }) {
             <Btn
               styles={["btn-44", "navDD_BTN"]}
               text="About us"
+              left_ICON={<img src={logo}></img>}
               aria_LABEL=""
               onClick={() => {}}
               FIRE_clickEvent={false}
@@ -173,6 +193,9 @@ function All_BLOCK({ timeout, activeMenu, setActiveMenu, tagUsage_COUNT }) {
             <Btn
               styles={["btn-44", "navDD_BTN"]}
               text="Contact"
+              left_ICON={
+                <img src="https://cdn-icons-png.freepik.com/512/7596/7596763.png?ga=GA1.1.807612306.1716024941" />
+              }
               aria_LABEL=""
               onClick={() => {}}
               FIRE_clickEvent={false}
@@ -182,9 +205,22 @@ function All_BLOCK({ timeout, activeMenu, setActiveMenu, tagUsage_COUNT }) {
             <Btn
               styles={["btn-44", "navDD_BTN"]}
               text="Legal"
+              left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/3122/3122321.png"></img>}
               aria_LABEL=""
               right_ICON={<ICON_arrow direction="right" />}
-              onClick={() => setActiveMenu("legal")}
+              onClick={() => SET_currentMenu("legal")}
+              FIRE_clickEvent={false}
+            />
+          </li>
+        </div>
+        <div className={css.block_WRAP}>
+          <li>
+            <Btn
+              styles={["btn-44", "navDD_BTN"]}
+              text="Close menu"
+              right_ICON={<ICON_x />}
+              aria_LABEL=""
+              onClick={() => TOGGLE_menu()}
               FIRE_clickEvent={false}
             />
           </li>
@@ -193,199 +229,49 @@ function All_BLOCK({ timeout, activeMenu, setActiveMenu, tagUsage_COUNT }) {
     </CSSTransition>
   );
 }
-function Legal_BLOCK({ timeout, activeMenu, setActiveMenu }) {
+function Legal_MENU({ timeout, current_MENU, SET_currentMenu }) {
   return (
     <CSSTransition
-      in={activeMenu === "legal"}
+      in={current_MENU === "legal"}
       timeout={timeout}
       classNames="menu-secondary"
       unmountOnExit
     >
       <ul className="menu">
-        <div className={css.block_WRAP}>
-          <li key={""}>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              left_ICON={<ICON_arrow direction="left" />}
-              text="Back"
-              aria_LABEL=""
-              onClick={() => setActiveMenu("all")}
-              FIRE_clickEvent={false}
-            />
-          </li>
-        </div>
-        <div className={css.block_WRAP}>
-          <p>Legal</p>
-          <li>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              text="Impressum"
-              aria_LABEL=""
-              onClick={() => {}}
-              FIRE_clickEvent={false}
-            />
-          </li>
-          <li>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              text="Datenschutz"
-              aria_LABEL=""
-              onClick={() => {}}
-              FIRE_clickEvent={false}
-            />
-          </li>
-          <li>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              text="Einwillingung" // Einwilligungseinstellungen
-              aria_LABEL=""
-              onClick={() => {}}
-              FIRE_clickEvent={false}
-            />
-          </li>
-          <li>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              text="Attributions"
-              aria_LABEL=""
-              onClick={() => {}}
-              FIRE_clickEvent={false}
-            />
-          </li>
-        </div>
+        <BtnBack_BLOCK title="Back to menu" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
+        <Legal_BLOCK />
       </ul>
     </CSSTransition>
   );
 }
-function Settings_BLOCK({ lang, TOGGLE_lang, timeout, activeMenu, setActiveMenu }) {
+function Settings_MENU({ lang, TOGGLE_lang, timeout, current_MENU, SET_currentMenu }) {
   return (
     <CSSTransition
-      in={activeMenu === "settings"}
+      in={current_MENU === "settings"}
       timeout={timeout}
       classNames="menu-secondary"
       unmountOnExit
     >
       <ul className="menu">
-        <div className={css.block_WRAP}>
-          <li key={""}>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              left_ICON={<ICON_arrow direction="left" />}
-              text="Back"
-              aria_LABEL=""
-              onClick={() => setActiveMenu("all")}
-              FIRE_clickEvent={false}
-            />
-          </li>
-        </div>
-        <div className={css.block_WRAP}>
-          <span>Language</span>
-          <div className={css.inline_SPAN}>
-            <li>
-              <Btn
-                styles={["btn-44", "navDD_BTN"]}
-                left_ICON={<img src={en_FLAG} style={{ borderRadius: "8px" }} />}
-                text={"EN"}
-                aria_LABEL=""
-                onClick={() => TOGGLE_lang("en")}
-                active={lang === "en"}
-                FIRE_clickEvent={false}
-              />
-            </li>
-            <li>
-              <Btn
-                styles={["btn-44", "navDD_BTN"]}
-                left_ICON={<img src={de_FLAG} style={{ borderRadius: "8px" }} />}
-                text={"DE"}
-                aria_LABEL=""
-                onClick={() => TOGGLE_lang("de")}
-                active={lang === "de"}
-                FIRE_clickEvent={false}
-              />
-            </li>
-          </div>
-        </div>
-        <div className={css.block_WRAP}>
-          <span>Appearance</span>
-          <div className={css.inline_SPAN}>
-            <li>
-              <Btn
-                styles={["btn-44", "navDD_BTN"]}
-                left_ICON={<img src={light} />}
-                text={"Light"}
-                aria_LABEL=""
-                onClick={() => {}}
-                active={true}
-                FIRE_clickEvent={false}
-              />
-            </li>
-            <li>
-              <Btn
-                styles={["btn-44", "navDD_BTN"]}
-                // left_ICON={<img src={light} />}
-                text={"Dark"}
-                aria_LABEL=""
-                onClick={() => {}}
-                active={false}
-                FIRE_clickEvent={false}
-              />
-            </li>
-          </div>
-        </div>
-        <div className={css.block_WRAP}>
-          <span>Text size</span>
-          <div className={css.inline_SPAN}>
-            <li>
-              <Btn
-                styles={["btn-44", "navDD_BTN"]}
-                text={"Normal"}
-                aria_LABEL=""
-                onClick={() => {}}
-                active={true}
-                FIRE_clickEvent={false}
-              />
-            </li>
-            <li>
-              <Btn
-                styles={["btn-44", "navDD_BTN"]}
-                text={"Big"}
-                aria_LABEL=""
-                onClick={() => {}}
-                active={false}
-                FIRE_clickEvent={false}
-              />
-            </li>
-            <li>
-              <Btn
-                styles={["btn-44", "navDD_BTN"]}
-                text={"Huge"}
-                aria_LABEL=""
-                onClick={() => {}}
-                active={false}
-                FIRE_clickEvent={false}
-              />
-            </li>
-          </div>
-        </div>
+        <BtnBack_BLOCK title="Back to menu" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
+        <Settings_BLOCKS lang={lang} TOGGLE_lang={TOGGLE_lang} />
       </ul>
     </CSSTransition>
   );
 }
 ///
-function AllCategories_BLOCK({ categories, timeout, activeMenu, setActiveMenu, IDs }) {
-  // categories with .IS_endCategory === true should be up placed at the top, then the rest sorted alpahbaetically underneath
-  const start_CATEG = categories
-    .filter((c) => c.IS_startCategory && !c.IS_endCategory)
-    .sort((a, b) => a.name.en.localeCompare(b.name.en));
-  const end_CATEG = categories
-    .filter((c) => c.IS_endCategory && !c.IS_startCategory)
-    .sort((a, b) => a.name.en.localeCompare(b.name.en));
-
+function AllCategories_MENU({
+  timeout,
+  current_MENU,
+  SET_currentMenu,
+  startCateg_ARR,
+  endCateg_ARR,
+}) {
   const [reverse, SET_reverse] = useState(false);
 
   return (
     <CSSTransition
-      in={activeMenu === "categories"}
+      in={current_MENU === "categories"}
       timeout={timeout}
       classNames={reverse ? "menu-secondary-reverse" : "menu-secondary"}
       unmountOnExit
@@ -400,7 +286,7 @@ function AllCategories_BLOCK({ categories, timeout, activeMenu, setActiveMenu, I
               aria_LABEL=""
               onClick={() => {
                 SET_reverse(false);
-                setActiveMenu("all");
+                SET_currentMenu("all");
               }}
               FIRE_clickEvent={false}
             />
@@ -416,9 +302,9 @@ function AllCategories_BLOCK({ categories, timeout, activeMenu, setActiveMenu, I
               FIRE_clickEvent={false}
             />
           </li>
-          {start_CATEG.map((categ) => {
+          {startCateg_ARR.map((categ) => {
             return (
-              <li key={categ.id}>
+              <li key={categ._id}>
                 <Btn
                   styles={["btn-44", "navDD_BTN"]}
                   left_ICON={<img src={categ.icon?.url} />}
@@ -427,11 +313,7 @@ function AllCategories_BLOCK({ categories, timeout, activeMenu, setActiveMenu, I
                   aria_LABEL=""
                   onClick={() => {
                     SET_reverse(true);
-                    if (categ._id === IDs.businessCateg_ID) {
-                      setActiveMenu("business");
-                    } else if (categ._id === IDs.placesCateg_ID) {
-                      setActiveMenu("places");
-                    }
+                    SET_currentMenu(USE_getCategoryByID(categ._id));
                   }}
                   FIRE_clickEvent={false}
                 />
@@ -440,7 +322,7 @@ function AllCategories_BLOCK({ categories, timeout, activeMenu, setActiveMenu, I
           })}
         </div>
         <div className={css.block_WRAP}>
-          {end_CATEG.map((categ) => {
+          {endCateg_ARR.map((categ) => {
             return (
               <li key={categ.id}>
                 <Btn
@@ -460,10 +342,10 @@ function AllCategories_BLOCK({ categories, timeout, activeMenu, setActiveMenu, I
     </CSSTransition>
   );
 }
-function Business_BLOCK({ categories, timeout, activeMenu, setActiveMenu }) {
+function Business_MENU({ categories, timeout, current_MENU, SET_currentMenu }) {
   return (
     <CSSTransition
-      in={activeMenu === "business"}
+      in={current_MENU === "businesses"}
       timeout={timeout}
       classNames="menu-third"
       unmountOnExit
@@ -476,7 +358,7 @@ function Business_BLOCK({ categories, timeout, activeMenu, setActiveMenu }) {
               left_ICON={<ICON_arrow direction="left" />}
               text="All Categories"
               aria_LABEL=""
-              onClick={() => setActiveMenu("categories")}
+              onClick={() => SET_currentMenu("categories")}
               FIRE_clickEvent={false}
             />
           </li>
@@ -503,10 +385,10 @@ function Business_BLOCK({ categories, timeout, activeMenu, setActiveMenu }) {
     </CSSTransition>
   );
 }
-function Places_BLOCK({ categories, timeout, activeMenu, setActiveMenu }) {
+function Places_MENU({ categories, timeout, current_MENU, SET_currentMenu }) {
   return (
     <CSSTransition
-      in={activeMenu === "places"}
+      in={current_MENU === "places"}
       timeout={timeout}
       classNames="menu-third"
       unmountOnExit
@@ -519,7 +401,7 @@ function Places_BLOCK({ categories, timeout, activeMenu, setActiveMenu }) {
               left_ICON={<ICON_arrow direction="left" />}
               text="All Categories"
               aria_LABEL=""
-              onClick={() => setActiveMenu("categories")}
+              onClick={() => SET_currentMenu("categories")}
               FIRE_clickEvent={false}
             />
           </li>
