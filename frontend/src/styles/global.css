@@ -68,10 +68,21 @@
 
 
 .menu {
-
   width: 100% !important;
 }
 
+.menu-primary-enter-active, 
+.menu-primary-exit-active,
+.menu-secondary-enter-active,
+.menu-secondary-exit-active,
+.menu-secondary-reverse-enter-active,
+.menu-secondary-reverse-exit-active,
+.menu-third-enter-active,
+.menu-third-exit-active {
+  & button {
+    pointer-events: none;
+  }
+}
 
 .menu-primary-enter {
   transform: translateX(calc(-100%  - 14px));
@@ -95,6 +106,7 @@
 
 .menu-secondary-enter {
   transform: translateX(calc(100%  + 14px));
+  position: absolute;
   opacity: 0;
 }
 .menu-secondary-enter-active {
@@ -103,10 +115,49 @@
   opacity: 1;
 }
 .menu-secondary-exit {
-  /* transform: translateX(0%);
-  opacity: 1; */
+  position: absolute;
 }
 .menu-secondary-exit-active {
+  transition: all var(--speed) ease;
+  transform: translateX(calc(100%  + 14px));
+  opacity: 0;
+}
+
+
+.menu-secondary-reverse-enter{
+  transform: translateX(calc(-100%  - 14px));
+  position: absolute;
+  opacity: 0;
+}
+.menu-secondary-reverse-enter-active {
+  transition: all var(--speed) ease;
+  transform: translateX(0%);
+  opacity: 1;
+}
+.menu-secondary-reverse-exit {
+  position: absolute;
+}
+.menu-secondary-reverse-exit-active {
+  transition: all var(--speed) ease;
+  transform: translateX(calc(-100%  - 14px));
+  opacity: 0;
+}
+
+
+
+.menu-third-enter {
+  transform: translateX(calc(100%  + 14px));
+  opacity: 0;
+}
+.menu-third-enter-active {
+  transition: all var(--speed) ease;
+  transform: translateX(0%);
+  opacity: 1;
+}
+.menu-third-exit {
+  position: absolute;
+}
+.menu-third-exit-active {
   transition: all var(--speed) ease;
   transform: translateX(calc(100%  + 14px));
   opacity: 0;

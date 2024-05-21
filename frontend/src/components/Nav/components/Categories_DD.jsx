@@ -51,7 +51,7 @@ export function Categories_DD({ categories }) {
           setActiveMenu={setActiveMenu}
           IDs={IDs}
         />
-        <BusinessCategories_BLOCK
+        <Business_BLOCK
           categories={categories.filter((c) => c.parent_CATEG === IDs.businessCateg_ID)}
           onEnter={calcHeight}
           timeout={300}
@@ -59,7 +59,7 @@ export function Categories_DD({ categories }) {
           setActiveMenu={setActiveMenu}
           IDs={IDs}
         />
-        <PlacesCategories_BLOCK
+        <Places_BLOCK
           categories={categories.filter((c) => c.parent_CATEG === IDs.placesCateg_ID)}
           onEnter={calcHeight}
           timeout={300}
@@ -112,9 +112,9 @@ function AllCategories_BLOCK({ categories, onEnter, timeout, activeMenu, setActi
                   aria_LABEL=""
                   onClick={() => {
                     if (categ._id === IDs.businessCateg_ID) {
-                      setActiveMenu("businessCategories");
+                      setActiveMenu("business");
                     } else if (categ._id === IDs.placesCateg_ID) {
-                      setActiveMenu("placesCategories");
+                      setActiveMenu("places");
                     }
                   }}
                   FIRE_clickEvent={false}
@@ -144,10 +144,10 @@ function AllCategories_BLOCK({ categories, onEnter, timeout, activeMenu, setActi
     </CSSTransition>
   );
 }
-function BusinessCategories_BLOCK({ categories, onEnter, timeout, activeMenu, setActiveMenu }) {
+function Business_BLOCK({ categories, onEnter, timeout, activeMenu, setActiveMenu }) {
   return (
     <CSSTransition
-      in={activeMenu === "businessCategories"}
+      in={activeMenu === "business"}
       timeout={timeout}
       classNames="menu-secondary"
       unmountOnExit
@@ -188,10 +188,10 @@ function BusinessCategories_BLOCK({ categories, onEnter, timeout, activeMenu, se
     </CSSTransition>
   );
 }
-function PlacesCategories_BLOCK({ categories, onEnter, timeout, activeMenu, setActiveMenu }) {
+function Places_BLOCK({ categories, onEnter, timeout, activeMenu, setActiveMenu }) {
   return (
     <CSSTransition
-      in={activeMenu === "placesCategories"}
+      in={activeMenu === "places"}
       timeout={timeout}
       classNames="menu-secondary"
       unmountOnExit

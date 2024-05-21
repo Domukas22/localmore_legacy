@@ -1,58 +1,33 @@
 //
 
-import { useContext, useRef, useEffect, useState } from "react";
+import { useContext } from "react";
 
 import { LogoSvg_COMP } from "../../assets/logo/LogoSvg_COMP";
-import {
-  ICON_x,
-  ICON_dropDownArrow,
-  ICON_save,
-  ICON_activeDigit,
-  ICON_searchSmall,
-  ICON_arrow,
-  ICON_search,
-} from "../icons/icons";
+import { ICON_x, ICON_dropDownArrow, ICON_save, ICON_search } from "../icons/icons";
 
-import DropDown from "react-a11y-dropdown";
 import DD from "../dd/dd";
 import PropTypes from "prop-types";
 
 import { USE_windowWidth } from "../../hooks/USE_windowWidth";
-// import en_FLAG from "../../assets/icons/flags/en.webp";
-import en_FLAG from "../../assets/icons/flags/en.png";
-import de_FLAG from "../../assets/icons/flags/de.webp";
-import light from "../../assets/icons/light.png";
-import lightbulb from "../../assets/icons/lightbulb.png";
-import settings from "../../assets/icons/settings.png";
 
 import { AnimatePresence } from "framer-motion";
 
 import css from "./Nav.module.css";
-import css_DD from "../dd/dd.module.css";
 
 import USE_Toggle from "../../hooks/USE_toggle";
 import { Btn } from "../btn/btn";
-import {
-  SearchField,
-  Input,
-  Button,
-  Dialog,
-  DialogTrigger,
-  Heading,
-  OverlayArrow,
-  Popover,
-  Switch,
-} from "react-aria-components";
+
 import { Lang_CONTEXT } from "../../contexts/lang";
 import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
-import { Menu, MenuItem, MenuTrigger } from "react-aria-components";
+
 import SearchBar from "../search/search";
 
-import { CSSTransition } from "react-transition-group";
 import { Categories_DD } from "./components/Categories_DD";
 import { More_DD } from "./components/More_DD";
 import { Settings_DD } from "./components/Settings_DD";
 
+import { Mobile_MENU } from "./components/Mobile_MENU";
+import { Dialog, Modal } from "react-aria-components";
 /*
 BREAKPOINTS:
   1440px - Big Desktop
@@ -79,7 +54,11 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
   return (
     <header className={css.header}>
       <AnimatePresence>
-        <Nav_LOGO key={"Desk_LOGO"} shrink={SHRINK_logo} />
+        <h1 key="nav-logo" data-shrink={SHRINK_logo ? SHRINK_logo : false}>
+          <a href="http://localhost:5173/" title="← Back to the homepage">
+            <LogoSvg_COMP shrink={SHRINK_logo ? SHRINK_logo : false} />
+          </a>
+        </h1>
 
         {layout === "desktop" && (
           <nav key="nav">
@@ -143,15 +122,17 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
                   <Saved_DD profiles={profiles} />
                 </li>
               )}
-              <li>
-                <Btn
-                  styles={["btn-40", "round", "grey"]}
-                  text="Search"
-                  left_ICON={<ICON_search />}
-                  aria_LABEL=""
-                  onClick={() => {}}
-                />
-              </li>
+              {!IS_menuOpen && (
+                <li>
+                  <Btn
+                    styles={["btn-40", "round", "grey"]}
+                    text="Search"
+                    left_ICON={<ICON_search />}
+                    aria_LABEL=""
+                    onClick={() => {}}
+                  />
+                </li>
+              )}
               {window_WIDTH > 860 && (
                 <>
                   <li>
@@ -180,6 +161,13 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
 
               {window_WIDTH < 860 && (
                 <li>
+                  {/* <Mobile_MENU
+                    categories={categories}
+                    tagUsages={tagUsages}
+                    lang={lang}
+                    TOGGLE_lang={TOGGLE_lang}
+                    TOGGLE_menu={TOGGLE_menu}
+                  /> */}
                   <Btn
                     styles={["btn-40", "round", "grey"]}
                     text="Menu"
@@ -197,20 +185,20 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
             </ul>
           </nav>
         )}
+
+        {IS_menuOpen && (
+          <Mobile_MENU
+            tagUsage_COUNT={tagUsages.length}
+            lang={lang}
+            TOGGLE_lang={TOGGLE_lang}
+            categories={categories}
+          />
+        )}
       </AnimatePresence>
     </header>
   );
 }
 
-function Nav_LOGO({ shrink = false }) {
-  return (
-    <h1 key="nav-logo" data-shrink={shrink}>
-      <a href="http://localhost:5173/" title="← Back to the homepage">
-        <LogoSvg_COMP shrink={shrink} />
-      </a>
-    </h1>
-  );
-}
 function Saved_DD({ profiles }) {
   const { savedProfile_IDs, REMOVE_fromSaved } = useContext(SavedProfileIDs_CONTEXT);
   const saved_PROFILES = profiles.filter((p) => savedProfile_IDs.has(p._id));

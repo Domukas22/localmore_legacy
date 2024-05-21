@@ -13,6 +13,10 @@
   &:last-child {
     border-bottom: none;
   }
+
+  @media (--mobile) {
+    padding: var(--padding-mob);
+  }
 }
 .inline_SPAN {
   display: flex;
@@ -25,6 +29,14 @@
     & button {
       flex: 1;
       justify-content: center;
+    }
+  }
+}
+.Modal_MENU {
+  & button {
+    width: 100%;
+    & p {
+      margin-right: auto
     }
   }
 }
