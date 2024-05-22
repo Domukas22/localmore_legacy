@@ -156,17 +156,6 @@ function All_MENU({
               FIRE_clickEvent={false}
             />
           </li>
-          <li>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              text="Settings"
-              aria_LABEL=""
-              left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/3953/3953226.png"></img>}
-              right_ICON={<ICON_arrow direction="right" />}
-              onClick={() => SET_currentMenu("settings")}
-              FIRE_clickEvent={false}
-            />
-          </li>
         </div>
         <div className={css.block_WRAP}>
           <li>
@@ -197,6 +186,17 @@ function All_MENU({
               }
               aria_LABEL=""
               onClick={() => {}}
+              FIRE_clickEvent={false}
+            />
+          </li>
+          <li>
+            <Btn
+              styles={["btn-44", "navDD_BTN"]}
+              text="Settings"
+              aria_LABEL=""
+              left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/3953/3953226.png"></img>}
+              right_ICON={<ICON_arrow direction="right" />}
+              onClick={() => SET_currentMenu("settings")}
               FIRE_clickEvent={false}
             />
           </li>

@@ -20,7 +20,7 @@ export function Categories_DD({ categories }) {
   return (
     <DD
       btn_TEXT="Categories"
-      width={260}
+      width={26}
       onOpen={() => HANLDE_dd("open")}
       onClose={() => HANLDE_dd("close")}
     >

@@ -16,13 +16,13 @@ import { BtnBack_BLOCK } from "../Transition_BLOCKS/BtnBack_BLOCK";
 import { Legal_BLOCK } from "../Transition_BLOCKS/Legal_BLOCK";
 import logo from "../../../../assets/icons/logo.png";
 
-export function More_DD({ tagUsage_COUNT, align, lang, TOGGLE_lang }) {
+export function More_DD({ tagUsage_COUNT, align, lang, TOGGLE_lang, IS_textMenu = false }) {
   const [HANLDE_dd, current_MENU, menuHeight, SET_currentMenu, dropdown_REF] = USE_DDactions();
 
   return (
     <DD
-      btn_TEXT="More"
-      width={260}
+      btn_TEXT={IS_textMenu ? "Menu" : "More"}
+      width={26}
       onOpen={() => HANLDE_dd("open")}
       onClose={() => HANLDE_dd("close")}
       align={align}
@@ -81,7 +81,7 @@ function All_MENU({ onEnter, timeout, current_MENU, SET_currentMenu, tagUsage_CO
             <Btn
               styles={["btn-44", "navDD_BTN"]}
               left_ICON={<img src={lightbulb} />}
-              text="Idee Vorschlagen"
+              text="Idee vorschlagen"
               aria_LABEL=""
               onClick={() => ""}
             />
@@ -95,6 +95,17 @@ function All_MENU({ onEnter, timeout, current_MENU, SET_currentMenu, tagUsage_CO
               }
               aria_LABEL=""
               onClick={() => {}}
+              FIRE_clickEvent={false}
+            />
+          </li>
+          <li>
+            <Btn
+              styles={["btn-44", "navDD_BTN"]}
+              text="Settings"
+              left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/3953/3953226.png"></img>}
+              aria_LABEL=""
+              right_ICON={<ICON_arrow direction="right" />}
+              onClick={() => SET_currentMenu("settings")}
               FIRE_clickEvent={false}
             />
           </li>
@@ -130,17 +141,6 @@ function All_MENU({ onEnter, timeout, current_MENU, SET_currentMenu, tagUsage_CO
               aria_LABEL=""
               right_ICON={<ICON_arrow direction="right" />}
               onClick={() => SET_currentMenu("legal")}
-              FIRE_clickEvent={false}
-            />
-          </li>
-          <li>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              text="Settings"
-              left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/3953/3953226.png"></img>}
-              aria_LABEL=""
-              right_ICON={<ICON_arrow direction="right" />}
-              onClick={() => SET_currentMenu("settings")}
               FIRE_clickEvent={false}
             />
           </li>

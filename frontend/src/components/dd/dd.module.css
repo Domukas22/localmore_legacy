@@ -25,6 +25,13 @@
       justify-content: left;
     }
   }
+
+  /* & div[role="menu"] {
+    height: 20rem
+  } */
+  & .dropdownContent_WRAP {
+    border: 1px solid red !important;
+  }
 }
 .dropdown.active {
   bottom: auto;

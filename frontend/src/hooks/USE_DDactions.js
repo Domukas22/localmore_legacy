@@ -5,11 +5,12 @@ import { useEffect, useState, useRef } from "react";
 
 export function USE_DDactions() {
   const [current_MENU, SET_currentMenu] = useState("all");
-  const [menu_HEIGHT, SET_menuHeight] = useState(null);
+  const [menu_HEIGHT, SET_menuHeight] = useState(200);
   const dropdown_REF = useRef(null);
 
   useEffect(() => {
-    SET_menuHeight(dropdown_REF.current?.firstChild.offsetHeight);
+    // SET_menuHeight(dropdown_REF.current?.firstChild.offsetHeight);
+    SET_menuHeight(200);
   }, []);
 
   function HANLDE_dd(action, el = null) {
@@ -21,7 +22,8 @@ export function USE_DDactions() {
         SET_menuHeight(el.offsetHeight);
         break;
       case "close":
-        SET_menuHeight(dropdown_REF.current?.firstChild.offsetHeight);
+        // SET_menuHeight(dropdown_REF.current?.firstChild.offsetHeight);
+        SET_menuHeight(200);
         SET_currentMenu("all");
         break;
     }

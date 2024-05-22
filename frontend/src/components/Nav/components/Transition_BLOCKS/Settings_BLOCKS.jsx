@@ -75,39 +75,39 @@ export function Settings_BLOCKS({ lang, TOGGLE_lang, SET_height = () => {} }) {
           <li data-item="li-btn-normal">
             <Btn
               styles={["btn-44", "navDD_BTN"]}
-              text={"Normal"}
+              text={"1"}
               aria_LABEL=""
               onClick={() => {
-                setFontSize("normal");
+                setFontSize(1);
                 SET_height();
               }}
-              active={fontSize === "normal" ? true : false}
+              active={fontSize === 1 ? true : false}
               FIRE_clickEvent={false}
             />
           </li>
           <li data-item="li-btn-big">
             <Btn
               styles={["btn-44", "navDD_BTN"]}
-              text={"Big"}
+              text={"2"}
               aria_LABEL=""
               onClick={() => {
-                setFontSize("big");
+                setFontSize(2);
                 SET_height();
               }}
-              active={fontSize === "big" ? true : false}
+              active={fontSize === 2 ? true : false}
               FIRE_clickEvent={false}
             />
           </li>
           <li data-item="li-btn-huge">
             <Btn
               styles={["btn-44", "navDD_BTN"]}
-              text={"Huge"}
+              text={"3"}
               aria_LABEL=""
               onClick={() => {
-                setFontSize("huge");
+                setFontSize(3);
                 SET_height();
               }}
-              active={fontSize === "huge" ? true : false}
+              active={fontSize === 3 ? true : false}
               FIRE_clickEvent={false}
             />
           </li>

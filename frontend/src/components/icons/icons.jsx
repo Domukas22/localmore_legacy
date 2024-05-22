@@ -72,8 +72,25 @@ export function ICON_save({ style }) {
 }
 export function ICON_dropDownArrow({ color }) {
   return (
-    <div style={{ width: "16px", height: "16px", display: "grid", placeItems: "center" }}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="7" height="6" viewBox="0 0 7 6" fill="none">
+    <div
+      style={{
+        width: "1.6rem",
+        height: "1.6rem",
+        display: "grid",
+        justifyContent: "center",
+        alignContent: "center",
+        padding: "0.15rem 0.42rem 0 0.42rem",
+      }}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 7 6"
+        fill="none"
+        style={{
+          width: "100%",
+          height: "100%",
+        }}
+      >
         <path
           d="M4.36602 5.5C3.98112 6.16667 3.01888 6.16667 2.63397 5.5L0.46891 1.75C0.0840102 1.08333 0.565136 0.25 1.33494 0.25L5.66506 0.249999C6.43487 0.249999 6.91599 1.08333 6.53109 1.75L4.36602 5.5Z"
           fill="#383940"
@@ -120,6 +137,15 @@ export function ICON_searchSmall({ color }) {
         strokeLinejoin="round"
       />
     </svg>
+  );
+}
+export function ICON_menuLines() {
+  return (
+    <div className={css.ICON_menuLines}>
+      <div className={css.line}></div>
+      <div className={css.line}></div>
+      <div className={css.line}></div>
+    </div>
   );
 }
 

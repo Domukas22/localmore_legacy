@@ -107,7 +107,7 @@ const DD = forwardRef((props, ref) => {
               role={"menu"}
               data-expanded={expanded}
               style={{
-                width: width ? `${width}px` : "auto",
+                width: width ? `${width}rem` : "auto",
                 left: align === "left" ? "0px" : "auto",
                 right: align === "right" ? "0px" : "auto",
               }}
