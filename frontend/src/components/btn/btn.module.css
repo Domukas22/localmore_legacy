@@ -8,9 +8,9 @@
   display: flex;
   align-items: center;
   justify-content: center; 
-  column-gap: 8px;
+  column-gap: 0.8rem;
 
-  border: 1px solid transparent;
+  border: 0.1rem solid transparent;
   border-radius: var(--radius-12);
   box-shadow: var(--shadow-btn);
   background-color: var(--btn-white);
@@ -35,10 +35,10 @@
     box-shadow: none;
   }
 
-  outline: 2px solid transparent;
+  outline: 0.2rem solid transparent;
   &[data-focus-visible] {
     outline: var(--outline-brand-black);
-    outline-offset: -1px;
+    outline-offset: -0.1rem;
   }
 
   & * {
@@ -49,60 +49,63 @@
     transition: 100ms;
   }
   & .icon, img {
-    width: 20px;
-    height: 20px;
+    width: 2rem;
+    height: 2rem;
     object-fit: contain;
   }
+  & .icon, img:last-child, svg:last-child {
+    margin-left: auto;
+  }
   @media (--mobile) {
-    column-gap: 10px;
+    column-gap: 1rem;
     & .icon, img {
-      width: 24px;
-      height: 24px;
+      width: 2.4rem;
+      height: 2.4rem;
     }
   }
   & svg {
     transition: transform 0.2s ease;
   }
   & > span{
-    font-size: 14px;
+    font-size: 1.4rem;
     font-weight: 600;
     color: var(--text-brand-black)
   }
 }
 .btn-44 {
   composes: btn;
-  height: 44px;
-  padding: 0px 14px;
+  height: 4.4rem;
+  padding: 0rem 1.4rem;
   @media (--mobile) {
-    height: 48px;
+    height: 4.8rem;
   }
 }
 .btn-40 {
   composes: btn;
-  height: 40px;
-  padding: 0px 16px;
+  height: 4rem;
+  padding: 0rem 1.6rem;
   @media (--mobile) {
-    height: 44px;
+    height: 4.4rem;
   }
 }
 .btn-36 {
   composes: btn;
-  height: 36px;
-  padding: 12px;
+  height: 3.6rem;
+  padding: 1.2rem;
   @media (--mobile) {
-    height: 40px;
+    height: 4rem;
   }
 }
 
 .round {
-  border-radius: 100px;
+  border-radius: 10rem;
 }
 .onImg {
   composes: btn;
   border: var(--border-white-15);
   background: var(--btn-onImg);
 
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(2rem);
   color: var(--text-white);
   text-shadow: var(--shadow-onImg-text);
   
@@ -254,7 +257,7 @@
 
   flex-direction: column;
   align-items: flex-start;
-  padding: 8px 12px;  
+  padding: 0.8rem 1.2rem;  
 
   text-align: left;
   font-weight: 300;
@@ -273,8 +276,8 @@
   & .highlight {
     font-weight: 700;
     background: var(--brand);
-    padding: 0px 6px;
-    border-radius: 8px;
+    padding: 0rem 0.6rem;
+    border-radius: 0.8rem;
   }
 }
 .profile-name-btn {
@@ -282,7 +285,7 @@
   composes: onImg;
   composes: round;
 
-  padding: 8px 12px;  
+  padding: 0.8rem 1.2rem;  
   text-align: left;
   width: fit-content;
   max-width: 100%;
@@ -316,7 +319,7 @@
 
   &[data-open="true"]  {
     background-color: rgba(0, 0, 0, 0.5);
-    border: 1px solid white;
+    border: 0.1rem solid white;
   }
 
 }
@@ -325,10 +328,10 @@
     transform: translateY(0);
   }
   33% {
-    transform: translateY(-3px);
+    transform: translateY(-0.3rem);
   }
   66% {
-    transform: translateY(3px);
+    transform: translateY(0.3rem);
   }
 }
 

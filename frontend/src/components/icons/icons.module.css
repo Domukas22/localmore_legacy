@@ -4,8 +4,8 @@
 
 
 .all {
-  width: 20px;
-  height: 20px;
+  width: 2rem;
+  height: 2rem;
   object-fit: contain;
 }
 .ICON_arrow {
@@ -21,11 +21,10 @@
   }
 }
 .ICON_activeDigit {
-
-  font-size: 14px;
+  font-size: 1.4rem;
   font-weight: 700;
-  height: 20px;
-  padding: 0 4px;
+  height: 2rem;
+  padding: 0 0.4rem;
 
   color: var(--text-fade);
   background-color: var(--btn-dark);
@@ -50,7 +49,7 @@
     transition: 100ms;
     content: '';
     position: absolute;
-    width: 2px;
+    width: 0.2rem;
     height: 100%;
     background-color: white;
     border-radius: 50px;
@@ -93,8 +92,8 @@
 }
 .ICON_x_small {
   composes: ICON_x;
-  width: 16px;
-  height: 16px;
+  width: 1.6rem;
+  height: 1.6rem;
 }
 .ICON_save {
   composes: all;
@@ -111,4 +110,5 @@
     }
   }
 }
+
 

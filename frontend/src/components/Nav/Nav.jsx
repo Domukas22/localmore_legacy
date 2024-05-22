@@ -18,16 +18,16 @@ import USE_Toggle from "../../hooks/USE_toggle";
 import { Btn } from "../btn/btn";
 
 import { Lang_CONTEXT } from "../../contexts/lang";
+import { Theme_CONTEXT } from "../../contexts/theme";
 import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
 
 import SearchBar from "../search/search";
 
-import { Categories_DD } from "./components/Categories_DD";
-import { More_DD } from "./components/More_DD";
-import { Settings_DD } from "./components/Settings_DD";
+import { Categories_DD } from "./components/Dropdowns/Categories_DD";
+import { More_DD } from "./components/Dropdowns/More_DD";
+import { Settings_DD } from "./components/Dropdowns/Settings_DD";
 
-import { Mobile_MENU } from "./components/Mobile_MENU";
-import { Dialog, Modal } from "react-aria-components";
+import { Mobile_MENU } from "./components/Mobile_MENU/Mobile_MENU";
 /*
 BREAKPOINTS:
   1440px - Big Desktop
@@ -39,6 +39,7 @@ BREAKPOINTS:
 export default function Nav({ tagUsages, search, SET_search, categories, profiles }) {
   const [IS_menuOpen, TOGGLE_menu, SET_menuOpen] = USE_Toggle(false);
   const { lang, TOGGLE_lang } = useContext(Lang_CONTEXT);
+  const { theme } = useContext(Theme_CONTEXT);
 
   const window_WIDTH = USE_windowWidth();
 
@@ -58,7 +59,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
   };
 
   return (
-    <header className={css.header}>
+    <header className={css.header} data-theme={theme}>
       <AnimatePresence>
         <h1 key="nav-logo" data-shrink={SHRINK_logo ? SHRINK_logo : false}>
           <a href="http://localhost:5173/" title="← Back to the homepage">

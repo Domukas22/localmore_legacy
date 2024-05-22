@@ -3,23 +3,24 @@
 @custom-media --mobile (max-width: 700px);
 @custom-media --landscape (max-height: 550px) and (max-width: 1100px);
 
+
 :root {
   --brand: rgba(184, 70, 0, 1);
   --brand-hover: rgba(170, 69, 7, 1);
   --brand-focus: rgba(144, 55, 0, 1);
   --brand-black: rgba(56, 57, 64, 1);
-  
+
   --fill-white: rgba(255, 255, 255, 1);
   --fill-bg: rgba(234, 237, 245, 1);
   --red: #F2545A;
-  
+
   --text-brand: rgba(184, 70, 0, 1);
   --text-brand-black: rgba(56, 57, 64, 1);
   --text-white: rgba(255, 255, 255, 0.9);
   --text-black: rgba(13, 13, 13, 1);
   --text-fade: rgba(77, 77, 77, 1);
   --text-fade-more: rgba(153, 153, 153, 1);
-  
+
   --btn-white: rgba(255, 255, 255, 1);
   --btn-dark: rgba(243, 243, 246, 1);
   --btn-darkest: rgba(230, 230, 235, 1);
@@ -32,40 +33,38 @@
 }
 
 :root {
-  --border-brand:  1px solid rgba(184, 70, 0, 1);
-  --border-brand-active: 1px solid rgba(244, 220, 204, 1);
+  --border-brand: 0.1rem solid rgba(184, 70, 0, 1);
+  --border-brand-active: 0.1rem solid rgba(244, 220, 204, 1);
 
-  --border-white: 1px solid white;
-  --border-white-15: 1px solid rgba(255, 255, 255, 0.15);
-  --border-brand-black: 1px solid rgba(56, 57, 64, 1);
-  --border-black-01:  1px solid rgba(0, 0, 0, 0.1);
+  --border-white: 0.1rem solid white;
+  --border-white-15: 0.1rem solid rgba(255, 255, 255, 0.15);
+  --border-brand-black: 0.1rem solid rgba(56, 57, 64, 1);
+  --border-black-01: 0.1rem solid rgba(0, 0, 0, 0.1);
 
-  --outline-white: 2px solid white;
-  --outline-brand: 2px solid rgba(184, 70, 0, 1);
-  --outline-brand-black: 2px solid rgba(56, 57, 64, 1);
+  --outline-white: 0.2rem solid white;
+  --outline-brand: 0.2rem solid rgba(184, 70, 0, 1);
+  --outline-brand-black: 0.2rem solid rgba(56, 57, 64, 1);
 }
 
 :root {
-  --radius-8: 8px;
-  --radius-12: 12px;
-  --radius-16: 16px;
+  --radius-8: 0.8rem; 
+  --radius-12: 1.2rem; 
+  --radius-16: 1.6rem;
 
-  --tran-fast: 100ms;
+  --tran-fast: 0.1s;
 
-  --shadow-text: 0px 1px 8px black;
-  --shadow-small: 0px 1px 5px 1px rgba(0,0,0, 0.40);
-  --shadow-btn: 0px 1px 4px 0px rgba(0, 0, 0, 0.15);
-  --shadow-onImg-text: 0px 1px 4px rgba(0,0,0,0.3);
-  --shadow-img: 0px 1px 6px 0px rgba(0, 0, 0, 0.25);;
+  --shadow-text: 0 0.1rem 0.8rem black; 
+  --shadow-small: 0 0.1rem 0.5rem 0.1rem rgba(0, 0, 0, 0.4); 
+  --shadow-btn: 0 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.15); 
+  --shadow-onImg-text: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.3);
+  --shadow-img: 0 0.1rem 0.6rem 0 rgba(0, 0, 0, 0.25); 
 }
 
 :root {
-  --padding-desk: 28px;
+  --padding-desk: 2.8rem; 
   --padding-mob: 4vmin;
-  --speed: 300ms;
-
+  --speed: 0.3s; 
 }
-
 
 .menu {
   width: 100% !important;
@@ -85,7 +84,7 @@
 }
 
 .menu-primary-enter {
-  transform: translateX(calc(-100%  - 14px));
+  transform: translateX(calc(-100% - 1.4rem)); 
   position: absolute;
   opacity: 0;
 }
@@ -99,13 +98,12 @@
 }
 .menu-primary-exit-active {
   transition: all var(--speed) ease;
-  transform: translateX(calc(-100%  - 14px));
+  transform: translateX(calc(-100% - 1.4rem)); 
   opacity: 0;
 }
 
-
 .menu-secondary-enter {
-  transform: translateX(calc(100%  + 14px));
+  transform: translateX(calc(100% + 1.4rem)); 
   position: absolute;
   opacity: 0;
 }
@@ -119,13 +117,12 @@
 }
 .menu-secondary-exit-active {
   transition: all var(--speed) ease;
-  transform: translateX(calc(100%  + 14px));
+  transform: translateX(calc(100% + 1.4rem)); 
   opacity: 0;
 }
 
-
-.menu-secondary-reverse-enter{
-  transform: translateX(calc(-100%  - 14px));
+.menu-secondary-reverse-enter {
+  transform: translateX(calc(-100% - 1.4rem)); 
   position: absolute;
   opacity: 0;
 }
@@ -139,14 +136,12 @@
 }
 .menu-secondary-reverse-exit-active {
   transition: all var(--speed) ease;
-  transform: translateX(calc(-100%  - 14px));
+  transform: translateX(calc(-100% - 1.4rem)); 
   opacity: 0;
 }
 
-
-
 .menu-third-enter {
-  transform: translateX(calc(100%  + 14px));
+  transform: translateX(calc(100% + 1.4rem)); 
   opacity: 0;
 }
 .menu-third-enter-active {
@@ -159,6 +154,6 @@
 }
 .menu-third-exit-active {
   transition: all var(--speed) ease;
-  transform: translateX(calc(100%  + 14px));
+  transform: translateX(calc(100% + 1.4rem)); 
   opacity: 0;
 }

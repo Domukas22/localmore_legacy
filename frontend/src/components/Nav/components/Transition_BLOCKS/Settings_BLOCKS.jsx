@@ -1,12 +1,18 @@
 //
 //
 import { Btn } from "../../../btn/btn";
-import css from "../DD_content.module.css";
+import css from "../../Nav.module.css";
 import en_FLAG from "../../../../assets/icons/flags/en.png";
 import de_FLAG from "../../../../assets/icons/flags/de.webp";
 import light from "../../../../assets/icons/light.png";
+import { Theme_CONTEXT } from "../../../../contexts/theme";
+import { useContext, useEffect } from "react";
+import { FontSizeContext } from "../../../../contexts/fontSize";
 
-export function Settings_BLOCKS({ lang, TOGGLE_lang }) {
+export function Settings_BLOCKS({ lang, TOGGLE_lang, SET_height = () => {} }) {
+  const { theme, TOGGLE_theme } = useContext(Theme_CONTEXT);
+  const { fontSize, setFontSize } = useContext(FontSizeContext);
+
   return (
     <>
       <div className={css.block_WRAP}>
@@ -45,8 +51,8 @@ export function Settings_BLOCKS({ lang, TOGGLE_lang }) {
               left_ICON={<img src={light} />}
               text={"Light"}
               aria_LABEL=""
-              onClick={() => {}}
-              active={true}
+              onClick={() => TOGGLE_theme("light")}
+              active={theme === "light" ? true : false}
               FIRE_clickEvent={false}
             />
           </li>
@@ -56,8 +62,8 @@ export function Settings_BLOCKS({ lang, TOGGLE_lang }) {
               // left_ICON={<img src={light} />}
               text={"Dark"}
               aria_LABEL=""
-              onClick={() => {}}
-              active={false}
+              onClick={() => TOGGLE_theme("dark")}
+              active={theme === "dark" ? true : false}
               FIRE_clickEvent={false}
             />
           </li>
@@ -66,33 +72,42 @@ export function Settings_BLOCKS({ lang, TOGGLE_lang }) {
       <div className={css.block_WRAP}>
         <span>Text size</span>
         <div className={css.inline_SPAN}>
-          <li>
+          <li data-item="li-btn-normal">
             <Btn
               styles={["btn-44", "navDD_BTN"]}
               text={"Normal"}
               aria_LABEL=""
-              onClick={() => {}}
-              active={true}
+              onClick={() => {
+                setFontSize("normal");
+                SET_height();
+              }}
+              active={fontSize === "normal" ? true : false}
               FIRE_clickEvent={false}
             />
           </li>
-          <li>
+          <li data-item="li-btn-big">
             <Btn
               styles={["btn-44", "navDD_BTN"]}
               text={"Big"}
               aria_LABEL=""
-              onClick={() => {}}
-              active={false}
+              onClick={() => {
+                setFontSize("big");
+                SET_height();
+              }}
+              active={fontSize === "big" ? true : false}
               FIRE_clickEvent={false}
             />
           </li>
-          <li>
+          <li data-item="li-btn-huge">
             <Btn
               styles={["btn-44", "navDD_BTN"]}
               text={"Huge"}
               aria_LABEL=""
-              onClick={() => {}}
-              active={false}
+              onClick={() => {
+                setFontSize("huge");
+                SET_height();
+              }}
+              active={fontSize === "huge" ? true : false}
               FIRE_clickEvent={false}
             />
           </li>

@@ -2,7 +2,7 @@
 //
 
 import { Btn } from "../../../btn/btn";
-import css from "../DD_content.module.css";
+import css from "../../Nav.module.css";
 
 export function Legal_BLOCK() {
   return (

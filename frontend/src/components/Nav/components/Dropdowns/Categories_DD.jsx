@@ -2,14 +2,14 @@
 //
 
 import { CSSTransition } from "react-transition-group";
-import { Btn } from "../../btn/btn";
-import DD from "../../dd/dd";
-import { ICON_arrow } from "../../icons/icons";
-import css from "./DD_content.module.css";
-import { USE_DDactions } from "../../../hooks/USE_DDactions";
-import { USE_getCategoryByID } from "../../../hooks/USE_getDDcategory";
-import { USE_filterCategType } from "../../../hooks/USE_filterCategType";
-import { BtnBack_BLOCK } from "./Transition_BLOCKS/BtnBack_BLOCK";
+import { Btn } from "../../../btn/btn";
+import DD from "../../../dd/dd";
+import { ICON_arrow } from "../../../icons/icons";
+import css from "../../Nav.module.css";
+import { USE_DDactions } from "../../../../hooks/USE_DDactions";
+import { USE_getCategoryByID } from "../../../../hooks/USE_getDDcategory";
+import { USE_filterCategType } from "../../../../hooks/USE_filterCategType";
+import { BtnBack_BLOCK } from "../Transition_BLOCKS/BtnBack_BLOCK";
 
 export function Categories_DD({ categories }) {
   const [startCateg_ARR, endCateg_ARR, businessCateg_ARR, placesCateg_ARR] =
@@ -99,6 +99,7 @@ function AllCategories_BLOCK({
           })}
         </div>
         <div className={css.block_WRAP}>
+          <p>All categories</p>
           {endCateg_ARR.map((categ) => {
             return (
               <li key={categ.id}>

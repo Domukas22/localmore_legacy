@@ -1,24 +1,22 @@
 //
 //
 import { Dialog, Modal } from "react-aria-components";
-import { Btn } from "../../btn/btn";
-import { useEffect, useRef, useState } from "react";
+import { Btn } from "../../../btn/btn";
+import { useState } from "react";
 import { CSSTransition } from "react-transition-group";
-import { ICON_activeDigit, ICON_x } from "../../icons/icons";
-import lightbulb from "../../../assets/icons/lightbulb.png";
-import settings_ICON from "../../../assets/icons/settings.png";
-import css from "./DD_content.module.css";
-import { ICON_arrow } from "../../icons/icons";
-import en_FLAG from "../../../assets/icons/flags/en.png";
-import de_FLAG from "../../../assets/icons/flags/de.webp";
-import light from "../../../assets/icons/light.png";
-import { Settings_BLOCKS } from "./Transition_BLOCKS/Settings_BLOCKS";
-import { BtnBack_BLOCK } from "./Transition_BLOCKS/BtnBack_BLOCK";
-import { Legal_BLOCK } from "./Transition_BLOCKS/Legal_BLOCK";
-import { USE_getCategIDs } from "../../../hooks/USE_getCategIDs";
-import { USE_getCategoryByID } from "../../../hooks/USE_getDDcategory";
-import { USE_filterCategType } from "../../../hooks/USE_filterCategType";
-import logo from "../../../assets/icons/logo.png";
+import { ICON_activeDigit, ICON_x } from "../../../icons/icons";
+import lightbulb from "../../../../assets/icons/lightbulb.png";
+
+import css from "../../Nav.module.css";
+import { ICON_arrow } from "../../../icons/icons";
+
+import { Settings_BLOCKS } from "../Transition_BLOCKS/Settings_BLOCKS";
+import { BtnBack_BLOCK } from "../Transition_BLOCKS/BtnBack_BLOCK";
+import { Legal_BLOCK } from "../Transition_BLOCKS/Legal_BLOCK";
+
+import { USE_getCategoryByID } from "../../../../hooks/USE_getDDcategory";
+import { USE_filterCategType } from "../../../../hooks/USE_filterCategType";
+import logo from "../../../../assets/icons/logo.png";
 
 export function Mobile_MENU({ tagUsage_COUNT, lang, TOGGLE_lang, categories, TOGGLE_menu }) {
   const [current_MENU, SET_currentMenu] = useState("all");
@@ -277,21 +275,14 @@ function AllCategories_MENU({
       unmountOnExit
     >
       <ul className="menu">
-        <div className={css.block_WRAP}>
-          <li key={""}>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              left_ICON={<ICON_arrow direction="left" />}
-              text="Back"
-              aria_LABEL=""
-              onClick={() => {
-                SET_reverse(false);
-                SET_currentMenu("all");
-              }}
-              FIRE_clickEvent={false}
-            />
-          </li>
-        </div>
+        <BtnBack_BLOCK
+          title="Back to menu"
+          onClick={() => {
+            SET_reverse(false);
+            SET_currentMenu("all");
+          }}
+          aria_LABEL=""
+        />
         <div className={css.block_WRAP}>
           <li key={"all-categories"}>
             <Btn
@@ -322,6 +313,7 @@ function AllCategories_MENU({
           })}
         </div>
         <div className={css.block_WRAP}>
+          <p>All categories</p>
           {endCateg_ARR.map((categ) => {
             return (
               <li key={categ.id}>
