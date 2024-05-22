@@ -125,3 +125,13 @@
     }
   }
 }
+.savedBtn_LI {
+  display: flex;
+  column-gap: 0.6rem;
+
+  & button[data-custom="remove"] {
+    height: auto;
+    width: auto;
+  }
+  
+}

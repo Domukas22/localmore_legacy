@@ -26,6 +26,7 @@ import SearchBar from "../search/search";
 import { Categories_DD } from "./components/Dropdowns/Categories_DD";
 import { More_DD } from "./components/Dropdowns/More_DD";
 import { Settings_DD } from "./components/Dropdowns/Settings_DD";
+import { Saved_DD } from "./components/Dropdowns/Saved_DD";
 
 import { Mobile_MENU } from "./components/Mobile_MENU/Mobile_MENU";
 /*
@@ -113,7 +114,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
                 </li>
               )}
               <li>
-                <Saved_DD profiles={profiles} />
+                <Saved_DD all_PROFILES={profiles} />
               </li>
               <li>
                 <Settings_DD lang={lang} TOGGLE_lang={TOGGLE_lang} />
@@ -126,7 +127,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
             <ul style={{ display: "flex", columnGap: "8px" }} key="nav-right">
               {window_WIDTH > 450 && !IS_menuOpen && (
                 <li>
-                  <Saved_DD profiles={profiles} />
+                  <Saved_DD all_PROFILES={profiles} />
                 </li>
               )}
               {!IS_menuOpen && (
@@ -193,45 +194,11 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
             TOGGLE_lang={TOGGLE_lang}
             categories={categories}
             TOGGLE_menu={TOGGLE_menu}
+            profiles={profiles}
           />
         )}
       </AnimatePresence>
     </header>
-  );
-}
-
-function Saved_DD({ profiles }) {
-  const { savedProfile_IDs, REMOVE_fromSaved } = useContext(SavedProfileIDs_CONTEXT);
-  const saved_PROFILES = profiles.filter((p) => savedProfile_IDs.has(p._id));
-
-  return (
-    <DD align="right" width={280} btnLeft_ICON={<ICON_save />}>
-      <span>{savedProfile_IDs.size} liked profiles</span>
-      {savedProfile_IDs &&
-        savedProfile_IDs.size > 0 &&
-        Array.from(saved_PROFILES).map((profile) => {
-          return (
-            <div key={profile._id} style={{ display: "flex" }}>
-              <li key={profile._id + "-visit"} style={{ display: "flex", flex: "1" }}>
-                <img
-                  src={profile?.img?.desktop?.[0] + "/Big"}
-                  style={{ width: "32px", height: "32px", borderRadius: "4px" }}
-                />
-
-                <span>{profile.name.en}</span>
-              </li>
-              <li key={profile._id + "-remove"}>
-                <Btn
-                  styles={["btn-44", "navDD_BTN"]}
-                  left_ICON={<ICON_x color={"dark"} />}
-                  onClick={() => REMOVE_fromSaved(profile._id)}
-                  FIRE_clickEvent={false}
-                />
-              </li>
-            </div>
-          );
-        })}
-    </DD>
   );
 }
 

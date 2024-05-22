@@ -22,6 +22,7 @@ export function Btn({
   test_ID,
   active,
   FIRE_clickEvent = true,
+  custom_DATA,
 }) {
   return (
     <Button
@@ -37,6 +38,7 @@ export function Btn({
       aria-label={aria_LABEL}
       data-testid={test_ID}
       data-active={active}
+      data-custom={custom_DATA}
     >
       {leftIcon_URL && <img src={leftIcon_URL} className={css.icon} data-testid="left-icon" />}
       {left_ICON && left_ICON}
@@ -152,6 +154,28 @@ export function ShowTags_BTN({
           )}
         </>
       )}
+    </Button>
+  );
+}
+export function SavedProfile_BTN({
+  name,
+  subname,
+  image_URL,
+  aria_LABEL,
+  onClick = () => alert("No function provided"),
+}) {
+  return (
+    <Button
+      className={css["saved-profile-btn"]}
+      onPress={onClick}
+      aria-label={aria_LABEL}
+      data-testid="saved-profile-btn"
+    >
+      <img src={image_URL} />
+      <div className={css.text_WRAP}>
+        <h4>{name ?? "Name"}</h4>
+        <p>{subname ?? "Subname"}</p>
+      </div>
     </Button>
   );
 }

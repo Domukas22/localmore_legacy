@@ -9,21 +9,32 @@ import lightbulb from "../../../../assets/icons/lightbulb.png";
 
 import css from "../../Nav.module.css";
 import { ICON_arrow } from "../../../icons/icons";
+import { SavedProfileIDs_CONTEXT } from "../../../../contexts/savedProfiles";
+import { useContext } from "react";
 
 import { Settings_BLOCKS } from "../Transition_BLOCKS/Settings_BLOCKS";
 import { BtnBack_BLOCK } from "../Transition_BLOCKS/BtnBack_BLOCK";
 import { Legal_BLOCK } from "../Transition_BLOCKS/Legal_BLOCK";
+import { Saved_BLOCK } from "../Transition_BLOCKS/Saved_BLOCK";
 
 import { USE_getCategoryByID } from "../../../../hooks/USE_getDDcategory";
 import { USE_filterCategType } from "../../../../hooks/USE_filterCategType";
 import logo from "../../../../assets/icons/logo.png";
 
-export function Mobile_MENU({ tagUsage_COUNT, lang, TOGGLE_lang, categories, TOGGLE_menu }) {
+export function Mobile_MENU({
+  tagUsage_COUNT,
+  lang,
+  TOGGLE_lang,
+  categories,
+  TOGGLE_menu,
+  profiles,
+}) {
   const [current_MENU, SET_currentMenu] = useState("all");
   const timeout = 300;
 
   const [startCateg_ARR, endCateg_ARR, businessCateg_ARR, placesCateg_ARR] =
     USE_filterCategType(categories);
+  const { savedProfile_IDs } = useContext(SavedProfileIDs_CONTEXT);
 
   return (
     <Modal isOpen={true} className={css.Modal_MENU}>
@@ -34,7 +45,7 @@ export function Mobile_MENU({ tagUsage_COUNT, lang, TOGGLE_lang, categories, TOG
           left: 0,
           right: 0,
           bottom: 0,
-          paddingTop: "60px",
+          paddingTop: "6rem",
           zIndex: 40,
           backgroundColor: "rgba(234, 237, 245, 1)",
           overflowY: "scroll",
@@ -48,6 +59,7 @@ export function Mobile_MENU({ tagUsage_COUNT, lang, TOGGLE_lang, categories, TOG
           SET_currentMenu={SET_currentMenu}
           tagUsage_COUNT={tagUsage_COUNT}
           TOGGLE_menu={TOGGLE_menu}
+          savedProfile_IDs={savedProfile_IDs}
         />
         <Legal_MENU
           timeout={timeout}
@@ -81,12 +93,25 @@ export function Mobile_MENU({ tagUsage_COUNT, lang, TOGGLE_lang, categories, TOG
           current_MENU={current_MENU}
           SET_currentMenu={SET_currentMenu}
         />
+        <Saved_MENU
+          timeout={timeout}
+          current_MENU={current_MENU}
+          SET_currentMenu={SET_currentMenu}
+          profiles={profiles}
+        />
       </Dialog>
     </Modal>
   );
 }
 
-function All_MENU({ timeout, current_MENU, SET_currentMenu, tagUsage_COUNT, TOGGLE_menu }) {
+function All_MENU({
+  timeout,
+  current_MENU,
+  SET_currentMenu,
+  tagUsage_COUNT,
+  TOGGLE_menu,
+  savedProfile_IDs,
+}) {
   return (
     <CSSTransition
       in={current_MENU === "all"}
@@ -123,7 +148,7 @@ function All_MENU({ timeout, current_MENU, SET_currentMenu, tagUsage_COUNT, TOGG
           <li>
             <Btn
               styles={["btn-44", "navDD_BTN"]}
-              text="Saved (3)"
+              text={`Saved (${savedProfile_IDs.size})`}
               left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/2107/2107845.png"></img>}
               aria_LABEL=""
               right_ICON={<ICON_arrow direction="right" />}
@@ -253,6 +278,21 @@ function Settings_MENU({ lang, TOGGLE_lang, timeout, current_MENU, SET_currentMe
       <ul className="menu">
         <BtnBack_BLOCK title="Back to menu" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
         <Settings_BLOCKS lang={lang} TOGGLE_lang={TOGGLE_lang} />
+      </ul>
+    </CSSTransition>
+  );
+}
+function Saved_MENU({ timeout, current_MENU, SET_currentMenu, profiles }) {
+  return (
+    <CSSTransition
+      in={current_MENU === "saved"}
+      timeout={timeout}
+      classNames="menu-secondary"
+      unmountOnExit
+    >
+      <ul className="menu">
+        <BtnBack_BLOCK title="Back to menu" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
+        <Saved_BLOCK all_PROFILES={profiles} />
       </ul>
     </CSSTransition>
   );

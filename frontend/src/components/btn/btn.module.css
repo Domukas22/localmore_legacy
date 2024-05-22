@@ -334,5 +334,27 @@
     transform: translateY(0.3rem);
   }
 }
+.saved-profile-btn {
+  composes: btn;
+  height: 7.2rem;
+  flex: 1;
+  padding: 0.6rem;
+  justify-content: flex-start;
+  column-gap: 1.4rem;
+
+  & img {
+    object-fit: cover;
+    width: 6rem;
+    height: 100%;
+    box-shadow: var(--shadow-btn);
+    border-radius: var(--radius-12);
+  }
+
+  & .text_WRAP {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+}
 
 /* /////////////////////////////////////// */
