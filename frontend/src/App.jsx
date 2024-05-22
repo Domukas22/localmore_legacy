@@ -7,6 +7,7 @@ import { USE_windowWidth } from "./hooks/USE_windowWidth";
 import { USE_fetchData } from "./hooks/USE_fetchData.js";
 import { base_URL } from "./config.js";
 import Nav from "./components/Nav/Nav.jsx";
+import { Search_RESULTS } from "./components/search/Search_RESULTS/Search_RESULTS.jsx";
 
 export function App() {
   const [search, SET_search] = useState("");
@@ -44,6 +45,7 @@ export function App() {
         categories={categories}
         profiles={profiles}
       />
+      {search !== "" && <Search_RESULTS search={search} profiles={profiles} />}
       <Explore
         profiles={profiles}
         tags={tags}

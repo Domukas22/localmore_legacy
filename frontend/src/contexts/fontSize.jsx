@@ -19,7 +19,7 @@ export const FontSizeProvider = ({ children }) => {
         break;
       case 1:
       default:
-        size = 1; // 16px
+        size = 1.063; // 17px
         break;
     }
     document.documentElement.style.fontSize = `${size * 62.5}%`; // Base size is 10px (62.5% of 16px)

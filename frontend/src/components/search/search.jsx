@@ -25,6 +25,7 @@ export default function SearchBar({ SET_search, search }) {
           className={css["react-aria-Input"]}
           aria-label="Heidelberg durchsuchen..."
           ref={inputRef}
+          value={search}
         />
 
         <Button ref={clear_BTN} className={css.invisibleClear_BTN}></Button>

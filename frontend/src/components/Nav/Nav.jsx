@@ -1,7 +1,7 @@
 //
 
 import css from "./Nav.module.css";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 
 import { LogoSvg_COMP } from "../../assets/logo/LogoSvg_COMP";
 import { ICON_x, ICON_dropDownArrow, ICON_search } from "../icons/icons";
@@ -21,20 +21,23 @@ import { Settings_DD } from "./components/Dropdowns/Settings_DD";
 import { Saved_DD } from "./components/Dropdowns/Saved_DD";
 import { Mobile_MENU } from "./components/Mobile_MENU/Mobile_MENU";
 import { ICON_menuLines } from "../icons/icons";
+import { Search_OVERLAY } from "./components/Search_OVERLAY/Search_OVERLAY";
 
 export default function Nav({ tagUsages, search, SET_search, categories, profiles }) {
   const [IS_menuOpen, TOGGLE_menu, SET_menuOpen] = USE_Toggle(false);
+  const [IS_searchOpen, TOGGLE_search, SET_searchOpen] = USE_Toggle(false);
   const { fontSize } = useContext(FontSizeContext); // 1, 2, 3
   const { lang, TOGGLE_lang } = useContext(Lang_CONTEXT);
   const { theme } = useContext(Theme_CONTEXT);
 
   const window_WIDTH = USE_windowWidth();
-
   const layout = GET_layout(window_WIDTH, fontSize);
   console.log(layout);
 
   const SHRINK_logo = layout <= 5 || IS_menuOpen ? false : true;
   if (window_WIDTH > 900 && IS_menuOpen) SET_menuOpen(false);
+  if (layout < 5 && IS_searchOpen) SET_searchOpen(false);
+  if (layout > 4 && !IS_searchOpen && search !== "") SET_searchOpen(true);
 
   return (
     <header className={css.header} data-theme={theme}>
@@ -54,7 +57,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
                   text={layout <= 8 && "Search"}
                   left_ICON={<ICON_search />}
                   aria_LABEL=""
-                  onClick={() => {}}
+                  onClick={TOGGLE_search}
                 />
               </li>
             )}
@@ -133,6 +136,9 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
             profiles={profiles}
           />
         )}
+        {IS_searchOpen && (
+          <Search_OVERLAY search={search} SET_search={SET_search} TOGGLE_search={TOGGLE_search} />
+        )}
       </AnimatePresence>
     </header>
   );
@@ -141,13 +147,13 @@ function GET_layout(windowWidth, fontSize) {
   const layoutMapping = {
     1: {
       // font size 1
-      1140: 1,
-      1000: 2,
-      900: 3,
-      760: 4,
-      580: 5,
-      450: 6,
-      320: 7,
+      1200: 1,
+      1060: 2,
+      960: 3,
+      800: 4,
+      620: 5,
+      470: 6,
+      360: 7,
       300: 8,
       default: 10,
     },

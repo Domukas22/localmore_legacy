@@ -14,7 +14,6 @@ import { global_TR } from "../../translations";
 
 export default function Explore({ profiles, tags, tagUsages, windowWidth, search }) {
   const [panoramas, SET_panoramas] = useState(null);
-
   const { lang } = useContext(Lang_CONTEXT);
 
   return (

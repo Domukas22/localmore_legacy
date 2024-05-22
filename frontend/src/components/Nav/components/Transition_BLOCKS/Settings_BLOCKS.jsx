@@ -75,7 +75,7 @@ export function Settings_BLOCKS({ lang, TOGGLE_lang, SET_height = () => {} }) {
           <li data-item="li-btn-normal">
             <Btn
               styles={["btn-44", "navDD_BTN"]}
-              text={"1"}
+              text={"Normal"}
               aria_LABEL=""
               onClick={() => {
                 setFontSize(1);
@@ -88,7 +88,7 @@ export function Settings_BLOCKS({ lang, TOGGLE_lang, SET_height = () => {} }) {
           <li data-item="li-btn-big">
             <Btn
               styles={["btn-44", "navDD_BTN"]}
-              text={"2"}
+              text={"Big"}
               aria_LABEL=""
               onClick={() => {
                 setFontSize(2);
@@ -101,7 +101,7 @@ export function Settings_BLOCKS({ lang, TOGGLE_lang, SET_height = () => {} }) {
           <li data-item="li-btn-huge">
             <Btn
               styles={["btn-44", "navDD_BTN"]}
-              text={"3"}
+              text={"Huge"}
               aria_LABEL=""
               onClick={() => {
                 setFontSize(3);
