@@ -50,7 +50,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
 
         <nav key="nav">
           <ul>
-            {layout >= 5 && (
+            {layout >= 5 && !IS_menuOpen && (
               <li>
                 <Btn
                   styles={["btn-40", "round", "grey"]}
