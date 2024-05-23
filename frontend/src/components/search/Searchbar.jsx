@@ -4,10 +4,16 @@ import { SearchField, Input, Button } from "react-aria-components";
 import { ICON_searchSmall, ICON_x } from "../icons/icons";
 import css from "./search.module.css";
 import { useRef } from "react";
+import { useEffect } from "react";
 
-export default function SearchBar({ SET_search, search }) {
-  const inputRef = useRef(null);
+export default function SearchBar({ SET_search, search, searchBar_REF }) {
+  // const ref = useRef(null);
   const clear_BTN = useRef(null);
+  useEffect(() => {
+    if (searchBar_REF?.current) {
+      searchBar_REF.current.focus();
+    }
+  }, [searchBar_REF]);
 
   return (
     <div className={css.search_WRAP}>
@@ -24,7 +30,7 @@ export default function SearchBar({ SET_search, search }) {
           placeholder="Search places, businesses..."
           className={css["react-aria-Input"]}
           aria-label="Heidelberg durchsuchen..."
-          ref={inputRef}
+          ref={searchBar_REF}
           value={search}
         />
 

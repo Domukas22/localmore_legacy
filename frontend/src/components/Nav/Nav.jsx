@@ -1,19 +1,19 @@
 //
 
 import css from "./Nav.module.css";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import { LogoSvg_COMP } from "../../assets/logo/LogoSvg_COMP";
 import { ICON_x, ICON_dropDownArrow, ICON_search } from "../icons/icons";
 import PropTypes from "prop-types";
 import { USE_windowWidth } from "../../hooks/USE_windowWidth";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import USE_Toggle from "../../hooks/USE_toggle";
 import { Btn } from "../btn/btn";
 import { Lang_CONTEXT } from "../../contexts/lang";
 import { Theme_CONTEXT } from "../../contexts/theme";
 import { FontSizeContext } from "../../contexts/fontSize";
-import SearchBar from "../search/search";
+import SearchBar from "../search/Searchbar";
 
 import { Categories_DD } from "./components/Dropdowns/Categories_DD";
 import { More_DD } from "./components/Dropdowns/More_DD";
@@ -22,6 +22,7 @@ import { Saved_DD } from "./components/Dropdowns/Saved_DD";
 import { Mobile_MENU } from "./components/Mobile_MENU/Mobile_MENU";
 import { ICON_menuLines } from "../icons/icons";
 import { Search_OVERLAY } from "./components/Search_OVERLAY/Search_OVERLAY";
+import { Modal_SEARCH } from "../search/Search_RESULTS/Modal_SEARCH";
 
 export default function Nav({ tagUsages, search, SET_search, categories, profiles }) {
   const [IS_menuOpen, TOGGLE_menu, SET_menuOpen] = USE_Toggle(false);
@@ -29,41 +30,73 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
   const { fontSize } = useContext(FontSizeContext); // 1, 2, 3
   const { lang, TOGGLE_lang } = useContext(Lang_CONTEXT);
   const { theme } = useContext(Theme_CONTEXT);
+  const [current_MENU, SET_currentMenu] = useState("all");
+
+  const mainSearch_REF = useRef(null);
+  const overlaySearch_REF = useRef(null);
+
+  function TOGGLE_menu_2nd() {
+    if (IS_menuOpen) {
+      SET_menuOpen(false);
+
+      setTimeout(() => {
+        SET_currentMenu("all");
+      }, 301);
+    } else {
+      SET_menuOpen(true);
+    }
+  }
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-noscroll", `${search !== ""}`);
+  }, [search]);
 
   const window_WIDTH = USE_windowWidth();
   const layout = GET_layout(window_WIDTH, fontSize);
-  console.log(layout);
 
   const SHRINK_logo = layout <= 5 || IS_menuOpen ? false : true;
   if (window_WIDTH > 900 && IS_menuOpen) SET_menuOpen(false);
   if (layout < 5 && IS_searchOpen) SET_searchOpen(false);
-  if (layout > 4 && !IS_searchOpen && search !== "") SET_searchOpen(true);
+  if (layout > 4 && !IS_searchOpen && search !== "") {
+    SET_searchOpen(true);
+  }
+
+  const SHOULD_showSearchBtn = layout >= 5 && !IS_menuOpen;
 
   return (
-    <header className={css.header} data-theme={theme}>
-      <AnimatePresence>
+    <header className={css.header} data-theme={theme} data-hidemainnav={IS_searchOpen}>
+      <div className={css.nav_WRAP}>
         <h1 key="nav-logo" data-shrink={SHRINK_logo ? SHRINK_logo : false}>
           <a href="http://localhost:5173/" title="← Back to the homepage">
             <LogoSvg_COMP shrink={SHRINK_logo ? SHRINK_logo : false} />
           </a>
         </h1>
-
         <nav key="nav">
-          <ul>
-            {layout >= 5 && !IS_menuOpen && (
-              <li>
-                <Btn
-                  styles={["btn-40", "round", "grey"]}
-                  text={layout <= 8 && "Search"}
-                  left_ICON={<ICON_search />}
-                  aria_LABEL=""
-                  onClick={TOGGLE_search}
-                />
-              </li>
-            )}
+          <ul className={!SHOULD_showSearchBtn && css["hide-search-btn"]}>
+            <AnimatePresence>
+              {layout >= 5 && !IS_menuOpen && (
+                <motion.li
+                  initial={{ opacity: 0, x: 70 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 70 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  data-custom="search-btn-li"
+                >
+                  <Btn
+                    styles={["btn-40", "round", "grey"]}
+                    text={layout <= 8 && "Search"}
+                    left_ICON={<ICON_search />}
+                    aria_LABEL=""
+                    onClick={TOGGLE_search}
+                    custom_DATA="search-btn"
+                    FIRE_clickEvent={false}
+                  />
+                </motion.li>
+              )}
+            </AnimatePresence>
             {layout <= 4 && (
               <li>
-                <SearchBar SET_search={SET_search} search={search} />
+                <SearchBar SET_search={SET_search} search={search} searchBar_REF={mainSearch_REF} />
               </li>
             )}
             {layout <= 2 && (
@@ -109,7 +142,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
                     )
                   }
                   aria_LABEL=""
-                  onClick={TOGGLE_menu}
+                  onClick={TOGGLE_menu_2nd}
                 />
               </li>
             )}
@@ -125,19 +158,28 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
             )}
           </ul>
         </nav>
+      </div>
 
-        {IS_menuOpen && (
-          <Mobile_MENU
-            tagUsage_COUNT={tagUsages.length}
-            lang={lang}
-            TOGGLE_lang={TOGGLE_lang}
-            categories={categories}
-            TOGGLE_menu={TOGGLE_menu}
-            profiles={profiles}
-          />
-        )}
+      <Mobile_MENU
+        tagUsage_COUNT={tagUsages.length}
+        lang={lang}
+        TOGGLE_lang={TOGGLE_lang}
+        categories={categories}
+        TOGGLE_menu={TOGGLE_menu_2nd}
+        profiles={profiles}
+        IS_menuOpen={IS_menuOpen}
+        current_MENU={current_MENU}
+        SET_currentMenu={SET_currentMenu}
+      />
+
+      <AnimatePresence>
         {IS_searchOpen && (
-          <Search_OVERLAY search={search} SET_search={SET_search} TOGGLE_search={TOGGLE_search} />
+          <Search_OVERLAY
+            search={search}
+            SET_search={SET_search}
+            TOGGLE_search={TOGGLE_search}
+            searchBar_REF={overlaySearch_REF}
+          />
         )}
       </AnimatePresence>
     </header>

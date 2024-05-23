@@ -11,6 +11,7 @@ import css from "../../Nav.module.css";
 import { ICON_arrow } from "../../../icons/icons";
 import { SavedProfileIDs_CONTEXT } from "../../../../contexts/savedProfiles";
 import { useContext } from "react";
+import { useRef, useEffect } from "react";
 
 import { Settings_BLOCKS } from "../Transition_BLOCKS/Settings_BLOCKS";
 import { BtnBack_BLOCK } from "../Transition_BLOCKS/BtnBack_BLOCK";
@@ -28,77 +29,79 @@ export function Mobile_MENU({
   categories,
   TOGGLE_menu,
   profiles,
+  IS_menuOpen,
+  current_MENU,
+  SET_currentMenu,
 }) {
-  const [current_MENU, SET_currentMenu] = useState("all");
+  // const [current_MENU, SET_currentMenu] = useState("all");
   const timeout = 300;
 
   const [startCateg_ARR, endCateg_ARR, businessCateg_ARR, placesCateg_ARR] =
     USE_filterCategType(categories);
   const { savedProfile_IDs } = useContext(SavedProfileIDs_CONTEXT);
+  const scroll_REF = useRef(null);
+
+  useEffect(() => {
+    // scroll to top when menu changes
+    if (scroll_REF.current) {
+      scroll_REF.current.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  }, [current_MENU]);
 
   return (
-    <Modal isOpen={true} className={css.Modal_MENU}>
-      <Dialog
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          paddingTop: "6rem",
-          zIndex: 40,
-          backgroundColor: "rgba(234, 237, 245, 1)",
-          overflowY: "scroll",
-          overflowX: "hidden",
-        }}
-        aria-label="Menu"
-      >
-        <All_MENU
-          timeout={timeout}
-          current_MENU={current_MENU}
-          SET_currentMenu={SET_currentMenu}
-          tagUsage_COUNT={tagUsage_COUNT}
-          TOGGLE_menu={TOGGLE_menu}
-          savedProfile_IDs={savedProfile_IDs}
-        />
-        <Legal_MENU
-          timeout={timeout}
-          current_MENU={current_MENU}
-          SET_currentMenu={SET_currentMenu}
-        />
-        <Settings_MENU
-          timeout={timeout}
-          current_MENU={current_MENU}
-          SET_currentMenu={SET_currentMenu}
-          lang={lang}
-          TOGGLE_lang={TOGGLE_lang}
-        />
-        <AllCategories_MENU
-          timeout={timeout}
-          current_MENU={current_MENU}
-          SET_currentMenu={SET_currentMenu}
-          categories={categories}
-          startCateg_ARR={startCateg_ARR}
-          endCateg_ARR={endCateg_ARR}
-        />
-        <Business_MENU
-          categories={businessCateg_ARR}
-          timeout={timeout}
-          current_MENU={current_MENU}
-          SET_currentMenu={SET_currentMenu}
-        />
-        <Places_MENU
-          categories={placesCateg_ARR}
-          timeout={timeout}
-          current_MENU={current_MENU}
-          SET_currentMenu={SET_currentMenu}
-        />
-        <Saved_MENU
-          timeout={timeout}
-          current_MENU={current_MENU}
-          SET_currentMenu={SET_currentMenu}
-          profiles={profiles}
-        />
+    <Modal isOpen={IS_menuOpen} className={css.Modal_MENU}>
+      <Dialog aria-label="Menu" ref={scroll_REF} className={css.Dialog_MENU}>
+        <div className={css.menu_PREWRAP}>
+          <All_MENU
+            timeout={timeout}
+            current_MENU={current_MENU}
+            SET_currentMenu={SET_currentMenu}
+            tagUsage_COUNT={tagUsage_COUNT}
+            TOGGLE_menu={TOGGLE_menu}
+            savedProfile_IDs={savedProfile_IDs}
+          />
+          <Legal_MENU
+            timeout={timeout}
+            current_MENU={current_MENU}
+            SET_currentMenu={SET_currentMenu}
+          />
+          <Settings_MENU
+            timeout={timeout}
+            current_MENU={current_MENU}
+            SET_currentMenu={SET_currentMenu}
+            lang={lang}
+            TOGGLE_lang={TOGGLE_lang}
+          />
+          <AllCategories_MENU
+            timeout={timeout}
+            current_MENU={current_MENU}
+            SET_currentMenu={SET_currentMenu}
+            categories={categories}
+            startCateg_ARR={startCateg_ARR}
+            endCateg_ARR={endCateg_ARR}
+          />
+          <Business_MENU
+            categories={businessCateg_ARR}
+            timeout={timeout}
+            current_MENU={current_MENU}
+            SET_currentMenu={SET_currentMenu}
+          />
+          <Places_MENU
+            categories={placesCateg_ARR}
+            timeout={timeout}
+            current_MENU={current_MENU}
+            SET_currentMenu={SET_currentMenu}
+          />
+          <Saved_MENU
+            timeout={timeout}
+            current_MENU={current_MENU}
+            SET_currentMenu={SET_currentMenu}
+            profiles={profiles}
+          />
+        </div>
       </Dialog>
     </Modal>
   );

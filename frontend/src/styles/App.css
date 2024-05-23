@@ -47,6 +47,16 @@
   font-weight: 300;
   font-size: 62.5%;
 }
+
+html[data-noscroll="true"]{
+  overflow: hidden;
+  padding-right: 1.4rem;
+
+  @media (--mobile) {
+    padding-right: 0rem;
+  }
+}
+
 body {
 
   font-size: var(--user-font-size, 1.6rem);

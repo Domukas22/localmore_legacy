@@ -7,7 +7,8 @@ import { USE_windowWidth } from "./hooks/USE_windowWidth";
 import { USE_fetchData } from "./hooks/USE_fetchData.js";
 import { base_URL } from "./config.js";
 import Nav from "./components/Nav/Nav.jsx";
-import { Search_RESULTS } from "./components/search/Search_RESULTS/Search_RESULTS.jsx";
+import { Modal_SEARCH } from "./components/search/Search_RESULTS/Modal_SEARCH.jsx";
+import { AnimatePresence } from "framer-motion";
 
 export function App() {
   const [search, SET_search] = useState("");
@@ -45,7 +46,9 @@ export function App() {
         categories={categories}
         profiles={profiles}
       />
-      {search !== "" && <Search_RESULTS search={search} profiles={profiles} />}
+      <AnimatePresence>
+        {search !== "" && <Modal_SEARCH search={search} profiles={profiles} />}
+      </AnimatePresence>
       <Explore
         profiles={profiles}
         tags={tags}
