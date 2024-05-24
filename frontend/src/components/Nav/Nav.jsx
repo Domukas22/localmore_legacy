@@ -6,7 +6,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { LogoSvg_COMP } from "../../assets/logo/LogoSvg_COMP";
 import { ICON_x, ICON_dropDownArrow, ICON_search } from "../icons/icons";
 import PropTypes from "prop-types";
-import { USE_windowWidth } from "../../hooks/USE_windowWidth";
+import { USE_windowSize } from "../../hooks/USE_windowWidth";
 import { AnimatePresence, motion } from "framer-motion";
 import USE_Toggle from "../../hooks/USE_toggle";
 import { Btn } from "../btn/btn";
@@ -51,7 +51,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
     document.documentElement.setAttribute("data-noscroll", `${search !== ""}`);
   }, [search]);
 
-  const window_WIDTH = USE_windowWidth();
+  const { width: window_WIDTH } = USE_windowSize();
   const layout = GET_layout(window_WIDTH, fontSize);
 
   const SHRINK_logo = layout <= 5 || IS_menuOpen ? false : true;
@@ -62,6 +62,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
   }
 
   const SHOULD_showSearchBtn = layout >= 5 && !IS_menuOpen;
+  console.log(layout);
 
   return (
     <header className={css.header} data-theme={theme} data-hidemainnav={IS_searchOpen}>
@@ -124,6 +125,8 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
                   TOGGLE_lang={TOGGLE_lang}
                   align={layout > 1 && "right"}
                   IS_textMenu={layout > 3}
+                  SHOULD_showCategories={layout > 3}
+                  categories={categories}
                 />
               </li>
             )}

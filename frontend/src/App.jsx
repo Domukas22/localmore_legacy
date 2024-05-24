@@ -3,7 +3,7 @@ import "./styles/App.css";
 
 import { useState } from "react";
 import Explore from "./pages/explore/explore.jsx";
-import { USE_windowWidth } from "./hooks/USE_windowWidth";
+import { USE_windowSize } from "./hooks/USE_windowWidth";
 import { USE_fetchData } from "./hooks/USE_fetchData.js";
 import { base_URL } from "./config.js";
 import Nav from "./components/Nav/Nav.jsx";
@@ -12,6 +12,7 @@ import { AnimatePresence } from "framer-motion";
 
 export function App() {
   const [search, SET_search] = useState("");
+  const { width: window_WIDTH } = USE_windowSize();
 
   const {
     data: profiles,
@@ -53,7 +54,7 @@ export function App() {
         profiles={profiles}
         tags={tags}
         tagUsages={tagUsages}
-        windowWidth={USE_windowWidth()}
+        windowWidth={window_WIDTH}
         search={search}
       />
     </>

@@ -16,10 +16,10 @@ export function USE_DDactions() {
   function HANLDE_dd(action, el = null) {
     switch (action) {
       case "open":
-        SET_menuHeight(dropdown_REF.current?.firstChild.offsetHeight);
+        SET_menuHeight(dropdown_REF.current?.firstChild.offsetHeight + 1);
         break;
       case "calculate":
-        SET_menuHeight(el.offsetHeight);
+        SET_menuHeight(el.offsetHeight + 1);
         break;
       case "close":
         // SET_menuHeight(dropdown_REF.current?.firstChild.offsetHeight);

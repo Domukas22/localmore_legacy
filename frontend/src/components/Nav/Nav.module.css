@@ -81,8 +81,18 @@
       
       
     }
-  }
 
+    & .dd_SUBWRAP {
+      max-height: calc(100vh - 6rem - 2rem); /* 100vh - nav height - gap */
+      
+      &[data-scroll="true"]{
+        overflow-y: scroll;
+      }
+    }
+    
+  }
+ 
+  
 
   &[data-hidemainnav="true"] {
     overflow: hidden;

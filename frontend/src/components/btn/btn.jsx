@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { Button } from "react-aria-components";
 import { ICON_activeDigit } from "../icons/icons";
 import { profilePreview_TR } from "../../translations";
-import { USE_windowWidth } from "../../hooks/USE_windowWidth";
+import { USE_windowSize } from "../../hooks/USE_windowWidth";
 import DD from "../dd/dd";
 
 export function Btn({
@@ -107,7 +107,7 @@ export function ShowTags_BTN({
 
   const name = profile?.name?.[lang] || "Profile name not found";
 
-  const windowWidth = USE_windowWidth();
+  const { width: windowWidth } = USE_windowSize();
   const visibleIcon_COUNT = windowWidth > 400 ? 3 : windowWidth > 380 ? 2 : 1;
 
   const icons = profile?.tags?.map((t) => (t.icon?.url ? t.icon.url : ""));

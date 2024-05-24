@@ -20,6 +20,7 @@ const DD = forwardRef((props, ref) => {
     children,
     onClose = () => {},
     onOpen = () => {},
+    scroll = false,
   } = props;
   const [expanded, setExpanded] = useState(false);
   const [theId] = useState(id ? id : generateId(10)); // Generate random ID if not specified.
