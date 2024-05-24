@@ -14,6 +14,10 @@ import { USE_DDactions } from "../../../../hooks/USE_DDactions";
 import { Settings_BLOCKS } from "../Transition_BLOCKS/Settings_BLOCKS";
 import { BtnBack_BLOCK } from "../Transition_BLOCKS/BtnBack_BLOCK";
 import { Legal_BLOCK } from "../Transition_BLOCKS/Legal_BLOCK";
+import { Boring_BLOCK } from "../Transition_BLOCKS/Boring_BLOCK";
+import { Middle_BLOCK } from "../Transition_BLOCKS/Middle_BLOCK";
+import { Upper_BLOCK } from "../Transition_BLOCKS/Upper_BLOCK";
+
 import logo from "../../../../assets/icons/logo.png";
 import { USE_filterCategType } from "../../../../hooks/USE_filterCategType";
 import { USE_getCategoryByID } from "../../../../hooks/USE_getDDcategory";
@@ -58,31 +62,50 @@ export function More_DD({
     >
       <div
         ref={dropdown_REF}
-        style={{ height: menuHeight, transition: "300ms", position: "relative" }}
+        style={{
+          height: menuHeight,
+          transition: "300ms",
+          position: "relative",
+          overflowX: "hidden",
+        }}
         data-scroll={scroll}
         className={css.dd_SUBWRAP}
       >
-        <All_MENU
-          onEnter={(el) => HANLDE_dd("calculate", el)}
-          timeout={timeout}
+        <CssTransition_MENU
           current_MENU={current_MENU}
-          SET_currentMenu={SET_currentMenu}
-          tagUsage_COUNT={tagUsage_COUNT}
-        />
-        <Legal_MENU
-          onEnter={(el) => HANLDE_dd("calculate", el)}
-          timeout={timeout}
+          classNames="menu-primary"
+          menu_NAME="all"
+          HANLDE_dd={HANLDE_dd}
+        >
+          <Upper_BLOCK SET_currentMenu={SET_currentMenu} visible_BTNs={{ liked: false }} />
+          <Middle_BLOCK tagUsage_COUNT={tagUsage_COUNT} />
+          <Boring_BLOCK SET_currentMenu={SET_currentMenu} />
+        </CssTransition_MENU>
+
+        <CssTransition_MENU
           current_MENU={current_MENU}
-          SET_currentMenu={SET_currentMenu}
-        />
-        <Settings_MENU
-          onEnter={(el) => HANLDE_dd("calculate", el)}
-          timeout={timeout}
+          classNames="menu-secondary"
+          menu_NAME="legal"
+          HANLDE_dd={HANLDE_dd}
+        >
+          <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
+          <Legal_BLOCK />
+        </CssTransition_MENU>
+
+        <CssTransition_MENU
           current_MENU={current_MENU}
-          SET_currentMenu={SET_currentMenu}
-          lang={lang}
-          TOGGLE_lang={TOGGLE_lang}
-        />
+          classNames="menu-secondary"
+          menu_NAME="settings"
+          HANLDE_dd={HANLDE_dd}
+        >
+          <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
+          <Settings_BLOCKS
+            lang={lang}
+            TOGGLE_lang={TOGGLE_lang}
+            // SET_height={() => onEnter(resize_REF)}
+          />
+        </CssTransition_MENU>
+
         <AllCategories_MENU
           onEnter={(el) => HANLDE_dd("calculate", el)}
           timeout={timeout}
@@ -110,151 +133,9 @@ export function More_DD({
     </DD>
   );
 }
-function All_MENU({ onEnter, timeout, current_MENU, SET_currentMenu, tagUsage_COUNT }) {
-  return (
-    <CSSTransition
-      in={current_MENU === "all"}
-      timeout={timeout}
-      classNames="menu-primary"
-      unmountOnExit
-      onEnter={onEnter}
-    >
-      <ul className="menu">
-        <div className={css.block_WRAP}>
-          <li>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              text="Alle tags"
-              aria_LABEL=""
-              left_ICON={<ICON_activeDigit count={tagUsage_COUNT} IS_active={true} />}
-              onClick={() => {}}
-              FIRE_clickEvent={false}
-            />
-          </li>
-          <li>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              text="Categories"
-              left_ICON={
-                <img src="https://cdn-icons-png.flaticon.com/512/11244/11244162.png"></img>
-              }
-              aria_LABEL=""
-              right_ICON={<ICON_arrow direction="right" />}
-              onClick={() => SET_currentMenu("categories")}
-              FIRE_clickEvent={false}
-            />
-          </li>
-          <li>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              left_ICON={<img src={lightbulb} />}
-              text="Idee vorschlagen"
-              aria_LABEL=""
-              onClick={() => ""}
-            />
-          </li>
-          <li>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              text="Feedback geben"
-              left_ICON={
-                <img src="https://cdn-icons-png.freepik.com/512/4066/4066310.png?ga=GA1.1.807612306.1716024941" />
-              }
-              aria_LABEL=""
-              onClick={() => {}}
-              FIRE_clickEvent={false}
-            />
-          </li>
-          <li>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              text="Settings"
-              left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/3953/3953226.png"></img>}
-              aria_LABEL=""
-              right_ICON={<ICON_arrow direction="right" />}
-              onClick={() => SET_currentMenu("settings")}
-              FIRE_clickEvent={false}
-            />
-          </li>
-        </div>
-        <div className={css.block_WRAP}>
-          <li>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              text="About us"
-              left_ICON={<img src={logo}></img>}
-              aria_LABEL=""
-              onClick={() => {}}
-              FIRE_clickEvent={false}
-            />
-          </li>
-          <li>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              text="Contact"
-              left_ICON={
-                <img src="https://cdn-icons-png.freepik.com/512/7596/7596763.png?ga=GA1.1.807612306.1716024941" />
-              }
-              aria_LABEL=""
-              onClick={() => {}}
-              FIRE_clickEvent={false}
-            />
-          </li>
-          <li>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              text="Legal"
-              left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/3122/3122321.png"></img>}
-              aria_LABEL=""
-              right_ICON={<ICON_arrow direction="right" />}
-              onClick={() => SET_currentMenu("legal")}
-              FIRE_clickEvent={false}
-            />
-          </li>
-        </div>
-      </ul>
-    </CSSTransition>
-  );
-}
-function Legal_MENU({ onEnter, timeout, current_MENU, SET_currentMenu }) {
-  return (
-    <CSSTransition
-      in={current_MENU === "legal"}
-      timeout={timeout}
-      classNames="menu-secondary"
-      unmountOnExit
-      onEnter={onEnter}
-    >
-      <ul className="menu">
-        <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
-        <Legal_BLOCK />
-      </ul>
-    </CSSTransition>
-  );
-}
-function Settings_MENU({ lang, TOGGLE_lang, onEnter, timeout, current_MENU, SET_currentMenu }) {
-  const resize_REF = useRef(null);
-  return (
-    <CSSTransition
-      in={current_MENU === "settings"}
-      timeout={timeout}
-      classNames="menu-secondary"
-      unmountOnExit
-      onEnter={onEnter}
-      ref={resize_REF}
-    >
-      <ul className="menu">
-        <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
-        <Settings_BLOCKS
-          lang={lang}
-          TOGGLE_lang={TOGGLE_lang}
-          SET_height={() => onEnter(resize_REF)}
-        />
-      </ul>
-    </CSSTransition>
-  );
-}
 
+// --------------------------------
+// TODO: Create separate files for each
 function AllCategories_MENU({
   timeout,
   current_MENU,
@@ -418,6 +299,21 @@ function Places_MENU({ onEnter, categories, timeout, current_MENU, SET_currentMe
           })}
         </div>
       </ul>
+    </CSSTransition>
+  );
+}
+// --------------------------------
+
+function CssTransition_MENU({ children, current_MENU, menu_NAME, HANLDE_dd, classNames }) {
+  return (
+    <CSSTransition
+      in={current_MENU === menu_NAME}
+      timeout={300}
+      classNames={classNames}
+      unmountOnExit
+      onEnter={(el) => HANLDE_dd("calculate", el)}
+    >
+      <ul className="menu">{children && children}</ul>
     </CSSTransition>
   );
 }
