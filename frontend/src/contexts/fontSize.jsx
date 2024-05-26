@@ -8,6 +8,8 @@ export const FontSizeContext = createContext();
 export const FontSizeProvider = ({ children }) => {
   const [fontSize, setFontSize] = useState(JSON.parse(localStorage.getItem("fontSize")) || 1);
 
+  // console.log("FONT");-
+
   useEffect(() => {
     let size;
     switch (fontSize) {

@@ -8,49 +8,56 @@ import { ICON_arrow } from "../../../icons/icons";
 import css from "../../Nav.module.css";
 import { ICON_activeDigit } from "../../../icons/icons";
 import lightbulb from "../../../../assets/icons/lightbulb.png";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback, useContext, useLayoutEffect } from "react";
 
 import { USE_DDactions } from "../../../../hooks/USE_DDactions";
 import { Settings_BLOCKS } from "../Transition_BLOCKS/Settings_BLOCKS";
 import { BtnBack_BLOCK } from "../Transition_BLOCKS/BtnBack_BLOCK";
 import { Legal_BLOCK } from "../Transition_BLOCKS/Legal_BLOCK";
-import { Boring_BLOCK } from "../Transition_BLOCKS/Boring_BLOCK";
-import { Middle_BLOCK } from "../Transition_BLOCKS/Middle_BLOCK";
+import { DDmoreStarter_BLOCK } from "../Transition_BLOCKS/Boring_BLOCK";
+
 import { Upper_BLOCK } from "../Transition_BLOCKS/Upper_BLOCK";
+import { Feedback_BLOCK } from "../Transition_BLOCKS/Feeback_BLOCK";
+import { Businesses_BLOCK } from "../Transition_BLOCKS/Businesses_BLOCK";
+import { Places_BLOCK } from "../Transition_BLOCKS/Places_BLOCK";
 
 import logo from "../../../../assets/icons/logo.png";
 import { USE_filterCategType } from "../../../../hooks/USE_filterCategType";
 import { USE_getCategoryByID } from "../../../../hooks/USE_getDDcategory";
 import { USE_windowSize } from "../../../../hooks/USE_windowWidth";
+import { AllCategories_BLOCK } from "../Transition_BLOCKS/AllCategories_BLOCKS";
+import { FontSizeContext } from "../../../../contexts/fontSize";
 
-export function More_DD({
-  tagUsage_COUNT,
-  align,
-  lang,
-  TOGGLE_lang,
-  IS_textMenu = false,
-  categories,
-}) {
-  const [HANLDE_dd, current_MENU, menuHeight, SET_currentMenu, dropdown_REF] = USE_DDactions();
+import USE_shouldDropdownScroll from "../../../../hooks/USE_shouldDropdownScroll";
+
+export function More_DD({ tag_USAGES, align, IS_textMenu = false, categories }) {
+  const [HANLDE_dd, current_MENU, menu_HEIGHT, SET_currentMenu, dropdown_REF] = USE_DDactions();
+  const SHOULD_ddScroll = USE_shouldDropdownScroll(menu_HEIGHT);
+  const { fontSize } = useContext(FontSizeContext);
+  const [reverse, SET_reverse] = useState(false);
+  const resize_REF = useRef(null);
   const [startCateg_ARR, endCateg_ARR, businessCateg_ARR, placesCateg_ARR] =
     USE_filterCategType(categories);
-  const timeout = 300;
 
-  const { height } = USE_windowSize();
-  const [scroll, SET_scroll] = useState(false);
+  const resize = useCallback(
+    (el) => {
+      HANLDE_dd("resize", el);
+      console.log("resize()");
+    },
+    [HANLDE_dd]
+  );
 
   useEffect(() => {
-    const nav_HEIGHT = 60; // px
-    const gap = 20; // px
-    const maxHeight = height - nav_HEIGHT - gap;
-    console.log("max: ", maxHeight, "menu: ", menuHeight);
+    // for the reload, when saving file on jsx, so the height doesnt default to 200
+    HANLDE_dd("open");
+  }, [dropdown_REF]);
 
-    if (menuHeight > maxHeight) {
-      SET_scroll(true);
-    } else {
-      SET_scroll(false);
+  useLayoutEffect(() => {
+    if (resize_REF.current) {
+      HANLDE_dd("fit");
+      console.log(menu_HEIGHT + " true");
     }
-  }, [height]);
+  }, [fontSize]);
 
   return (
     <DD
@@ -62,258 +69,162 @@ export function More_DD({
     >
       <div
         ref={dropdown_REF}
-        style={{
-          height: menuHeight,
-          transition: "300ms",
-          position: "relative",
-          overflowX: "hidden",
-        }}
-        data-scroll={scroll}
-        className={css.dd_SUBWRAP}
+        style={{ height: menu_HEIGHT }}
+        data-height={menu_HEIGHT}
+        data-scroll={SHOULD_ddScroll}
+        className={css.ddMenu_WRAP}
       >
+        {/* All */}
         <CssTransition_MENU
           current_MENU={current_MENU}
           classNames="menu-primary"
           menu_NAME="all"
-          HANLDE_dd={HANLDE_dd}
+          resize={resize}
         >
-          <Upper_BLOCK SET_currentMenu={SET_currentMenu} visible_BTNs={{ liked: false }} />
-          <Middle_BLOCK tagUsage_COUNT={tagUsage_COUNT} />
-          <Boring_BLOCK SET_currentMenu={SET_currentMenu} />
+          <Upper_BLOCK
+            SET_currentMenu={SET_currentMenu}
+            visible_BTNs={{ liked: false }}
+            SET_reverse={SET_reverse}
+          />
+          <DDmoreStarter_BLOCK SET_currentMenu={SET_currentMenu} />
         </CssTransition_MENU>
 
+        {/* All Categories */}
+        <CssTransition_MENU
+          current_MENU={current_MENU}
+          classNames={reverse ? "menu-secondary-reverse" : "menu-secondary"}
+          menu_NAME="categories"
+          resize={resize}
+        >
+          <BtnBack_BLOCK
+            title="Back to menu"
+            onClick={() => {
+              SET_reverse(false);
+              SET_currentMenu("all");
+            }}
+            aria_LABEL=""
+          />
+          <AllCategories_BLOCK
+            start_CATEG={startCateg_ARR}
+            end_CATEG={endCateg_ARR}
+            SET_currentMenu={SET_currentMenu}
+            SET_reverse={SET_reverse}
+          />
+        </CssTransition_MENU>
+
+        {/* Category - Businesses */}
+        <CssTransition_MENU
+          current_MENU={current_MENU}
+          classNames="menu-third"
+          menu_NAME="businesses"
+          resize={resize}
+        >
+          <BtnBack_BLOCK
+            title="All categories"
+            onClick={() => SET_currentMenu("categories")}
+            aria_LABEL=""
+          />
+          <Businesses_BLOCK business_CATEG={businessCateg_ARR} />
+        </CssTransition_MENU>
+
+        {/* Category - Places */}
+        <CssTransition_MENU
+          current_MENU={current_MENU}
+          classNames="menu-third"
+          menu_NAME="places"
+          resize={resize}
+        >
+          <BtnBack_BLOCK
+            title="All categories"
+            onClick={() => SET_currentMenu("categories")}
+            aria_LABEL=""
+          />
+          <Places_BLOCK places_CATEG={placesCateg_ARR} />
+        </CssTransition_MENU>
+
+        {/* Settings */}
+        {/* <CssTransition_MENU
+          current_MENU={current_MENU}
+          classNames="menu-secondary"
+          menu_NAME="settings"
+          resize={resize}
+        >
+          <div ref={resize_REF} data-test={menu_HEIGHT}>
+            <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
+            <Settings_BLOCKS resize={() => {}} test={resize_REF.current} />
+          </div>
+        </CssTransition_MENU> */}
+        <CssTransitionSettings_MENU
+          current_MENU={current_MENU}
+          classNames="menu-secondary"
+          menu_NAME="settings"
+          resize={resize}
+          resize_REF={resize_REF}
+        >
+          {/* <div data-test={menu_HEIGHT}> */}
+          <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
+          <Settings_BLOCKS resize={() => {}} test={resize_REF.current} />
+          {/* </div> */}
+        </CssTransitionSettings_MENU>
+
+        {/* Feedback */}
+        <CssTransition_MENU
+          current_MENU={current_MENU}
+          classNames="menu-secondary"
+          menu_NAME="feedback"
+          resize={resize}
+        >
+          <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
+          <Feedback_BLOCK />
+        </CssTransition_MENU>
+
+        {/* Legal */}
         <CssTransition_MENU
           current_MENU={current_MENU}
           classNames="menu-secondary"
           menu_NAME="legal"
-          HANLDE_dd={HANLDE_dd}
+          resize={resize}
         >
           <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
           <Legal_BLOCK />
         </CssTransition_MENU>
-
-        <CssTransition_MENU
-          current_MENU={current_MENU}
-          classNames="menu-secondary"
-          menu_NAME="settings"
-          HANLDE_dd={HANLDE_dd}
-        >
-          <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
-          <Settings_BLOCKS
-            lang={lang}
-            TOGGLE_lang={TOGGLE_lang}
-            // SET_height={() => onEnter(resize_REF)}
-          />
-        </CssTransition_MENU>
-
-        <AllCategories_MENU
-          onEnter={(el) => HANLDE_dd("calculate", el)}
-          timeout={timeout}
-          current_MENU={current_MENU}
-          SET_currentMenu={SET_currentMenu}
-          categories={categories}
-          startCateg_ARR={startCateg_ARR}
-          endCateg_ARR={endCateg_ARR}
-        />
-        <Business_MENU
-          onEnter={(el) => HANLDE_dd("calculate", el)}
-          categories={businessCateg_ARR}
-          timeout={timeout}
-          current_MENU={current_MENU}
-          SET_currentMenu={SET_currentMenu}
-        />
-        <Places_MENU
-          onEnter={(el) => HANLDE_dd("calculate", el)}
-          categories={placesCateg_ARR}
-          timeout={timeout}
-          current_MENU={current_MENU}
-          SET_currentMenu={SET_currentMenu}
-        />
       </div>
     </DD>
   );
 }
 
-// --------------------------------
-// TODO: Create separate files for each
-function AllCategories_MENU({
-  timeout,
-  current_MENU,
-  SET_currentMenu,
-  startCateg_ARR,
-  endCateg_ARR,
-  onEnter,
-}) {
-  const [reverse, SET_reverse] = useState(false);
-
-  return (
-    <CSSTransition
-      in={current_MENU === "categories"}
-      timeout={timeout}
-      classNames={reverse ? "menu-secondary-reverse" : "menu-secondary"}
-      unmountOnExit
-      onEnter={onEnter}
-    >
-      <ul className="menu">
-        <BtnBack_BLOCK
-          title="Back to menu"
-          onClick={() => {
-            SET_reverse(false);
-            SET_currentMenu("all");
-          }}
-          aria_LABEL=""
-        />
-        <div className={css.block_WRAP}>
-          <li key={"all-categories"}>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              text="All Categories"
-              aria_LABEL=""
-              onClick={() => {}}
-              FIRE_clickEvent={false}
-            />
-          </li>
-          {startCateg_ARR.map((categ) => {
-            return (
-              <li key={categ._id}>
-                <Btn
-                  styles={["btn-44", "navDD_BTN"]}
-                  left_ICON={<img src={categ.icon?.url} />}
-                  right_ICON={<ICON_arrow direction="right" />}
-                  text={categ.name.en}
-                  aria_LABEL=""
-                  onClick={() => {
-                    SET_reverse(true);
-                    SET_currentMenu(USE_getCategoryByID(categ._id));
-                  }}
-                  FIRE_clickEvent={false}
-                />
-              </li>
-            );
-          })}
-        </div>
-        <div className={css.block_WRAP}>
-          <p>All categories</p>
-          {endCateg_ARR.map((categ) => {
-            return (
-              <li key={categ.id}>
-                <Btn
-                  styles={["btn-44", "navDD_BTN"]}
-                  left_ICON={<img src={categ.icon?.url} />}
-                  // right_ICON={<ICON_arrow direction="right" />}
-                  text={categ.name.en}
-                  aria_LABEL=""
-                  onClick={() => {}}
-                  FIRE_clickEvent={false}
-                />
-              </li>
-            );
-          })}
-        </div>
-      </ul>
-    </CSSTransition>
-  );
-}
-function Business_MENU({ onEnter, categories, timeout, current_MENU, SET_currentMenu }) {
-  return (
-    <CSSTransition
-      in={current_MENU === "businesses"}
-      timeout={timeout}
-      classNames="menu-third"
-      unmountOnExit
-      onEnter={onEnter}
-    >
-      <ul className="menu">
-        <div className={css.block_WRAP}>
-          <li key={"business-categories"}>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              left_ICON={<ICON_arrow direction="left" />}
-              text="All Categories"
-              aria_LABEL=""
-              onClick={() => SET_currentMenu("categories")}
-              FIRE_clickEvent={false}
-            />
-          </li>
-        </div>
-        <div className={css.block_WRAP}>
-          <p>Find businesses</p>
-          {categories.map((categ) => {
-            return (
-              <li key={categ.id}>
-                <Btn
-                  styles={["btn-44", "navDD_BTN"]}
-                  left_ICON={<img src={categ.icon?.url} />}
-                  // right_ICON={<ICON_arrow direction="right" />}
-                  text={categ.name.en}
-                  aria_LABEL=""
-                  onClick={() => {}}
-                  FIRE_clickEvent={false}
-                />
-              </li>
-            );
-          })}
-        </div>
-      </ul>
-    </CSSTransition>
-  );
-}
-function Places_MENU({ onEnter, categories, timeout, current_MENU, SET_currentMenu }) {
-  return (
-    <CSSTransition
-      in={current_MENU === "places"}
-      timeout={timeout}
-      classNames="menu-third"
-      unmountOnExit
-      onEnter={onEnter}
-    >
-      <ul className="menu">
-        <div className={css.block_WRAP}>
-          <li key={"places-categories"}>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              left_ICON={<ICON_arrow direction="left" />}
-              text="All Categories"
-              aria_LABEL=""
-              onClick={() => SET_currentMenu("categories")}
-              FIRE_clickEvent={false}
-            />
-          </li>
-        </div>
-        <div className={css.block_WRAP}>
-          <p>Find places</p>
-          {categories.map((categ) => {
-            return (
-              <li key={categ.id}>
-                <Btn
-                  styles={["btn-44", "navDD_BTN"]}
-                  left_ICON={<img src={categ.icon?.url} />}
-                  // right_ICON={<ICON_arrow direction="right" />}
-                  text={categ.name.en}
-                  aria_LABEL=""
-                  onClick={() => {}}
-                  FIRE_clickEvent={false}
-                />
-              </li>
-            );
-          })}
-        </div>
-      </ul>
-    </CSSTransition>
-  );
-}
-// --------------------------------
-
-function CssTransition_MENU({ children, current_MENU, menu_NAME, HANLDE_dd, classNames }) {
+function CssTransition_MENU({ children, current_MENU, menu_NAME, classNames, resize }) {
   return (
     <CSSTransition
       in={current_MENU === menu_NAME}
       timeout={300}
       classNames={classNames}
+      onEnter={resize}
       unmountOnExit
-      onEnter={(el) => HANLDE_dd("calculate", el)}
     >
       <ul className="menu">{children && children}</ul>
+    </CSSTransition>
+  );
+}
+function CssTransitionSettings_MENU({
+  children,
+  current_MENU,
+  menu_NAME,
+  classNames,
+  resize,
+  resize_REF,
+}) {
+  return (
+    <CSSTransition
+      in={current_MENU === menu_NAME}
+      timeout={300}
+      classNames={classNames}
+      onEnter={resize}
+      unmountOnExit
+    >
+      <ul className="menu" ref={resize_REF}>
+        {children && children}
+      </ul>
     </CSSTransition>
   );
 }

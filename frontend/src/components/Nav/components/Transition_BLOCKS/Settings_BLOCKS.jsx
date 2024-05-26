@@ -6,12 +6,14 @@ import en_FLAG from "../../../../assets/icons/flags/en.png";
 import de_FLAG from "../../../../assets/icons/flags/de.webp";
 import light from "../../../../assets/icons/light.png";
 import { Theme_CONTEXT } from "../../../../contexts/theme";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FontSizeContext } from "../../../../contexts/fontSize";
+import { Lang_CONTEXT } from "../../../../contexts/lang";
 
-export function Settings_BLOCKS({ lang, TOGGLE_lang, SET_height = () => {} }) {
+export function Settings_BLOCKS() {
   const { theme, TOGGLE_theme } = useContext(Theme_CONTEXT);
   const { fontSize, setFontSize } = useContext(FontSizeContext);
+  const { lang, TOGGLE_lang } = useContext(Lang_CONTEXT);
 
   return (
     <>
@@ -79,7 +81,7 @@ export function Settings_BLOCKS({ lang, TOGGLE_lang, SET_height = () => {} }) {
               aria_LABEL=""
               onClick={() => {
                 setFontSize(1);
-                SET_height();
+                // resize();
               }}
               active={fontSize === 1 ? true : false}
               FIRE_clickEvent={false}
@@ -92,7 +94,7 @@ export function Settings_BLOCKS({ lang, TOGGLE_lang, SET_height = () => {} }) {
               aria_LABEL=""
               onClick={() => {
                 setFontSize(2);
-                SET_height();
+                // resize();
               }}
               active={fontSize === 2 ? true : false}
               FIRE_clickEvent={false}
@@ -105,7 +107,7 @@ export function Settings_BLOCKS({ lang, TOGGLE_lang, SET_height = () => {} }) {
               aria_LABEL=""
               onClick={() => {
                 setFontSize(3);
-                SET_height();
+                // resize();
               }}
               active={fontSize === 3 ? true : false}
               FIRE_clickEvent={false}

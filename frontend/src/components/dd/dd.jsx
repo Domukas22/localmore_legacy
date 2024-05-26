@@ -20,7 +20,6 @@ const DD = forwardRef((props, ref) => {
     children,
     onClose = () => {},
     onOpen = () => {},
-    scroll = false,
   } = props;
   const [expanded, setExpanded] = useState(false);
   const [theId] = useState(id ? id : generateId(10)); // Generate random ID if not specified.
@@ -113,7 +112,6 @@ const DD = forwardRef((props, ref) => {
                 right: align === "right" ? "0px" : "auto",
               }}
             >
-              {console.log("Menu")}
               {children ?? children}
             </motion.div>
           )}
@@ -122,6 +120,9 @@ const DD = forwardRef((props, ref) => {
     </>
   );
 });
+
+// --------------------------------
+
 DD.displayName = "Dropdown"; // Adding displayName property
 
 function generateId(length) {
@@ -348,7 +349,7 @@ function ADD_eventListeners(menuRef, buttonRef, setExpanded, containerRef, HANDL
   document.addEventListener("keydown", HANDLE_keyPress);
 }
 function REMOVE_eventListeners(menuRef, buttonRef, setExpanded, containerRef, HANDLE_keyPress) {
-  console.log("REMOVE_eventListeners");
+  // console.log("REMOVE_eventListeners");
   document.removeEventListener("click", (e) => clickOutside(e, menuRef, buttonRef, setExpanded));
   document.removeEventListener("keyup", (e) => focusOutside(e, setExpanded, containerRef));
   document.removeEventListener("keydown", HANDLE_keyPress);

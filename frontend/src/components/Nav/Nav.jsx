@@ -60,9 +60,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
   if (layout > 4 && !IS_searchOpen && search !== "") {
     SET_searchOpen(true);
   }
-
   const SHOULD_showSearchBtn = layout >= 5 && !IS_menuOpen;
-  console.log(layout);
 
   return (
     <header className={css.header} data-theme={theme} data-hidemainnav={IS_searchOpen}>
@@ -120,9 +118,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
             {layout <= 4 && (
               <li>
                 <More_DD
-                  tagUsage_COUNT={tagUsages.length}
-                  lang={lang}
-                  TOGGLE_lang={TOGGLE_lang}
+                  tag_USAGES={tagUsages}
                   align={layout > 1 && "right"}
                   IS_textMenu={layout > 3}
                   SHOULD_showCategories={layout > 3}

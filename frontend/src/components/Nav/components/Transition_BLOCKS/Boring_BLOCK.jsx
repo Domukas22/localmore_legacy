@@ -4,10 +4,21 @@ import { Btn } from "../../../btn/btn";
 import css from "../../Nav.module.css";
 import { ICON_arrow } from "../../../icons/icons";
 import logo from "../../../../assets/icons/logo.png";
+// import { ICON_activeDigit } from "../../../icons/icons";
 
-export function Boring_BLOCK({ SET_currentMenu }) {
+export function DDmoreStarter_BLOCK({ SET_currentMenu }) {
   return (
     <div className={css.block_WRAP}>
+      <li>
+        <Btn
+          styles={["btn-44", "navDD_BTN"]}
+          text="Alle tags"
+          aria_LABEL=""
+          // left_ICON={<ICON_activeDigit count={tagUsage_COUNT} IS_active={true} />}
+          onClick={() => {}}
+          FIRE_clickEvent={false}
+        />
+      </li>
       <li>
         <Btn
           styles={["btn-44", "navDD_BTN"]}

@@ -71,6 +71,19 @@ export function Upper_BLOCK({ SET_currentMenu, visible_BTNs = {} }) {
           />
         </li>
       )}
+      <li>
+        <Btn
+          styles={["btn-44", "navDD_BTN"]}
+          text="Feedback geben"
+          left_ICON={
+            <img src="https://cdn-icons-png.freepik.com/512/4066/4066310.png?ga=GA1.1.807612306.1716024941" />
+          }
+          right_ICON={<ICON_arrow direction="right" />}
+          aria_LABEL=""
+          onClick={() => SET_currentMenu("feedback")}
+          FIRE_clickEvent={false}
+        />
+      </li>
     </div>
   );
 }
