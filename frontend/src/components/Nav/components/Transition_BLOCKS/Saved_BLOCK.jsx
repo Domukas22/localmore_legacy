@@ -7,16 +7,14 @@ import { useContext } from "react";
 import { SavedProfileIDs_CONTEXT } from "../../../../contexts/savedProfiles";
 import { SavedProfile_BTN } from "../../../btn/btn";
 
-export function Saved_BLOCK({ all_PROFILES, resize }) {
-  const { savedProfile_IDs, REMOVE_fromSaved } = useContext(SavedProfileIDs_CONTEXT);
-  const saved_PROFILES = all_PROFILES.filter((p) => savedProfile_IDs.has(p._id));
+export function Saved_BLOCK({ savedProfile_OBJs, REMOVE_fromSaved }) {
   return (
     <div className={css.block_WRAP}>
-      <p>{savedProfile_IDs.size} liked profiles</p>
+      <p>{savedProfile_OBJs.length} liked profiles</p>
 
-      {savedProfile_IDs &&
-        savedProfile_IDs.size > 0 &&
-        Array.from(saved_PROFILES).map((profile) => {
+      {savedProfile_OBJs &&
+        savedProfile_OBJs.length > 0 &&
+        savedProfile_OBJs.map((profile) => {
           return (
             <li className={css.savedBtn_LI} key={`Saved-${profile._id}`}>
               <SavedProfile_BTN
@@ -30,10 +28,7 @@ export function Saved_BLOCK({ all_PROFILES, resize }) {
                 styles={["btn-44", "navDD_BTN"]}
                 aria_LABEL=""
                 left_ICON={<ICON_x color={"dark"} />}
-                onClick={() => {
-                  REMOVE_fromSaved(profile._id);
-                  resize();
-                }}
+                onClick={() => REMOVE_fromSaved(profile._id)}
                 FIRE_clickEvent={false}
                 custom_DATA="remove"
               />

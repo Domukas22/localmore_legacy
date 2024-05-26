@@ -12,7 +12,7 @@ export function Lower_BLOCK({ SET_currentMenu }) {
       <li>
         <Btn
           styles={["btn-44", "navDD_BTN"]}
-          text="Feedback geben"
+          text="Provide feedback"
           left_ICON={
             <img src="https://cdn-icons-png.freepik.com/512/4066/4066310.png?ga=GA1.1.807612306.1716024941" />
           }

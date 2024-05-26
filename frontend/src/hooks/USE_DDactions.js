@@ -7,10 +7,11 @@ import { USE_windowSize } from "./USE_windowWidth";
 export function USE_DDactions() {
   const [current_MENU, SET_currentMenu] = useState("all");
   const [menu_HEIGHT, SET_menuHeight] = useState(200);
+
   const dropdown_REF = useRef(null);
   const scroll = SHOULD_scroll(menu_HEIGHT);
 
-  useEffect(() => SET_menuHeight(200), []);
+  useEffect(() => SET_menuHeight(menu_HEIGHT), [menu_HEIGHT]);
 
   useEffect(() => {
     if (!dropdown_REF.current) return;

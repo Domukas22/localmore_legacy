@@ -131,28 +131,25 @@
   
 }
 .save {
-
   &[data-saved="true"] {
     background-color: var(--btn-brand-active);
     border: var(--border-brand-active);
     opacity: 100% !important;
 
     &[data-hovered="true"] {
-      background-color: var(--btn-brand-active-hover);
+      background-color: var(--red-bg);
     }
     &[data-pressed="true"]  {
-      border: var(--border-brand);
+      border: var(--border-red);
     }
     &[data-focus-visible] {
-      outline: var(--outline-brand);
+      outline: var(--red);
     }
 
     & svg {
       animation: pop 0.5s ease-out;
     }
   }
-  
-  
 }
 .close {
   /* &:active {

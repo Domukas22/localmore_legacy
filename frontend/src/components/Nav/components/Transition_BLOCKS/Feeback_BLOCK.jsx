@@ -6,12 +6,16 @@ import css from "../../Nav.module.css";
 export function Feedback_BLOCK() {
   return (
     <div className={css.block_WRAP}>
+      <p>Provide feedback</p>
       <li>
         <Btn
           styles={["btn-44", "navDD_BTN"]}
-          text="Idee Vorschlagen"
+          text="Suggest an idea"
           aria_LABEL=""
-          // left_ICON={<ICON_activeDigit count={tagUsage_COUNT} IS_active={true} />}
+          left_ICON={
+            <img src="https://cdn-icons-png.freepik.com/512/6339/6339162.png?ga=GA1.1.807612306.1716024941" />
+          }
+          right_ICON={<span>2 min</span>}
           onClick={() => {}}
           FIRE_clickEvent={false}
         />
@@ -19,8 +23,11 @@ export function Feedback_BLOCK() {
       <li>
         <Btn
           styles={["btn-44", "navDD_BTN"]}
-          // left_ICON={<img src={lightbulb} />}
-          text="Problem melden"
+          left_ICON={
+            <img src="https://cdn-icons-png.freepik.com/512/725/725022.png?ga=GA1.1.807612306.17160249411" />
+          }
+          right_ICON={<span>2 min</span>}
+          text="Report a problem"
           aria_LABEL=""
           onClick={() => ""}
         />
@@ -28,10 +35,11 @@ export function Feedback_BLOCK() {
       <li>
         <Btn
           styles={["btn-44", "navDD_BTN"]}
-          text="Fragebogen ausfüllen"
-          // left_ICON={
-          //   <img src="https://cdn-icons-png.freepik.com/512/4066/4066310.png?ga=GA1.1.807612306.1716024941" />
-          // }
+          text="Quick survey"
+          left_ICON={
+            <img src="https://cdn-icons-png.freepik.com/512/5321/5321120.png?ga=GA1.1.807612306.1716024941" />
+          }
+          right_ICON={<span>5 min</span>}
           aria_LABEL=""
           onClick={() => {}}
           FIRE_clickEvent={false}

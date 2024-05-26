@@ -23,6 +23,7 @@ const DD = forwardRef((props, ref) => {
     scroll = false,
     height = 200,
     menu_REF,
+    icon = undefined,
   } = props;
   const [expanded, setExpanded] = useState(false);
   const [theId] = useState(id ? id : generateId(10)); // Generate random ID if not specified.
@@ -103,7 +104,13 @@ const DD = forwardRef((props, ref) => {
         >
           {btnLeft_ICON && btnLeft_ICON}
           {btn_TEXT && <p className={css_BTN.text}>{btn_TEXT}</p>}
-          {expanded ? <ICON_x color={"dark"} small={true} /> : <ICON_dropDownArrow />}
+          {icon && !expanded ? (
+            icon
+          ) : expanded ? (
+            <ICON_x color={"dark"} small={true} />
+          ) : (
+            <ICON_dropDownArrow />
+          )}
         </Button>
         <AnimatePresence>
           {!!children && expanded && (

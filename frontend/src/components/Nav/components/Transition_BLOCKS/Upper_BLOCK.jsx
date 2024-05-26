@@ -5,6 +5,7 @@ import css from "../../Nav.module.css";
 import { ICON_arrow } from "../../../icons/icons";
 import { useContext } from "react";
 import { SavedProfileIDs_CONTEXT } from "../../../../contexts/savedProfiles";
+import { ICON_save } from "../../../icons/icons";
 
 export function Upper_BLOCK({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT }) {
   // Default values for visible_BTNs
@@ -76,7 +77,8 @@ export function Upper_BLOCK({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT
           <Btn
             styles={["btn-44", "navDD_BTN"]}
             text={`Saved (${savedProfile_IDs.size})`}
-            left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/2107/2107845.png"></img>}
+            // left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/2107/2107845.png"></img>}
+            left_ICON={<ICON_save style="active" />}
             aria_LABEL=""
             right_ICON={<ICON_arrow direction="right" />}
             onClick={() => SET_currentMenu("saved")}

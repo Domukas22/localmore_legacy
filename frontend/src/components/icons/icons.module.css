@@ -105,8 +105,8 @@
       stroke: var(--text-fade);
     }
     &[data-style="active"] {
-      stroke: var(--brand);
-      fill: var(--brand);
+      stroke: var(--red);
+      fill: var(--red);
     }
   }
 }

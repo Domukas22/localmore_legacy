@@ -8,7 +8,7 @@ import { Saved_BLOCK } from "../Transition_BLOCKS/Saved_BLOCK";
 import { USE_DDactions } from "../../../../hooks/USE_DDactions";
 import { CssTransition_MENU } from "../Menus/CssTransition_MENU";
 
-export function Saved_DD({ all_PROFILES }) {
+export function Saved_DD({ savedProfile_OBJs, REMOVE_fromSaved }) {
   const { HANLDE_dd, menu_HEIGHT, dropdown_REF, current_MENU } = USE_DDactions();
 
   return (
@@ -21,6 +21,11 @@ export function Saved_DD({ all_PROFILES }) {
       scroll={scroll}
       height={menu_HEIGHT}
       menu_REF={dropdown_REF}
+      icon={
+        <span style={{ width: "1.6rem", fontWeight: "700", paddingTop: "0.1rem" }}>
+          {savedProfile_OBJs.length}
+        </span>
+      }
     >
       <CssTransition_MENU
         current_MENU={current_MENU}
@@ -28,10 +33,7 @@ export function Saved_DD({ all_PROFILES }) {
         menu_NAME="all"
         resize={(el) => HANLDE_dd("resize", el)}
       >
-        <Saved_BLOCK
-          all_PROFILES={all_PROFILES}
-          resize={() => HANLDE_dd("fit-content-font-resize")}
-        />
+        <Saved_BLOCK savedProfile_OBJs={savedProfile_OBJs} REMOVE_fromSaved={REMOVE_fromSaved} />
       </CssTransition_MENU>
     </DD>
   );

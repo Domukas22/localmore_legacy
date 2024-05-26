@@ -23,6 +23,8 @@ import { Mobile_MENU } from "./components/Mobile_MENU/Mobile_MENU";
 import { ICON_menuLines } from "../icons/icons";
 import { Search_OVERLAY } from "./components/Search_OVERLAY/Search_OVERLAY";
 
+import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
+
 export default function Nav({ tagUsages, search, SET_search, categories, profiles }) {
   const [IS_menuOpen, xx, SET_menuOpen] = USE_Toggle(false);
   const [IS_searchOpen, TOGGLE_search, SET_searchOpen] = USE_Toggle(false);
@@ -33,6 +35,9 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
 
   const mainSearch_REF = useRef(null);
   const overlaySearch_REF = useRef(null);
+
+  const { savedProfile_IDs, REMOVE_fromSaved } = useContext(SavedProfileIDs_CONTEXT);
+  const savedProfile_OBJs = profiles.filter((p) => savedProfile_IDs.has(p._id));
 
   function TOGGLE_menu(val) {
     if (IS_menuOpen || val === "close") {
@@ -149,7 +154,10 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
             )}
             {layout < 5 && (
               <li data-marginleft={layout === 1 ? true : false}>
-                <Saved_DD all_PROFILES={profiles} />
+                <Saved_DD
+                  savedProfile_OBJs={savedProfile_OBJs}
+                  REMOVE_fromSaved={REMOVE_fromSaved}
+                />
               </li>
             )}
             {layout === 1 && (
@@ -162,15 +170,14 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
       </div>
 
       <Mobile_MENU
-        tagUsage_COUNT={tagUsages.length}
-        lang={lang}
-        TOGGLE_lang={TOGGLE_lang}
         categories={categories}
         TOGGLE_menu={TOGGLE_menu}
         profiles={profiles}
         IS_menuOpen={IS_menuOpen}
         current_MENU={current_MENU}
         SET_currentMenu={SET_currentMenu}
+        savedProfile_OBJs={savedProfile_OBJs}
+        REMOVE_fromSaved={REMOVE_fromSaved}
       />
 
       <AnimatePresence>

@@ -111,6 +111,8 @@
   padding: 1.2rem;
   border-bottom: var(--border-black-01);
 
+  
+
   &:last-child {
     border-bottom: none;
   }

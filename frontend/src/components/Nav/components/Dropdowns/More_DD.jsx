@@ -38,7 +38,7 @@ export function More_DD({
   return (
     <DD
       btn_TEXT={IS_textMenu ? "Menu" : "More"}
-      width={26}
+      width={28}
       onOpen={() => HANLDE_dd("open")}
       onClose={() => HANLDE_dd("close")}
       align={align}

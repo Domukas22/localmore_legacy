@@ -13,6 +13,8 @@
   --fill-white: rgba(255, 255, 255, 1);
   --fill-bg: rgba(234, 237, 245, 1);
   --red: #F2545A;
+  --red-bg: #FFE6E7;
+  
 
   --text-brand: rgba(184, 70, 0, 1);
   --text-brand-black: rgba(56, 57, 64, 1);
@@ -40,6 +42,7 @@
   --border-white-15: 0.1rem solid rgba(255, 255, 255, 0.15);
   --border-brand-black: 0.1rem solid rgba(56, 57, 64, 1);
   --border-black-01: 0.1rem solid rgba(0, 0, 0, 0.1);
+  --border-red: 0.1rem solid #F2545A;
 
   --outline-white: 0.2rem solid white;
   --outline-brand: 0.2rem solid rgba(184, 70, 0, 1);

@@ -30,22 +30,19 @@ import { Lower_BLOCK } from "../Transition_BLOCKS/Lower_BLOCK";
 import { Feedback_BLOCK } from "../Transition_BLOCKS/Feeback_BLOCK";
 
 export function Mobile_MENU({
-  tagUsage_COUNT,
-  lang,
-  TOGGLE_lang,
   categories,
   TOGGLE_menu,
   profiles,
   IS_menuOpen,
   current_MENU,
   SET_currentMenu,
+  savedProfile_OBJs,
+  REMOVE_fromSaved,
 }) {
-  // const [current_MENU, SET_currentMenu] = useState("all");
-  const timeout = 300;
-
   const { startCateg_ARR, endCateg_ARR, businessCateg_ARR, placesCateg_ARR } =
     USE_filterCategType(categories);
-  const { savedProfile_IDs } = useContext(SavedProfileIDs_CONTEXT);
+  // const { savedProfile_IDs } = useContext(SavedProfileIDs_CONTEXT);
+
   const scroll_REF = useRef(null);
   const [reverse, SET_reverse] = useState(false);
 
@@ -64,7 +61,8 @@ export function Mobile_MENU({
       <Dialog aria-label="Menu" ref={scroll_REF} className={css.Dialog_MENU}>
         <div
           className={css.menu_PREWRAP}
-          style={{ position: "relative" }} /* avoids width glitches */
+          style={{ position: "relative" }}
+          /* Avoids width glitches. The CSS menu's become absolute when swapping. */
         >
           {/* All */}
           <CssTransition_MENU current_MENU={current_MENU} classNames="menu-primary" menu_NAME="all">
@@ -174,7 +172,10 @@ export function Mobile_MENU({
               onClick={() => SET_currentMenu("all")}
               aria_LABEL=""
             />
-            <Saved_BLOCK all_PROFILES={profiles} />
+            <Saved_BLOCK
+              savedProfile_OBJs={savedProfile_OBJs}
+              REMOVE_fromSaved={REMOVE_fromSaved}
+            />
           </CssTransition_MENU>
 
           {/* Feedback */}
