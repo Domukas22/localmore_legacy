@@ -36,7 +36,7 @@ export function Mobile_MENU({
   // const [current_MENU, SET_currentMenu] = useState("all");
   const timeout = 300;
 
-  const [startCateg_ARR, endCateg_ARR, businessCateg_ARR, placesCateg_ARR] =
+  const { startCateg_ARR, endCateg_ARR, businessCateg_ARR, placesCateg_ARR } =
     USE_filterCategType(categories);
   const { savedProfile_IDs } = useContext(SavedProfileIDs_CONTEXT);
   const scroll_REF = useRef(null);

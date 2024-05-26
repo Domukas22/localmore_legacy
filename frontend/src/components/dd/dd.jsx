@@ -15,39 +15,49 @@ const DD = forwardRef((props, ref) => {
     id,
     btn_TEXT,
     btnLeft_ICON,
-    width = undefined,
+    width = 26,
     align = "left",
     children,
     onClose = () => {},
     onOpen = () => {},
     scroll = false,
     height = 200,
+    menu_REF,
   } = props;
   const [expanded, setExpanded] = useState(false);
   const [theId] = useState(id ? id : generateId(10)); // Generate random ID if not specified.
   const containerRef = useRef();
-  const menuRef = useRef();
+  // const menu_REF = useRef();
   const buttonRef = useRef();
   const focusable =
     'a[href], button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])';
   const search = true;
 
   function HANDLE_keyPress(e) {
-    keyboardControls(e, menuRef, buttonRef, setExpanded, containerRef, search, focusable, setFocus);
+    keyboardControls(
+      e,
+      menu_REF,
+      buttonRef,
+      setExpanded,
+      containerRef,
+      search,
+      focusable,
+      setFocus
+    );
   }
 
   // On mount.
   useEffect(() => {
-    setFocusable(menuRef, focusable);
-    ADD_eventListeners(menuRef, buttonRef, setExpanded, containerRef, HANDLE_keyPress);
+    setFocusable(menu_REF, focusable);
+    ADD_eventListeners(menu_REF, buttonRef, setExpanded, containerRef, HANDLE_keyPress);
 
     return () => {
-      REMOVE_eventListeners(menuRef, buttonRef, setExpanded, containerRef, HANDLE_keyPress);
+      REMOVE_eventListeners(menu_REF, buttonRef, setExpanded, containerRef, HANDLE_keyPress);
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    FOCUS_first(menuRef, focusable);
+    FOCUS_first(menu_REF, focusable);
     if (expanded) onOpen();
     if (!expanded) onClose();
   }, [expanded]);
@@ -101,7 +111,7 @@ const DD = forwardRef((props, ref) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1, transition: { duration: 0.15 } }}
               exit={{ opacity: 0, transition: { duration: 0.15 } }}
-              ref={menuRef}
+              ref={menu_REF}
               id={`menu-${theId}`}
               className={css.dropdown}
               aria-hidden={expanded ? "false" : "true"}
@@ -145,12 +155,12 @@ function getActiveIndex(el, elements) {
     length: array.length - 1,
   };
 }
-function clickOutside(e, menuRef, buttonRef, setExpanded) {
+function clickOutside(e, menu_REF, buttonRef, setExpanded) {
   if (!e || !e?.target) {
     return; // exit if event is null.
   }
 
-  if (!menuRef?.current?.contains(e.target) && !buttonRef?.current?.contains(e.target)) {
+  if (!menu_REF?.current?.contains(e.target) && !buttonRef?.current?.contains(e.target)) {
     setExpanded(false);
   }
 }
@@ -160,18 +170,18 @@ function focusOutside(e, setExpanded, containerRef) {
   }
 }
 
-function setFocusable(menuRef, focusable) {
+function setFocusable(menu_REF, focusable) {
   // Set all the focusable elements in the dropdown.
-  const elements = menuRef?.current?.querySelectorAll(focusable);
+  const elements = menu_REF?.current?.querySelectorAll(focusable);
   if (elements) {
     elements.forEach((item) => {
       item.tabIndex = "-1";
     });
   }
 }
-function searchByFirstLetter(current, char, menuRef, focusable) {
+function searchByFirstLetter(current, char, menu_REF, focusable) {
   console.log("searchByFirstLetter");
-  const elements = menuRef.current.querySelectorAll(focusable);
+  const elements = menu_REF.current.querySelectorAll(focusable);
   let start = 0;
   let index = 0;
 
@@ -217,7 +227,7 @@ function setFocus(e) {
 }
 function keyboardControls(
   event,
-  menuRef,
+  menu_REF,
   buttonRef,
   setExpanded,
   containerRef,
@@ -231,14 +241,14 @@ function keyboardControls(
   ) {
     event.preventDefault();
     setExpanded(true);
-    setFocus(menuRef?.current?.querySelectorAll(focusable)[0]);
+    setFocus(menu_REF?.current?.querySelectorAll(focusable)[0]);
   }
-  const elements = menuRef?.current?.querySelectorAll(focusable);
+  const elements = menu_REF?.current?.querySelectorAll(focusable);
   if (!elements) {
     return;
   }
 
-  setFocusable(menuRef, focusable);
+  setFocusable(menu_REF, focusable);
 
   const active = document.activeElement;
   const target = event.target;
@@ -333,28 +343,28 @@ function keyboardControls(
 
       default:
         // Search
-        search && searchByFirstLetter(target, key, menuRef, focusable);
+        search && searchByFirstLetter(target, key, menu_REF, focusable);
         break;
     }
   }
 }
-function FOCUS_first(menuRef, focusable) {
-  const elements = menuRef?.current?.querySelectorAll(focusable);
+function FOCUS_first(menu_REF, focusable) {
+  const elements = menu_REF?.current?.querySelectorAll(focusable);
   if (elements) {
-    setFocusable(menuRef, focusable);
+    setFocusable(menu_REF, focusable);
     setTimeout(() => {
       elements[0] && setFocus(elements[0]);
     }, 20);
   }
 }
-function ADD_eventListeners(menuRef, buttonRef, setExpanded, containerRef, HANDLE_keyPress) {
-  document.addEventListener("click", (e) => clickOutside(e, menuRef, buttonRef, setExpanded));
+function ADD_eventListeners(menu_REF, buttonRef, setExpanded, containerRef, HANDLE_keyPress) {
+  document.addEventListener("click", (e) => clickOutside(e, menu_REF, buttonRef, setExpanded));
   document.addEventListener("keyup", (e) => focusOutside(e, setExpanded, containerRef));
   document.addEventListener("keydown", HANDLE_keyPress);
 }
-function REMOVE_eventListeners(menuRef, buttonRef, setExpanded, containerRef, HANDLE_keyPress) {
+function REMOVE_eventListeners(menu_REF, buttonRef, setExpanded, containerRef, HANDLE_keyPress) {
   // console.log("REMOVE_eventListeners");
-  document.removeEventListener("click", (e) => clickOutside(e, menuRef, buttonRef, setExpanded));
+  document.removeEventListener("click", (e) => clickOutside(e, menu_REF, buttonRef, setExpanded));
   document.removeEventListener("keyup", (e) => focusOutside(e, setExpanded, containerRef));
   document.removeEventListener("keydown", HANDLE_keyPress);
 }

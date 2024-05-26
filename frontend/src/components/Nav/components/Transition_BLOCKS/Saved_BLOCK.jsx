@@ -7,7 +7,7 @@ import { useContext } from "react";
 import { SavedProfileIDs_CONTEXT } from "../../../../contexts/savedProfiles";
 import { SavedProfile_BTN } from "../../../btn/btn";
 
-export function Saved_BLOCK({ all_PROFILES }) {
+export function Saved_BLOCK({ all_PROFILES, resize }) {
   const { savedProfile_IDs, REMOVE_fromSaved } = useContext(SavedProfileIDs_CONTEXT);
   const saved_PROFILES = all_PROFILES.filter((p) => savedProfile_IDs.has(p._id));
   return (
@@ -30,7 +30,10 @@ export function Saved_BLOCK({ all_PROFILES }) {
                 styles={["btn-44", "navDD_BTN"]}
                 aria_LABEL=""
                 left_ICON={<ICON_x color={"dark"} />}
-                onClick={() => REMOVE_fromSaved(profile._id)}
+                onClick={() => {
+                  REMOVE_fromSaved(profile._id);
+                  resize();
+                }}
                 FIRE_clickEvent={false}
                 custom_DATA="remove"
               />

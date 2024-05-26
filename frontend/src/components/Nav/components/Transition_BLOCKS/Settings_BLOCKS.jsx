@@ -10,7 +10,7 @@ import { useContext, useEffect, useState } from "react";
 import { FontSizeContext } from "../../../../contexts/fontSize";
 import { Lang_CONTEXT } from "../../../../contexts/lang";
 
-export function Settings_BLOCKS() {
+export function Settings_BLOCKS({ resize }) {
   const { theme, TOGGLE_theme } = useContext(Theme_CONTEXT);
   const { fontSize, setFontSize } = useContext(FontSizeContext);
   const { lang, TOGGLE_lang } = useContext(Lang_CONTEXT);
@@ -81,7 +81,7 @@ export function Settings_BLOCKS() {
               aria_LABEL=""
               onClick={() => {
                 setFontSize(1);
-                // resize();
+                resize();
               }}
               active={fontSize === 1 ? true : false}
               FIRE_clickEvent={false}
@@ -94,7 +94,7 @@ export function Settings_BLOCKS() {
               aria_LABEL=""
               onClick={() => {
                 setFontSize(2);
-                // resize();
+                resize();
               }}
               active={fontSize === 2 ? true : false}
               FIRE_clickEvent={false}
@@ -107,7 +107,7 @@ export function Settings_BLOCKS() {
               aria_LABEL=""
               onClick={() => {
                 setFontSize(3);
-                // resize();
+                resize();
               }}
               active={fontSize === 3 ? true : false}
               FIRE_clickEvent={false}

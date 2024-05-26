@@ -10,10 +10,10 @@ export function Upper_BLOCK({ SET_currentMenu, visible_BTNs = {} }) {
   // Default values for visible_BTNs
   const {
     home = true,
-    categ = true,
+    categories = true,
     settings = true,
     liked = true,
-  } = { home: true, categ: true, settings: true, liked: true, ...visible_BTNs };
+  } = { home: true, categories: true, settings: true, liked: true, ...visible_BTNs };
 
   const { savedProfile_IDs } = useContext(SavedProfileIDs_CONTEXT);
 
@@ -32,7 +32,7 @@ export function Upper_BLOCK({ SET_currentMenu, visible_BTNs = {} }) {
           />
         </li>
       )}
-      {categ && (
+      {categories && (
         <li>
           <Btn
             styles={["btn-44", "navDD_BTN"]}

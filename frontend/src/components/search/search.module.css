@@ -81,7 +81,7 @@
 .btn {
   height: 100%;
   position: absolute;
-  top: 0.1rem;
+  top: 0.05rem;
   transition: 15rem;
   z-index: 5;
 
@@ -98,7 +98,7 @@
 .right-btn {
   composes: btn;
   padding: 0 1.6rem 0 1.4rem;
-  height: calc(100% - 0.2rem);
+  height: calc(100% - 0.1rem);
   cursor: pointer;
 
   border-left: var(--border-black-01);

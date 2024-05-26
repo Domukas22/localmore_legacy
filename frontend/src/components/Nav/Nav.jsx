@@ -22,10 +22,9 @@ import { Saved_DD } from "./components/Dropdowns/Saved_DD";
 import { Mobile_MENU } from "./components/Mobile_MENU/Mobile_MENU";
 import { ICON_menuLines } from "../icons/icons";
 import { Search_OVERLAY } from "./components/Search_OVERLAY/Search_OVERLAY";
-import { Modal_SEARCH } from "../search/Search_RESULTS/Modal_SEARCH";
 
 export default function Nav({ tagUsages, search, SET_search, categories, profiles }) {
-  const [IS_menuOpen, TOGGLE_menu, SET_menuOpen] = USE_Toggle(false);
+  const [IS_menuOpen, xx, SET_menuOpen] = USE_Toggle(false);
   const [IS_searchOpen, TOGGLE_search, SET_searchOpen] = USE_Toggle(false);
   const { fontSize } = useContext(FontSizeContext); // 1, 2, 3
   const { lang, TOGGLE_lang } = useContext(Lang_CONTEXT);
@@ -35,16 +34,11 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
   const mainSearch_REF = useRef(null);
   const overlaySearch_REF = useRef(null);
 
-  function TOGGLE_menu_2nd() {
-    if (IS_menuOpen) {
+  function TOGGLE_menu(val) {
+    if (IS_menuOpen || val === "close") {
       SET_menuOpen(false);
-
-      setTimeout(() => {
-        SET_currentMenu("all");
-      }, 301);
-    } else {
-      SET_menuOpen(true);
-    }
+      setTimeout(() => SET_currentMenu("all"), 301);
+    } else SET_menuOpen(true);
   }
 
   useEffect(() => {
@@ -53,14 +47,15 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
 
   const { width: window_WIDTH } = USE_windowSize();
   const layout = GET_layout(window_WIDTH, fontSize);
+  console.log(layout);
 
-  const SHRINK_logo = layout <= 5 || IS_menuOpen ? false : true;
-  if (window_WIDTH > 900 && IS_menuOpen) SET_menuOpen(false);
+  const SHRINK_logo = layout < 7 || IS_menuOpen ? false : true;
+  if (window_WIDTH > 940 && IS_menuOpen) TOGGLE_menu("close");
   if (layout < 5 && IS_searchOpen) SET_searchOpen(false);
-  if (layout > 4 && !IS_searchOpen && search !== "") {
+  if (5 <= layout && !IS_searchOpen && search !== "") {
     SET_searchOpen(true);
   }
-  const SHOULD_showSearchBtn = layout >= 5 && !IS_menuOpen;
+  const SHOULD_showSearchBtn = layout > 4 && !IS_menuOpen;
 
   return (
     <header className={css.header} data-theme={theme} data-hidemainnav={IS_searchOpen}>
@@ -73,7 +68,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
         <nav key="nav">
           <ul className={!SHOULD_showSearchBtn && css["hide-search-btn"]}>
             <AnimatePresence>
-              {layout >= 5 && !IS_menuOpen && (
+              {layout > 4 && !IS_menuOpen && (
                 <motion.li
                   initial={{ opacity: 0, x: 70 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -86,19 +81,24 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
                     text={layout <= 8 && "Search"}
                     left_ICON={<ICON_search />}
                     aria_LABEL=""
-                    onClick={TOGGLE_search}
+                    onClick={() => {
+                      TOGGLE_search();
+                      console.log("ss");
+                    }}
                     custom_DATA="search-btn"
                     FIRE_clickEvent={false}
                   />
                 </motion.li>
               )}
             </AnimatePresence>
-            {layout <= 4 && (
+
+            {layout < 5 && (
               <li>
                 <SearchBar SET_search={SET_search} search={search} searchBar_REF={mainSearch_REF} />
               </li>
             )}
-            {layout <= 2 && (
+
+            {layout < 3 && (
               <li>
                 <Btn
                   styles={["btn-40", "round", "grey"]}
@@ -121,8 +121,10 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
                   tag_USAGES={tagUsages}
                   align={layout > 1 && "right"}
                   IS_textMenu={layout > 3}
-                  SHOULD_showCategories={layout > 3}
                   categories={categories}
+                  SHOULD_showCategories={layout > 3}
+                  SHOULD_showSettings={layout !== 1}
+                  SHOULD_showHome={layout > 2}
                 />
               </li>
             )}
@@ -141,11 +143,11 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
                     )
                   }
                   aria_LABEL=""
-                  onClick={TOGGLE_menu_2nd}
+                  onClick={TOGGLE_menu}
                 />
               </li>
             )}
-            {layout <= 6 && (
+            {layout < 5 && (
               <li data-marginleft={layout === 1 ? true : false}>
                 <Saved_DD all_PROFILES={profiles} />
               </li>
@@ -164,7 +166,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
         lang={lang}
         TOGGLE_lang={TOGGLE_lang}
         categories={categories}
-        TOGGLE_menu={TOGGLE_menu_2nd}
+        TOGGLE_menu={TOGGLE_menu}
         profiles={profiles}
         IS_menuOpen={IS_menuOpen}
         current_MENU={current_MENU}
@@ -193,7 +195,7 @@ function GET_layout(windowWidth, fontSize) {
       960: 3,
       800: 4,
       620: 5,
-      470: 6,
+      510: 6,
       360: 7,
       300: 8,
       default: 10,
@@ -205,7 +207,7 @@ function GET_layout(windowWidth, fontSize) {
       1000: 3,
       860: 4,
       640: 5,
-      480: 6,
+      540: 6,
       370: 7,
       300: 8,
       default: 10,
@@ -216,8 +218,8 @@ function GET_layout(windowWidth, fontSize) {
       1280: 2,
       1120: 3,
       940: 4,
-      700: 5,
-      540: 6,
+      850: 5,
+      600: 6,
       400: 7,
       340: 8,
       default: 10,

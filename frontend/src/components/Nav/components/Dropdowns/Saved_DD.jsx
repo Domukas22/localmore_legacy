@@ -1,18 +1,15 @@
 //
 //
 
-import { useContext } from "react";
-import { SavedProfileIDs_CONTEXT } from "../../../../contexts/savedProfiles";
-import { Btn } from "../../../btn/btn";
 import DD from "../../../dd/dd";
-import { ICON_save, ICON_x } from "../../../icons/icons";
+import { ICON_save } from "../../../icons/icons";
 import { Saved_BLOCK } from "../Transition_BLOCKS/Saved_BLOCK";
 
 import { USE_DDactions } from "../../../../hooks/USE_DDactions";
-import { CSSTransition } from "react-transition-group";
+import { CssTransition_MENU } from "../Menus/CssTransition_MENU";
 
 export function Saved_DD({ all_PROFILES }) {
-  const [HANLDE_dd, current_MENU, menuHeight, SET_currentMenu, dropdown_REF] = USE_DDactions();
+  const { HANLDE_dd, menu_HEIGHT, dropdown_REF, current_MENU } = USE_DDactions();
 
   return (
     <DD
@@ -21,28 +18,21 @@ export function Saved_DD({ all_PROFILES }) {
       btnLeft_ICON={<ICON_save />}
       onOpen={() => HANLDE_dd("open")}
       onClose={() => HANLDE_dd("close")}
+      scroll={scroll}
+      height={menu_HEIGHT}
+      menu_REF={dropdown_REF}
     >
-      <ul
-        ref={dropdown_REF}
-        style={{
-          height: menuHeight,
-          transition: "300ms",
-          display: "flex",
-          justifyContent: "flex-start",
-        }}
+      <CssTransition_MENU
+        current_MENU={current_MENU}
+        classNames="menu-primary"
+        menu_NAME="all"
+        resize={(el) => HANLDE_dd("resize", el)}
       >
-        <CSSTransition
-          in={true}
-          timeout={300}
-          classNames="menu-primary"
-          unmountOnExit
-          onEnter={(el) => HANLDE_dd("calculate", el)}
-        >
-          <div style={{ height: "fit-content" }}>
-            <Saved_BLOCK all_PROFILES={all_PROFILES} />
-          </div>
-        </CSSTransition>
-      </ul>
+        <Saved_BLOCK
+          all_PROFILES={all_PROFILES}
+          resize={() => HANLDE_dd("fit-content-font-resize")}
+        />
+      </CssTransition_MENU>
     </DD>
   );
 }

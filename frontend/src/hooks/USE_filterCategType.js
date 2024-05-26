@@ -17,5 +17,5 @@ export function USE_filterCategType(categories) {
   const businessCateg_ARR = categories.filter((c) => c.parent_CATEG === businessCateg_ID);
   const placesCateg_ARR = categories.filter((c) => c.parent_CATEG === placesCateg_ID);
 
-  return [startCateg_ARR, endCateg_ARR, businessCateg_ARR, placesCateg_ARR];
+  return { startCateg_ARR, endCateg_ARR, businessCateg_ARR, placesCateg_ARR };
 }
