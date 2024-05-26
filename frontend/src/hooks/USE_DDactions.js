@@ -23,12 +23,11 @@ export function USE_DDactions() {
       case "resize":
         SET_menuHeight(el.offsetHeight + 1);
         break;
-      case "fit":
-        // SET_menuHeight("fit-content");
-        console.log(dropdown_REF?.current?.lastChild?.clientHeight);
-        SET_menuHeight(dropdown_REF?.current?.lastChild?.clientHeight + 1);
-        console.log(dropdown_REF?.current?.clientHeight);
-        console.log(dropdown_REF?.current?.lastChild?.clientHeight);
+      case "fit-content-font-resize":
+        SET_menuHeight("fit-content");
+        setTimeout(() => {
+          SET_menuHeight(dropdown_REF.current?.firstChild.offsetHeight + 1);
+        }, 301);
 
         break;
       case "close":
@@ -38,6 +37,5 @@ export function USE_DDactions() {
     }
   }
 
-  // return [open, CALC_height, CLOSE_menu, current_MENU, menu_HEIGHT, SET_currentMenu];
   return [HANLDE_dd, current_MENU, menu_HEIGHT, SET_currentMenu, dropdown_REF];
 }

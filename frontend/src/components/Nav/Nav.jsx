@@ -152,7 +152,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
             )}
             {layout === 1 && (
               <li>
-                <Settings_DD lang={lang} TOGGLE_lang={TOGGLE_lang} />
+                <Settings_DD />
               </li>
             )}
           </ul>

@@ -5,7 +5,12 @@ import css from "../../Nav.module.css";
 import { USE_getCategoryByID } from "../../../../hooks/USE_getDDcategory";
 import { ICON_arrow } from "../../../icons/icons";
 
-export function AllCategories_BLOCK({ start_CATEG, end_CATEG, SET_currentMenu, SET_reverse }) {
+export function AllCategories_BLOCK({
+  start_CATEG,
+  end_CATEG,
+  SET_currentMenu,
+  SET_reverse = () => {},
+}) {
   return (
     <>
       <div className={css.block_WRAP}>

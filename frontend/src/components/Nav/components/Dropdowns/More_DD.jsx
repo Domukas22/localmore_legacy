@@ -1,61 +1,47 @@
 //
 //
 
-import { CSSTransition } from "react-transition-group";
-import { Btn } from "../../../btn/btn";
 import DD from "../../../dd/dd";
-import { ICON_arrow } from "../../../icons/icons";
 import css from "../../Nav.module.css";
-import { ICON_activeDigit } from "../../../icons/icons";
-import lightbulb from "../../../../assets/icons/lightbulb.png";
 import { useState, useRef, useEffect, useCallback, useContext, useLayoutEffect } from "react";
 
 import { USE_DDactions } from "../../../../hooks/USE_DDactions";
+import { CssTransition_MENU } from "../Menus/CssTransition_MENU";
+
 import { Settings_BLOCKS } from "../Transition_BLOCKS/Settings_BLOCKS";
 import { BtnBack_BLOCK } from "../Transition_BLOCKS/BtnBack_BLOCK";
 import { Legal_BLOCK } from "../Transition_BLOCKS/Legal_BLOCK";
 import { DDmoreStarter_BLOCK } from "../Transition_BLOCKS/Boring_BLOCK";
-
 import { Upper_BLOCK } from "../Transition_BLOCKS/Upper_BLOCK";
 import { Feedback_BLOCK } from "../Transition_BLOCKS/Feeback_BLOCK";
 import { Businesses_BLOCK } from "../Transition_BLOCKS/Businesses_BLOCK";
 import { Places_BLOCK } from "../Transition_BLOCKS/Places_BLOCK";
 
-import logo from "../../../../assets/icons/logo.png";
 import { USE_filterCategType } from "../../../../hooks/USE_filterCategType";
-import { USE_getCategoryByID } from "../../../../hooks/USE_getDDcategory";
-import { USE_windowSize } from "../../../../hooks/USE_windowWidth";
 import { AllCategories_BLOCK } from "../Transition_BLOCKS/AllCategories_BLOCKS";
 import { FontSizeContext } from "../../../../contexts/fontSize";
-
 import USE_shouldDropdownScroll from "../../../../hooks/USE_shouldDropdownScroll";
 
 export function More_DD({ tag_USAGES, align, IS_textMenu = false, categories }) {
-  const [HANLDE_dd, current_MENU, menu_HEIGHT, SET_currentMenu, dropdown_REF] = USE_DDactions();
-  const SHOULD_ddScroll = USE_shouldDropdownScroll(menu_HEIGHT);
-  const { fontSize } = useContext(FontSizeContext);
-  const [reverse, SET_reverse] = useState(false);
-  const resize_REF = useRef(null);
   const [startCateg_ARR, endCateg_ARR, businessCateg_ARR, placesCateg_ARR] =
     USE_filterCategType(categories);
 
-  const resize = useCallback(
-    (el) => {
-      HANLDE_dd("resize", el);
-      console.log("resize()");
-    },
-    [HANLDE_dd]
-  );
+  const [HANLDE_dd, current_MENU, menu_HEIGHT, SET_currentMenu, dropdown_REF] = USE_DDactions();
+  const { fontSize } = useContext(FontSizeContext);
+
+  const SHOULD_ddScroll = USE_shouldDropdownScroll(menu_HEIGHT);
+  const resize = useCallback((el) => HANLDE_dd("resize", el), [HANLDE_dd]);
+  const [reverse, SET_reverse] = useState(false);
 
   useEffect(() => {
     // for the reload, when saving file on jsx, so the height doesnt default to 200
     HANLDE_dd("open");
   }, [dropdown_REF]);
 
+  const resize_REF = useRef(null);
   useLayoutEffect(() => {
     if (resize_REF.current) {
-      HANLDE_dd("fit");
-      console.log(menu_HEIGHT + " true");
+      HANLDE_dd("fit-content-font-resize");
     }
   }, [fontSize]);
 
@@ -66,12 +52,14 @@ export function More_DD({ tag_USAGES, align, IS_textMenu = false, categories }) 
       onOpen={() => HANLDE_dd("open")}
       onClose={() => HANLDE_dd("close")}
       align={align}
+      scroll={SHOULD_ddScroll}
+      height={menu_HEIGHT}
     >
       <div
         ref={dropdown_REF}
-        style={{ height: menu_HEIGHT }}
+        // style={{ height: "fit-content" }}
         data-height={menu_HEIGHT}
-        data-scroll={SHOULD_ddScroll}
+        // data-scroll={SHOULD_ddScroll}
         className={css.ddMenu_WRAP}
       >
         {/* All */}
@@ -143,7 +131,7 @@ export function More_DD({ tag_USAGES, align, IS_textMenu = false, categories }) 
         </CssTransition_MENU>
 
         {/* Settings */}
-        {/* <CssTransition_MENU
+        <CssTransition_MENU
           current_MENU={current_MENU}
           classNames="menu-secondary"
           menu_NAME="settings"
@@ -153,19 +141,7 @@ export function More_DD({ tag_USAGES, align, IS_textMenu = false, categories }) 
             <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
             <Settings_BLOCKS resize={() => {}} test={resize_REF.current} />
           </div>
-        </CssTransition_MENU> */}
-        <CssTransitionSettings_MENU
-          current_MENU={current_MENU}
-          classNames="menu-secondary"
-          menu_NAME="settings"
-          resize={resize}
-          resize_REF={resize_REF}
-        >
-          {/* <div data-test={menu_HEIGHT}> */}
-          <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
-          <Settings_BLOCKS resize={() => {}} test={resize_REF.current} />
-          {/* </div> */}
-        </CssTransitionSettings_MENU>
+        </CssTransition_MENU>
 
         {/* Feedback */}
         <CssTransition_MENU
@@ -190,41 +166,5 @@ export function More_DD({ tag_USAGES, align, IS_textMenu = false, categories }) 
         </CssTransition_MENU>
       </div>
     </DD>
-  );
-}
-
-function CssTransition_MENU({ children, current_MENU, menu_NAME, classNames, resize }) {
-  return (
-    <CSSTransition
-      in={current_MENU === menu_NAME}
-      timeout={300}
-      classNames={classNames}
-      onEnter={resize}
-      unmountOnExit
-    >
-      <ul className="menu">{children && children}</ul>
-    </CSSTransition>
-  );
-}
-function CssTransitionSettings_MENU({
-  children,
-  current_MENU,
-  menu_NAME,
-  classNames,
-  resize,
-  resize_REF,
-}) {
-  return (
-    <CSSTransition
-      in={current_MENU === menu_NAME}
-      timeout={300}
-      classNames={classNames}
-      onEnter={resize}
-      unmountOnExit
-    >
-      <ul className="menu" ref={resize_REF}>
-        {children && children}
-      </ul>
-    </CSSTransition>
   );
 }

@@ -20,6 +20,8 @@ const DD = forwardRef((props, ref) => {
     children,
     onClose = () => {},
     onOpen = () => {},
+    scroll = false,
+    height = 200,
   } = props;
   const [expanded, setExpanded] = useState(false);
   const [theId] = useState(id ? id : generateId(10)); // Generate random ID if not specified.
@@ -106,8 +108,10 @@ const DD = forwardRef((props, ref) => {
               aria-labelledby={`button-${theId}`}
               role={"menu"}
               data-expanded={expanded}
+              data-scroll={scroll}
               style={{
                 width: width ? `${width}rem` : "auto",
+                height: height,
                 left: align === "left" ? "0px" : "auto",
                 right: align === "right" ? "0px" : "auto",
               }}

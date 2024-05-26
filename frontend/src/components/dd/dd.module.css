@@ -16,6 +16,16 @@
   width: 100%;
   min-width: fit-content;
   background-color: var(--fill-bg);
+
+  max-height: calc(100vh - 6rem - 2rem); /* 100vh - nav height - gap */
+      transition: 300ms;
+      /* position: relative; */
+      /* overflow: hidden; */
+      /* overflow-y: scroll; */
+      
+      &[data-scroll="true"]{
+        overflow-y: scroll;
+      }
   
   
 
