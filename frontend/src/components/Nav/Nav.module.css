@@ -152,7 +152,6 @@
   }
   
 }
-
 .Modal_MENU {
   position: fixed;
   top: 0;
@@ -174,11 +173,6 @@
     width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
-
-    & .menu_PREWRAP {
-      /* the menu itself becomes absolute when swaping, and the scrollbar appears/disappears without a relative wrapper */
-      position: relative;
-    }
   }
 
   & button {
@@ -225,6 +219,7 @@
 
 
 }
+
 @keyframes FADE_leftTo0 {
   from {
     opacity: 0;

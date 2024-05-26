@@ -10,7 +10,7 @@ import { useContext, useEffect, useState } from "react";
 import { FontSizeContext } from "../../../../contexts/fontSize";
 import { Lang_CONTEXT } from "../../../../contexts/lang";
 
-export function Settings_BLOCKS({ resize }) {
+export function Settings_BLOCKS({ resize = () => {} }) {
   const { theme, TOGGLE_theme } = useContext(Theme_CONTEXT);
   const { fontSize, setFontSize } = useContext(FontSizeContext);
   const { lang, TOGGLE_lang } = useContext(Lang_CONTEXT);

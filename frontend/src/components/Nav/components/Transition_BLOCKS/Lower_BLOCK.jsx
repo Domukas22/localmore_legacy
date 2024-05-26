@@ -6,19 +6,23 @@ import { ICON_arrow } from "../../../icons/icons";
 import logo from "../../../../assets/icons/logo.png";
 // import { ICON_activeDigit } from "../../../icons/icons";
 
-export function DDmoreStarter_BLOCK({ SET_currentMenu }) {
+export function Lower_BLOCK({ SET_currentMenu }) {
   return (
     <div className={css.block_WRAP}>
       <li>
         <Btn
           styles={["btn-44", "navDD_BTN"]}
-          text="Alle tags"
+          text="Feedback geben"
+          left_ICON={
+            <img src="https://cdn-icons-png.freepik.com/512/4066/4066310.png?ga=GA1.1.807612306.1716024941" />
+          }
+          right_ICON={<ICON_arrow direction="right" />}
           aria_LABEL=""
-          // left_ICON={<ICON_activeDigit count={tagUsage_COUNT} IS_active={true} />}
-          onClick={() => {}}
+          onClick={() => SET_currentMenu("feedback")}
           FIRE_clickEvent={false}
         />
       </li>
+
       <li>
         <Btn
           styles={["btn-44", "navDD_BTN"]}

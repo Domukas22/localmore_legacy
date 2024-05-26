@@ -6,7 +6,7 @@ import { ICON_arrow } from "../../../icons/icons";
 import { useContext } from "react";
 import { SavedProfileIDs_CONTEXT } from "../../../../contexts/savedProfiles";
 
-export function Upper_BLOCK({ SET_currentMenu, visible_BTNs = {} }) {
+export function Upper_BLOCK({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT }) {
   // Default values for visible_BTNs
   const {
     home = true,
@@ -32,6 +32,19 @@ export function Upper_BLOCK({ SET_currentMenu, visible_BTNs = {} }) {
           />
         </li>
       )}
+      <li>
+        <Btn
+          styles={["btn-44", "navDD_BTN"]}
+          text="Alle tags"
+          aria_LABEL=""
+          left_ICON={
+            <img src="https://cdn-icons-png.freepik.com/512/9458/9458516.png?ga=GA1.1.807612306.1716024941" />
+          }
+          right_ICON={<span>{tagUsage_COUNT || 99}</span>}
+          onClick={() => {}}
+          FIRE_clickEvent={false}
+        />
+      </li>
       {categories && (
         <li>
           <Btn
@@ -71,19 +84,6 @@ export function Upper_BLOCK({ SET_currentMenu, visible_BTNs = {} }) {
           />
         </li>
       )}
-      <li>
-        <Btn
-          styles={["btn-44", "navDD_BTN"]}
-          text="Feedback geben"
-          left_ICON={
-            <img src="https://cdn-icons-png.freepik.com/512/4066/4066310.png?ga=GA1.1.807612306.1716024941" />
-          }
-          right_ICON={<ICON_arrow direction="right" />}
-          aria_LABEL=""
-          onClick={() => SET_currentMenu("feedback")}
-          FIRE_clickEvent={false}
-        />
-      </li>
     </div>
   );
 }

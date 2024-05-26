@@ -1,7 +1,13 @@
 //
 //
 import { CSSTransition } from "react-transition-group";
-export function CssTransition_MENU({ children, current_MENU, menu_NAME, classNames, resize }) {
+export function CssTransition_MENU({
+  children,
+  current_MENU,
+  menu_NAME,
+  classNames,
+  resize = () => {},
+}) {
   return (
     <CSSTransition
       in={current_MENU === menu_NAME}

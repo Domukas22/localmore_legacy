@@ -53,7 +53,7 @@
     height: 2rem;
     object-fit: contain;
   }
-  & .icon, img:last-child, svg:last-child {
+  & .icon, img:last-child, svg:last-child, span:last-child {
     margin-left: auto;
   }
   @media (--mobile) {

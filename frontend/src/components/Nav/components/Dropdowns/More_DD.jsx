@@ -10,7 +10,7 @@ import { CssTransition_MENU } from "../Menus/CssTransition_MENU";
 import { Settings_BLOCKS } from "../Transition_BLOCKS/Settings_BLOCKS";
 import { BtnBack_BLOCK } from "../Transition_BLOCKS/BtnBack_BLOCK";
 import { Legal_BLOCK } from "../Transition_BLOCKS/Legal_BLOCK";
-import { DDmoreStarter_BLOCK } from "../Transition_BLOCKS/Boring_BLOCK";
+import { Lower_BLOCK } from "../Transition_BLOCKS/Lower_BLOCK";
 import { Upper_BLOCK } from "../Transition_BLOCKS/Upper_BLOCK";
 import { Feedback_BLOCK } from "../Transition_BLOCKS/Feeback_BLOCK";
 import { Businesses_BLOCK } from "../Transition_BLOCKS/Businesses_BLOCK";
@@ -64,7 +64,7 @@ export function More_DD({
           SET_reverse={SET_reverse}
         />
 
-        <DDmoreStarter_BLOCK SET_currentMenu={SET_currentMenu} />
+        <Lower_BLOCK SET_currentMenu={SET_currentMenu} />
       </CssTransition_MENU>
 
       {/* All Categories */}
@@ -104,6 +104,7 @@ export function More_DD({
         />
         <Businesses_BLOCK business_CATEG={businessCateg_ARR} />
       </CssTransition_MENU>
+
       {/* Category - Places */}
       <CssTransition_MENU
         current_MENU={current_MENU}
@@ -118,6 +119,7 @@ export function More_DD({
         />
         <Places_BLOCK places_CATEG={placesCateg_ARR} />
       </CssTransition_MENU>
+
       {/* Settings */}
       <CssTransition_MENU
         current_MENU={current_MENU}
@@ -128,6 +130,7 @@ export function More_DD({
         <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
         <Settings_BLOCKS resize={() => HANLDE_dd("fit-content-font-resize")} />
       </CssTransition_MENU>
+
       {/* Feedback */}
       <CssTransition_MENU
         current_MENU={current_MENU}
@@ -138,6 +141,7 @@ export function More_DD({
         <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
         <Feedback_BLOCK />
       </CssTransition_MENU>
+
       {/* Legal */}
       <CssTransition_MENU
         current_MENU={current_MENU}
