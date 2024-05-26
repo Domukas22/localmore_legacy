@@ -65,9 +65,9 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
   return (
     <header className={css.header} data-theme={theme} data-hidemainnav={IS_searchOpen}>
       <div className={css.nav_WRAP}>
-        <h1 key="nav-logo" data-shrink={SHRINK_logo ? SHRINK_logo : false}>
+        <h1 key="nav-logo" data-shrink={SHRINK_logo}>
           <a href="http://localhost:5173/" title="← Back to the homepage">
-            <LogoSvg_COMP shrink={SHRINK_logo ? SHRINK_logo : false} />
+            <LogoSvg_COMP shrink={SHRINK_logo} />
           </a>
         </h1>
         <nav key="nav">

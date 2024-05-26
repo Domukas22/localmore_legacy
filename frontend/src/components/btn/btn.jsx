@@ -1,13 +1,13 @@
 //
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import css from "./btn.module.css";
 import PropTypes from "prop-types";
 import { Button } from "react-aria-components";
 import { ICON_activeDigit } from "../icons/icons";
 import { profilePreview_TR } from "../../translations";
 import { USE_windowSize } from "../../hooks/USE_windowWidth";
-import DD from "../dd/dd";
+import { ICON_save } from "../icons/icons";
 
 export function Btn({
   styles,
@@ -157,26 +157,25 @@ export function ShowTags_BTN({
     </Button>
   );
 }
-export function SavedProfile_BTN({
-  name,
-  subname,
-  image_URL,
-  aria_LABEL,
-  onClick = () => alert("No function provided"),
-}) {
+export function SavedProfile_LINK({ name, subname, image_URL, remove }) {
   return (
-    <Button
-      className={css["saved-profile-btn"]}
-      onPress={onClick}
-      aria-label={aria_LABEL}
-      data-testid="saved-profile-btn"
-    >
-      <img src={image_URL} />
+    <a href="#" className={css.SavedProfile_LINK}>
+      <Btn
+        styles={["btn-36", "onImg", "save"]}
+        onClick={remove}
+        saved={true}
+        // left_ICON={<ICON_save style={IS_saved ? "active" : "white"} />}
+        left_ICON={<ICON_save style="active" />}
+        // aria_LABEL={tr?.saveBtn_ARIA(name)[lang]}
+        test_ID="save-btn"
+        FIRE_clickEvent={false}
+      />
+      <img src={image_URL} alt="" />
       <div className={css.text_WRAP}>
         <h4>{name ?? "Name"}</h4>
-        <p>{subname ?? "Subname"}</p>
+        {/* <p>{subname ?? "Subname"}</p> */}
       </div>
-    </Button>
+    </a>
   );
 }
 

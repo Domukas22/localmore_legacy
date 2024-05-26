@@ -111,10 +111,14 @@
   padding: 1.2rem;
   border-bottom: var(--border-black-01);
 
-  
-
   &:last-child {
     border-bottom: none;
+  }
+
+  &[data-custom="saved"] {
+    & li {
+      margin-bottom: 0.2rem;
+    }
   }
 
   @media (--mobile) {
@@ -302,4 +306,11 @@
     padding-right: var(--padding-mob);
   }
 }
+.noSavedItems_BOX {
+  height: 18rem;
+  display: grid;
+  place-items: center;
+  border: 2px dotted rgba(0, 0, 0, 0.2);  
+  border-radius: var(--radius-12);
 
+}
