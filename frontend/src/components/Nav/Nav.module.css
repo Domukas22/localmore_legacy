@@ -134,7 +134,7 @@
     
     & button {
       & p {margin-right: 0}
-      justify-content: center;
+      justify-content: center !important;
     }
 
     &[data-item="li-btn-normal"] button p {

@@ -14,21 +14,14 @@
   box-shadow: 0 0 1rem #0000006b;
   
   width: 100%;
-  max-height: 75vh !important;
   min-width: fit-content;
   background-color: var(--fill-bg);
 
-  max-height: calc(100vh - 6rem - 2rem); /* 100vh - nav height - gap */
-      transition: 300ms;
-      /* position: relative; */
-      /* overflow: hidden; */
-      /* overflow-y: scroll; */
-      
-      &[data-scroll="true"]{
-        overflow-y: scroll;
-      }
-  
-  
+  max-height: min(700px, calc(100vh - 6rem - 2rem)); /* 100vh - nav height - gap */
+  transition: 300ms;
+  animation: dropdown 300ms forwards;
+
+  &[data-scroll="true"]{overflow-y: scroll}
 
   & ul {
     display: flex;
@@ -39,14 +32,12 @@
       justify-content: left;
     }
   }
-
   & .dropdownContent_WRAP {
     border: 1px solid red !important;
   }
-
-  
-
-
+}
+@keyframes dropdown {
+  0% {opacity: 0} 100% {opacity: 1}
 }
 .dropdown.active {
   bottom: auto;

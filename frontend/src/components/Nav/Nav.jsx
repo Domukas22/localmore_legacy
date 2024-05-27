@@ -136,7 +136,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
             {layout >= 5 && (
               <li>
                 <Btn
-                  styles={["btn-40", "round", "grey"]}
+                  styles={["btn-40", "round", "grey", "nav-DD"]}
                   text={layout <= 7 && "Menu"}
                   right_ICON={
                     IS_menuOpen ? (
@@ -149,6 +149,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
                   }
                   aria_LABEL=""
                   onClick={TOGGLE_menu}
+                  expanded={IS_menuOpen}
                 />
               </li>
             )}
@@ -198,7 +199,7 @@ function GET_layout(windowWidth, fontSize) {
     1: {
       // font size 1
       1200: 1,
-      1060: 2,
+      1090: 2,
       960: 3,
       800: 4,
       620: 5,

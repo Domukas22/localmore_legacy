@@ -112,31 +112,27 @@ const DD = forwardRef((props, ref) => {
             <ICON_dropDownArrow />
           )}
         </Button>
-        <AnimatePresence>
-          {!!children && expanded && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1, transition: { duration: 0.15 } }}
-              exit={{ opacity: 0, transition: { duration: 0.15 } }}
-              ref={menu_REF}
-              id={`menu-${theId}`}
-              className={css.dropdown}
-              aria-hidden={expanded ? "false" : "true"}
-              aria-labelledby={`button-${theId}`}
-              role={"menu"}
-              data-expanded={expanded}
-              data-scroll={scroll}
-              style={{
-                width: width ? `${width}rem` : "auto",
-                height: height,
-                left: align === "left" ? "0px" : "auto",
-                right: align === "right" ? "0px" : "auto",
-              }}
-            >
-              {children ?? children}
-            </motion.div>
-          )}
-        </AnimatePresence>
+
+        {!!children && expanded && (
+          <div
+            ref={menu_REF}
+            id={`menu-${theId}`}
+            className={css.dropdown}
+            aria-hidden={expanded ? "false" : "true"}
+            aria-labelledby={`button-${theId}`}
+            role={"menu"}
+            data-expanded={expanded}
+            data-scroll={scroll}
+            style={{
+              width: width ? `${width}rem` : "auto",
+              height: height,
+              left: align === "left" ? "0px" : "auto",
+              right: align === "right" ? "0px" : "auto",
+            }}
+          >
+            {children ?? children}
+          </div>
+        )}
       </div>
     </>
   );

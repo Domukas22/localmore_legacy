@@ -2,7 +2,7 @@
 
 @import '@styles/global.css';
 
-@custom-media --mobile (max-width: 700px);
+@custom-media --mobile (max-width: 800px);
 
 .btn {
   display: flex;
@@ -338,6 +338,9 @@
   overflow: hidden;
   border-radius: var(--radius-12);
   box-shadow: var(--shadow-img);
+
+  height: 18rem;
+  @media (--mobile) {height: 50vw}
 
   & img {
     object-fit: cover;

@@ -23,6 +23,7 @@ export function Btn({
   active,
   FIRE_clickEvent = true,
   custom_DATA,
+  expanded,
 }) {
   return (
     <Button
@@ -39,6 +40,7 @@ export function Btn({
       data-testid={test_ID}
       data-active={active}
       data-custom={custom_DATA}
+      data-expanded={expanded}
     >
       {leftIcon_URL && <img src={leftIcon_URL} className={css.icon} data-testid="left-icon" />}
       {left_ICON && left_ICON}
@@ -170,7 +172,7 @@ export function SavedProfile_LINK({ name, subname, image_URL, remove }) {
         test_ID="save-btn"
         FIRE_clickEvent={false}
       />
-      <img src={image_URL} alt="" />
+      <img src={image_URL} alt="" loading="lazy" />
       <div className={css.text_WRAP}>
         <h4>{name ?? "Name"}</h4>
         {/* <p>{subname ?? "Subname"}</p> */}
