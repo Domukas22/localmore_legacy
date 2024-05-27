@@ -342,12 +342,16 @@
   height: 18rem;
   @media (--mobile) {height: 50vw}
 
-  & img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
+  & a {
     box-shadow: var(--shadow-btn);
+    & img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      
+    }
   }
+  
 
   & button {
     position: absolute;

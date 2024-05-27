@@ -1,7 +1,7 @@
 //
 
 import PropTypes from "prop-types";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import css from "./Profile_PREVIEW.module.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -170,17 +170,26 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
     </>
   );
 }
+
 function CREATE_swiper({ sliderRef, images, img_END, img_ALT }) {
   return (
-    <Swiper loop={true} ref={sliderRef} speed={500} data-testid="swiper">
+    <Swiper
+      loop={true}
+      ref={sliderRef}
+      speed={500}
+      data-testid="swiper"
+      lazyPreloadPrevNext={4}
+      // style={{ overflow: "visible" }}
+    >
       {images.map((img, i) => (
         <SwiperSlide key={i}>
-          <img src={img + img_END} className={css.profile_IMG} alt={img_ALT} loading="eager" />
+          <img src={img + img_END} className={css.profile_IMG} alt={img_ALT} loading="lazy" />
         </SwiperSlide>
       ))}
     </Swiper>
   );
 }
+
 function Tag_OVERLAY({ profile, TOGGLE_showTags, lang, name }) {
   return (
     <>

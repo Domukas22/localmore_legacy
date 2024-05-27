@@ -162,10 +162,10 @@
   position: fixed;
   top: 0;
   left: 0;
+  overflow: hidden;
 
   height: 100dvh !important;
   width: 100%;
-  padding-top: 6rem;
 
   z-index: 40;
   background-color: rgba(234, 237, 245, 1);

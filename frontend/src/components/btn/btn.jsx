@@ -160,24 +160,30 @@ export function ShowTags_BTN({
   );
 }
 export function SavedProfile_LINK({ name, subname, image_URL, remove }) {
+  const [IS_saved, SET_isSaved] = useState(true);
   return (
-    <a href="#" className={css.SavedProfile_LINK}>
+    <div className={css.SavedProfile_LINK}>
       <Btn
         styles={["btn-36", "onImg", "save"]}
-        onClick={remove}
-        saved={true}
-        // left_ICON={<ICON_save style={IS_saved ? "active" : "white"} />}
-        left_ICON={<ICON_save style="active" />}
+        onClick={() => {
+          remove();
+          SET_isSaved(false);
+        }}
+        saved={IS_saved}
+        left_ICON={<ICON_save style={IS_saved ? "active" : "white"} />}
         // aria_LABEL={tr?.saveBtn_ARIA(name)[lang]}
         test_ID="save-btn"
         FIRE_clickEvent={false}
       />
-      <img src={image_URL} alt="" loading="lazy" />
+      <a href="#">
+        <img src={image_URL} alt="" loading="lazy" />
+      </a>
+
       <div className={css.text_WRAP}>
         <h4>{name ?? "Name"}</h4>
         {/* <p>{subname ?? "Subname"}</p> */}
       </div>
-    </a>
+    </div>
   );
 }
 

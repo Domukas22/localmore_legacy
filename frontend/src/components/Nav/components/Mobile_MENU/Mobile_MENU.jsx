@@ -49,6 +49,7 @@ export function Mobile_MENU({
   useEffect(() => {
     // scroll to top when menu changes
     if (scroll_REF.current) {
+      console.log("scroll");
       scroll_REF.current.scrollTo({
         top: 0,
         behavior: "smooth",
@@ -59,6 +60,8 @@ export function Mobile_MENU({
   return (
     <Modal isOpen={IS_menuOpen} className={css.Modal_MENU}>
       <Dialog aria-label="Menu" ref={scroll_REF} className={css.Dialog_MENU}>
+        <div style={{ height: "6rem" }}></div>{" "}
+        {/* Instead of 6rem padding we have this div. The padding sometimes messes up when the toolarbar/ searchbar of the browser come sup on mobile, and everythign shifts to the top */}
         <div
           className={css.menu_PREWRAP}
           style={{ position: "relative" }}

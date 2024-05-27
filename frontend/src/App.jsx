@@ -54,10 +54,6 @@ export function App() {
       <AnimatePresence>
         {search !== "" && <Modal_SEARCH search={search} profiles={profiles} />}
       </AnimatePresence>
-      <p>{profiles.length}</p>
-      {LOADING_profiles && <p>Loading profiles...</p>}
-      {profile_ERROR && <p>Error with loading profiles</p>}
-      <p>{base_URL}</p>
 
       <Explore
         profiles={profiles}

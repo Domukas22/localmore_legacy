@@ -27,7 +27,6 @@
   /* background: green; */
   
   @media (--mobile) {
-    grid-template-columns: 1fr;
     grid-auto-rows: calc(100vw * (4 / 3.5)); 
   }
 
