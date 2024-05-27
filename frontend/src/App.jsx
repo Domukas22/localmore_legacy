@@ -38,6 +38,10 @@ export function App() {
     error: categories_ERROR,
   } = USE_fetchData(`${base_URL}/categories`);
 
+  // console.log(LOADING_profiles);
+
+  if (profile_ERROR) console.log(profile_ERROR);
+
   return (
     <>
       <Nav
@@ -50,6 +54,11 @@ export function App() {
       <AnimatePresence>
         {search !== "" && <Modal_SEARCH search={search} profiles={profiles} />}
       </AnimatePresence>
+      <p>{profiles.length}</p>
+      {LOADING_profiles && <p>Loading profiles...</p>}
+      {profile_ERROR && <p>Error with loading profiles</p>}
+      <p>{base_URL}</p>
+
       <Explore
         profiles={profiles}
         tags={tags}

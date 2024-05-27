@@ -175,7 +175,7 @@ function CREATE_swiper({ sliderRef, images, img_END, img_ALT }) {
     <Swiper loop={true} ref={sliderRef} speed={500} data-testid="swiper">
       {images.map((img, i) => (
         <SwiperSlide key={i}>
-          <img src={img + img_END} className={css.profile_IMG} alt={img_ALT} />
+          <img src={img + img_END} className={css.profile_IMG} alt={img_ALT} loading="eager" />
         </SwiperSlide>
       ))}
     </Swiper>

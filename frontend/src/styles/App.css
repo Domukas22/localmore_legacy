@@ -59,6 +59,7 @@ html[data-noscroll="true"]{
 }
 
 body {
+  padding-top: 6rem;
 
   font-size: var(--user-font-size, 1.6rem);
     @media (--mobile) {
@@ -75,7 +76,7 @@ h4 {
 }
 
 p {
-  letter-spacing: 0.03rem;
+  /* letter-spacing: 0.03rem; */
 }
 
 .btn_360 {

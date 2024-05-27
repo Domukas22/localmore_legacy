@@ -11,10 +11,6 @@ export function USE_DDactions() {
   const dropdown_REF = useRef(null);
   const scroll = SHOULD_scroll(menu_HEIGHT);
 
-  console.log(menu_HEIGHT);
-
-  // useEffect(() => SET_menuHeight(200), []);/
-
   useEffect(() => {
     if (!dropdown_REF.current) return;
     dropdown_REF.current.scrollTo({ top: 0, behavior: "smooth" });
@@ -24,17 +20,14 @@ export function USE_DDactions() {
     switch (action) {
       case "open":
         SET_menuHeight(dropdown_REF.current?.firstChild.offsetHeight + 1);
-        console.log("OPEN");
         break;
 
       case "resize":
         SET_menuHeight(el.offsetHeight + 1);
-        console.log("RESIZE");
         break;
 
       case "fit-content-font-resize":
         SET_menuHeight("fit-content");
-        console.log("FIT-CONTENT");
         setTimeout(() => {
           SET_menuHeight(dropdown_REF.current?.firstChild.offsetHeight + 1);
         }, 301);
@@ -42,7 +35,6 @@ export function USE_DDactions() {
 
       case "close":
         SET_menuHeight(200);
-        console.log("CLOSE");
         SET_currentMenu("all");
         break;
     }
@@ -59,7 +51,9 @@ const SHOULD_scroll = (menu_HEIGHT) => {
   useEffect(() => {
     const nav_HEIGHT = 60; // px
     const gap = 20; // px
-    const maxHeight = height - nav_HEIGHT - gap; // 100% height -
+    const vieport_HEIGHT = height - nav_HEIGHT - gap; // 100% height - nav
+
+    const maxHeight = Math.min(vieport_HEIGHT, 700);
 
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);

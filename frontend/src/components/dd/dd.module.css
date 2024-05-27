@@ -21,7 +21,10 @@
   transition: 300ms;
   animation: dropdown 300ms forwards;
 
-  &[data-scroll="true"]{overflow-y: scroll}
+  &[data-scroll="true"]{overflow-y: scroll};
+  -webkit-scrollbar-track {
+    background-color: red;
+  }
 
   & ul {
     display: flex;

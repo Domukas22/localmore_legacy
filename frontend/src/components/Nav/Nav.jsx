@@ -52,7 +52,6 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
 
   const { width: window_WIDTH } = USE_windowSize();
   const layout = GET_layout(window_WIDTH, fontSize);
-  console.log(layout);
 
   const SHRINK_logo = layout < 7 || IS_menuOpen ? false : true;
   if (window_WIDTH > 940 && IS_menuOpen) TOGGLE_menu("close");

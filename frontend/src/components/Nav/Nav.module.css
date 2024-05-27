@@ -3,7 +3,7 @@
 @import '@styles/global.css';
 
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
   z-index: 50;
 
@@ -162,13 +162,15 @@
   position: fixed;
   top: 0;
   left: 0;
-  bottom: 0;
-  right: 0;
+
+  height: 100dvh !important;
+  width: 100%;
+  padding-top: 6rem;
+
   z-index: 40;
   background-color: rgba(234, 237, 245, 1);
   display: flex;
   flex-direction: column; 
-  padding-top: 6rem;
   
   & ul {
     overflow-y: hidden;
@@ -308,9 +310,28 @@
 }
 .noSavedItems_BOX {
   height: 18rem;
-  display: grid;
-  place-items: center;
   border: 2px dotted rgba(0, 0, 0, 0.2);  
   border-radius: var(--radius-12);
+  position: relative;
+  overflow: hidden;
+  /*  place the image into the ::before */
+
+  
+  &&::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+
+    background-image: url('https://cdn-icons-png.freepik.com/512/520/520708.png?ga=GA1.1.807612306.1716024941');
+    background-size: 4rem;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+
 
 }
