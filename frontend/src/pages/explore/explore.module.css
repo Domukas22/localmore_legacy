@@ -8,12 +8,31 @@
   min-height: 80vh;
   display: flex;
   column-gap: 2.8rem; /* 28px */
-  padding: var(--padding-desk);
+
+  padding: calc(var(--padding-desk) - 0.6rem); /* .left padding */
   padding-bottom: 40rem !important; /* 400px */
 
+  & .left {
+    row-gap: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    overflow: hidden;
+    padding: 0.6rem;
+  }
+
+  & .right {
+    width: 28rem;
+    position: sticky;
+
+    top: calc(6rem + 2.8rem); /* nav height + explore_WRAP padding */
+    height: calc(100vh - 6rem - (2.8rem * 2)); /* screen - nav height - explore_WRAP padding */
+
+  }
 
   @media (--mobile) {
-    padding: var(--padding-mob);
+    padding: calc(var(--padding-mob) - 0.6rem);
   }
 }
 
@@ -28,6 +47,7 @@
   
   @media (--mobile) {
     grid-auto-rows: calc(100vw * (4 / 3.5)); 
+    grid-template-columns: 1fr;
   }
 
   @media (--landscape) {

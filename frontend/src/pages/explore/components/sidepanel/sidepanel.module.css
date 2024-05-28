@@ -5,10 +5,10 @@
 
 .sidepanel {
   height: 100%;
-  width: 30rem;
+  width: 100%;
   background-color: white;
   border-radius: var(--radius-16);
-  box-shadow: var(--shadow-small);
+  box-shadow: var(--shadow-img);
 
 
 }

@@ -34,7 +34,7 @@ export function USE_DDactions() {
         break;
 
       case "close":
-        SET_menuHeight(200);
+        SET_menuHeight(null);
         SET_currentMenu("all");
         break;
     }

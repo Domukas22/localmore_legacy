@@ -1,0 +1,16 @@
+/*  */
+/*  */
+
+.header { 
+  width: 100%;
+  
+  & .tag_WRAP {
+  display: flex;
+  gap: 0.8rem;
+  overflow-x: auto;
+
+  max-width: 100%; 
+  white-space: nowrap; 
+
+  
+}}

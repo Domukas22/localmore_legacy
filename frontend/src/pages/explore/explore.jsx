@@ -3,7 +3,7 @@
 //
 import { useState, useContext } from "react";
 import css from "./explore.module.css";
-import SidePanel from "./sidepanel/sidepanel";
+import SidePanel from "./components/sidepanel/sidepanel";
 import Profile_PREVIEW from "../../components/Profile_PREVIEW/Profile_PREVIEW";
 import Panorama from "../../components/panorama/panorama";
 import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
@@ -11,8 +11,10 @@ import { Lang_CONTEXT } from "../../contexts/lang";
 
 import { profilePreview_TR } from "../../translations";
 import { global_TR } from "../../translations";
+import { Header } from "./components/header/Header";
+import { Tagbar } from "./components/Tagbar/Tagbar";
 
-export default function Explore({ profiles, tags, tagUsages, windowWidth, search }) {
+export default function Explore({ profiles, tags, tagUsages, window_WIDTH, search, categories }) {
   const [panoramas, SET_panoramas] = useState(null);
   const { lang } = useContext(Lang_CONTEXT);
 
@@ -23,18 +25,22 @@ export default function Explore({ profiles, tags, tagUsages, windowWidth, search
         SET_panoramas={SET_panoramas}
         search={search}
         lang={lang}
-        windowWidth={windowWidth}
+        window_WIDTH={window_WIDTH}
+        categories={categories}
+        tags={tags}
       />
       {panoramas !== null && <Modal360 panoramas={panoramas} SET_panoramas={SET_panoramas} />}
     </>
   );
 }
 
-function Explore_GRID({ profiles, SET_panoramas, search, lang, windowWidth }) {
+function Explore_GRID({ profiles, SET_panoramas, search, lang, window_WIDTH, categories, tags }) {
   return (
     <div className={css.explore_WRAP}>
       <div className={css.left}>
-        <div className={css.profile_GRID}>
+        <Header window_WIDTH={window_WIDTH} profile_COUNT={profiles.length} />
+        <Tagbar categories={categories} />
+        <section className={css.profile_GRID}>
           {profiles.map((profile) => {
             return (
               <Profile_PREVIEW
@@ -48,9 +54,9 @@ function Explore_GRID({ profiles, SET_panoramas, search, lang, windowWidth }) {
               />
             );
           })}
-        </div>
+        </section>
       </div>
-      {windowWidth > 1100 && (
+      {window_WIDTH > 1100 && (
         <div className={css.right}>
           <SidePanel />
         </div>

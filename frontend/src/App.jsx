@@ -12,7 +12,7 @@ import { AnimatePresence } from "framer-motion";
 
 export function App() {
   const [search, SET_search] = useState("");
-  const { width: window_WIDTH } = USE_windowSize();
+  const { width } = USE_windowSize();
 
   const {
     data: profiles,
@@ -59,8 +59,9 @@ export function App() {
         profiles={profiles}
         tags={tags}
         tagUsages={tagUsages}
-        windowWidth={window_WIDTH}
+        window_WIDTH={width}
         search={search}
+        categories={categories}
       />
     </>
   );
