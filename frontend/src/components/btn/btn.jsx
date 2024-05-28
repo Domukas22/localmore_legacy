@@ -186,7 +186,21 @@ export function SavedProfile_LINK({ name, subname, image_URL, remove }) {
     </div>
   );
 }
+export function Category_LINK({ name, subname, image_URL, remove }) {
+  const [IS_saved, SET_isSaved] = useState(true);
+  return (
+    <div className={css.Category_LINK}>
+      <a href="#">
+        <img src={image_URL} alt="" loading="lazy" />
+      </a>
 
+      <div className={css.text_WRAP}>
+        <h4>{name ?? "Name"}</h4>
+        {/* <p>{subname ?? "Subname"}</p> */}
+      </div>
+    </div>
+  );
+}
 
 Btn.propTypes = {
   styles: PropTypes.array,

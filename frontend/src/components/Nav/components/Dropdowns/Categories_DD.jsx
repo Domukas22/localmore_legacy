@@ -15,7 +15,7 @@ import { AllCategories_BLOCK } from "../Transition_BLOCKS/AllCategories_BLOCKS";
 import { Businesses_BLOCK } from "../Transition_BLOCKS/Businesses_BLOCK";
 import { Places_BLOCK } from "../Transition_BLOCKS/Places_BLOCK";
 
-export function Categories_DD({ categories }) {
+export function Categories_DD({ categories, styles }) {
   const { startCateg_ARR, endCateg_ARR, businessCateg_ARR, placesCateg_ARR } =
     USE_filterCategType(categories);
 
@@ -31,6 +31,7 @@ export function Categories_DD({ categories }) {
       scroll={scroll}
       height={menu_HEIGHT}
       menu_REF={dropdown_REF}
+      styles={styles}
     >
       {/* All Categories */}
       <CssTransition_MENU

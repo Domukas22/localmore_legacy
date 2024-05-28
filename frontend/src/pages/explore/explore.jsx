@@ -13,8 +13,17 @@ import { profilePreview_TR } from "../../translations";
 import { global_TR } from "../../translations";
 import { Header } from "./components/header/Header";
 import { Tagbar } from "./components/Tagbar/Tagbar";
+import { CategoryBar } from "./components/CategoryBar/CategoryBar";
 
-export default function Explore({ profiles, tags, tagUsages, window_WIDTH, search, categories }) {
+export default function Explore({
+  profiles,
+  tags,
+  tagUsages,
+  window_WIDTH,
+  search,
+  categories,
+  SET_search,
+}) {
   const [panoramas, SET_panoramas] = useState(null);
   const { lang } = useContext(Lang_CONTEXT);
 
@@ -34,12 +43,28 @@ export default function Explore({ profiles, tags, tagUsages, window_WIDTH, searc
   );
 }
 
-function Explore_GRID({ profiles, SET_panoramas, search, lang, window_WIDTH, categories, tags }) {
+function Explore_GRID({
+  profiles,
+  SET_panoramas,
+  search,
+  SET_search,
+  lang,
+  window_WIDTH,
+  categories,
+  tags,
+}) {
   return (
     <div className={css.explore_WRAP}>
       <div className={css.left}>
-        <Header window_WIDTH={window_WIDTH} profile_COUNT={profiles.length} />
-        <Tagbar categories={categories} />
+        <Header
+          window_WIDTH={window_WIDTH}
+          profile_COUNT={profiles.length}
+          search={search}
+          SET_search={SET_search}
+        />
+        <Tagbar categories={categories} tags={tags} window_WIDTH={window_WIDTH} />
+        <CategoryBar categories={categories} window_WIDTH={window_WIDTH} />
+        {/* <CategoryBar categories={categories} /> */}
         <section className={css.profile_GRID}>
           {profiles.map((profile) => {
             return (

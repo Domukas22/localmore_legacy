@@ -381,5 +381,54 @@
     }
   }
 }
+.Category_LINK {
+
+  width: 24rem;
+  min-width: 24rem;
+  height: 18rem;
+
+
+  @media (--mobile) {
+    width: 70vw;
+    min-width: 70vw;
+    height: 70vw
+  }
+
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-16);
+  box-shadow: var(--shadow-img);
+
+
+  & a {
+    box-shadow: var(--shadow-btn);
+    & img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      
+    }
+  }
+
+  & .text_WRAP {
+    position: absolute;
+    padding: 2rem 1.2rem 0.8rem;
+    width: 100%;
+
+    left: 0;
+    bottom: 0;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
+
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    color: white;
+    text-shadow: var(--shadow-text);
+
+    & p {
+      color: var(--text-fade-white);
+    }
+  }
+}
 
 /* /////////////////////////////////////// */

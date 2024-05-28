@@ -2,16 +2,13 @@
 /*  */
 @import '@styles/global.css';
 
-.header { 
-  width: calc(100% + var(--padding-shadow-save));
-  position: sticky;
-  top: 7.6rem;
-  left: calc(-1 * var(--padding-shadow-save));
+
+.CategoryBar {
+  width: 100%;
+  position: relative;
   display: flex;
-  align-items: center;
   gap: 0.8rem;
-  z-index: 10;
-  
+
 
   & .ul_WRAP {
     position: relative;
@@ -52,10 +49,20 @@
       }
     }
   }
-  
-  & .sliderBtn_WRAP {
+
+  /* & ul {
     display: flex;
     gap: 0.8rem;
+    overflow: auto;
+  } */
+
+  & .test_arrow_wrap {
+    display: flex;
+    gap: 0.8rem;
+    & button {
+      height: 100%;
+      border-radius: var(--radius-16);
+    }
 
     &[data-start="true"] {
       & button:first-child {
@@ -70,25 +77,37 @@
       }
     }
   }
-
-  & .mobileBtn_WRAP {
+  /* & .test_arrow_wrap {
     display: flex;
-    width: 100%;
-    gap: 0.8rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    padding-left: 2rem;
 
-    & button:first-child {
-      flex: 1;
-      justify-content: left;
-      & p {
-        margin-right: auto;
-      }
+    background: linear-gradient(to left, var(--fill-bg) 0%, var(--fill-bg) 70%, transparent 100%);
+
+    gap: 0.8rem;
+    align-items: center;
+  } */
+
+  & .test_GRID {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(24rem, 1fr));
+    gap: 0.8rem;
+    column-gap: 0.8rem;
+    width: 100%;
+
+    & > div {
+      width: 100%;
+    
     }
+
   }
 
   @media (--mobile) {
-    /* left: 0;
-    width: 100%; */
-    
-    
-  }
+    left: calc(-1 * var(--padding-mob));
+    width: calc(100% + var(--padding-mob) * 2);
+    padding: 0 var(--padding-mob);
+  } 
 }

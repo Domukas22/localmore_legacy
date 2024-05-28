@@ -61,6 +61,7 @@ export function App() {
         tagUsages={tagUsages}
         window_WIDTH={width}
         search={search}
+        SET_search={SET_search}
         categories={categories}
       />
     </>

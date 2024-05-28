@@ -24,6 +24,7 @@ const DD = forwardRef((props, ref) => {
     height = 200,
     menu_REF,
     icon = undefined,
+    styles = ["btn-40", "round", "grey", "nav-DD"],
   } = props;
   const [expanded, setExpanded] = useState(false);
   const [theId] = useState(id ? id : generateId(10)); // Generate random ID if not specified.
@@ -91,7 +92,7 @@ const DD = forwardRef((props, ref) => {
         <Button
           ref={buttonRef}
           // id={`button-${theId}`}
-          className={["btn-40", "round", "grey", "nav-DD"].map((style) => css_BTN[style]).join(" ")}
+          className={styles.map((style) => css_BTN[style]).join(" ")}
           onPress={() => {
             if (!expanded) document.dispatchEvent(new Event("click")); // for the dropdowns
             setExpanded((expanded) => !expanded);
