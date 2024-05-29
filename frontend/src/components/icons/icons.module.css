@@ -128,4 +128,43 @@
     }
   }
 }
+.ICON_proCon {
+  composes: all;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
 
+
+  & svg {
+    width: 1.2rem !important; /* Adjust width as needed */
+    height: 1.2rem !important; /* Adjust height as needed */
+    margin-left: 0 !important;
+  }
+
+  &[data-pro="true"] {
+    background-color: #2a9e1f
+  }
+  &[data-pro="false"] {
+    background-color: #fb5e5e
+  }
+}
+.ICON_dropDownArrow {
+  width: 1.6rem;
+  height: 1.6rem;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  padding: 0.15rem 0.42rem 0 0.42rem;
+
+  &[data-color="white"] {
+    & path {
+      fill: white;
+    }
+  }
+  &[data-color="dark"] {
+    & path {
+      fill: var(--brand-black);
+    }
+  }
+}

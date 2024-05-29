@@ -4,7 +4,7 @@ import { useState } from "react";
 import css from "./btn.module.css";
 import PropTypes from "prop-types";
 import { Button } from "react-aria-components";
-import { ICON_activeDigit } from "../icons/icons";
+import { ICON_activeDigit, ICON_dropDownArrow, ICON_proCon } from "../icons/icons";
 import { profilePreview_TR } from "../../translations";
 import { USE_windowSize } from "../../hooks/USE_windowWidth";
 import { ICON_save } from "../icons/icons";
@@ -50,8 +50,6 @@ export function Btn({
     </Button>
   );
 }
-
-export function Nav_DD({ text, left_ICON, aria_LABEL }) {}
 
 export function ProfileSearch_BTN({
   name,
@@ -128,7 +126,7 @@ export function ShowTags_BTN({
 
   return (
     <Button
-      className={css["show-icons-btn"]}
+      className={css["onImg"]}
       data-open={IS_open}
       onPress={() => {
         onClick();
@@ -199,6 +197,48 @@ export function Category_LINK({ name, subname, image_URL, remove }) {
         {/* <p>{subname ?? "Subname"}</p> */}
       </div>
     </div>
+  );
+}
+export function ShowProsCons_BTN({
+  onClick = () => alert("No function provided"),
+  pros_COUNT,
+  cons_COUNT,
+}) {
+  return (
+    <Button
+      className={css["prosCons"]}
+      onPress={() => {
+        onClick();
+        document.dispatchEvent(new Event("click")); // for the dropdowns
+      }}
+    >
+      {pros_COUNT > 0 && (
+        <div className={css.wrap}>
+          <ICON_proCon />
+          <p>{pros_COUNT}</p>
+        </div>
+      )}
+      {cons_COUNT > 0 && (
+        <div className={css.wrap}>
+          <ICON_proCon IS_pro={false} />
+          <p>{cons_COUNT}</p>
+        </div>
+      )}
+    </Button>
+  );
+}
+export function ShowMore_BTN({ onClick = () => alert("No function provided") }) {
+  return (
+    <Button
+      className={["onImg", "flex", "spaceBetween"].map((style) => css[style]).join(" ")}
+      onPress={() => {
+        onClick();
+        document.dispatchEvent(new Event("click")); // for the dropdowns
+      }}
+    >
+      <p>More</p>
+      <ICON_dropDownArrow color="white" />
+    </Button>
   );
 }
 

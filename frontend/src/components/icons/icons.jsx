@@ -67,18 +67,9 @@ export function ICON_save({ style }) {
     </svg>
   );
 }
-export function ICON_dropDownArrow({ color }) {
+export function ICON_dropDownArrow({ color = "dark" }) {
   return (
-    <div
-      style={{
-        width: "1.6rem",
-        height: "1.6rem",
-        display: "grid",
-        justifyContent: "center",
-        alignContent: "center",
-        padding: "0.15rem 0.42rem 0 0.42rem",
-      }}
-    >
+    <div className={css.ICON_dropDownArrow} data-color={color}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 7 6"
@@ -88,10 +79,7 @@ export function ICON_dropDownArrow({ color }) {
           height: "100%",
         }}
       >
-        <path
-          d="M4.36602 5.5C3.98112 6.16667 3.01888 6.16667 2.63397 5.5L0.46891 1.75C0.0840102 1.08333 0.565136 0.25 1.33494 0.25L5.66506 0.249999C6.43487 0.249999 6.91599 1.08333 6.53109 1.75L4.36602 5.5Z"
-          fill="#383940"
-        />
+        <path d="M4.36602 5.5C3.98112 6.16667 3.01888 6.16667 2.63397 5.5L0.46891 1.75C0.0840102 1.08333 0.565136 0.25 1.33494 0.25L5.66506 0.249999C6.43487 0.249999 6.91599 1.08333 6.53109 1.75L4.36602 5.5Z" />
       </svg>
     </div>
   );
@@ -142,6 +130,47 @@ export function ICON_menuLines() {
       <div className={css.line}></div>
       <div className={css.line}></div>
       <div className={css.line}></div>
+    </div>
+  );
+}
+export function ICON_proCon({ IS_pro = true }) {
+  return (
+    <div className={css.ICON_proCon} data-pro={IS_pro}>
+      {IS_pro && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="10"
+          height="12"
+          viewBox="0 0 10 12"
+          fill="none"
+        >
+          <path
+            d="M1.3337 6.57719L3.85275 10.0198L8.93721 1.91042"
+            stroke="white"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      )}
+      {!IS_pro && (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="none">
+          <path
+            d="M1.51611 1.36328L8.52006 8.36723"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M8.51953 1.36328L1.51558 8.36723"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      )}
     </div>
   );
 }

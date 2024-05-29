@@ -5,7 +5,7 @@ import { useState, useContext, useEffect } from "react";
 import css from "./Profile_PREVIEW.module.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { ICON_arrow, ICON_save, ICON_x } from "../icons/icons";
+import { ICON_arrow, ICON_dropDownArrow, ICON_save, ICON_x } from "../icons/icons";
 
 import USE_Toggle from "../../hooks/USE_toggle";
 import USE_slideSwiper from "../../hooks/USE_slideSwiper";
@@ -17,7 +17,14 @@ import { USE_isProfileNew } from "../../hooks/USE_isProfileNew";
 import { New_LABEL } from "../labels/labels";
 
 import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
-import { Btn, ProfileName_BTN, ProfileSearch_BTN, ShowTags_BTN } from "../btn/btn";
+import {
+  Btn,
+  ProfileName_BTN,
+  ProfileSearch_BTN,
+  ShowMore_BTN,
+  ShowProsCons_BTN,
+  ShowTags_BTN,
+} from "../btn/btn";
 
 import { profilePreview_TR as tr } from "../../translations";
 
@@ -43,131 +50,127 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
   const IS_saved = savedProfile_IDs instanceof Set && savedProfile_IDs.has(profile?._id);
 
   const { arrow_DIRECTION, HANLDE_arrowClick } = USE_arrowSlider();
+  const backgroundStyle = `linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%), url(${images[0]}/test) center center / 100% 100% no-repeat`;
 
   return (
-    <>
-      <article
-        className={css.profile_PREVIEW}
-        aria-label={
-          tr?.profileIntro_ARIA(profile?.name?.[lang], profile?.subname?.[lang])[lang] || "Profile"
-        }
-      >
-        {/* ------------------ header ------------------ */}
-        <header className={css.top}>
-          {IS_new && <New_LABEL lang={lang} />}
-          <div className={css.top_RIGHT}>
-            {HAS_tags && (
-              <ShowTags_BTN
-                onClick={TOGGLE_showTags}
-                IS_open={SHOW_tags}
-                matchedTags_COUNT={0} // get matching tags count
-                lang={lang}
-                profile={profile}
-              />
-            )}
-            {HAS_panoramas && (
-              <Btn
-                styles={["btn-36", "onImg"]}
-                onClick={() => SET_panoramas(profile?.img?.panoramas)}
-                text={"360"}
-                aria_LABEL={tr?.panoramaBtn_ARIA(name)[lang]}
-                test_ID="panorama-btn"
-              />
-            )}
+    <article
+      className={css.profile_PREVIEW}
+      aria-label={
+        tr?.profileIntro_ARIA(profile?.name?.[lang], profile?.subname?.[lang])[lang] || "Profile"
+      }
+    >
+      {/* ------------------ header ------------------ */}
+      <header className={css.top}>
+        {IS_new && <New_LABEL lang={lang} />}
+        <div className={css.btn_WRAP}>
+          {HAS_panoramas && (
             <Btn
-              styles={["btn-36", "onImg", "save"]}
-              onClick={() =>
-                IS_saved ? REMOVE_fromSaved(profile?._id) : ADD_toSaved(profile?._id)
-              }
-              saved={IS_saved}
-              left_ICON={<ICON_save style={IS_saved ? "active" : "white"} />}
-              aria_LABEL={tr?.saveBtn_ARIA(name)[lang]}
-              test_ID="save-btn"
+              styles={["btn-36", "onImg"]}
+              onClick={() => SET_panoramas(profile?.img?.panoramas)}
+              text={"360"}
+              aria_LABEL={tr?.panoramaBtn_ARIA(name)[lang]}
+              test_ID="panorama-btn"
             />
-          </div>
-        </header>
-
-        {/* ------------------ tag overlay ------------------ */}
-        <AnimatePresence>
-          {SHOW_tags && (
-            <motion.aside
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 30 }}
-              transition={{ ease: "easeInOut", duration: 0.2 }}
-              className={css.tag_PREVIEW}
-              data-testid="tag-overlay"
-            >
-              <Tag_OVERLAY
-                profile={profile}
-                TOGGLE_showTags={TOGGLE_showTags}
-                lang={lang}
-                name={name}
-              />
-            </motion.aside>
           )}
-        </AnimatePresence>
-
-        {/* ------------------ images ------------------ */}
-        {SHOW_swiper.mobile && (
-          <CREATE_swiper
-            sliderRef={sliderRef}
-            images={images}
-            img_END={"/Mobile"}
-            img_ALT={img_ALT}
+          <Btn
+            styles={["btn-36", "onImg", "save"]}
+            onClick={() => (IS_saved ? REMOVE_fromSaved(profile?._id) : ADD_toSaved(profile?._id))}
+            saved={IS_saved}
+            left_ICON={<ICON_save style={IS_saved ? "active" : "white"} />}
+            aria_LABEL={tr?.saveBtn_ARIA(name)[lang]}
+            test_ID="save-btn"
           />
-        )}
-        {!SHOW_swiper.mobile && (
-          <img src={images[0] + "/Mobile"} className={css.profile_IMG} alt={img_ALT} />
-        )}
-        {images.length < 1 && <img className={css.profile_IMG} alt={"No images found"} />}
+        </div>
+      </header>
 
-        {/* ------------------ footer ------------------ */}
-        <footer className={css.bottom} data-testid="profile-preview-bottom">
-          {(!search || search === "") && (
-            <ProfileName_BTN
+      {/* ------------------ tag overlay ------------------ */}
+      <AnimatePresence>
+        {SHOW_tags && (
+          <motion.aside
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 30 }}
+            transition={{ ease: "easeInOut", duration: 0.2 }}
+            className={css.tag_PREVIEW}
+            data-testid="tag-overlay"
+          >
+            <Tag_OVERLAY
+              profile={profile}
+              TOGGLE_showTags={TOGGLE_showTags}
+              lang={lang}
               name={name}
-              aria_LABEL={tr?.visitProfileBtn_ARIA(name)[lang]}
-              onClick={() => alert("No function provided")}
             />
-          )}
-          {search && search !== "" && (
-            <ProfileSearch_BTN
-              name={name}
-              search={search}
-              aria_LABEL={tr?.visitProfileBtn_ARIA(name)[lang]}
-              onClick={() => alert("No function provided")}
-            />
-          )}
-          {SHOW_swiper.mobile && (
-            <div
-              className={css.slider_ARROWS}
-              data-arrowmove={arrow_DIRECTION}
-              data-testid="swiper-arrows"
-            >
-              <Btn
-                styles={["btn-36", "onImg", "round", "prev"]}
-                onClick={() => {
-                  HANLDE_arrowClick("prev", slide);
-                }}
-                right_ICON={<ICON_arrow direction="left" color="white" />}
-                aria_LABEL={tr?.prevImageBtn_ARIA(name)[lang]}
-                data-testid="arrow-prev"
-              />
-              <Btn
-                styles={["btn-36", "onImg", "round", "next"]}
-                onClick={() => {
-                  HANLDE_arrowClick("next", slide);
-                }}
-                right_ICON={<ICON_arrow direction="right" color="white" />}
-                aria_LABEL={tr?.nextImageBtn_ARIA(name)[lang]}
-                data-testid="arrow-prev"
-              />
+          </motion.aside>
+        )}
+      </AnimatePresence>
+
+      {/* ------------------ images ------------------ */}
+      {SHOW_swiper.mobile && (
+        <CREATE_swiper
+          sliderRef={sliderRef}
+          images={images}
+          img_END={"/Mobile"}
+          img_ALT={img_ALT}
+        />
+      )}
+      {!SHOW_swiper.mobile && (
+        <img src={images[0] + "/Mobile"} className={css.profile_IMG} alt={img_ALT} />
+      )}
+      {images.length < 1 && <img className={css.profile_IMG} alt={"No images found"} />}
+
+      {/* ------------------ footer ------------------ */}
+
+      <footer data-testid="profile-preview-bottom">
+        <div
+          className={css.footer_IMG}
+          // style={{ backgroundImage: `url(${images[0] + "/test"})` }}
+          style={{ background: backgroundStyle }}
+        ></div>
+        <div className={css.footer_FRONT}>
+          <div className={css.top}>
+            <div className={css.name_WRAP}>
+              <h4>{profile?.name?.en || "Name"}</h4>
+              <p>{profile?.subname?.en || "Subname"}</p>
             </div>
-          )}
-        </footer>
-      </article>
-    </>
+            {/* <div
+                className={css.btn_WRAP}
+                data-arrowmove={arrow_DIRECTION}
+                data-testid="swiper-arrows"
+              >
+                <Btn
+                  styles={["btn-36", "onImg", "round", "prev"]}
+                  onClick={() => {
+                    HANLDE_arrowClick("prev", slide);
+                  }}
+                  right_ICON={<ICON_arrow direction="left" color="white" />}
+                  aria_LABEL={tr?.prevImageBtn_ARIA(name)[lang]}
+                  data-testid="arrow-prev"
+                />
+                <Btn
+                  styles={["btn-36", "onImg", "round", "next"]}
+                  onClick={() => {
+                    HANLDE_arrowClick("next", slide);
+                  }}
+                  right_ICON={<ICON_arrow direction="right" color="white" />}
+                  aria_LABEL={tr?.nextImageBtn_ARIA(name)[lang]}
+                  data-testid="arrow-prev"
+                />
+              </div> */}
+          </div>
+          <div className={css.bottom}>
+            <ShowTags_BTN
+              onClick={TOGGLE_showTags}
+              IS_open={SHOW_tags}
+              matchedTags_COUNT={0} // get matching tags count
+              lang={lang}
+              profile={profile}
+            />
+            <ShowProsCons_BTN onClick={() => {}} pros_COUNT={3} cons_COUNT={2} />
+            <ShowMore_BTN onClick={() => {}} />
+          </div>
+        </div>
+      </footer>
+    </article>
   );
 }
 
@@ -179,6 +182,7 @@ function CREATE_swiper({ sliderRef, images, img_END, img_ALT }) {
       speed={500}
       data-testid="swiper"
       lazyPreloadPrevNext={4}
+      data-target="swiper"
       // style={{ overflow: "visible" }}
     >
       {images.map((img, i) => (
@@ -222,7 +226,7 @@ function Tag_OVERLAY({ profile, TOGGLE_showTags, lang, name }) {
               {console.log((index + 1) * 0.02)}
               <Btn
                 key={tag._id}
-                styles={["btn-36", "onImg", "round"]}
+                styles={["onImg", "round"]}
                 leftIcon_URL={tag.icon?.url ? tag.icon?.url : ""}
                 right_ICON={<ICON_x rotate={true} />}
                 text={tag.name?.en}

@@ -4,7 +4,7 @@
 
 .header { 
   width: calc(100% + var(--padding-shadow-save));
-  position: sticky;
+  /* position: sticky; */
   top: 7.6rem;
   left: calc(-1 * var(--padding-shadow-save));
   display: flex;

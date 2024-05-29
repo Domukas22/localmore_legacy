@@ -102,7 +102,7 @@
   border-radius: 10rem;
 }
 .onImg {
-  composes: btn;
+  composes: btn-36;
   border: var(--border-white-15);
   background: var(--btn-onImg);
 
@@ -122,6 +122,13 @@
   }
   
 }
+.flex {
+  flex: 1;
+}
+.spaceBetween{
+  justify-content: space-between;
+}
+
 .disabled {
   user-select: none;
   pointer-events: none;
@@ -299,7 +306,7 @@
   composes: btn-36;
   composes: onImg;
 
-  &[data-dance="true"] > :first-child {
+  /* &[data-dance="true"] > :first-child {
     animation: jump 0.5s ease;
   }
   &[data-dance="true"] > :nth-child(2) {
@@ -318,7 +325,7 @@
   &[data-open="true"]  {
     background-color: rgba(0, 0, 0, 0.5);
     border: 0.1rem solid white;
-  }
+  } */
 
 }
 @keyframes jump {
@@ -430,5 +437,22 @@
     }
   }
 }
+.prosCons {
+  composes: onImg;
+
+  & p {
+    font-size: 1.6rem;
+    font-weight: 500;
+    padding-top: 0.1rem
+  }
+
+  & .wrap {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 
 /* /////////////////////////////////////// */
