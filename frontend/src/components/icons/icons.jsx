@@ -174,6 +174,15 @@ export function ICON_proCon({ IS_pro = true }) {
     </div>
   );
 }
+export function ICON_3dots() {
+  return (
+    <div className={css.ICON_3dots}>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  );
+}
 
 ICON_activeDigit.propTypes = {
   count: PropTypes.number,

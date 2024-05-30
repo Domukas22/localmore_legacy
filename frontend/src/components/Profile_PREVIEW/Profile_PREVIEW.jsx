@@ -6,6 +6,7 @@ import css from "./Profile_PREVIEW.module.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
+  ICON_3dots,
   ICON_activeDigit,
   ICON_arrow,
   ICON_dropDownArrow,
@@ -189,7 +190,7 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
                   <li key={tag._id}>
                     <Btn
                       key={tag._id}
-                      styles={["onImg", "round"]}
+                      styles={["onBlur", "round"]}
                       leftIcon_URL={tag.icon?.url ? tag.icon?.url : ""}
                       right_ICON={<ICON_x rotate={true} color="white" />}
                       text={tag.name?.en}
@@ -240,6 +241,15 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
                   // prosCons_REF={test2_REF}
                 />
               )}
+              {/* <Btn
+                styles={["btn-36", "onBlur", "close"]}
+                onClick={() => {}}
+                // right_ICON={<ICON_dropDownArrow color="white" />}
+                text="More"
+                right_ICON={<ICON_dropDownArrow color="white" />}
+                // aria_LABEL={tr?.hideTagsBtn_ARIA(name)[lang]}
+                test_ID={"close-tag-overlay-btn"}
+              /> */}
             </div>
           </motion.div>
         )}
@@ -306,6 +316,9 @@ function CREATE_swiper({ sliderRef, images, img_END, img_ALT, height, article_RE
       {images.map((img, i) => (
         <SwiperSlide key={i}>
           <div className={css.slide_WRAP}>
+            <div className={css.normalImg_WRAP} style={{ height: `calc(100% -${height}px)` }}>
+              <img src={img + img_END} className={css.profile_IMG} data-normal="true" />
+            </div>
             <div className={css.blur_WRAP} style={{ height: `${height}px` }}>
               <img
                 // src={img + "/mobileBlur"}
@@ -316,7 +329,6 @@ function CREATE_swiper({ sliderRef, images, img_END, img_ALT, height, article_RE
                 style={{ height: `${1300}px` }}
               />
             </div>
-            <img src={img + img_END} className={css.profile_IMG} data-normal="true" />
           </div>
         </SwiperSlide>
       ))}
@@ -412,7 +424,7 @@ function Drawer_TOP({ title, CLOSE_drawer }) {
     <div className={css.top}>
       <h4>{title}</h4>
       <Btn
-        styles={["btn-36", "onImg", "close"]}
+        styles={["btn-36", "onBlur", "close"]}
         onClick={CLOSE_drawer}
         right_ICON={<ICON_x color="white" />}
         // aria_LABEL={tr?.hideTagsBtn_ARIA(name)[lang]}

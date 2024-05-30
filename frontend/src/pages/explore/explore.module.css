@@ -46,7 +46,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(35rem, 1fr)); /* 350px */
   grid-auto-rows: 55rem; /* 500px */
-  gap: 2rem; /* 20px */
+  gap: 1.6rem; /* 20px */
 
   /* background: green; */
   

@@ -115,7 +115,8 @@ export function ShowTags_BTN({
   const remaining_SPACE =
     parent_REF?.current?.clientWidth - prosCons_REF?.current?.clientWidth - 100; // 20 is for the padding
   // const visibleIcon_COUNT = 2;
-  const visibleIcon_COUNT = Math.floor(remaining_SPACE / 30) - 1 || 3; // fix this
+  // const visibleIcon_COUNT = Math.floor(remaining_SPACE / 30) - 1 || 3; // fix this
+  const visibleIcon_COUNT = 5; // fix this
 
   // console.log(Math.floor(remaining_SPACE / 30));
 

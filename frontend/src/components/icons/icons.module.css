@@ -170,3 +170,17 @@
     }
   }
 }
+.ICON_3dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+
+  & div {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 100px;
+    background-color: var(--fill-white);
+    
+  }
+}
