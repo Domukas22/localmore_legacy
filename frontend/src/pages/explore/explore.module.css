@@ -45,14 +45,14 @@
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(35rem, 1fr)); /* 350px */
-  grid-auto-rows: 50rem; /* 500px */
+  grid-auto-rows: 55rem; /* 500px */
   gap: 2rem; /* 20px */
 
   /* background: green; */
   
   @media (--mobile) {
     /* grid-auto-rows: calc(100vw * (4 / 3.5) + 4rem);  */
-    grid-auto-rows: 60vh; 
+    grid-auto-rows: 65vh; 
     grid-template-columns: 1fr;
   }
 

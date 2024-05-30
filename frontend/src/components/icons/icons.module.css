@@ -134,6 +134,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  filter: saturate(1.2);
+  box-shadow: 0 0 0.4rem 0.1rem rgba(0, 0, 0, 0.15);
 
 
   & svg {

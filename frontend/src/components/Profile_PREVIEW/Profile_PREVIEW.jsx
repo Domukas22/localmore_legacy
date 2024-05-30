@@ -1,11 +1,18 @@
 //
 
 import PropTypes from "prop-types";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import css from "./Profile_PREVIEW.module.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { ICON_arrow, ICON_dropDownArrow, ICON_save, ICON_x } from "../icons/icons";
+import {
+  ICON_activeDigit,
+  ICON_arrow,
+  ICON_dropDownArrow,
+  ICON_proCon,
+  ICON_save,
+  ICON_x,
+} from "../icons/icons";
 
 import USE_Toggle from "../../hooks/USE_toggle";
 import USE_slideSwiper from "../../hooks/USE_slideSwiper";
@@ -36,21 +43,59 @@ import "swiper/css/free-mode";
 export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }) {
   const [SHOW_tags, TOGGLE_showTags] = USE_Toggle(false);
   const { sliderRef, slide } = USE_slideSwiper();
+  const [current_VIEW, SET_currentView] = useState("front");
 
   const SHOW_swiper = USE_showSwiper(profile);
   const IS_new = USE_isProfileNew(profile);
+  // const IS_new = true;
   const name = USE_getName(profile, lang);
   const img_ALT = USE_imgAlt(profile, lang);
 
   const images = profile?.img?.["mobile"] || profile?.img?.["desktop"] || [];
   const HAS_panoramas = Object.keys(profile?.img?.panoramas || {})?.length > 0;
   const HAS_tags = profile?.tags?.length > 0;
+  const HAS_pros = profile?.pros?.length > 0;
+  const HAS_cons = profile?.cons?.length > 0;
 
   const { savedProfile_IDs, ADD_toSaved, REMOVE_fromSaved } = useContext(SavedProfileIDs_CONTEXT);
   const IS_saved = savedProfile_IDs instanceof Set && savedProfile_IDs.has(profile?._id);
 
   const { arrow_DIRECTION, HANLDE_arrowClick } = USE_arrowSlider();
-  const backgroundStyle = `linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%), url(${images[0]}/test) center center / 100% 100% no-repeat`;
+
+  const test_REF = useRef(null);
+  const test2_REF = useRef(null);
+
+  const footer_REF = useRef(null);
+  const front_REF = useRef(null);
+  const tags_REF = useRef(null);
+  const prosCons_REF = useRef(null);
+
+  const article_REF = useRef(null);
+
+  const [height, SET_Height] = useState(footer_REF?.current?.clientHeight || null);
+
+  useEffect(() => {
+    switch (current_VIEW) {
+      case "front":
+        console.log(front_REF?.current?.clientHeight);
+        SET_Height(front_REF?.current?.clientHeight);
+        break;
+      case "tags":
+        console.log(tags_REF?.current?.clientHeight);
+        SET_Height(tags_REF?.current?.clientHeight);
+        break;
+      case "prosCons":
+        console.log(prosCons_REF?.current?.clientHeight);
+        SET_Height(prosCons_REF?.current?.clientHeight);
+        break;
+    }
+    // // if (footer_REF.current) {
+    // //   const newHeight = footer_REF.current.clientHeight;
+    // //   SET_Height(newHeight);
+    // //   footer_REF.current.style.height = newHeight + "px";
+    // // }
+    // console.log(footer_REF?.current?.clientHeight);
+  }, [current_VIEW]);
 
   return (
     <article
@@ -58,11 +103,22 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
       aria-label={
         tr?.profileIntro_ARIA(profile?.name?.[lang], profile?.subname?.[lang])[lang] || "Profile"
       }
+      ref={article_REF}
     >
-      {/* ------------------ header ------------------ */}
       <header className={css.top}>
         {IS_new && <New_LABEL lang={lang} />}
         <div className={css.btn_WRAP}>
+          {/* {HAS_tags && (
+            <ShowTags_BTN
+              onClick={() => SET_currentView("tags")}
+              IS_open={SHOW_tags}
+              matchedTags_COUNT={0} // get matching tags count
+              lang={lang}
+              profile={profile}
+              parent_REF={test_REF}
+              // prosCons_REF={test2_REF}
+            />
+          )} */}
           {HAS_panoramas && (
             <Btn
               styles={["btn-36", "onImg"]}
@@ -83,34 +139,14 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
         </div>
       </header>
 
-      {/* ------------------ tag overlay ------------------ */}
-      <AnimatePresence>
-        {SHOW_tags && (
-          <motion.aside
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 30 }}
-            transition={{ ease: "easeInOut", duration: 0.2 }}
-            className={css.tag_PREVIEW}
-            data-testid="tag-overlay"
-          >
-            <Tag_OVERLAY
-              profile={profile}
-              TOGGLE_showTags={TOGGLE_showTags}
-              lang={lang}
-              name={name}
-            />
-          </motion.aside>
-        )}
-      </AnimatePresence>
-
-      {/* ------------------ images ------------------ */}
       {SHOW_swiper.mobile && (
         <CREATE_swiper
           sliderRef={sliderRef}
           images={images}
           img_END={"/Mobile"}
           img_ALT={img_ALT}
+          height={height}
+          article_REF={article_REF}
         />
       )}
       {!SHOW_swiper.mobile && (
@@ -118,21 +154,117 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
       )}
       {images.length < 1 && <img className={css.profile_IMG} alt={"No images found"} />}
 
-      {/* ------------------ footer ------------------ */}
-
-      <footer data-testid="profile-preview-bottom">
+      <footer
+        data-testid="profile-preview-bottom"
+        ref={footer_REF}
+        style={{ height: `${height}px` }}
+      >
         <div
-          className={css.footer_IMG}
-          // style={{ backgroundImage: `url(${images[0] + "/test"})` }}
-          style={{ background: backgroundStyle }}
+          className={css.footer_BLUR}
+          // style={profile?.img?.blur ? { backgroundImage: `url(${profile.img.blur})` } : {}}
         ></div>
-        <div className={css.footer_FRONT}>
-          <div className={css.top}>
-            <div className={css.name_WRAP}>
-              <h4>{profile?.name?.en || "Name"}</h4>
-              <p>{profile?.subname?.en || "Subname"}</p>
+        {/* Create an opacity fade on entrance and exit */}
+        {current_VIEW === "tags" && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            style={{ zIndex: 10 }}
+            className={css.drawer}
+            ref={tags_REF}
+          >
+            <Drawer_TOP title="Pros & Cons" CLOSE_drawer={() => SET_currentView("front")} />
+            <motion.ul
+              key={profile?._id}
+              className={css.bottom}
+              data-type="tags"
+              initial={{ y: 30 }}
+              animate={{ y: 0 }}
+              exit={{ y: 30 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+              {profile?.tags?.map((tag) => {
+                return (
+                  <li key={tag._id}>
+                    <Btn
+                      key={tag._id}
+                      styles={["onImg", "round"]}
+                      leftIcon_URL={tag.icon?.url ? tag.icon?.url : ""}
+                      right_ICON={<ICON_x rotate={true} color="white" />}
+                      text={tag.name?.en}
+                      aria_LABEL={tr?.filterTagBtn_ARIA(tag.name?.[lang])[lang]}
+                      onClick={() => alert("No function provided")}
+                      test_ID={"overlay-tag-btn"}
+                    />
+                  </li>
+                );
+              })}
+            </motion.ul>
+          </motion.div>
+        )}
+
+        {current_VIEW === "front" && (
+          <motion.div
+            className={css.footer_FRONT}
+            ref={front_REF}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            style={{ zIndex: 10 }}
+          >
+            <div className={css.top}>
+              <div className={css.name_WRAP}>
+                <h4>{profile?.name?.en || "Name"}</h4>
+                <p>{profile?.subname?.en || "Subname"}</p>
+              </div>
             </div>
-            {/* <div
+            <div className={css.bottom} ref={test_REF}>
+              {HAS_tags && (
+                <ShowTags_BTN
+                  onClick={() => SET_currentView("tags")}
+                  IS_open={SHOW_tags}
+                  matchedTags_COUNT={0} // get matching tags count
+                  lang={lang}
+                  profile={profile}
+                  parent_REF={test_REF}
+                  // prosCons_REF={test2_REF}
+                />
+              )}
+              {(HAS_pros || HAS_cons) && (
+                <ShowProsCons_BTN
+                  onClick={() => SET_currentView("prosCons")}
+                  pros_COUNT={HAS_pros && profile?.pros?.length}
+                  cons_COUNT={HAS_cons && profile?.cons?.length}
+                  // prosCons_REF={test2_REF}
+                />
+              )}
+            </div>
+          </motion.div>
+        )}
+
+        {current_VIEW === "prosCons" && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            style={{ zIndex: 10 }}
+          >
+            <ProsCons
+              CLOSE_prosCons={() => SET_currentView("front")}
+              pros={profile?.pros}
+              cons={profile?.cons}
+              _ref={prosCons_REF}
+              SET_currentView={SET_currentView}
+            />
+          </motion.div>
+        )}
+      </footer>
+
+      {/*  Implement arrow buttons like on AirBnb */}
+      {/* <div
                 className={css.btn_WRAP}
                 data-arrowmove={arrow_DIRECTION}
                 data-testid="swiper-arrows"
@@ -156,25 +288,11 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
                   data-testid="arrow-prev"
                 />
               </div> */}
-          </div>
-          <div className={css.bottom}>
-            <ShowTags_BTN
-              onClick={TOGGLE_showTags}
-              IS_open={SHOW_tags}
-              matchedTags_COUNT={0} // get matching tags count
-              lang={lang}
-              profile={profile}
-            />
-            <ShowProsCons_BTN onClick={() => {}} pros_COUNT={3} cons_COUNT={2} />
-            <ShowMore_BTN onClick={() => {}} />
-          </div>
-        </div>
-      </footer>
     </article>
   );
 }
 
-function CREATE_swiper({ sliderRef, images, img_END, img_ALT }) {
+function CREATE_swiper({ sliderRef, images, img_END, img_ALT, height, article_REF }) {
   return (
     <Swiper
       loop={true}
@@ -187,58 +305,51 @@ function CREATE_swiper({ sliderRef, images, img_END, img_ALT }) {
     >
       {images.map((img, i) => (
         <SwiperSlide key={i}>
-          <img src={img + img_END} className={css.profile_IMG} alt={img_ALT} loading="lazy" />
+          <div className={css.slide_WRAP}>
+            <div className={css.blur_WRAP} style={{ height: `${height}px` }}>
+              <img
+                // src={img + "/mobileBlur"}
+                src={img + "/mobileBlur"}
+                className={css.profile_IMG}
+                data-blured="true"
+                // style={{ height: `${article_REF?.current?.clientHeight}px` }}
+                style={{ height: `${1300}px` }}
+              />
+            </div>
+            <img src={img + img_END} className={css.profile_IMG} data-normal="true" />
+          </div>
         </SwiperSlide>
       ))}
     </Swiper>
   );
 }
 
-function Tag_OVERLAY({ profile, TOGGLE_showTags, lang, name }) {
+function Tag_OVERLAY({ profile, CLOSE_tags, lang, name, _ref, SET_currentView }) {
   return (
-    <>
-      <div className={css.tagPreview_TOP}>
-        <h4>{tr?.tagsOverlay_TITLE(profile?.tags?.length, name ? name : undefined)[lang]}</h4>
-        <Btn
-          styles={["btn-36", "onImg", "close"]}
-          onClick={TOGGLE_showTags}
-          right_ICON={<ICON_x />}
-          aria_LABEL={tr?.hideTagsBtn_ARIA(name)[lang]}
-          test_ID={"close-tag-overlay-btn"}
-        />
-      </div>
-      <motion.ul key={profile?._id} className={css.tagPreview_BOTTOM}>
-        {profile?.tags?.map((tag, index) => {
+    <div className={css.drawer} ref={_ref}>
+      <Drawer_TOP
+        title={`${profile?.tags.length} Tags of ${profile?.name?.en}`}
+        CLOSE_drawer={() => SET_currentView("front")}
+      />
+      <ul key={profile?._id} className={css.bottom} data-type="tags">
+        {profile?.tags?.map((tag) => {
           return (
-            <motion.li
-              key={tag._id}
-              initial={{ y: 20 + index }}
-              animate={{ y: [20 + index, -4, 0] }}
-              transition={{
-                ease: "easeIn",
-                times: [0, 0.7, 1],
-                // duration: 0.3,
-                duration: 0.3,
-                // delay: (index + 1) * 0.02,
-                delay: (index + 1) * 0.02,
-              }}
-            >
-              {console.log((index + 1) * 0.02)}
+            <li key={tag._id}>
               <Btn
                 key={tag._id}
                 styles={["onImg", "round"]}
                 leftIcon_URL={tag.icon?.url ? tag.icon?.url : ""}
-                right_ICON={<ICON_x rotate={true} />}
+                right_ICON={<ICON_x rotate={true} color="white" />}
                 text={tag.name?.en}
                 aria_LABEL={tr?.filterTagBtn_ARIA(tag.name?.[lang])[lang]}
                 onClick={() => alert("No function provided")}
                 test_ID={"overlay-tag-btn"}
               />
-            </motion.li>
+            </li>
           );
         })}
-      </motion.ul>
-    </>
+      </ul>
+    </div>
   );
 }
 function USE_arrowSlider(initialDirection = "") {
@@ -259,23 +370,75 @@ function USE_arrowSlider(initialDirection = "") {
   return { arrow_DIRECTION, HANLDE_arrowClick };
 }
 
-Profile_PREVIEW.propTypes = {
-  profile: PropTypes.object.isRequired,
-  SET_panoramas: PropTypes.func.isRequired,
-  search: PropTypes.string,
-  lang: PropTypes.string.isRequired,
-};
+function ProsCons({ CLOSE_prosCons, pros, cons, _ref, SET_currentView }) {
+  return (
+    <div className={css.drawer} ref={_ref}>
+      <Drawer_TOP title="Pros & Cons" CLOSE_drawer={() => SET_currentView("front")} />
+      <motion.div
+        className={css.bottom}
+        data-type="prosCons"
+        initial={{ y: 30 }}
+        animate={{ y: 0 }}
+        exit={{ y: 30 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+      >
+        {pros?.length > 0 && (
+          <ul>
+            {pros.map((pro, index) => (
+              <li key={index}>
+                <ICON_proCon />
+                <p>{pro?.en}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+        {cons?.length > 0 && (
+          <ul>
+            {cons.map((con, index) => (
+              <li key={index}>
+                <ICON_proCon IS_pro={false} />
+                <p>{con?.en}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </motion.div>
+    </div>
+  );
+}
 
-CREATE_swiper.propTypes = {
-  sliderRef: PropTypes.object.isRequired,
-  images: PropTypes.array.isRequired,
-  img_END: PropTypes.string.isRequired,
-  img_ALT: PropTypes.string.isRequired,
-};
+function Drawer_TOP({ title, CLOSE_drawer }) {
+  return (
+    <div className={css.top}>
+      <h4>{title}</h4>
+      <Btn
+        styles={["btn-36", "onImg", "close"]}
+        onClick={CLOSE_drawer}
+        right_ICON={<ICON_x color="white" />}
+        // aria_LABEL={tr?.hideTagsBtn_ARIA(name)[lang]}
+        test_ID={"close-tag-overlay-btn"}
+      />
+    </div>
+  );
+}
 
-Tag_OVERLAY.propTypes = {
-  profile: PropTypes.object.isRequired,
-  TOGGLE_showTags: PropTypes.func.isRequired,
-  lang: PropTypes.string.isRequired,
-  name: PropTypes.string,
-};
+// Profile_PREVIEW.propTypes = {
+//   profile: PropTypes.object.isRequired,
+//   SET_panoramas: PropTypes.func.isRequired,
+//   search: PropTypes.string,
+//   lang: PropTypes.string.isRequired,
+// };
+
+// CREATE_swiper.propTypes = {
+//   sliderRef: PropTypes.object.isRequired,
+//   images: PropTypes.array.isRequired,
+//   img_END: PropTypes.string.isRequired,
+//   img_ALT: PropTypes.string.isRequired,
+// };
+
+// Tag_OVERLAY.propTypes = {
+//   profile: PropTypes.object.isRequired,
+//   TOGGLE_showTags: PropTypes.func.isRequired,
+//   lang: PropTypes.string.isRequired,
+//   name: PropTypes.string,
+// };

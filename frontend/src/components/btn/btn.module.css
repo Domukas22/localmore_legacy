@@ -53,6 +53,7 @@
     width: 2rem;
     height: 2rem;
     object-fit: contain;
+    filter: saturate(1.2);
   }
   & .icon, img:last-child, svg:last-child, span:last-child {
     margin-left: auto;
@@ -120,7 +121,15 @@
   &[data-focus-visible] {
     outline: var(--outline-white);
   }
-  
+}
+.onBlur {
+  composes: btn-36;
+  border: var(--border-white-15);
+  background: rgba(0, 0, 0, 0.2);
+
+  backdrop-filter: blur(2rem);
+  color: var(--text-white);
+  text-shadow: var(--shadow-onImg-text);
 }
 .flex {
   flex: 1;
@@ -438,7 +447,7 @@
   }
 }
 .prosCons {
-  composes: onImg;
+  composes: onBlur;
 
   & p {
     font-size: 1.6rem;
