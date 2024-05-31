@@ -162,7 +162,7 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
       >
         <div
           className={css.footer_BLUR}
-          // style={profile?.img?.blur ? { backgroundImage: `url(${profile.img.blur})` } : {}}
+          style={profile?.img?.blur ? { backgroundImage: `url(${profile.img.blur})` } : {}}
         ></div>
         {/* Create an opacity fade on entrance and exit */}
         {current_VIEW === "tags" && (
@@ -315,21 +315,7 @@ function CREATE_swiper({ sliderRef, images, img_END, img_ALT, height, article_RE
     >
       {images.map((img, i) => (
         <SwiperSlide key={i}>
-          <div className={css.slide_WRAP}>
-            <div className={css.normalImg_WRAP} style={{ height: `calc(100% -${height}px)` }}>
-              <img src={img + img_END} className={css.profile_IMG} data-normal="true" />
-            </div>
-            <div className={css.blur_WRAP} style={{ height: `${height}px` }}>
-              <img
-                // src={img + "/mobileBlur"}
-                src={img + "/mobileBlur"}
-                className={css.profile_IMG}
-                data-blured="true"
-                // style={{ height: `${article_REF?.current?.clientHeight}px` }}
-                style={{ height: `${1300}px` }}
-              />
-            </div>
-          </div>
+          <img src={img + img_END} className={css.profile_IMG} data-normal="true" />
         </SwiperSlide>
       ))}
     </Swiper>
