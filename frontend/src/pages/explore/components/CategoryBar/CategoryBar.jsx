@@ -8,12 +8,12 @@ import { ICON_arrow } from "../../../../components/icons/icons";
 import USE_scrollable from "../../../../hooks/USE_scrollable";
 
 export function CategoryBar({ categories, window_WIDTH }) {
-  const { scrollable, scroll, scroll_START, scroll_END } = USE_scrollable();
+  const { scrollable, scroll, scroll_START, scroll_END, HANDLE_arrowVisibility } = USE_scrollable();
 
   return (
     <div className={css.CategoryBar}>
       <div className={css.ul_WRAP}>
-        <ul ref={scrollable}>
+        <ul ref={scrollable} onScroll={(e) => HANDLE_arrowVisibility(e.currentTarget.scrollLeft)}>
           {categories?.map((category) => (
             <Category_LINK
               key={category._id}
@@ -32,16 +32,16 @@ export function CategoryBar({ categories, window_WIDTH }) {
         <div className={css.test_arrow_wrap} data-start={scroll_START} data-end={scroll_END}>
           <Btn
             styles={["btn-36", "round"]}
-            left_ICON={<ICON_arrow direction="left" />}
+            left_ICON={<ICON_arrow direction="right" />}
             aria_LABEL=""
-            onClick={() => scroll(-400)}
+            onClick={() => scroll(400)}
             FIRE_clickEvent={false}
           />
           <Btn
             styles={["btn-36", "round"]}
-            left_ICON={<ICON_arrow direction="right" />}
+            left_ICON={<ICON_arrow direction="left" />}
             aria_LABEL=""
-            onClick={() => scroll(400)}
+            onClick={() => scroll(-400)}
             FIRE_clickEvent={false}
           />
         </div>

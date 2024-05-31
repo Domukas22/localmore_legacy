@@ -13,7 +13,7 @@ import { useCallback, useRef, useState } from "react";
 import USE_scrollable from "../../../../hooks/USE_scrollable";
 
 export function Tagbar({ categories, tags, window_WIDTH }) {
-  const { scrollable, scroll, scroll_START, scroll_END } = USE_scrollable();
+  const { scrollable, scroll, scroll_START, scroll_END, HANDLE_arrowVisibility } = USE_scrollable();
 
   return (
     <header className={css.header}>
@@ -42,7 +42,10 @@ export function Tagbar({ categories, tags, window_WIDTH }) {
       {window_WIDTH > 900 && (
         <>
           <div className={css.ul_WRAP}>
-            <ul ref={scrollable}>
+            <ul
+              ref={scrollable}
+              onScroll={(e) => HANDLE_arrowVisibility(e.currentTarget.scrollLeft)}
+            >
               {tags?.map((tag) => {
                 return (
                   <li key={tag._id}>

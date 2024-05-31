@@ -64,5 +64,6 @@ export default function USE_scrollable() {
     scroll,
     scroll_START,
     scroll_END,
+    HANDLE_arrowVisibility,
   };
 }

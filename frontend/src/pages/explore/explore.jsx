@@ -7,6 +7,7 @@ import SidePanel from "./components/sidepanel/sidepanel";
 import Profile_PREVIEW from "../../components/Profile_PREVIEW/Profile_PREVIEW";
 import Panorama from "../../components/panorama/panorama";
 import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
+
 import { Lang_CONTEXT } from "../../contexts/lang";
 
 import { profilePreview_TR } from "../../translations";
@@ -14,6 +15,7 @@ import { global_TR } from "../../translations";
 import { Header } from "./components/header/Header";
 import { Tagbar } from "./components/Tagbar/Tagbar";
 import { CategoryBar } from "./components/CategoryBar/CategoryBar";
+import { HeartConfetti } from "../../components/HeartConfetti/HeartConfetti";
 
 export default function Explore({
   profiles,
@@ -64,6 +66,7 @@ function Explore_GRID({
         />
         <Tagbar categories={categories} tags={tags} window_WIDTH={window_WIDTH} />
         <CategoryBar categories={categories} window_WIDTH={window_WIDTH} />
+
         {/* <CategoryBar categories={categories} /> */}
         <section className={css.profile_GRID}>
           {profiles.map((profile) => {

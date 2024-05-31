@@ -58,6 +58,7 @@
 
   & .test_arrow_wrap {
     display: flex;
+    flex-direction: column;
     gap: 0.8rem;
     & button {
       height: 100%;
@@ -65,13 +66,13 @@
     }
 
     &[data-start="true"] {
-      & button:first-child {
+      & button:last-child {
         opacity: 0.3;
         pointer-events: none;
       }
     }
     &[data-end="true"] {
-      & button:last-child {
+      & button:first-child {
         opacity: 0.3;
         pointer-events: none;
       }

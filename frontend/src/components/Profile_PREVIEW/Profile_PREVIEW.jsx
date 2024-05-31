@@ -32,6 +32,7 @@ import { profilePreview_TR as tr } from "../../translations";
 import "swiper/css";
 import "swiper/css/free-mode";
 import { USE_windowSize } from "../../hooks/USE_windowWidth";
+import { HeartConfetti } from "../HeartConfetti/HeartConfetti";
 
 // TODO => implement differnt view grid
 
@@ -72,6 +73,14 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
   const [hover, SET_hover] = useState(false);
 
   const { width } = USE_windowSize();
+
+  const [fire, SET_fire] = useState(false);
+
+  const SAVE_item = (id) => {
+    ADD_toSaved(id);
+    SET_fire(false);
+    setTimeout(() => SET_fire(true), 0);
+  };
 
   useEffect(() => {
     switch (current_VIEW) {
@@ -132,7 +141,7 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
           )}
           <Btn
             styles={["btn-36", "onImg", "save"]}
-            onClick={() => (IS_saved ? REMOVE_fromSaved(profile?._id) : ADD_toSaved(profile?._id))}
+            onClick={() => (IS_saved ? REMOVE_fromSaved(profile?._id) : SAVE_item(profile?._id))}
             saved={IS_saved}
             left_ICON={<ICON_save style={IS_saved ? "active" : "white"} />}
             aria_LABEL={tr?.saveBtn_ARIA(name)[lang]}
@@ -153,6 +162,7 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
           HANLDE_arrowClick={HANLDE_arrowClick}
           slide={slide}
           arrow_DIRECTION={arrow_DIRECTION}
+          fire={fire}
         />
       )}
       {!SHOW_swiper.mobile && (
@@ -291,6 +301,7 @@ function CREATE_swiper({
   HANLDE_arrowClick,
   slide,
   arrow_DIRECTION,
+  fire,
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   console.log("Swiper");
@@ -326,7 +337,7 @@ function CREATE_swiper({
           custom_DATA={activeIndex === images.length - 1}
         />
       </div>
-
+      <HeartConfetti trigger={fire} />
       {images.map((img, i) => (
         <SwiperSlide key={i}>
           <img src={img + img_END} className={css.profile_IMG} data-normal="true" />

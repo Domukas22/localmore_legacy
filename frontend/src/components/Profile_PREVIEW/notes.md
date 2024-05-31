@@ -12,11 +12,7 @@ To test:
 7. Test the creation of tag previews (CREATE_tagPreview) and ensure the correct number of tags is displayed.
 
 
- ProfilePreview
- 1. TOGGLE_showTags()
- 3. CREATE_swiper()
- 4. CREATE_previewTop() buttons
- 5. CREATE_previewBottom() 
-    - slide()
-    - 
- 
+Image blur (on Figma): 
+- Strech image to every corner (NOT cover)
+- Add a 100px blur
+- Export (600px width, 196px height)
