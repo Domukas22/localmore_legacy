@@ -5,9 +5,9 @@ import { useState, useContext, useEffect, useRef } from "react";
 import css from "./Profile_PREVIEW.module.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
 import {
   ICON_3dots,
-  ICON_activeDigit,
   ICON_arrow,
   ICON_dropDownArrow,
   ICON_proCon,
@@ -25,19 +25,13 @@ import { USE_isProfileNew } from "../../hooks/USE_isProfileNew";
 import { New_LABEL } from "../labels/labels";
 
 import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
-import {
-  Btn,
-  ProfileName_BTN,
-  ProfileSearch_BTN,
-  ShowMore_BTN,
-  ShowProsCons_BTN,
-  ShowTags_BTN,
-} from "../btn/btn";
+import { Btn, ShowProsCons_BTN, ShowTags_BTN } from "../btn/btn";
 
 import { profilePreview_TR as tr } from "../../translations";
 
 import "swiper/css";
 import "swiper/css/free-mode";
+import { USE_windowSize } from "../../hooks/USE_windowWidth";
 
 // TODO => implement differnt view grid
 
@@ -75,6 +69,10 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
 
   const [height, SET_Height] = useState(footer_REF?.current?.clientHeight || null);
 
+  const [hover, SET_hover] = useState(false);
+
+  const { width } = USE_windowSize();
+
   useEffect(() => {
     switch (current_VIEW) {
       case "front":
@@ -96,7 +94,7 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
     // //   footer_REF.current.style.height = newHeight + "px";
     // // }
     // console.log(footer_REF?.current?.clientHeight);
-  }, [current_VIEW]);
+  }, [current_VIEW, width]);
 
   return (
     <article
@@ -105,6 +103,9 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
         tr?.profileIntro_ARIA(profile?.name?.[lang], profile?.subname?.[lang])[lang] || "Profile"
       }
       ref={article_REF}
+      style={profile?.img?.blur ? { backgroundImage: `url(${profile.img.blur})` } : {}}
+      onMouseEnter={() => SET_hover(true)}
+      onMouseLeave={() => SET_hover(false)}
     >
       <header className={css.top}>
         {IS_new && <New_LABEL lang={lang} />}
@@ -148,6 +149,10 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
           img_ALT={img_ALT}
           height={height}
           article_REF={article_REF}
+          hover={hover}
+          HANLDE_arrowClick={HANLDE_arrowClick}
+          slide={slide}
+          arrow_DIRECTION={arrow_DIRECTION}
         />
       )}
       {!SHOW_swiper.mobile && (
@@ -242,13 +247,12 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
                 />
               )}
               {/* <Btn
-                styles={["btn-36", "onBlur", "close"]}
+                styles={["onBlur"]}
                 onClick={() => {}}
-                // right_ICON={<ICON_dropDownArrow color="white" />}
-                text="More"
+                text={"More"}
                 right_ICON={<ICON_dropDownArrow color="white" />}
-                // aria_LABEL={tr?.hideTagsBtn_ARIA(name)[lang]}
-                test_ID={"close-tag-overlay-btn"}
+                // aria_LABEL={tr?.saveBtn_ARIA(name)[lang]}
+                // test_ID="save-btn"
               /> */}
             </div>
           </motion.div>
@@ -272,47 +276,57 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
           </motion.div>
         )}
       </footer>
-
-      {/*  Implement arrow buttons like on AirBnb */}
-      {/* <div
-                className={css.btn_WRAP}
-                data-arrowmove={arrow_DIRECTION}
-                data-testid="swiper-arrows"
-              >
-                <Btn
-                  styles={["btn-36", "onImg", "round", "prev"]}
-                  onClick={() => {
-                    HANLDE_arrowClick("prev", slide);
-                  }}
-                  right_ICON={<ICON_arrow direction="left" color="white" />}
-                  aria_LABEL={tr?.prevImageBtn_ARIA(name)[lang]}
-                  data-testid="arrow-prev"
-                />
-                <Btn
-                  styles={["btn-36", "onImg", "round", "next"]}
-                  onClick={() => {
-                    HANLDE_arrowClick("next", slide);
-                  }}
-                  right_ICON={<ICON_arrow direction="right" color="white" />}
-                  aria_LABEL={tr?.nextImageBtn_ARIA(name)[lang]}
-                  data-testid="arrow-prev"
-                />
-              </div> */}
     </article>
   );
 }
 
-function CREATE_swiper({ sliderRef, images, img_END, img_ALT, height, article_REF }) {
+function CREATE_swiper({
+  sliderRef,
+  images,
+  img_END,
+  img_ALT,
+  height,
+  article_REF,
+  hover,
+  HANLDE_arrowClick,
+  slide,
+  arrow_DIRECTION,
+}) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  console.log("Swiper");
   return (
     <Swiper
-      loop={true}
+      // loop={true}
       ref={sliderRef}
+      pagination={true}
+      modules={[Pagination]}
       speed={500}
       data-testid="swiper"
       lazyPreloadPrevNext={4}
       data-target="swiper"
-      // style={{ overflow: "visible" }}
+      data-hover={hover}
+      onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
     >
+      <div className={css.slider_ARROWS}>
+        <Btn
+          styles={["onImg", "round", "sliderArrow"]}
+          right_ICON={<ICON_arrow color="white" direction="left" />}
+          onClick={() => {
+            HANLDE_arrowClick("prev", slide);
+          }}
+          custom_DATA={activeIndex === 0}
+        />
+
+        <Btn
+          styles={["onImg", "round", "sliderArrow"]}
+          right_ICON={<ICON_arrow color="white" direction="right" />}
+          onClick={() => {
+            HANLDE_arrowClick("next", slide);
+          }}
+          custom_DATA={activeIndex === images.length - 1}
+        />
+      </div>
+
       {images.map((img, i) => (
         <SwiperSlide key={i}>
           <img src={img + img_END} className={css.profile_IMG} data-normal="true" />
@@ -322,34 +336,6 @@ function CREATE_swiper({ sliderRef, images, img_END, img_ALT, height, article_RE
   );
 }
 
-function Tag_OVERLAY({ profile, CLOSE_tags, lang, name, _ref, SET_currentView }) {
-  return (
-    <div className={css.drawer} ref={_ref}>
-      <Drawer_TOP
-        title={`${profile?.tags.length} Tags of ${profile?.name?.en}`}
-        CLOSE_drawer={() => SET_currentView("front")}
-      />
-      <ul key={profile?._id} className={css.bottom} data-type="tags">
-        {profile?.tags?.map((tag) => {
-          return (
-            <li key={tag._id}>
-              <Btn
-                key={tag._id}
-                styles={["onImg", "round"]}
-                leftIcon_URL={tag.icon?.url ? tag.icon?.url : ""}
-                right_ICON={<ICON_x rotate={true} color="white" />}
-                text={tag.name?.en}
-                aria_LABEL={tr?.filterTagBtn_ARIA(tag.name?.[lang])[lang]}
-                onClick={() => alert("No function provided")}
-                test_ID={"overlay-tag-btn"}
-              />
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  );
-}
 function USE_arrowSlider(initialDirection = "") {
   const [arrow_DIRECTION, SET_arrowDirection] = useState(initialDirection);
   const [ARE_arrowsDisabled, SET_arrowsDisabled] = useState(false);
@@ -359,9 +345,9 @@ function USE_arrowSlider(initialDirection = "") {
     SET_arrowsDisabled(true);
     slide(direction);
     SET_arrowDirection(direction);
+    SET_arrowsDisabled(false);
     setTimeout(() => {
       SET_arrowDirection("");
-      SET_arrowsDisabled(false);
     }, 499); // Adjust the delay as needed
   };
 

@@ -1,6 +1,6 @@
 //
 import { global_TR } from "../../translations";
-import css from "../Profile_PREVIEW/Profile_PREVIEW.module.css";
+import css from "./labels.module.css";
 
 export function New_LABEL({ lang }) {
   return (

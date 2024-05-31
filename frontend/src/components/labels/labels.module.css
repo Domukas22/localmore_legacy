@@ -1,0 +1,61 @@
+/*  */
+/*  */
+
+:root {
+  --rainbow-background: linear-gradient(
+    rgba(255, 100, 100, 1) 0%, /* Red */
+    rgba(255, 180, 0, 1) 10%, /* Orange */
+    rgba(220, 230, 40, 1) 20%, /* Yellow */
+    rgba(100, 200, 100, 1) 30%, /* Green */
+    rgba(80, 180, 180, 1) 40%, /* Cyan */
+    rgba(70, 160, 200, 1) 50%, /* Light Blue */
+    rgba(60, 120, 200, 1) 60%, /* Blue */
+    rgba(100, 50, 200, 1) 70%, /* Dark Blue */
+    rgba(150, 30, 200, 1) 80%, /* Purple */
+    rgba(220, 30, 180, 1) 90%, /* Magenta */
+    rgba(255, 100, 100, 1) 100% /* Red */
+  ) 0 0/200% 200%;    
+}
+
+.label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2rem 0.6rem; 
+  height: fit-content;
+  position: relative;
+  
+  border-radius: 0.8rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0.1rem 0.1rem 0.4rem rgba(0,0,0,1);
+  box-shadow: var(--shadow-small);
+
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+  overflow: hidden;
+
+}
+.labelNew {
+  composes: label;
+  &::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: -40%;
+    width: 180%;
+    height: 180%;
+    rotate: 135deg;
+    background: var(--rainbow-background);
+    animation: move 3s linear infinite;
+    z-index: -1; /* To place the pseudo-element behind the content of .labelNew */
+  }
+}
+
+
+@keyframes move {
+  to {
+    background-position: 200% 200%; /* Move the background diagonally to the opposite corner */
+  }
+}

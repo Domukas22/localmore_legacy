@@ -127,7 +127,6 @@
   border: var(--border-white-15);
   background: rgba(255, 255, 255, 0.03);
 
-  backdrop-filter: blur(2rem);
   color: var(--text-white);
   text-shadow: var(--shadow-onImg-text);
 
@@ -471,6 +470,12 @@
     gap: 0.6rem;
     align-items: center;
     justify-content: center;
+  }
+}
+.sliderArrow {
+  &[data-custom="true"] {
+    opacity: 0.4 !important;
+    pointer-events: none !important;
   }
 }
 

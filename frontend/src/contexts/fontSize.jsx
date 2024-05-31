@@ -14,14 +14,15 @@ export const FontSizeProvider = ({ children }) => {
     let size;
     switch (fontSize) {
       case 2:
-        size = 1.125; // 18px (1.125 * 16px)
+        size = 1.18; // 18px (1.125 * 16px)
         break;
       case 3:
         size = 1.25; // 20px (1.25 * 16px)
         break;
       case 1:
       default:
-        size = 1.063; // 17px
+        // size = 1.063; // 17px
+        size = 1.1; // 17px
         break;
     }
     document.documentElement.style.fontSize = `${size * 62.5}%`; // Base size is 10px (62.5% of 16px)
