@@ -12,6 +12,8 @@ export const global_TR = {
 };
 
 export const profilePreview_TR = {
+  // TODO: profilePreview_TR should be a function that receive sthe profile obj and extracts the name and other stuff thats needed
+
   profileIntro_ARIA: (name, subname) => ({
     en: name || subname ? `${name}, ${subname}` : "Profile",
     de: name || subname ? `${name}, ${subname}` : "Profil",

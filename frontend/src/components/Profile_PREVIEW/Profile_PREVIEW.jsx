@@ -3,27 +3,15 @@
 import PropTypes from "prop-types";
 import { useState, useContext, useEffect, useRef } from "react";
 import css from "./Profile_PREVIEW.module.css";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
-import {
-  ICON_3dots,
-  ICON_arrow,
-  ICON_dropDownArrow,
-  ICON_proCon,
-  ICON_save,
-  ICON_x,
-} from "../icons/icons";
+import { ICON_arrow, ICON_error, ICON_proCon, ICON_save, ICON_x } from "../icons/icons";
 
-import USE_Toggle from "../../hooks/USE_toggle";
 import USE_slideSwiper from "../../hooks/USE_slideSwiper";
-import USE_getName from "../../hooks/USE_getName";
 import USE_showSwiper from "../../hooks/USE_showSwiper";
-import USE_imgAlt from "../../hooks/USE_imgAlt";
 import { USE_isProfileNew } from "../../hooks/USE_isProfileNew";
-
 import { New_LABEL } from "../labels/labels";
-
 import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
 import { Btn, ShowProsCons_BTN, ShowTags_BTN } from "../btn/btn";
 
@@ -34,146 +22,99 @@ import "swiper/css/free-mode";
 import { USE_windowSize } from "../../hooks/USE_windowWidth";
 import { HeartConfetti } from "../HeartConfetti/HeartConfetti";
 
-// TODO => implement differnt view grid
+const FooterMotion_PROPS = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+  transition: { duration: 0.3, ease: "easeOut" },
+  style: { zIndex: 10 },
+};
 
 export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }) {
-  const [SHOW_tags, TOGGLE_showTags] = USE_Toggle(false);
   const { sliderRef, slide } = USE_slideSwiper();
   const [current_VIEW, SET_currentView] = useState("front");
-
-  const SHOW_swiper = USE_showSwiper(profile);
-  const IS_new = USE_isProfileNew(profile);
-  // const IS_new = true;
-  const name = USE_getName(profile, lang);
-  const img_ALT = USE_imgAlt(profile, lang);
-
-  const images = profile?.img?.["mobile"] || profile?.img?.["desktop"] || [];
-  const HAS_panoramas = Object.keys(profile?.img?.panoramas || {})?.length > 0;
-  const HAS_tags = profile?.tags?.length > 0;
-  const HAS_pros = profile?.pros?.length > 0;
-  const HAS_cons = profile?.cons?.length > 0;
-
-  const { savedProfile_IDs, ADD_toSaved, REMOVE_fromSaved } = useContext(SavedProfileIDs_CONTEXT);
-  const IS_saved = savedProfile_IDs instanceof Set && savedProfile_IDs.has(profile?._id);
-
-  const { arrow_DIRECTION, HANLDE_arrowClick } = USE_arrowSlider();
-
-  const test_REF = useRef(null);
-  const test2_REF = useRef(null);
+  const [hover, SET_hover] = useState(false);
 
   const footer_REF = useRef(null);
   const front_REF = useRef(null);
   const tags_REF = useRef(null);
   const prosCons_REF = useRef(null);
+  const [footer_HEIGHT, SET_footerHeight] = useState(footer_REF?.current?.clientHeight || null);
 
-  const article_REF = useRef(null);
-
-  const [height, SET_Height] = useState(footer_REF?.current?.clientHeight || null);
-
-  const [hover, SET_hover] = useState(false);
-
+  const { savedProfile_IDs, ADD_toSaved, REMOVE_fromSaved } = useContext(SavedProfileIDs_CONTEXT);
+  const IS_saved = savedProfile_IDs instanceof Set && savedProfile_IDs.has(profile?._id);
   const { width } = USE_windowSize();
 
-  const [fire, SET_fire] = useState(false);
-
-  const SAVE_item = (id) => {
-    ADD_toSaved(id);
-    SET_fire(false);
-    setTimeout(() => SET_fire(true), 0);
+  const [SHOW_hearts, SET_showHearts] = useState(false);
+  const HANDLE_save = (action) => {
+    if (action === "save") {
+      ADD_toSaved(profile?._id);
+      SET_showHearts(true);
+    } else if (action === "delete") {
+      REMOVE_fromSaved(profile?._id);
+      SET_showHearts(false);
+    }
   };
 
   useEffect(() => {
     switch (current_VIEW) {
       case "front":
-        console.log(front_REF?.current?.clientHeight);
-        SET_Height(front_REF?.current?.clientHeight);
+        SET_footerHeight(front_REF?.current?.clientHeight);
         break;
       case "tags":
-        console.log(tags_REF?.current?.clientHeight);
-        SET_Height(tags_REF?.current?.clientHeight);
+        SET_footerHeight(tags_REF?.current?.clientHeight);
         break;
       case "prosCons":
-        console.log(prosCons_REF?.current?.clientHeight);
-        SET_Height(prosCons_REF?.current?.clientHeight);
+        SET_footerHeight(prosCons_REF?.current?.clientHeight);
         break;
     }
-    // // if (footer_REF.current) {
-    // //   const newHeight = footer_REF.current.clientHeight;
-    // //   SET_Height(newHeight);
-    // //   footer_REF.current.style.height = newHeight + "px";
-    // // }
-    // console.log(footer_REF?.current?.clientHeight);
   }, [current_VIEW, width]);
 
   return (
     <article
       className={css.profile_PREVIEW}
-      aria-label={
-        tr?.profileIntro_ARIA(profile?.name?.[lang], profile?.subname?.[lang])[lang] || "Profile"
-      }
-      ref={article_REF}
+      // aria-label={
+      //   tr?.profileIntro_ARIA(profile?.name?.[lang], profile?.subname?.[lang])[lang] || "Profile"
+      // }
       style={profile?.img?.blur ? { backgroundImage: `url(${profile.img.blur})` } : {}}
       onMouseEnter={() => SET_hover(true)}
       onMouseLeave={() => SET_hover(false)}
     >
       <header className={css.top}>
-        {IS_new && <New_LABEL lang={lang} />}
+        {USE_isProfileNew(profile) && <New_LABEL lang={lang} />}
         <div className={css.btn_WRAP}>
-          {/* {HAS_tags && (
-            <ShowTags_BTN
-              onClick={() => SET_currentView("tags")}
-              IS_open={SHOW_tags}
-              matchedTags_COUNT={0} // get matching tags count
-              lang={lang}
-              profile={profile}
-              parent_REF={test_REF}
-              // prosCons_REF={test2_REF}
-            />
-          )} */}
-          {HAS_panoramas && (
+          {Object.keys(profile?.img?.panoramas || {})?.length > 0 && (
             <Btn
               styles={["btn-36", "onImg"]}
               onClick={() => SET_panoramas(profile?.img?.panoramas)}
               text={"360"}
-              aria_LABEL={tr?.panoramaBtn_ARIA(name)[lang]}
+              // aria_LABEL={tr?.panoramaBtn_ARIA(name)[lang]}
               test_ID="panorama-btn"
             />
           )}
           <Btn
             styles={["btn-36", "onImg", "save"]}
-            onClick={() => (IS_saved ? REMOVE_fromSaved(profile?._id) : SAVE_item(profile?._id))}
+            onClick={() => (IS_saved ? HANDLE_save("delete") : HANDLE_save("save"))}
             saved={IS_saved}
             left_ICON={<ICON_save style={IS_saved ? "active" : "white"} />}
-            aria_LABEL={tr?.saveBtn_ARIA(name)[lang]}
+            // aria_LABEL={tr?.saveBtn_ARIA(name)[lang]}
             test_ID="save-btn"
           />
         </div>
       </header>
-
-      {SHOW_swiper.mobile && (
-        <CREATE_swiper
-          sliderRef={sliderRef}
-          images={images}
-          img_END={"/Mobile"}
-          img_ALT={img_ALT}
-          height={height}
-          article_REF={article_REF}
-          hover={hover}
-          HANLDE_arrowClick={HANLDE_arrowClick}
-          slide={slide}
-          arrow_DIRECTION={arrow_DIRECTION}
-          fire={fire}
-        />
-      )}
-      {!SHOW_swiper.mobile && (
-        <img src={images[0] + "/Mobile"} className={css.profile_IMG} alt={img_ALT} />
-      )}
-      {images.length < 1 && <img className={css.profile_IMG} alt={"No images found"} />}
+      <Images
+        images={profile?.img?.["mobile"] || profile?.img?.["desktop"] || []}
+        SHOW_swiper={USE_showSwiper(profile)}
+        sliderRef={sliderRef}
+        hover={hover}
+        slide={slide}
+        SHOW_hearts={SHOW_hearts}
+      />
 
       <footer
-        data-testid="profile-preview-bottom"
+        // data-testid="profile-preview-bottom"
         ref={footer_REF}
-        style={{ height: `${height}px` }}
+        style={{ height: `${footer_HEIGHT}px` }}
       >
         <div
           className={css.footer_BLUR}
@@ -181,130 +122,72 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
         ></div>
         {/* Create an opacity fade on entrance and exit */}
         {current_VIEW === "tags" && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            style={{ zIndex: 10 }}
-            className={css.drawer}
-            ref={tags_REF}
-          >
-            <Drawer_TOP title="Pros & Cons" CLOSE_drawer={() => SET_currentView("front")} />
-            <motion.ul
-              key={profile?._id}
-              className={css.bottom}
-              data-type="tags"
-              initial={{ y: 30 }}
-              animate={{ y: 0 }}
-              exit={{ y: 30 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-            >
-              {profile?.tags?.map((tag) => {
-                return (
-                  <li key={tag._id}>
-                    <Btn
-                      key={tag._id}
-                      styles={["onBlur", "round"]}
-                      leftIcon_URL={tag.icon?.url ? tag.icon?.url : ""}
-                      right_ICON={<ICON_x rotate={true} color="white" />}
-                      text={tag.name?.en}
-                      aria_LABEL={tr?.filterTagBtn_ARIA(tag.name?.[lang])[lang]}
-                      onClick={() => alert("No function provided")}
-                      test_ID={"overlay-tag-btn"}
-                    />
-                  </li>
-                );
-              })}
-            </motion.ul>
-          </motion.div>
+          <Footer_TAGS
+            profile={profile}
+            SET_currentView={SET_currentView}
+            lang={lang}
+            tr={tr}
+            tags_REF={tags_REF}
+          />
         )}
 
         {current_VIEW === "front" && (
-          <motion.div
-            className={css.footer_FRONT}
-            ref={front_REF}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            style={{ zIndex: 10 }}
-          >
-            <div className={css.top}>
-              <div className={css.name_WRAP}>
-                <h4>{profile?.name?.en || "Name"}</h4>
-                <p>{profile?.subname?.en || "Subname"}</p>
-              </div>
-            </div>
-            <div className={css.bottom} ref={test_REF}>
-              {HAS_tags && (
-                <ShowTags_BTN
-                  onClick={() => SET_currentView("tags")}
-                  IS_open={SHOW_tags}
-                  matchedTags_COUNT={0} // get matching tags count
-                  lang={lang}
-                  profile={profile}
-                  parent_REF={test_REF}
-                  // prosCons_REF={test2_REF}
-                />
-              )}
-              {(HAS_pros || HAS_cons) && (
-                <ShowProsCons_BTN
-                  onClick={() => SET_currentView("prosCons")}
-                  pros_COUNT={HAS_pros && profile?.pros?.length}
-                  cons_COUNT={HAS_cons && profile?.cons?.length}
-                  // prosCons_REF={test2_REF}
-                />
-              )}
-              {/* <Btn
-                styles={["onBlur"]}
-                onClick={() => {}}
-                text={"More"}
-                right_ICON={<ICON_dropDownArrow color="white" />}
-                // aria_LABEL={tr?.saveBtn_ARIA(name)[lang]}
-                // test_ID="save-btn"
-              /> */}
-            </div>
-          </motion.div>
+          <Footer_FRONT
+            profile={profile}
+            SET_currentView={SET_currentView}
+            lang={lang}
+            front_REF={front_REF}
+          />
         )}
 
         {current_VIEW === "prosCons" && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            style={{ zIndex: 10 }}
-          >
-            <ProsCons
-              CLOSE_prosCons={() => SET_currentView("front")}
-              pros={profile?.pros}
-              cons={profile?.cons}
-              _ref={prosCons_REF}
-              SET_currentView={SET_currentView}
-            />
-          </motion.div>
+          <Footer_PROCON
+            CLOSE_prosCons={() => SET_currentView("front")}
+            pros={profile?.pros}
+            cons={profile?.cons}
+            prosCons_REF={prosCons_REF}
+            close={() => SET_currentView("front")}
+            SET_currentView={SET_currentView}
+          />
         )}
       </footer>
     </article>
   );
 }
 
-function CREATE_swiper({
-  sliderRef,
-  images,
-  img_END,
-  img_ALT,
-  height,
-  article_REF,
-  hover,
-  HANLDE_arrowClick,
-  slide,
-  arrow_DIRECTION,
-  fire,
-}) {
+function Images({ images, SHOW_swiper, sliderRef, hover, slide, SHOW_hearts }) {
+  return (
+    <>
+      {SHOW_swiper.mobile && (
+        <CREATE_swiper
+          sliderRef={sliderRef}
+          images={images}
+          img_END={"/Mobile"}
+          hover={hover}
+          slide={slide}
+          SHOW_hearts={SHOW_hearts}
+        />
+      )}
+      {!SHOW_swiper.mobile && (
+        <img src={images[0] + "/Mobile"} className={css.single_IMG} /*  alt={img_ALT} */ />
+      )}
+      {images.length < 1 && (
+        <div className={css.noImagesFound}>
+          <p>No images found</p>
+          <Btn
+            styles={["onImg"]}
+            left_ICON={<ICON_error color="white" />}
+            onClick={() => {}}
+            text="Report issue"
+          />
+        </div>
+      )}
+    </>
+  );
+}
+function CREATE_swiper({ sliderRef, images, img_END, hover, slide, SHOW_hearts }) {
   const [activeIndex, setActiveIndex] = useState(0);
-  console.log("Swiper");
+
   return (
     <Swiper
       // loop={true}
@@ -323,7 +206,7 @@ function CREATE_swiper({
           styles={["onImg", "round", "sliderArrow"]}
           right_ICON={<ICON_arrow color="white" direction="left" />}
           onClick={() => {
-            HANLDE_arrowClick("prev", slide);
+            slide("prev");
           }}
           custom_DATA={activeIndex === 0}
         />
@@ -332,21 +215,22 @@ function CREATE_swiper({
           styles={["onImg", "round", "sliderArrow"]}
           right_ICON={<ICON_arrow color="white" direction="right" />}
           onClick={() => {
-            HANLDE_arrowClick("next", slide);
+            slide("next");
           }}
           custom_DATA={activeIndex === images.length - 1}
         />
       </div>
-      <HeartConfetti trigger={fire} />
+
       {images.map((img, i) => (
         <SwiperSlide key={i}>
           <img src={img + img_END} className={css.profile_IMG} data-normal="true" />
         </SwiperSlide>
       ))}
+
+      <HeartConfetti SHOW_hearts={SHOW_hearts} />
     </Swiper>
   );
 }
-
 function USE_arrowSlider(initialDirection = "") {
   const [arrow_DIRECTION, SET_arrowDirection] = useState(initialDirection);
   const [ARE_arrowsDisabled, SET_arrowsDisabled] = useState(false);
@@ -365,18 +249,65 @@ function USE_arrowSlider(initialDirection = "") {
   return { arrow_DIRECTION, HANLDE_arrowClick };
 }
 
-function ProsCons({ CLOSE_prosCons, pros, cons, _ref, SET_currentView }) {
+function Footer_FRONT({ profile, SET_currentView, lang, front_REF }) {
   return (
-    <div className={css.drawer} ref={_ref}>
+    <motion.div className={css.footer_FRONT} ref={front_REF} {...FooterMotion_PROPS}>
+      <div className={css.top}>
+        <div className={css.name_WRAP}>
+          <h4>{profile?.name?.en || "Name"}</h4>
+          <p>{profile?.subname?.en || "Subname"}</p>
+        </div>
+      </div>
+      <div className={css.bottom}>
+        {profile?.tags?.length > 0 && (
+          <ShowTags_BTN
+            onClick={() => SET_currentView("tags")}
+            matchedTags_COUNT={0} // get matching tags count
+            lang={lang}
+            profile={profile}
+          />
+        )}
+        {(profile?.pros || profile?.cons) && (
+          <ShowProsCons_BTN
+            onClick={() => SET_currentView("prosCons")}
+            pros_COUNT={profile?.pros?.length}
+            cons_COUNT={profile?.cons?.length}
+          />
+        )}
+      </div>
+    </motion.div>
+  );
+}
+function Footer_TAGS({ profile, SET_currentView, lang, tr, tags_REF }) {
+  return (
+    <motion.div className={css.drawer} ref={tags_REF} {...FooterMotion_PROPS}>
       <Drawer_TOP title="Pros & Cons" CLOSE_drawer={() => SET_currentView("front")} />
-      <motion.div
-        className={css.bottom}
-        data-type="prosCons"
-        initial={{ y: 30 }}
-        animate={{ y: 0 }}
-        exit={{ y: 30 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
-      >
+      <ul key={profile?._id} className={css.bottom} data-type="tags">
+        {profile?.tags?.map((tag) => {
+          return (
+            <li key={tag._id}>
+              <Btn
+                key={tag._id}
+                styles={["onBlur", "round"]}
+                leftIcon_URL={tag.icon?.url ? tag.icon?.url : ""}
+                right_ICON={<ICON_x rotate={true} color="white" />}
+                text={tag.name?.en}
+                // aria_LABEL={tr?.filterTagBtn_ARIA(tag.name?.[lang])[lang]}
+                onClick={() => alert("No function provided")}
+                test_ID={"overlay-tag-btn"}
+              />
+            </li>
+          );
+        })}
+      </ul>
+    </motion.div>
+  );
+}
+function Footer_PROCON({ pros, cons, prosCons_REF, close }) {
+  return (
+    <motion.div className={css.drawer} ref={prosCons_REF} {...FooterMotion_PROPS}>
+      <Drawer_TOP title="Pros & Cons" CLOSE_drawer={close} />
+      <div className={css.bottom} data-type="prosCons">
         {pros?.length > 0 && (
           <ul>
             {pros.map((pro, index) => (
@@ -397,8 +328,8 @@ function ProsCons({ CLOSE_prosCons, pros, cons, _ref, SET_currentView }) {
             ))}
           </ul>
         )}
-      </motion.div>
-    </div>
+      </div>
+    </motion.div>
   );
 }
 

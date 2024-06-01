@@ -159,5 +159,15 @@ p {
 
 /* ///// */
 
+.swiper_HomeTop {
+  /* display: flex !important; */
+  /* overflow: hidden; */
+}
+
+.swiper_HomeTop > .swiper-wrapper{
+  /* height: auto;
+  flex: 1; */
+}
+
 
 

@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import css from "./HeartConfetti.module.css";
+import { USE_clickTimeout } from "../../hooks/USE_clickTimeout";
 
 const Heart = ({ style }) => {
   return <div className={css.heart} style={style}></div>;
@@ -20,23 +21,23 @@ const generateHeartStyle = () => {
   };
 };
 
-export const HeartConfetti = ({ trigger }) => {
+export const HeartConfetti = ({ SHOW_hearts }) => {
   const [hearts, setHearts] = useState([]);
+  const { locked } = USE_clickTimeout(3000);
 
   useEffect(() => {
-    if (trigger) {
+    if (SHOW_hearts && !locked && hearts.length === 0) {
+      // Play animation only if not already playing
       const newHearts = Array.from({ length: 20 }).map((_, index) => (
         <Heart key={index} style={generateHeartStyle()} />
       ));
       setHearts(newHearts);
 
-      const timeout = setTimeout(() => {
-        setHearts([]);
-      }, 3000); // Adjust the duration to match the CSS animation duration
-
-      return () => clearTimeout(timeout);
+      setTimeout(() => {
+        setHearts([]); // Clear the hearts after animation duration
+      }, 3000);
     }
-  }, [trigger]);
+  }, [SHOW_hearts, locked, hearts]);
 
   return <div className={css.confetti_WRAP}>{hearts}</div>;
 };

@@ -27,6 +27,7 @@ export default function USE_scrollable() {
   );
 
   const HANDLE_mouseDown = (event) => {
+    console.log("mousedown");
     setMouseDown(true);
     setStartX(event.pageX - scrollable.current.offsetLeft);
     setScrollLeft(scrollable.current.scrollLeft);

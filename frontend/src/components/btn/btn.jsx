@@ -102,8 +102,6 @@ export function ShowTags_BTN({
   matchedTags_COUNT,
   profile,
   lang,
-  parent_REF,
-  prosCons_REF,
 }) {
   const [dance, setDance] = useState(false);
 
@@ -112,8 +110,8 @@ export function ShowTags_BTN({
   const { width: windowWidth } = USE_windowSize();
   // const visibleIcon_COUNT = windowWidth > 400 ? 3 : windowWidth > 380 ? 2 : 1;
 
-  const remaining_SPACE =
-    parent_REF?.current?.clientWidth - prosCons_REF?.current?.clientWidth - 100; // 20 is for the padding
+  // const remaining_SPACE =
+  //   parent_REF?.current?.clientWidth - prosCons_REF?.current?.clientWidth - 100; // 20 is for the padding
   // const visibleIcon_COUNT = 2;
   // const visibleIcon_COUNT = Math.floor(remaining_SPACE / 30) - 1 || 3; // fix this
   const visibleIcon_COUNT = 5; // fix this

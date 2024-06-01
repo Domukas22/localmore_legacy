@@ -79,6 +79,29 @@
        
   }
 
+  & .single_IMG {
+    flex: 1;
+    height: 100px;
+    object-fit: cover;
+    /* This is weird. We need both of these for the image to flex properly,
+    and not push the footer out of view */
+  }
+  & .noImagesFound{ 
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.2rem;
+
+    & > p {
+      color: var(--text-white); 
+      text-shadow: var(--shadow-text);
+      font-size: 2rem;
+      font-weight: 600;
+    }
+  }
+
   & footer {
     display: flex;
     flex-direction: column;
@@ -215,13 +238,6 @@
       
     }
   }
-
-
-  
-
-  
- 
-
   
 }
 

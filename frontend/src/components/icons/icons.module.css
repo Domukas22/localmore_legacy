@@ -8,18 +8,18 @@
   height: 2rem;
   object-fit: contain;
 }
-.ICON_arrow {
+.path_FILL {
   &[data-color="dark"] {
-    & path {
-      fill: var(--brand-black)
-    }
+    fill: var(--brand-black)
   }
   &[data-color="white"] {
-    & path {
-      fill: white;
-    }
+    fill: white;
+  }
+  &[data-color="red"] {
+    fill: var(--red);
   }
 }
+
 .ICON_activeDigit {
   font-size: 1.4rem;
   font-weight: 700;
