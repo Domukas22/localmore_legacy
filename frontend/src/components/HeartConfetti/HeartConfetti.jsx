@@ -1,7 +1,7 @@
 //
 //
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import css from "./HeartConfetti.module.css";
 import { USE_clickTimeout } from "../../hooks/USE_clickTimeout";
 
@@ -22,22 +22,31 @@ const generateHeartStyle = () => {
 };
 
 export const HeartConfetti = ({ SHOW_hearts }) => {
-  const [hearts, setHearts] = useState([]);
+  const [heartsSets, SET_heartsSets] = useState([]);
   const { locked } = USE_clickTimeout(3000);
+  const counterRef = useRef(0);
 
   useEffect(() => {
-    if (SHOW_hearts && !locked && hearts.length === 0) {
-      // Play animation only if not already playing
-      const newHearts = Array.from({ length: 20 }).map((_, index) => (
-        <Heart key={index} style={generateHeartStyle()} />
-      ));
-      setHearts(newHearts);
+    if (SHOW_hearts && !locked) {
+      const newSetId = counterRef.current;
+      const newHeartsSet = (
+        <div key={newSetId}>
+          {Array.from({ length: 25 }).map((_, index) => (
+            <Heart key={index} style={generateHeartStyle()} />
+          ))}
+        </div>
+      );
+
+      SET_heartsSets((prevSets) => [...prevSets, newHeartsSet]);
+
+      // Increment the counter value
+      counterRef.current += 1;
 
       setTimeout(() => {
-        setHearts([]); // Clear the hearts after animation duration
+        SET_heartsSets((prevSets) => prevSets.filter((set) => set.key !== `${newSetId}`));
       }, 3000);
     }
-  }, [SHOW_hearts, locked, hearts]);
+  }, [SHOW_hearts, locked]);
 
-  return <div className={css.confetti_WRAP}>{hearts}</div>;
+  return <div className={css.confetti_WRAP}>{heartsSets}</div>;
 };

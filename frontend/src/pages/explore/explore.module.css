@@ -52,7 +52,7 @@
   
   @media (--mobile) {
     /* grid-auto-rows: calc(100vw * (4 / 3.5) + 4rem);  */
-    grid-auto-rows: 65vh; 
+    grid-auto-rows: 60vh; 
     grid-template-columns: 1fr;
   }
 

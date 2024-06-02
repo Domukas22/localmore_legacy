@@ -65,6 +65,7 @@ function Explore_GRID({
           SET_search={SET_search}
         />
         <Tagbar categories={categories} tags={tags} window_WIDTH={window_WIDTH} />
+
         <CategoryBar categories={categories} window_WIDTH={window_WIDTH} />
 
         {/* <CategoryBar categories={categories} /> */}

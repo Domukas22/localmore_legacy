@@ -98,56 +98,35 @@ export function ProfileName_BTN({
 }
 export function ShowTags_BTN({
   onClick = () => alert("No function provided"),
-  IS_open,
   matchedTags_COUNT,
-  profile,
   lang,
+  profile,
+  visibleIcon_COUNT,
 }) {
-  const [dance, setDance] = useState(false);
-
   const name = profile?.name?.[lang] || "Profile name not found";
-
-  const { width: windowWidth } = USE_windowSize();
   // const visibleIcon_COUNT = windowWidth > 400 ? 3 : windowWidth > 380 ? 2 : 1;
 
   // const remaining_SPACE =
   //   parent_REF?.current?.clientWidth - prosCons_REF?.current?.clientWidth - 100; // 20 is for the padding
   // const visibleIcon_COUNT = 2;
   // const visibleIcon_COUNT = Math.floor(remaining_SPACE / 30) - 1 || 3; // fix this
-  const visibleIcon_COUNT = 5; // fix this
-
-  // console.log(Math.floor(remaining_SPACE / 30));
+  // const visibleIcon_COUNT = 5; // fix this
 
   const icons = profile?.tags?.map((t) => (t.icon?.url ? t.icon.url : ""));
   const displayedIcons = icons ? icons.slice(0, visibleIcon_COUNT) : [];
   const remainingTagsCount =
     displayedIcons.length > 0 ? Math.max(0, icons.length - visibleIcon_COUNT) : 0;
 
-  const handleDance = () => {
-    if (dance) return;
-    setDance(true);
-
-    setTimeout(() => {
-      setDance(false);
-    }, 1000);
-  };
-
   return (
     <Button
       className={css["onBlur"]}
-      data-open={IS_open}
       onPress={() => {
         onClick();
-        handleDance();
+
         document.dispatchEvent(new Event("click")); // for the dropdowns
         console.log("click");
       }}
-      data-dance={dance}
-      aria-label={
-        IS_open
-          ? profilePreview_TR?.hideTagsBtn_ARIA(name)[lang]
-          : profilePreview_TR?.showTagsBtn_ARIA(name)[lang]
-      }
+      aria-label={profilePreview_TR?.showTagsBtn_ARIA(name)[lang]}
       data-testid="show-icons-btn"
     >
       {matchedTags_COUNT > 0 && <ICON_activeDigit count={matchedTags_COUNT} IS_active={true} />}
@@ -162,7 +141,6 @@ export function ShowTags_BTN({
           )}
         </>
       )}
-      {/* <ICON_dropDownArrow color="white" /> */}
     </Button>
   );
 }
@@ -212,7 +190,7 @@ export function ShowProsCons_BTN({
   onClick = () => alert("No function provided"),
   pros_COUNT,
   cons_COUNT,
-  prosCons_REF,
+  prosConsBtn_REF,
 }) {
   return (
     <Button
@@ -222,7 +200,7 @@ export function ShowProsCons_BTN({
         document.dispatchEvent(new Event("click")); // for the dropdowns
         console.log("click");
       }}
-      ref={prosCons_REF}
+      ref={prosConsBtn_REF}
     >
       {pros_COUNT > 0 && (
         <div className={css.wrap}>

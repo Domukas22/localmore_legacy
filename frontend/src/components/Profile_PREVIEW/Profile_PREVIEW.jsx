@@ -1,7 +1,7 @@
 //
 
 import PropTypes from "prop-types";
-import { useState, useContext, useEffect, useRef } from "react";
+import { useState, useContext, useEffect, useRef, useCallback, useMemo } from "react";
 import css from "./Profile_PREVIEW.module.css";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -21,6 +21,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import { USE_windowSize } from "../../hooks/USE_windowWidth";
 import { HeartConfetti } from "../HeartConfetti/HeartConfetti";
+import { FontSizeContext } from "../../contexts/fontSize";
 
 const FooterMotion_PROPS = {
   initial: { opacity: 0 },
@@ -34,41 +35,74 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
   const { sliderRef, slide } = USE_slideSwiper();
   const [current_VIEW, SET_currentView] = useState("front");
   const [hover, SET_hover] = useState(false);
+  const [SHOW_hearts, SET_showHearts] = useState(false);
+  const [visibleIcon_COUNT, SET_visibleIconCount] = useState(3);
+  const { width } = USE_windowSize();
+  const HAS_panoramas = Object.keys(profile?.img?.panoramas || {}).length > 0;
 
   const footer_REF = useRef(null);
   const front_REF = useRef(null);
   const tags_REF = useRef(null);
   const prosCons_REF = useRef(null);
+  const prosConsBtn_REF = useRef(null);
   const [footer_HEIGHT, SET_footerHeight] = useState(footer_REF?.current?.clientHeight || null);
 
   const { savedProfile_IDs, ADD_toSaved, REMOVE_fromSaved } = useContext(SavedProfileIDs_CONTEXT);
-  const IS_saved = savedProfile_IDs instanceof Set && savedProfile_IDs.has(profile?._id);
-  const { width } = USE_windowSize();
+  const { fontSize, fontSize_SCALE } = useContext(FontSizeContext);
 
-  const [SHOW_hearts, SET_showHearts] = useState(false);
-  const HANDLE_save = (action) => {
-    if (action === "save") {
-      ADD_toSaved(profile?._id);
-      SET_showHearts(true);
-    } else if (action === "delete") {
-      REMOVE_fromSaved(profile?._id);
-      SET_showHearts(false);
-    }
-  };
+  const IS_saved = useMemo(
+    () => savedProfile_IDs instanceof Set && savedProfile_IDs.has(profile?._id),
+    [savedProfile_IDs, profile?._id]
+  );
+
+  const HANDLE_save = useCallback(
+    (action) => {
+      if (action === "save") {
+        ADD_toSaved(profile?._id);
+        SET_showHearts(true);
+      } else if (action === "delete") {
+        REMOVE_fromSaved(profile?._id);
+        SET_showHearts(false);
+      }
+    },
+    [ADD_toSaved, REMOVE_fromSaved, profile?._id]
+  );
 
   useEffect(() => {
+    let height = 0;
     switch (current_VIEW) {
       case "front":
-        SET_footerHeight(front_REF?.current?.clientHeight);
+        height = front_REF?.current?.clientHeight;
         break;
       case "tags":
-        SET_footerHeight(tags_REF?.current?.clientHeight);
+        height = tags_REF?.current?.clientHeight;
         break;
       case "prosCons":
-        SET_footerHeight(prosCons_REF?.current?.clientHeight);
+        height = prosCons_REF?.current?.clientHeight;
         break;
     }
-  }, [current_VIEW, width]);
+    SET_footerHeight(height);
+  }, [current_VIEW, width, fontSize]);
+
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(() => {
+      if (footer_REF.current && prosConsBtn_REF.current) {
+        const footer_WIDTH = footer_REF.current.clientWidth;
+        const prosCons_WIDTH = prosConsBtn_REF.current.clientWidth;
+        const padding = 120 * fontSize_SCALE;
+
+        const remaining_SPACE = footer_WIDTH - prosCons_WIDTH - padding; // Adjust for padding or margins
+        const newVisibleIconCount = Math.floor(remaining_SPACE / 30); // 30 is the assumed width of each icon
+        SET_visibleIconCount(newVisibleIconCount > 0 ? newVisibleIconCount : 1); // Ensure at least one icon is visible
+      }
+    });
+
+    resizeObserver.observe(footer_REF.current);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [fontSize, fontSize_SCALE]);
 
   return (
     <article
@@ -83,7 +117,7 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
       <header className={css.top}>
         {USE_isProfileNew(profile) && <New_LABEL lang={lang} />}
         <div className={css.btn_WRAP}>
-          {Object.keys(profile?.img?.panoramas || {})?.length > 0 && (
+          {HAS_panoramas && (
             <Btn
               styles={["btn-36", "onImg"]}
               onClick={() => SET_panoramas(profile?.img?.panoramas)}
@@ -102,6 +136,7 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
           />
         </div>
       </header>
+
       <Images
         images={profile?.img?.["mobile"] || profile?.img?.["desktop"] || []}
         SHOW_swiper={USE_showSwiper(profile)}
@@ -112,15 +147,9 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
       />
 
       <footer
-        // data-testid="profile-preview-bottom"
         ref={footer_REF}
-        style={{ height: `${footer_HEIGHT}px` }}
+        style={{ height: `${footer_HEIGHT}px`, backgroundImage: `url(${profile?.img?.blur})` }}
       >
-        <div
-          className={css.footer_BLUR}
-          style={profile?.img?.blur ? { backgroundImage: `url(${profile.img.blur})` } : {}}
-        ></div>
-        {/* Create an opacity fade on entrance and exit */}
         {current_VIEW === "tags" && (
           <Footer_TAGS
             profile={profile}
@@ -130,16 +159,16 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
             tags_REF={tags_REF}
           />
         )}
-
         {current_VIEW === "front" && (
           <Footer_FRONT
             profile={profile}
             SET_currentView={SET_currentView}
             lang={lang}
             front_REF={front_REF}
+            visibleIcon_COUNT={visibleIcon_COUNT}
+            prosConsBtn_REF={prosConsBtn_REF}
           />
         )}
-
         {current_VIEW === "prosCons" && (
           <Footer_PROCON
             CLOSE_prosCons={() => SET_currentView("front")}
@@ -231,25 +260,15 @@ function CREATE_swiper({ sliderRef, images, img_END, hover, slide, SHOW_hearts }
     </Swiper>
   );
 }
-function USE_arrowSlider(initialDirection = "") {
-  const [arrow_DIRECTION, SET_arrowDirection] = useState(initialDirection);
-  const [ARE_arrowsDisabled, SET_arrowsDisabled] = useState(false);
 
-  const HANLDE_arrowClick = (direction, slide) => {
-    if (ARE_arrowsDisabled) return;
-    SET_arrowsDisabled(true);
-    slide(direction);
-    SET_arrowDirection(direction);
-    SET_arrowsDisabled(false);
-    setTimeout(() => {
-      SET_arrowDirection("");
-    }, 499); // Adjust the delay as needed
-  };
-
-  return { arrow_DIRECTION, HANLDE_arrowClick };
-}
-
-function Footer_FRONT({ profile, SET_currentView, lang, front_REF }) {
+function Footer_FRONT({
+  profile,
+  SET_currentView,
+  lang,
+  front_REF,
+  visibleIcon_COUNT,
+  prosConsBtn_REF,
+}) {
   return (
     <motion.div className={css.footer_FRONT} ref={front_REF} {...FooterMotion_PROPS}>
       <div className={css.top}>
@@ -265,6 +284,7 @@ function Footer_FRONT({ profile, SET_currentView, lang, front_REF }) {
             matchedTags_COUNT={0} // get matching tags count
             lang={lang}
             profile={profile}
+            visibleIcon_COUNT={visibleIcon_COUNT}
           />
         )}
         {(profile?.pros || profile?.cons) && (
@@ -272,6 +292,7 @@ function Footer_FRONT({ profile, SET_currentView, lang, front_REF }) {
             onClick={() => SET_currentView("prosCons")}
             pros_COUNT={profile?.pros?.length}
             cons_COUNT={profile?.cons?.length}
+            prosConsBtn_REF={prosConsBtn_REF}
           />
         )}
       </div>

@@ -30,7 +30,13 @@ export const FontSizeProvider = ({ children }) => {
   }, [fontSize]);
 
   return (
-    <FontSizeContext.Provider value={{ fontSize, setFontSize }}>
+    <FontSizeContext.Provider
+      value={{
+        fontSize,
+        setFontSize,
+        fontSize_SCALE: fontSize === 1 ? 1.1 : fontSize === 2 ? 1.18 : 1.25,
+      }}
+    >
       {children}
     </FontSizeContext.Provider>
   );
