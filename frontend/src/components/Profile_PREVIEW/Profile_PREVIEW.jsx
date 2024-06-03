@@ -31,7 +31,14 @@ const FooterMotion_PROPS = {
   style: { zIndex: 10 },
 };
 
-export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }) {
+export default function Profile_PREVIEW({
+  profile,
+  SET_panoramas,
+  search,
+  lang,
+  active_TAGS,
+  UPDATE_tags,
+}) {
   const { sliderRef, slide } = USE_slideSwiper();
   const [current_VIEW, SET_currentView] = useState("front");
   const [hover, SET_hover] = useState(false);
@@ -157,6 +164,8 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
             lang={lang}
             tr={tr}
             tags_REF={tags_REF}
+            active_TAGS={active_TAGS}
+            UPDATE_tags={UPDATE_tags}
           />
         )}
         {current_VIEW === "front" && (
@@ -167,6 +176,7 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
             front_REF={front_REF}
             visibleIcon_COUNT={visibleIcon_COUNT}
             prosConsBtn_REF={prosConsBtn_REF}
+            active_TAGS={active_TAGS}
           />
         )}
         {current_VIEW === "prosCons" && (
@@ -269,7 +279,11 @@ function Footer_FRONT({
   front_REF,
   visibleIcon_COUNT,
   prosConsBtn_REF,
+  active_TAGS,
 }) {
+  const matchedTags_COUNT = Array.from(active_TAGS).filter((tag) =>
+    profile.tags.some((profile_TAG) => profile_TAG._id === tag._id)
+  ).length;
   return (
     <motion.div className={css.footer_FRONT} ref={front_REF} {...FooterMotion_PROPS}>
       <div className={css.top}>
@@ -282,7 +296,7 @@ function Footer_FRONT({
         {profile?.tags?.length > 0 && (
           <ShowTags_BTN
             onClick={() => SET_currentView("tags")}
-            matchedTags_COUNT={0} // get matching tags count
+            matchedTags_COUNT={matchedTags_COUNT} // get matching tags count
             lang={lang}
             profile={profile}
             visibleIcon_COUNT={visibleIcon_COUNT}
@@ -300,26 +314,35 @@ function Footer_FRONT({
     </motion.div>
   );
 }
-function Footer_TAGS({ profile, SET_currentView, lang, tr, tags_REF }) {
+function Footer_TAGS({ profile, SET_currentView, lang, tr, tags_REF, active_TAGS, UPDATE_tags }) {
   return (
     <motion.div className={css.drawer} ref={tags_REF} {...FooterMotion_PROPS}>
       <Drawer_TOP
         title={`${profile.tags.length} Tags of ${profile.name.en}`}
         CLOSE_drawer={() => SET_currentView("front")}
       />
+      {console.log(active_TAGS)}
       <ul key={profile?._id} className={css.bottom} data-type="tags">
         {profile?.tags?.map((tag) => {
+          const IS_active = Array.from(active_TAGS).some((activeTag) => activeTag._id === tag._id);
           return (
             <li key={tag._id}>
               <Btn
                 key={tag._id}
                 styles={["onBlur", "round"]}
                 leftIcon_URL={tag.icon?.url ? tag.icon?.url : ""}
-                right_ICON={<ICON_x rotate={true} color="white" />}
+                right_ICON={
+                  <ICON_x
+                    rotate={!IS_active}
+                    color={IS_active ? "brand" : "white"}
+                    small={IS_active}
+                  />
+                }
                 text={tag.name?.en}
                 // aria_LABEL={tr?.filterTagBtn_ARIA(tag.name?.[lang])[lang]}
-                onClick={() => alert("No function provided")}
+                onClick={() => UPDATE_tags(tag, IS_active ? "remove" : "add")}
                 test_ID={"overlay-tag-btn"}
+                active={IS_active}
               />
             </li>
           );

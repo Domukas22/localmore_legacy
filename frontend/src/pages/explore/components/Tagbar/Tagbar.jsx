@@ -15,7 +15,15 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { FontSizeContext } from "../../../../contexts/fontSize";
 import { USE_windowSize } from "../../../../hooks/USE_windowWidth";
 
-export function Tagbar({ categories, tags, window_WIDTH }) {
+export function Tagbar({
+  categories,
+  all_TAGS,
+  active_TAGS,
+  nonActive_TAGS,
+  potential_TAGS,
+  window_WIDTH,
+  UPDATE_tags,
+}) {
   const { fontSize, fontSize_SCALE } = useContext(FontSizeContext);
   const { width } = USE_windowSize();
   const [chosen_TAGS, SET_chosenTags] = useState([]);
@@ -56,7 +64,7 @@ export function Tagbar({ categories, tags, window_WIDTH }) {
         let usedWidth = 0;
         const chosenTags = [];
 
-        for (const tag of tags) {
+        for (const tag of nonActive_TAGS) {
           const tagWidth = CALCULATE_tagWidth(tag); // You need to implement this function
           if (usedWidth + tagWidth <= remainingWidth) {
             chosenTags.push(tag);
@@ -76,7 +84,7 @@ export function Tagbar({ categories, tags, window_WIDTH }) {
     return () => {
       resizeObserver.disconnect();
     };
-  }, [tags, fontSize, fontSize_SCALE, width]);
+  }, [all_TAGS, fontSize, fontSize_SCALE, width, active_TAGS]);
 
   return (
     <header className={css.header} ref={tagbar_REF}>
@@ -95,7 +103,9 @@ export function Tagbar({ categories, tags, window_WIDTH }) {
           <Btn
             styles={["btn-40", "round"]}
             text={"Tags"}
-            left_ICON={<ICON_activeDigit count={0} />}
+            left_ICON={
+              <ICON_activeDigit count={active_TAGS.size} IS_active={active_TAGS.size > 0} />
+            }
             aria_LABEL=""
             onClick={() => {}}
             FIRE_clickEvent={false}
@@ -109,12 +119,27 @@ export function Tagbar({ categories, tags, window_WIDTH }) {
             <Btn
               styles={["btn-36", "round"]}
               text={"Tags"}
-              left_ICON={<ICON_activeDigit count={0} />}
+              left_ICON={
+                <ICON_activeDigit count={active_TAGS.size} IS_active={active_TAGS.size > 0} />
+              }
               right_ICON={<ICON_x rotate={true} />}
               aria_LABEL=""
               onClick={() => {}}
               FIRE_clickEvent={false}
             />
+            {Array.from(active_TAGS).map((tag, index) => (
+              <Btn
+                key={index}
+                styles={["btn-36", "round"]}
+                text={tag?.name?.en}
+                left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
+                aria_LABEL=""
+                right_ICON={<ICON_x color="brand" small={true} />}
+                onClick={() => UPDATE_tags(tag, "remove")}
+                active={true}
+                FIRE_clickEvent={false}
+              />
+            ))}
           </div>
 
           <div className={css.tags_WRAP}>
@@ -125,7 +150,7 @@ export function Tagbar({ categories, tags, window_WIDTH }) {
                 text={tag?.name?.en}
                 left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
                 aria_LABEL=""
-                onClick={() => {}}
+                onClick={() => UPDATE_tags(tag, "add")}
                 FIRE_clickEvent={false}
               />
             ))}
@@ -143,85 +168,3 @@ export function Tagbar({ categories, tags, window_WIDTH }) {
     </header>
   );
 }
-
-// export function Tagbar({ categories, tags, window_WIDTH }) {
-//   const { fontSize, fontSize_SCALE } = useContext(FontSizeContext);
-//   const { width } = USE_windowSize();
-//   const tagbar_REF = useRef(null);
-//   const mainBtns_REF = useRef(null);
-//   const [chosen_TAGS, SET_chosenTags] = useState([]);
-
-//   useEffect(() => {
-//     const resizeObserver = new ResizeObserver(() => {
-//       if (mainBtns_REF.current && tagbar_REF.current) {
-//         const tagbar_WIDTH = tagbar_REF.current.clientWidth;
-//         const mainBtns_WIDTH = mainBtns_REF.current.clientWidth;
-//         console.log("left", tagbar_WIDTH - mainBtns_WIDTH);
-//       }
-//     });
-
-//     resizeObserver.observe(mainBtns_REF.current);
-
-//     return () => {
-//       resizeObserver.disconnect();
-//     };
-//   }, [fontSize, fontSize_SCALE, width]);
-
-//   return (
-//     <header className={css.header} ref={tagbar_REF}>
-//       <div className={css.background} data-shadow={false}></div>
-//       {window_WIDTH < 900 && (
-//         <div className={css.mobileBtn_WRAP}>
-//           <Btn
-//             styles={["btn-40", "round"]}
-//             text={"Sportsfields"}
-//             left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/889/889455.png"></img>}
-//             right_ICON={<ICON_dropDownArrow />}
-//             aria_LABEL=""
-//             onClick={() => {}}
-//             FIRE_clickEvent={false}
-//           />
-//           <Btn
-//             styles={["btn-40", "round"]}
-//             text={"Tags"}
-//             left_ICON={<ICON_activeDigit count={0} />}
-//             // right_ICON={<ICON_x rotate={true} />}
-//             aria_LABEL=""
-//             onClick={() => {}}
-//             FIRE_clickEvent={false}
-//           />
-//         </div>
-//       )}
-//       {window_WIDTH > 900 && (
-//         <>
-//           <div className={css.mainBtn_WRAP} ref={mainBtns_REF}>
-//             <Categories_DD categories={categories} styles={["btn-36", "round", "dropdown"]} />
-//             <Btn
-//               styles={["btn-36", "round"]}
-//               text={"Tags"}
-//               left_ICON={<ICON_activeDigit count={0} />}
-//               right_ICON={<ICON_x rotate={true} />}
-//               aria_LABEL=""
-//               onClick={() => {}}
-//               FIRE_clickEvent={false}
-//             />
-//           </div>
-
-//           <div className={css.tags_WRAP}>
-//             {tags.map((tag, index) => (
-//               <Btn
-//                 key={index}
-//                 styles={["btn-36", "round"]}
-//                 text={tag?.name?.en}
-//                 left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
-//                 aria_LABEL=""
-//                 onClick={() => {}}
-//                 FIRE_clickEvent={false}
-//               />
-//             ))}
-//           </div>
-//         </>
-//       )}
-//     </header>
-//   );
-// }

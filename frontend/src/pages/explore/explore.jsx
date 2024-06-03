@@ -54,8 +54,43 @@ function Explore_GRID({
   lang,
   window_WIDTH,
   categories,
-  tags,
+  tags: all_TAGS,
 }) {
+  const [filtered_PROFILES, SET_filteredProfiles] = useState([...profiles]);
+  const [potential_TAGS, SET_potentialTags] = useState([]);
+  const [active_TAGS, SET_activeTags] = useState(new Set());
+  const [nonActive_TAGS, SET_nonActive_TAGS] = useState(new Set([...all_TAGS]));
+
+  useEffect(() => {
+    SET_filteredProfiles(profiles);
+  }, [profiles]);
+
+  useEffect(() => {
+    SET_nonActive_TAGS(new Set(all_TAGS));
+  }, [all_TAGS]);
+
+  useEffect(() => {
+    console.log(active_TAGS);
+    console.log(nonActive_TAGS);
+  }, [nonActive_TAGS, active_TAGS]);
+
+  const UPDATE_tags = (tag, action) => {
+    // if a tag is active, it cant be in the filtered_TAGS
+    SET_activeTags((prevTags) => {
+      const updatedTags = new Set(prevTags);
+      action === "add" ? updatedTags.add(tag) : updatedTags.delete(tag);
+
+      // if the tag is active, remove it from the nonActive_TAGS and vise versa
+      SET_nonActive_TAGS((prevTags) => {
+        const updatedTags = new Set(prevTags);
+        action === "add" ? updatedTags.delete(tag) : updatedTags.add(tag);
+        return updatedTags;
+      });
+
+      return updatedTags;
+    });
+  };
+
   return (
     <div className={css.explore_WRAP}>
       <Header
@@ -64,17 +99,24 @@ function Explore_GRID({
         search={search}
         SET_search={SET_search}
       />
-
-      <Tagbar categories={categories} tags={tags} window_WIDTH={window_WIDTH} />
-
+      <Tagbar
+        categories={categories}
+        all_TAGS={all_TAGS}
+        active_TAGS={active_TAGS}
+        nonActive_TAGS={nonActive_TAGS}
+        potential_TAGS={potential_TAGS}
+        window_WIDTH={window_WIDTH}
+        UPDATE_tags={UPDATE_tags}
+      />
       <CategoryBar categories={categories} window_WIDTH={window_WIDTH} />
-
       <section className={css.profile_GRID}>
-        {profiles.map((profile) => {
+        {filtered_PROFILES.map((profile) => {
           return (
             <Profile_PREVIEW
               key={profile._id}
               profile={profile}
+              active_TAGS={active_TAGS}
+              UPDATE_tags={UPDATE_tags}
               SET_panoramas={SET_panoramas}
               search={search}
               lang={lang}

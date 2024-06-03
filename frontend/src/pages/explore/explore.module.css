@@ -11,6 +11,9 @@
   padding: var(--padding-desk);
   padding-bottom: 40rem !important; /* 400px */
 
+  @media (--mobile) {
+    padding: var(--padding-mob);
+  }
   
 }
 

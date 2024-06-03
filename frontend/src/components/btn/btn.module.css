@@ -58,13 +58,7 @@
   & .icon, img:last-child, svg:last-child, span:last-child {
     margin-left: auto;
   }
-  @media (--mobile) {
-    column-gap: 1rem;
-    & .icon, img, svg {
-      width: 2.2rem;
-      height: 2.2rem;
-    }
-  }
+  
   & svg {
     transition: transform 0.2s ease;
   }
@@ -72,6 +66,32 @@
     font-size: 1.4rem;
     font-weight: 600;
     color: var(--text-brand-black)
+  }
+
+  &[data-active="true"] {
+    color: var(--text-brand);
+    background-color: var(--btn-brand-active);
+    border: var(--border-brand-active);
+
+    &[data-hovered="true"]{
+      background-color: var(--btn-brand-active-hover);
+    }
+    &[data-pressed="true"] {
+      background-color: var(--btn-brand-active-hover);
+      border: var(--border-brand);
+    }
+
+    &[data-focus-visible] {
+      outline: var(--outline-brand);
+    }
+  }
+
+  @media (--mobile) {
+    column-gap: 1rem;
+    & .icon, img, svg {
+      width: 2.2rem;
+      height: 2.2rem;
+    }
   }
 }
 .btn-44 {
@@ -140,6 +160,24 @@
   }
   &[data-focus-visible] {
     outline: var(--outline-white);
+  }
+
+
+  &[data-active="true"] {
+    text-shadow: none;
+    border: var(--border-brand-active);
+
+    /* &[data-hovered="true"]{
+      background-color: var(--btn-brand-active-hover);
+    }
+    &[data-pressed="true"] {
+      background-color: var(--btn-brand-active-hover);
+      border: var(--border-brand);
+    }
+
+    &[data-focus-visible] {
+      outline: var(--outline-brand);
+    } */
   }
 }
 .flex {
@@ -214,23 +252,7 @@
     border: var(--border-brand-black);
   }
 
-  &[data-active="true"] {
-    color: var(--text-brand);
-    background-color: var(--btn-brand-active);
-    border: var(--border-brand-active);
-
-    &[data-hovered="true"]{
-      background-color: var(--btn-brand-active-hover);
-    }
-    &[data-pressed="true"] {
-      background-color: var(--btn-brand-active-hover);
-      border: var(--border-brand);
-    }
-
-    &[data-focus-visible] {
-      outline: var(--outline-brand);
-    }
-  }
+  
 }
 .dropdown {
   &[data-expanded="true"] {

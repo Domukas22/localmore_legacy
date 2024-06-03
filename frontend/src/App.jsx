@@ -14,6 +14,8 @@ export function App() {
   const [search, SET_search] = useState("");
   const { width } = USE_windowSize();
 
+  // memoize the fetch calls
+
   const {
     data: profiles,
     loading: LOADING_profiles,
