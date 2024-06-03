@@ -7,41 +7,15 @@
   width: 100%;
   min-height: 80vh;
   display: flex;
-  column-gap: calc(2.8rem - var(--padding-shadow-save)); /* 28px */
-
-  padding: calc(var(--padding-desk) - var(--padding-shadow-save)); /* .left padding */
+  flex-direction: column;  
+  padding: var(--padding-desk);
   padding-bottom: 40rem !important; /* 400px */
 
-  & .left {
-    row-gap: 1.6rem;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-
-    padding: var(--padding-shadow-save);
-
-    overflow: hidden;
-    @media (--mobile) {
-      width: 100%;
-      overflow: visible;
-    }
-  }
-
-  & .right {
-    width: 28rem;
-    position: sticky;
-
-    top: calc(6rem + 2.8rem); /* nav height + explore_WRAP padding */
-    height: calc(100vh - 6rem - (2.8rem * 2)); /* screen - nav height - explore_WRAP padding */
-
-  }
-
-  @media (--mobile) {
-    padding: calc(var(--padding-mob) - var(--padding-shadow-save));
-  }
+  
 }
 
 .profile_GRID {
+  margin-top: 2rem;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(35rem, 1fr)); /* 350px */

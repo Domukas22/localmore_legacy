@@ -71,6 +71,10 @@
   --speed: 0.3s; 
 }
 
+:root {
+  --height-nav: 5.6rem; 
+}
+
 .menu {
   width: 100% !important;
 }

@@ -15,12 +15,14 @@ export function Header({
   const search_REF = useRef(null);
   return (
     <header className={css.header}>
-      {SHOULD_showBreadcrumbs && <Beardcrumbs />}
-      {!SHOULD_showBreadcrumbs && <p>Look through {profile_COUNT} places</p>}
+      <div className={css.content_WRAP}>
+        {SHOULD_showBreadcrumbs && <Beardcrumbs />}
+        {!SHOULD_showBreadcrumbs && <p>Look through {profile_COUNT} places</p>}
 
-      {window_WIDTH >= 630 && <h1>Find what you're looking for in Heidelberg</h1>}
-      {window_WIDTH <= 629 && window_WIDTH >= 450 && <h1>Explore the city of Heidelberg</h1>}
-      {window_WIDTH <= 449 && <h1>Explore Heidelberg</h1>}
+        {window_WIDTH >= 630 && <h1>Find what you're looking for in Heidelberg</h1>}
+        {window_WIDTH <= 629 && window_WIDTH >= 450 && <h1>Explore the city of Heidelberg</h1>}
+        {window_WIDTH <= 449 && <h1>Explore Heidelberg</h1>}
+      </div>
     </header>
   );
 }

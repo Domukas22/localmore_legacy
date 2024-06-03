@@ -24,7 +24,7 @@ const DD = forwardRef((props, ref) => {
     height = 200,
     menu_REF,
     icon = undefined,
-    styles = ["btn-40", "round", "grey", "nav-DD"],
+    styles = ["btn-40", "round", "grey", "dropdown"],
   } = props;
   const [expanded, setExpanded] = useState(false);
   const [theId] = useState(id ? id : generateId(10)); // Generate random ID if not specified.

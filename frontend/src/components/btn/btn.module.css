@@ -232,7 +232,7 @@
     }
   }
 }
-.nav-DD {
+.dropdown {
   &[data-expanded="true"] {
     background-color: var(--btn-white);
     border: var(--border-brand-black);

@@ -3,7 +3,7 @@
 //
 import { useState, useContext } from "react";
 import css from "./explore.module.css";
-import SidePanel from "./components/sidepanel/sidepanel";
+
 import Profile_PREVIEW from "../../components/Profile_PREVIEW/Profile_PREVIEW";
 import Panorama from "../../components/panorama/panorama";
 import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
@@ -57,39 +57,32 @@ function Explore_GRID({
 }) {
   return (
     <div className={css.explore_WRAP}>
-      <div className={css.left}>
-        <Header
-          window_WIDTH={window_WIDTH}
-          profile_COUNT={profiles.length}
-          search={search}
-          SET_search={SET_search}
-        />
-        <Tagbar categories={categories} tags={tags} window_WIDTH={window_WIDTH} />
+      <Header
+        window_WIDTH={window_WIDTH}
+        profile_COUNT={profiles.length}
+        search={search}
+        SET_search={SET_search}
+      />
 
-        <CategoryBar categories={categories} window_WIDTH={window_WIDTH} />
+      <Tagbar categories={categories} tags={tags} window_WIDTH={window_WIDTH} />
 
-        {/* <CategoryBar categories={categories} /> */}
-        <section className={css.profile_GRID}>
-          {profiles.map((profile) => {
-            return (
-              <Profile_PREVIEW
-                key={profile._id}
-                profile={profile}
-                SET_panoramas={SET_panoramas}
-                search={search}
-                lang={lang}
-                tr={profilePreview_TR}
-                global_TR={global_TR}
-              />
-            );
-          })}
-        </section>
-      </div>
-      {window_WIDTH > 1100 && (
-        <div className={css.right}>
-          <SidePanel />
-        </div>
-      )}
+      <CategoryBar categories={categories} window_WIDTH={window_WIDTH} />
+
+      <section className={css.profile_GRID}>
+        {profiles.map((profile) => {
+          return (
+            <Profile_PREVIEW
+              key={profile._id}
+              profile={profile}
+              SET_panoramas={SET_panoramas}
+              search={search}
+              lang={lang}
+              tr={profilePreview_TR}
+              global_TR={global_TR}
+            />
+          );
+        })}
+      </section>
     </div>
   );
 }
