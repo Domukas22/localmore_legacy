@@ -177,6 +177,7 @@ export default function Profile_PREVIEW({ profile, SET_panoramas, search, lang }
             prosCons_REF={prosCons_REF}
             close={() => SET_currentView("front")}
             SET_currentView={SET_currentView}
+            profile={profile}
           />
         )}
       </footer>
@@ -302,7 +303,10 @@ function Footer_FRONT({
 function Footer_TAGS({ profile, SET_currentView, lang, tr, tags_REF }) {
   return (
     <motion.div className={css.drawer} ref={tags_REF} {...FooterMotion_PROPS}>
-      <Drawer_TOP title="Pros & Cons" CLOSE_drawer={() => SET_currentView("front")} />
+      <Drawer_TOP
+        title={`${profile.tags.length} Tags of ${profile.name.en}`}
+        CLOSE_drawer={() => SET_currentView("front")}
+      />
       <ul key={profile?._id} className={css.bottom} data-type="tags">
         {profile?.tags?.map((tag) => {
           return (
@@ -324,10 +328,10 @@ function Footer_TAGS({ profile, SET_currentView, lang, tr, tags_REF }) {
     </motion.div>
   );
 }
-function Footer_PROCON({ pros, cons, prosCons_REF, close }) {
+function Footer_PROCON({ pros, cons, prosCons_REF, close, profile }) {
   return (
     <motion.div className={css.drawer} ref={prosCons_REF} {...FooterMotion_PROPS}>
-      <Drawer_TOP title="Pros & Cons" CLOSE_drawer={close} />
+      <Drawer_TOP title={`Pros & Cons of ${profile.name.en}`} CLOSE_drawer={close} />
       <div className={css.bottom} data-type="prosCons">
         {pros?.length > 0 && (
           <ul>

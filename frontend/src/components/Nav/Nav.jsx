@@ -70,7 +70,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
           </a>
         </h1>
         <nav key="nav">
-          <ul className={!SHOULD_showSearchBtn && css["hide-search-btn"]}>
+          <ul className={!SHOULD_showSearchBtn ? css["hide-search-btn"] : ""}>
             <AnimatePresence>
               {layout > 4 && !IS_menuOpen && (
                 <motion.li
@@ -248,9 +248,9 @@ function GET_layout(windowWidth, fontSize) {
   return sizeMapping.default;
 }
 
-Nav.propTypes = {
-  tagUsages: PropTypes.array,
-  search: PropTypes.string,
-  SET_search: PropTypes.func,
-  categories: PropTypes.array,
-};
+// Nav.propTypes = {
+//   tagUsages: PropTypes.array,
+//   search: PropTypes.string,
+//   SET_search: PropTypes.func,
+//   categories: PropTypes.array,
+// };

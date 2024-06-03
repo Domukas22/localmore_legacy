@@ -31,7 +31,7 @@ export const HeartConfetti = ({ SHOW_hearts }) => {
       const newSetId = counterRef.current;
       const newHeartsSet = (
         <div key={newSetId}>
-          {Array.from({ length: 25 }).map((_, index) => (
+          {Array.from({ length: 30 }).map((_, index) => (
             <Heart key={index} style={generateHeartStyle()} />
           ))}
         </div>

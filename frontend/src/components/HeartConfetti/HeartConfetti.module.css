@@ -16,8 +16,8 @@
 
 .heart {
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 2rem;
+  height: 2rem;
   background: var(--red);
   transform: translateY(100px);
   animation: float 3s ease-in-out forwards; /* Use forwards to retain the final state after animation */
@@ -28,19 +28,19 @@
 .heart::after {
   content: "";
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 2rem;
+  height: 2rem;
   background: var(--red);
   border-radius: 50%;
 }
 
 .heart::before {
-  top: -10px;
+  top: -1rem;
   left: 0;
 }
 
 .heart::after {
-  left: 10px;
+  left: 1rem;
   top: 0;
 }
 
