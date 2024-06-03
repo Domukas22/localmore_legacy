@@ -1,7 +1,7 @@
 //
 //
 //
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import css from "./explore.module.css";
 
 import Profile_PREVIEW from "../../components/Profile_PREVIEW/Profile_PREVIEW";
@@ -16,6 +16,7 @@ import { Header } from "./components/header/Header";
 import { Tagbar } from "./components/Tagbar/Tagbar";
 import { CategoryBar } from "./components/CategoryBar/CategoryBar";
 import { HeartConfetti } from "../../components/HeartConfetti/HeartConfetti";
+import { FontSizeContext } from "../../contexts/fontSize";
 
 export default function Explore({
   profiles,

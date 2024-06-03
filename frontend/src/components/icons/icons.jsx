@@ -172,9 +172,9 @@ export function ICON_proCon({ IS_pro = true }) {
     </div>
   );
 }
-export function ICON_3dots() {
+export function ICON_3dots({ color = "dark" }) {
   return (
-    <div className={css.ICON_3dots}>
+    <div className={css.ICON_3dots} color={color}>
       <div></div>
       <div></div>
       <div></div>
