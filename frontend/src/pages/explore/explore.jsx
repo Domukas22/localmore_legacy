@@ -59,31 +59,31 @@ function Explore_GRID({
   const [filtered_PROFILES, SET_filteredProfiles] = useState([...profiles]);
   const [potential_TAGS, SET_potentialTags] = useState([]);
   const [active_TAGS, SET_activeTags] = useState(new Set());
-  const [nonActive_TAGS, SET_nonActive_TAGS] = useState(new Set([...all_TAGS]));
+  const [nonActive_TAGS, SET_nonActive_TAGS] = useState(new Set([all_TAGS.map((tag) => tag._id)]));
 
   useEffect(() => {
     SET_filteredProfiles(profiles);
   }, [profiles]);
 
   useEffect(() => {
-    SET_nonActive_TAGS(new Set(all_TAGS));
+    SET_nonActive_TAGS(new Set(all_TAGS.map((tag) => tag._id)));
+    console.log(all_TAGS);
   }, [all_TAGS]);
 
-  useEffect(() => {
-    console.log(active_TAGS);
-    console.log(nonActive_TAGS);
-  }, [nonActive_TAGS, active_TAGS]);
+  // useEffect(() => {
+  //   console.log(active_TAGS);
+  //   console.log(nonActive_TAGS);
+  // }, [nonActive_TAGS, active_TAGS]);
 
   const UPDATE_tags = (tag, action) => {
-    // if a tag is active, it cant be in the filtered_TAGS
     SET_activeTags((prevTags) => {
       const updatedTags = new Set(prevTags);
-      action === "add" ? updatedTags.add(tag) : updatedTags.delete(tag);
+      action === "add" ? updatedTags.add(tag._id) : updatedTags.delete(tag._id);
 
       // if the tag is active, remove it from the nonActive_TAGS and vise versa
       SET_nonActive_TAGS((prevTags) => {
         const updatedTags = new Set(prevTags);
-        action === "add" ? updatedTags.delete(tag) : updatedTags.add(tag);
+        action === "add" ? updatedTags.delete(tag._id) : updatedTags.add(tag._id);
         return updatedTags;
       });
 

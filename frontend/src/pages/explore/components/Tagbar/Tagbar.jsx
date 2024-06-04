@@ -64,7 +64,7 @@ export function Tagbar({
         let usedWidth = 0;
         const chosenTags = [];
 
-        for (const tag of nonActive_TAGS) {
+        for (const tag of all_TAGS.filter((tag) => nonActive_TAGS.has(tag._id))) {
           const tagWidth = CALCULATE_tagWidth(tag); // You need to implement this function
           if (usedWidth + tagWidth <= remainingWidth) {
             chosenTags.push(tag);
@@ -84,7 +84,7 @@ export function Tagbar({
     return () => {
       resizeObserver.disconnect();
     };
-  }, [all_TAGS, fontSize, fontSize_SCALE, width, active_TAGS]);
+  }, [all_TAGS, fontSize, fontSize_SCALE, width, active_TAGS, nonActive_TAGS]);
 
   return (
     <header className={css.header} ref={tagbar_REF}>
@@ -122,24 +122,27 @@ export function Tagbar({
               left_ICON={
                 <ICON_activeDigit count={active_TAGS.size} IS_active={active_TAGS.size > 0} />
               }
-              right_ICON={<ICON_x rotate={true} />}
+              right_ICON={<ICON_dropDownArrow />}
               aria_LABEL=""
               onClick={() => {}}
               FIRE_clickEvent={false}
             />
-            {Array.from(active_TAGS).map((tag, index) => (
-              <Btn
-                key={index}
-                styles={["btn-36", "round"]}
-                text={tag?.name?.en}
-                left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
-                aria_LABEL=""
-                right_ICON={<ICON_x color="brand" small={true} />}
-                onClick={() => UPDATE_tags(tag, "remove")}
-                active={true}
-                FIRE_clickEvent={false}
-              />
-            ))}
+            {/* {Array.from(active_TAGS).map((tag, index) => ( */}
+            {all_TAGS
+              .filter((tag) => active_TAGS.has(tag._id))
+              .map((tag, index) => (
+                <Btn
+                  key={index}
+                  styles={["btn-36", "round"]}
+                  text={tag?.name?.en}
+                  left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
+                  aria_LABEL=""
+                  right_ICON={<ICON_x color="brand" small={true} />}
+                  onClick={() => UPDATE_tags(tag, "remove")}
+                  active={true}
+                  FIRE_clickEvent={false}
+                />
+              ))}
           </div>
 
           <div className={css.tags_WRAP}>

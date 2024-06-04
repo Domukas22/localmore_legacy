@@ -40,7 +40,7 @@ export function App() {
     error: categories_ERROR,
   } = USE_fetchData(`${base_URL}/categories`);
 
-  // console.log(LOADING_profiles);
+  console.log(tags);
 
   if (profile_ERROR) console.log(profile_ERROR);
 

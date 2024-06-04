@@ -5,7 +5,7 @@ const { tag_MODEL, subtag_MODEL } = require("../models/tag_MODEL");
 const asyncHandler = require("express-async-handler");
 
 exports.LIST_tags = asyncHandler(async (req, res, next) => {
-  const tags = await tag_MODEL.find({ type: "tag" }).populate("icon").exec();
+  const tags = await tag_MODEL.find().populate("icon").exec();
   res.json(tags);
 });
 exports.LIST_subtags = asyncHandler(async (req, res, next) => {

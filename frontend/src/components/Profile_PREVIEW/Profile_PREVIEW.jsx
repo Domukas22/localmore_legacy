@@ -281,8 +281,8 @@ function Footer_FRONT({
   prosConsBtn_REF,
   active_TAGS,
 }) {
-  const matchedTags_COUNT = Array.from(active_TAGS).filter((tag) =>
-    profile.tags.some((profile_TAG) => profile_TAG._id === tag._id)
+  const matchedTags_COUNT = Array.from(active_TAGS).filter((activeTag_ID) =>
+    profile.tags.some((profile_TAG) => profile_TAG._id === activeTag_ID)
   ).length;
   return (
     <motion.div className={css.footer_FRONT} ref={front_REF} {...FooterMotion_PROPS}>
@@ -321,10 +321,11 @@ function Footer_TAGS({ profile, SET_currentView, lang, tr, tags_REF, active_TAGS
         title={`${profile.tags.length} Tags of ${profile.name.en}`}
         CLOSE_drawer={() => SET_currentView("front")}
       />
-      {console.log(active_TAGS)}
       <ul key={profile?._id} className={css.bottom} data-type="tags">
         {profile?.tags?.map((tag) => {
-          const IS_active = Array.from(active_TAGS).some((activeTag) => activeTag._id === tag._id);
+          const IS_active = Array.from(active_TAGS).some(
+            (activeTag_ID) => activeTag_ID === tag._id
+          );
           return (
             <li key={tag._id}>
               <Btn
