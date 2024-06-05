@@ -46,11 +46,13 @@ export function Tagbar({
     const CALCULATE_tagWidth = (tag) => {
       const icon_WIDTH = 20 * fontSize_SCALE;
       const padding = 12 * fontSize_SCALE * 2;
-      const buttonInside_GAP = 8 * fontSize_SCALE;
+      const buttonInside_GAPS = 16 * fontSize_SCALE;
       const letters_WIDTH = 8 * fontSize_SCALE * tag.name.en.length; // a little overshot to make sure it fits
       const button_GAP = 8 * fontSize_SCALE;
+      const icon_X = 16 * fontSize_SCALE;
+
       const total =
-        padding + icon_WIDTH + buttonInside_GAP + letters_WIDTH + icon_WIDTH + button_GAP;
+        padding + icon_WIDTH + buttonInside_GAPS + letters_WIDTH + icon_WIDTH + button_GAP;
 
       return total;
     };
@@ -127,25 +129,33 @@ export function Tagbar({
               onClick={() => {}}
               FIRE_clickEvent={false}
             />
-            {/* {Array.from(active_TAGS).map((tag, index) => ( */}
+            {/* <Btn
+              styles={["btn-40", "round", "green"]}
+              text={"Red"}
+              aria_LABEL=""
+              onClick={() => {}}
+              FIRE_clickEvent={false}
+              // active={true}
+            /> */}
+            {/* ACTIVE TAGS */}
             {all_TAGS
               .filter((tag) => active_TAGS.has(tag._id))
               .map((tag, index) => (
                 <Btn
                   key={index}
-                  styles={["btn-36", "round"]}
+                  styles={["btn-36", "round", "active"]}
                   text={tag?.name?.en}
                   left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
                   aria_LABEL=""
                   right_ICON={<ICON_x color="brand" small={true} />}
                   onClick={() => UPDATE_tags(tag, "remove")}
-                  active={true}
                   FIRE_clickEvent={false}
                 />
               ))}
           </div>
 
           <div className={css.tags_WRAP}>
+            {/* NON-ACTIVE TAGS */}
             {chosen_TAGS.map((tag, index) => (
               <Btn
                 key={index}
@@ -153,6 +163,7 @@ export function Tagbar({
                 text={tag?.name?.en}
                 left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
                 aria_LABEL=""
+                right_ICON={<ICON_x color="dark" small={true} rotate={true} />}
                 onClick={() => UPDATE_tags(tag, "add")}
                 FIRE_clickEvent={false}
               />

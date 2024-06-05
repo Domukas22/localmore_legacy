@@ -90,6 +90,13 @@
       background-color: var(--red);
     }
   }
+  &[data-color="green"] {
+    &::before,
+    &::after {
+      background-color: var(--green);
+    }
+  }
+
   &[data-color="brand"] {
     &::before,
     &::after {

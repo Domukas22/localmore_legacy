@@ -105,7 +105,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
             {layout < 3 && (
               <li>
                 <Btn
-                  styles={["btn-40", "round", "grey"]}
+                  styles={["btn-40", "round", "grey", "active"]}
                   text="Startseite"
                   aria_LABEL=""
                   onClick={() => {}}

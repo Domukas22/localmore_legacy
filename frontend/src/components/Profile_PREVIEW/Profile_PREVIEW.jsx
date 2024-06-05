@@ -330,7 +330,7 @@ function Footer_TAGS({ profile, SET_currentView, lang, tr, tags_REF, active_TAGS
             <li key={tag._id}>
               <Btn
                 key={tag._id}
-                styles={["onBlur", "round"]}
+                styles={["onBlur", "round", `${IS_active ? "active" : ""}`]}
                 leftIcon_URL={tag.icon?.url ? tag.icon?.url : ""}
                 right_ICON={
                   <ICON_x
@@ -343,7 +343,6 @@ function Footer_TAGS({ profile, SET_currentView, lang, tr, tags_REF, active_TAGS
                 // aria_LABEL={tr?.filterTagBtn_ARIA(tag.name?.[lang])[lang]}
                 onClick={() => UPDATE_tags(tag, IS_active ? "remove" : "add")}
                 test_ID={"overlay-tag-btn"}
-                active={IS_active}
               />
             </li>
           );
