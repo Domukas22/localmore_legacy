@@ -188,6 +188,21 @@
 .spaceBetween{
   justify-content: space-between;
 }
+.strech {
+  width: 100%;
+}
+.left-align {
+  justify-content: left;
+}
+.text-left-auto {
+  & p {
+    margin-right: auto;
+  }
+}
+.brand {
+  color: white;
+  background-color: var(--brand);
+}
 
 .grey {
   background-color: var(--btn-dark);

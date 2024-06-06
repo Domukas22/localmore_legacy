@@ -79,7 +79,7 @@
   --padding-desk: 2.8rem; 
   --padding-mob: 4vmin;
   --padding-shadow-save: 0.6rem;
-  --speed: 0.3s; 
+  --speed: 300ms; 
 }
 
 :root {

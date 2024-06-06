@@ -6,7 +6,7 @@ import css from "./search.module.css";
 import { useRef } from "react";
 import { useEffect } from "react";
 
-export default function SearchBar({ SET_search, search, searchBar_REF }) {
+export default function SearchBar({ SET_search, search, searchBar_REF, placeholder, width }) {
   // const ref = useRef(null);
   const clear_BTN = useRef(null);
   useEffect(() => {
@@ -25,9 +25,10 @@ export default function SearchBar({ SET_search, search, searchBar_REF }) {
         className={css.searchBar}
         aria-label="Heidelberg durchsuchen..."
         onChange={SET_search}
+        style={{ width: width || "" }}
       >
         <Input
-          placeholder="Search places, businesses..."
+          placeholder={placeholder || "Suchen..."}
           className={css["react-aria-Input"]}
           aria-label="Heidelberg durchsuchen..."
           ref={searchBar_REF}

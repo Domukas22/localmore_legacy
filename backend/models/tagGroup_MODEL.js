@@ -13,6 +13,8 @@ const tagGroup_SCHEMA = new Schema(
       en: { type: String, required: true },
       de: { type: String, required: true },
     },
+    desc: { type: String, required: true },
+    icon: { type: Schema.Types.ObjectId, ref: "icons", required: true },
   },
   { timestamps: true }
 );

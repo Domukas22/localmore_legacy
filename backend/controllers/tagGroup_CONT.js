@@ -2,7 +2,7 @@ const tagGroup_MODEL = require("../models/tagGroup_MODEL");
 const asyncHandler = require("express-async-handler");
 
 exports.LIST_tagGroups = asyncHandler(async (req, res, next) => {
-  const tagGroups = await tagGroup_MODEL.find().exec();
+  const tagGroups = await tagGroup_MODEL.find().populate("icon").exec();
   res.json(tagGroups);
 });
 

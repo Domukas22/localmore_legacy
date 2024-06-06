@@ -98,7 +98,13 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
 
             {layout < 5 && (
               <li>
-                <SearchBar SET_search={SET_search} search={search} searchBar_REF={mainSearch_REF} />
+                <SearchBar
+                  SET_search={SET_search}
+                  search={search}
+                  searchBar_REF={mainSearch_REF}
+                  placeholder={"Search places, businesses..."}
+                  width="30rem"
+                />
               </li>
             )}
 

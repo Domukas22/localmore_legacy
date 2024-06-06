@@ -118,25 +118,6 @@ export function Tagbar({
         <>
           <div className={css.mainBtn_WRAP} ref={mainBtns_REF}>
             <Categories_DD categories={categories} styles={["btn-36", "round", "dropdown"]} />
-            <Btn
-              styles={["btn-36", "round"]}
-              text={"Tags"}
-              left_ICON={
-                <ICON_activeDigit count={active_TAGS.size} IS_active={active_TAGS.size > 0} />
-              }
-              right_ICON={<ICON_dropDownArrow />}
-              aria_LABEL=""
-              onClick={() => {}}
-              FIRE_clickEvent={false}
-            />
-            {/* <Btn
-              styles={["btn-40", "round", "green"]}
-              text={"Red"}
-              aria_LABEL=""
-              onClick={() => {}}
-              FIRE_clickEvent={false}
-              // active={true}
-            /> */}
             {/* ACTIVE TAGS */}
             {all_TAGS
               .filter((tag) => active_TAGS.has(tag._id))

@@ -7,7 +7,7 @@
   width: 100%;
   min-height: 80vh;
   display: flex;
-  flex-direction: column;  
+  column-gap: 2.8rem;
   padding: var(--padding-desk);
   padding-bottom: 40rem !important; /* 400px */
 
@@ -16,6 +16,28 @@
   }
   
 }
+
+.left {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--padding-shadow-save);
+
+  overflow: hidden;
+  @media (--mobile) {
+    width: 100%;
+    overflow: visible;
+  }
+}
+
+.right {
+  width: 30rem;
+  position: sticky;
+  top: calc(6rem + 2.8rem); /* nav height + explore_WRAP padding */
+  height: calc(100vh - 6rem - (2.8rem * 2)); /* screen - nav height - explore_WRAP padding */
+}
+
+
 
 .profile_GRID {
   margin-top: 2rem;

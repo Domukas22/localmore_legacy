@@ -40,7 +40,11 @@ export function App() {
     error: categories_ERROR,
   } = USE_fetchData(`${base_URL}/categories`);
 
-  console.log(tags);
+  const {
+    data: tagGroups,
+    loading: LOADING_tagGroups,
+    error: tagGroups_ERROR,
+  } = USE_fetchData(`${base_URL}/tagGroups`);
 
   if (profile_ERROR) console.log(profile_ERROR);
 
@@ -65,6 +69,7 @@ export function App() {
         search={search}
         SET_search={SET_search}
         categories={categories}
+        tagGroups={tagGroups}
       />
     </>
   );

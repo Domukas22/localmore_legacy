@@ -38,6 +38,8 @@ export default function Profile_PREVIEW({
   lang,
   active_TAGS,
   UPDATE_tags,
+  potential_TAGS,
+  SET_potentialTags,
 }) {
   const { sliderRef, slide } = USE_slideSwiper();
   const [current_VIEW, SET_currentView] = useState("front");
@@ -161,6 +163,8 @@ export default function Profile_PREVIEW({
           <Footer_TAGS
             profile={profile}
             SET_currentView={SET_currentView}
+            potential_TAGS={potential_TAGS}
+            SET_potentialTags={SET_potentialTags}
             lang={lang}
             tr={tr}
             tags_REF={tags_REF}
@@ -314,7 +318,22 @@ function Footer_FRONT({
     </motion.div>
   );
 }
-function Footer_TAGS({ profile, SET_currentView, lang, tr, tags_REF, active_TAGS, UPDATE_tags }) {
+function Footer_TAGS({
+  profile,
+  SET_currentView,
+  lang,
+  tr,
+  tags_REF,
+  active_TAGS,
+  UPDATE_tags,
+  potential_TAGS,
+  SET_potentialTags,
+}) {
+  // const [potential_TAGS, SET_potentialTags] = useState({
+  //   toDelete_IDs: new Set(),
+  //   toAdd_IDs: new Set(),
+  // });
+
   return (
     <motion.div className={css.drawer} ref={tags_REF} {...FooterMotion_PROPS}>
       <Drawer_TOP
@@ -326,22 +345,70 @@ function Footer_TAGS({ profile, SET_currentView, lang, tr, tags_REF, active_TAGS
           const IS_active = Array.from(active_TAGS).some(
             (activeTag_ID) => activeTag_ID === tag._id
           );
+          const IS_potentialAdd = potential_TAGS.toAdd_IDs.has(tag._id);
+          const IS_potentialDelete = potential_TAGS.toDelete_IDs.has(tag._id);
           return (
             <li key={tag._id}>
               <Btn
                 key={tag._id}
-                styles={["onBlur", "round", `${IS_active ? "active" : ""}`]}
+                styles={[
+                  "onBlur",
+                  "round",
+                  `${IS_active ? "active" : ""}`,
+                  `${IS_potentialAdd ? "green" : ""}`,
+                  `${IS_potentialDelete ? "red" : ""}`,
+                ]}
                 leftIcon_URL={tag.icon?.url ? tag.icon?.url : ""}
                 right_ICON={
                   <ICON_x
                     rotate={!IS_active}
-                    color={IS_active ? "brand" : "white"}
+                    color={
+                      IS_potentialAdd
+                        ? "green"
+                        : IS_potentialDelete
+                        ? "red"
+                        : IS_active
+                        ? "brand"
+                        : "white"
+                    }
                     small={IS_active}
                   />
                 }
                 text={tag.name?.en}
                 // aria_LABEL={tr?.filterTagBtn_ARIA(tag.name?.[lang])[lang]}
-                onClick={() => UPDATE_tags(tag, IS_active ? "remove" : "add")}
+                // onClick={() => UPDATE_tags(tag, IS_active ? "remove" : "add")}
+                onClick={() => {
+                  if (!IS_active) {
+                    if (IS_potentialAdd) {
+                      SET_potentialTags((prev) => {
+                        const updated = { ...prev };
+                        updated.toAdd_IDs.delete(tag._id);
+                        return updated;
+                      });
+                      return;
+                    }
+                    SET_potentialTags((prev) => {
+                      const updated = { ...prev };
+                      updated.toAdd_IDs.add(tag._id);
+                      return updated;
+                    });
+                  } else if (IS_active) {
+                    if (IS_potentialDelete) {
+                      SET_potentialTags((prev) => {
+                        const updated = { ...prev };
+                        updated.toDelete_IDs.delete(tag._id);
+                        return updated;
+                      });
+                      return;
+                    }
+
+                    SET_potentialTags((prev) => {
+                      const updated = { ...prev };
+                      updated.toDelete_IDs.add(tag._id);
+                      return updated;
+                    });
+                  }
+                }}
                 test_ID={"overlay-tag-btn"}
               />
             </li>

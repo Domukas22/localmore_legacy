@@ -17,6 +17,7 @@ import { Tagbar } from "./components/Tagbar/Tagbar";
 import { CategoryBar } from "./components/CategoryBar/CategoryBar";
 import { HeartConfetti } from "../../components/HeartConfetti/HeartConfetti";
 import { FontSizeContext } from "../../contexts/fontSize";
+import { Sidepanel } from "./components/Sidepanel/Sidepanel";
 
 export default function Explore({
   profiles,
@@ -26,6 +27,7 @@ export default function Explore({
   search,
   categories,
   SET_search,
+  tagGroups,
 }) {
   const [panoramas, SET_panoramas] = useState(null);
   const { lang } = useContext(Lang_CONTEXT);
@@ -40,6 +42,8 @@ export default function Explore({
         window_WIDTH={window_WIDTH}
         categories={categories}
         tags={tags}
+        tagGroups={tagGroups}
+        tagUsages={tagUsages}
       />
       {panoramas !== null && <Modal360 panoramas={panoramas} SET_panoramas={SET_panoramas} />}
     </>
@@ -55,11 +59,17 @@ function Explore_GRID({
   window_WIDTH,
   categories,
   tags: all_TAGS,
+  tagGroups,
+  tagUsages,
 }) {
   const [filtered_PROFILES, SET_filteredProfiles] = useState([...profiles]);
-  const [potential_TAGS, SET_potentialTags] = useState([]);
+
   const [active_TAGS, SET_activeTags] = useState(new Set());
   const [nonActive_TAGS, SET_nonActive_TAGS] = useState(new Set([all_TAGS.map((tag) => tag._id)]));
+  const [potential_TAGS, SET_potentialTags] = useState({
+    toDelete_IDs: new Set(),
+    toAdd_IDs: new Set(),
+  });
 
   useEffect(() => {
     SET_filteredProfiles(profiles);
@@ -67,7 +77,6 @@ function Explore_GRID({
 
   useEffect(() => {
     SET_nonActive_TAGS(new Set(all_TAGS.map((tag) => tag._id)));
-    console.log(all_TAGS);
   }, [all_TAGS]);
 
   // useEffect(() => {
@@ -93,39 +102,74 @@ function Explore_GRID({
 
   return (
     <div className={css.explore_WRAP}>
-      <Header
-        window_WIDTH={window_WIDTH}
-        profile_COUNT={profiles.length}
-        search={search}
-        SET_search={SET_search}
-      />
-      <Tagbar
-        categories={categories}
-        all_TAGS={all_TAGS}
-        active_TAGS={active_TAGS}
-        nonActive_TAGS={nonActive_TAGS}
-        potential_TAGS={potential_TAGS}
-        window_WIDTH={window_WIDTH}
-        UPDATE_tags={UPDATE_tags}
-      />
-      <CategoryBar categories={categories} window_WIDTH={window_WIDTH} />
-      <section className={css.profile_GRID}>
-        {filtered_PROFILES.map((profile) => {
-          return (
-            <Profile_PREVIEW
-              key={profile._id}
-              profile={profile}
-              active_TAGS={active_TAGS}
-              UPDATE_tags={UPDATE_tags}
-              SET_panoramas={SET_panoramas}
-              search={search}
-              lang={lang}
-              tr={profilePreview_TR}
-              global_TR={global_TR}
-            />
-          );
-        })}
-      </section>
+      <div className={css.left}>
+        <Header
+          window_WIDTH={window_WIDTH}
+          profile_COUNT={profiles.length}
+          search={search}
+          SET_search={SET_search}
+        />
+        <Tagbar
+          categories={categories}
+          all_TAGS={all_TAGS}
+          active_TAGS={active_TAGS}
+          nonActive_TAGS={nonActive_TAGS}
+          potential_TAGS={potential_TAGS}
+          window_WIDTH={window_WIDTH}
+          UPDATE_tags={UPDATE_tags}
+        />
+        <CategoryBar categories={categories} window_WIDTH={window_WIDTH} />
+        <section className={css.profile_GRID}>
+          {filtered_PROFILES.map((profile) => {
+            return (
+              <Profile_PREVIEW
+                key={profile._id}
+                profile={profile}
+                active_TAGS={active_TAGS}
+                UPDATE_tags={UPDATE_tags}
+                potential_TAGS={potential_TAGS}
+                SET_potentialTags={SET_potentialTags}
+                SET_panoramas={SET_panoramas}
+                search={search}
+                lang={lang}
+                tr={profilePreview_TR}
+                global_TR={global_TR}
+              />
+            );
+          })}
+
+          {filtered_PROFILES.map((profile) => {
+            return (
+              <Profile_PREVIEW
+                key={profile._id}
+                profile={profile}
+                active_TAGS={active_TAGS}
+                UPDATE_tags={UPDATE_tags}
+                SET_panoramas={SET_panoramas}
+                potential_TAGS={potential_TAGS}
+                SET_potentialTags={SET_potentialTags}
+                search={search}
+                lang={lang}
+                tr={profilePreview_TR}
+                global_TR={global_TR}
+              />
+            );
+          })}
+        </section>
+      </div>
+      {window_WIDTH > 1100 && (
+        <div className={css.right}>
+          <Sidepanel
+            all_TAGS={all_TAGS}
+            tagGroups={tagGroups}
+            tagUsages={tagUsages}
+            active_TAGS={active_TAGS}
+            UPDATE_tags={UPDATE_tags}
+            potential_TAGS={potential_TAGS}
+            SET_potentialTags={SET_potentialTags}
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -1,0 +1,57 @@
+/*  */
+
+@import '@styles/global.css';
+
+
+.sidepanel {
+  height: 100%;
+  width: 100%;
+  background-color: var(--fill-bg);
+  border-radius: var(--radius-16);
+  box-shadow: var(--shadow-img);
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+
+
+  & .top {
+    background-color: var(--fill-white);
+    padding: 1.2rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.6rem;
+    box-shadow: var(--shadow-img);
+    position: relative;
+    z-index: 1;
+
+    & .bottom_WRAP {
+      display: flex;
+      gap: 0.6rem;
+    }
+  }
+
+  & .menu_WRAP {
+    position: relative;
+    flex: 1;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    
+  }
+  & .block_WRAP {
+  
+    & .block {
+    display: flex; 
+    flex-direction: column;
+    row-gap: 0.6rem;
+    padding: 1.4rem;  
+
+    border-bottom: var(--border-black-01);
+    }
+  }
+
+ 
+
+}
