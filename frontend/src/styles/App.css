@@ -60,7 +60,7 @@ html[data-noscroll="true"]{
 
 body {
   padding-top: 6rem;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
   font-size: var(--user-font-size, 1.6rem);
     @media (--mobile) {
       font-size: calc(var(--user-font-size, 1.6rem) + 0.2rem);

@@ -44,6 +44,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: 100ms;
+
 
   &::before,
   &::after {
@@ -71,6 +73,12 @@
       height: 80%;
     }
   }
+  &[data-rotation-animation="true"] {
+    animation: rotation 5s infinite linear;
+  }
+  &[data-one-line="true"] {
+    &::before {display: none}
+  }
 
   &[data-color="white"] {
     &::before,
@@ -96,7 +104,6 @@
       background-color: var(--green);
     }
   }
-
   &[data-color="brand"] {
     &::before,
     &::after {
@@ -119,8 +126,8 @@
       stroke: var(--text-fade);
     }
     &[data-style="active"] {
-      stroke: var(--red);
-      fill: var(--red);
+      stroke: var(--red-heart);
+      fill: var(--red-heart);
     }
   }
 }
@@ -201,5 +208,14 @@
     & div {
       background-color: var(--fill-white);
     }
+  }
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(45deg);
+  }
+  100% {
+    transform: rotate(405deg);
   }
 }

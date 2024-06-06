@@ -372,6 +372,8 @@ function Footer_TAGS({
                         : "white"
                     }
                     small={IS_active}
+                    rotationAnimation={IS_potentialAdd || IS_potentialDelete}
+                    oneLine={IS_potentialDelete}
                   />
                 }
                 text={tag.name?.en}

@@ -14,6 +14,8 @@ import {
 import { useContext, useEffect, useRef, useState } from "react";
 import { FontSizeContext } from "../../../../contexts/fontSize";
 import { USE_windowSize } from "../../../../hooks/USE_windowWidth";
+import { MobileTag_MENU } from "../MobileTag_MENU/MobileTag_MENU";
+import { MobileCategory_MENU } from "../MobileCategory_MENU/MobileCategory_MENU";
 
 export function Tagbar({
   categories,
@@ -24,6 +26,8 @@ export function Tagbar({
   SET_potentialTags,
   window_WIDTH,
   UPDATE_tags,
+  tagGroups,
+  tagUsages,
 }) {
   const { fontSize, fontSize_SCALE } = useContext(FontSizeContext);
   const { width } = USE_windowSize();
@@ -33,10 +37,8 @@ export function Tagbar({
   const tagbar_REF = useRef(null);
   const mainBtns_REF = useRef(null);
 
-  // const [potential_TAGS, SET_potentialTags] = useState({
-  //   toDelete_IDs: new Set(),
-  //   toAdd_IDs: new Set(),
-  // });
+  const [IS_mobileTagMenuOpen, SET_isMobileTagMenuOpen] = useState(false);
+  const [IS_mobileCategoryMenuOpen, SET_isMobileCategoryMenuOpen] = useState(false);
 
   useEffect(() => {
     const nav_HEIGHT = 56 * fontSize_SCALE;
@@ -95,8 +97,7 @@ export function Tagbar({
   }, [all_TAGS, fontSize, fontSize_SCALE, width, active_TAGS, nonActive_TAGS]);
 
   return (
-    <header className={css.header} ref={tagbar_REF}>
-      <div className={css.background} data-shadow={HAS_shadow}></div>
+    <header className={css.header} ref={tagbar_REF} data-shadow={HAS_shadow}>
       {window_WIDTH < 900 && (
         <div className={css.mobileBtn_WRAP}>
           <Btn
@@ -105,7 +106,7 @@ export function Tagbar({
             left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/889/889455.png"></img>}
             right_ICON={<ICON_dropDownArrow />}
             aria_LABEL=""
-            onClick={() => {}}
+            onClick={() => SET_isMobileCategoryMenuOpen(true)}
             FIRE_clickEvent={false}
           />
           <Btn
@@ -115,7 +116,7 @@ export function Tagbar({
               <ICON_activeDigit count={active_TAGS.size} IS_active={active_TAGS.size > 0} />
             }
             aria_LABEL=""
-            onClick={() => {}}
+            onClick={() => SET_isMobileTagMenuOpen(true)}
             FIRE_clickEvent={false}
           />
         </div>
@@ -148,6 +149,7 @@ export function Tagbar({
                 {/* NON-ACTIVE TAGS */}
                 {chosen_TAGS.map((tag, index) => {
                   const IS_potentialAdd = potential_TAGS.toAdd_IDs.has(tag._id);
+
                   return (
                     <Btn
                       key={index}
@@ -160,6 +162,7 @@ export function Tagbar({
                           color={IS_potentialAdd ? "green" : "dark"}
                           small={true}
                           rotate={true}
+                          rotationAnimation={IS_potentialAdd}
                         />
                       }
                       onClick={() => {
@@ -183,17 +186,33 @@ export function Tagbar({
                   );
                 })}
               </div>
-              <Btn
-                styles={["btn-36", "round"]}
-                text={"More"}
-                right_ICON={<ICON_dropDownArrow color="dark" />}
-                aria_LABEL=""
-                onClick={() => {}}
-                FIRE_clickEvent={false}
-              />{" "}
             </>
           )}
         </>
+      )}
+      {IS_mobileTagMenuOpen && (
+        <MobileTag_MENU
+          {...{
+            tagGroups,
+            all_TAGS,
+            tagUsages,
+            active_TAGS,
+            UPDATE_tags,
+            potential_TAGS,
+            SET_potentialTags,
+            IS_mobileTagMenuOpen,
+            SET_isMobileTagMenuOpen,
+          }}
+        />
+      )}
+      {IS_mobileCategoryMenuOpen && (
+        <MobileCategory_MENU
+          {...{
+            IS_mobileCategoryMenuOpen,
+            SET_isMobileCategoryMenuOpen,
+            categories,
+          }}
+        />
       )}
     </header>
   );

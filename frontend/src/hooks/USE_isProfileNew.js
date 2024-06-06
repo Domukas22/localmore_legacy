@@ -1,4 +1,5 @@
 //
+//
 
 export function USE_isProfileNew(profile) {
   if (!profile || !profile.createdAt) return false;

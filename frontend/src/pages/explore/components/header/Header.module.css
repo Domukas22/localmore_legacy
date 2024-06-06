@@ -49,4 +49,8 @@
       }
     }
   }
+
+  @media (--mobile) {
+    padding:  var(--padding-mob) var(--padding-mob) 0;
+  }
 }

@@ -18,7 +18,7 @@
   position: absolute;
   width: 2rem;
   height: 2rem;
-  background: var(--red);
+  background: var(--red-heart);
   transform: translateY(100px);
   animation: float 3s ease-in-out forwards; /* Use forwards to retain the final state after animation */
   bottom: 0;
@@ -30,7 +30,7 @@
   position: absolute;
   width: 2rem;
   height: 2rem;
-  background: var(--red);
+  background: var(--red-heart);
   border-radius: 50%;
 }
 

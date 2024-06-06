@@ -1,0 +1,60 @@
+/*  */
+/*  */
+
+
+.tags_MODAL {
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  height: 100dvh !important;
+  width: 100%;
+
+
+  z-index: 60;
+  background-color: rgba(234, 237, 245, 1);
+  display: flex;
+  flex-direction: column;
+
+  & .Dialog_MENU {
+    height: 105%;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+   
+
+  }
+
+  & .menu_WRAP {
+    position: relative;
+
+  }
+
+  & .top {
+    background-color: var(--fill-white);
+    padding: 1.2rem 1.4rem;
+    display: flex;
+    gap: 0.6rem;
+    box-shadow: var(--shadow-img);
+    justify-content: space-between;
+    align-items: center;
+
+    & button {
+      width: fit-content;
+      & p {
+        margin-right: 0;
+      
+      }
+    }
+  }
+
+  & button {
+    width: 100%;
+    & p {
+      margin-right: auto;
+    }
+  }
+  
+}

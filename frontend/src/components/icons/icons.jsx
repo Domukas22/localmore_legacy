@@ -10,12 +10,20 @@ export function ICON_activeDigit({ count, IS_active }) {
     </div>
   );
 }
-export function ICON_x({ rotate, color = "dark", small = false }) {
+export function ICON_x({
+  rotate,
+  color = "dark",
+  small = false,
+  rotationAnimation = false,
+  oneLine = false,
+}) {
   return (
     <div
       className={small ? css.ICON_x_small : css.ICON_x}
       data-color={color}
       data-rotate={rotate}
+      data-rotation-animation={rotationAnimation}
+      data-one-line={oneLine}
     ></div>
   );
 }
