@@ -21,6 +21,7 @@ export function Tagbar({
   active_TAGS,
   nonActive_TAGS,
   potential_TAGS,
+  SET_potentialTags,
   window_WIDTH,
   UPDATE_tags,
 }) {
@@ -31,6 +32,11 @@ export function Tagbar({
 
   const tagbar_REF = useRef(null);
   const mainBtns_REF = useRef(null);
+
+  // const [potential_TAGS, SET_potentialTags] = useState({
+  //   toDelete_IDs: new Set(),
+  //   toAdd_IDs: new Set(),
+  // });
 
   useEffect(() => {
     const nav_HEIGHT = 56 * fontSize_SCALE;
@@ -135,29 +141,58 @@ export function Tagbar({
               ))}
           </div>
 
-          <div className={css.tags_WRAP}>
-            {/* NON-ACTIVE TAGS */}
-            {chosen_TAGS.map((tag, index) => (
+          {active_TAGS.size === 0 && (
+            <>
+              {" "}
+              <div className={css.tags_WRAP}>
+                {/* NON-ACTIVE TAGS */}
+                {chosen_TAGS.map((tag, index) => {
+                  const IS_potentialAdd = potential_TAGS.toAdd_IDs.has(tag._id);
+                  return (
+                    <Btn
+                      key={index}
+                      styles={["btn-36", "round", `${IS_potentialAdd ? "green" : ""}`]}
+                      text={tag?.name?.en}
+                      left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
+                      aria_LABEL=""
+                      right_ICON={
+                        <ICON_x
+                          color={IS_potentialAdd ? "green" : "dark"}
+                          small={true}
+                          rotate={true}
+                        />
+                      }
+                      onClick={() => {
+                        if (IS_potentialAdd) {
+                          SET_potentialTags((prev) => {
+                            const updated = { ...prev };
+                            updated.toAdd_IDs.delete(tag._id);
+                            return updated;
+                          });
+                          return;
+                        } else {
+                          SET_potentialTags((prev) => {
+                            const updated = { ...prev };
+                            updated.toAdd_IDs.add(tag._id);
+                            return updated;
+                          });
+                        }
+                      }}
+                      FIRE_clickEvent={false}
+                    />
+                  );
+                })}
+              </div>
               <Btn
-                key={index}
                 styles={["btn-36", "round"]}
-                text={tag?.name?.en}
-                left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
+                text={"More"}
+                right_ICON={<ICON_dropDownArrow color="dark" />}
                 aria_LABEL=""
-                right_ICON={<ICON_x color="dark" small={true} rotate={true} />}
-                onClick={() => UPDATE_tags(tag, "add")}
+                onClick={() => {}}
                 FIRE_clickEvent={false}
-              />
-            ))}
-          </div>
-          <Btn
-            styles={["btn-36", "round"]}
-            text={"More"}
-            right_ICON={<ICON_dropDownArrow color="dark" />}
-            aria_LABEL=""
-            onClick={() => {}}
-            FIRE_clickEvent={false}
-          />
+              />{" "}
+            </>
+          )}
         </>
       )}
     </header>

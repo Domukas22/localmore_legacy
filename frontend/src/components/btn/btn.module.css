@@ -201,7 +201,15 @@
 }
 .brand {
   color: white;
-  background-color: var(--brand);
+  background-color: var(--btn-brand);
+
+  &[data-hovered="true"]{
+    background-color: var(--btn-brand-hover);
+  }
+  &[data-pressed="true"] {
+    border: var(--border-brand);
+    background-color: var(--btn-brand-focus);
+  }
 }
 
 .grey {

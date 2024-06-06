@@ -18,6 +18,8 @@ import { CategoryBar } from "./components/CategoryBar/CategoryBar";
 import { HeartConfetti } from "../../components/HeartConfetti/HeartConfetti";
 import { FontSizeContext } from "../../contexts/fontSize";
 import { Sidepanel } from "./components/Sidepanel/Sidepanel";
+import { Btn } from "../../components/btn/btn";
+import { ICON_x } from "../../components/icons/icons";
 
 export default function Explore({
   profiles,
@@ -71,6 +73,10 @@ function Explore_GRID({
     toAdd_IDs: new Set(),
   });
 
+  const potentialStayTag_IDs = Array.from(active_TAGS).filter(
+    (tag_ID) => !potential_TAGS.toDelete_IDs.has(tag_ID)
+  );
+
   useEffect(() => {
     SET_filteredProfiles(profiles);
   }, [profiles]);
@@ -115,10 +121,11 @@ function Explore_GRID({
           active_TAGS={active_TAGS}
           nonActive_TAGS={nonActive_TAGS}
           potential_TAGS={potential_TAGS}
+          SET_potentialTags={SET_potentialTags}
           window_WIDTH={window_WIDTH}
           UPDATE_tags={UPDATE_tags}
         />
-        <CategoryBar categories={categories} window_WIDTH={window_WIDTH} />
+        {/* <CategoryBar categories={categories} window_WIDTH={window_WIDTH} /> */}
         <section className={css.profile_GRID}>
           {filtered_PROFILES.map((profile) => {
             return (
@@ -170,6 +177,65 @@ function Explore_GRID({
           />
         </div>
       )}
+      {window_WIDTH < 1100 &&
+        (potential_TAGS.toAdd_IDs.size > 0 || potential_TAGS.toDelete_IDs.size > 0) && (
+          <div className={css.potentialTag_NAV}>
+            <div className={css.top}>
+              <h3>Confirm tags</h3>
+              {/* <p>xxx results</p> */}
+            </div>
+            <div className={css.bottom}>
+              <div className={css.tagLabel_WRAP}>
+                {potentialStayTag_IDs.length > 0 && (
+                  <div className={css.label} data-color="brand">
+                    Keep {potentialStayTag_IDs.length || "NUM"} tags
+                  </div>
+                )}
+                {potential_TAGS.toAdd_IDs.size > 0 && (
+                  <div className={css.label} data-color="green">
+                    Add {potential_TAGS.toAdd_IDs.size || "NUM"} tags
+                  </div>
+                )}
+                {potential_TAGS.toDelete_IDs.size > 0 && (
+                  <div className={css.label} data-color="red">
+                    Delete {potential_TAGS.toDelete_IDs.size || "NUM"} tags
+                  </div>
+                )}
+              </div>
+              <div className={css.btn_WRAP}>
+                <Btn
+                  styles={["btn-40", "left-align"]}
+                  right_ICON={<ICON_x color="dark" small={true} />}
+                  text="Cancel"
+                  onClick={() =>
+                    SET_potentialTags({ toAdd_IDs: new Set(), toDelete_IDs: new Set() })
+                  }
+                />
+
+                <Btn
+                  styles={["btn-40", "strech", "brand"]}
+                  text="Apply"
+                  onClick={() => {
+                    potential_TAGS.toAdd_IDs.forEach((tag_ID) =>
+                      UPDATE_tags(
+                        all_TAGS.find((tag) => tag._id === tag_ID),
+                        "add"
+                      )
+                    );
+                    potential_TAGS.toDelete_IDs.forEach((tag_ID) =>
+                      UPDATE_tags(
+                        all_TAGS.find((tag) => tag._id === tag_ID),
+                        "remove"
+                      )
+                    );
+
+                    SET_potentialTags({ toAdd_IDs: new Set(), toDelete_IDs: new Set() });
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
     </div>
   );
 }

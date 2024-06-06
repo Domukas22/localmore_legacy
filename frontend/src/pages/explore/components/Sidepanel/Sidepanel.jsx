@@ -99,7 +99,7 @@ function TagFilters({
   }
 
   return (
-    <div className={css.sidepanel}>
+    <div className={css.sidepanel} data-potential={HAS_potentialTags}>
       {!HAS_potentialTags && (
         <>
           <div className={css.top}>

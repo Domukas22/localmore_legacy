@@ -10,10 +10,13 @@
   border-radius: var(--radius-16);
   box-shadow: var(--shadow-img);
   overflow: hidden;
+  transition: 150ms;
+  position: relative;
+
+  outline: 2px solid transparent;
 
   display: flex;
   flex-direction: column;
-
 
 
   & .top {
@@ -37,9 +40,8 @@
     flex: 1;
     overflow-y: scroll;
     overflow-x: hidden;
-
-    
   }
+
   & .block_WRAP {
   
     & .block {
@@ -52,6 +54,28 @@
     }
   }
 
- 
+  &[data-potential="true"] {
+    outline: var(--outline-brand-black);
 
+    &::before {
+      content: '';
+      position: absolute;
+      top: -0.6rem;
+      left: 0;
+      
+
+      width: 1.2rem;
+      height: 1.2rem;
+      background-color: var(--brand-black);
+      border-radius: 50%;
+      animation: moveCircle 5s ease-in-out infinite;
+      z-index: 10;
+    }
+
+  }
+}
+
+@keyframes moveCircle {
+  0%, 100% { left: 0; }
+  50% { left: calc(100% - 1.2rem); }
 }

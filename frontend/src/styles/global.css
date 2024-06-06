@@ -13,10 +13,10 @@
   --fill-white: rgba(255, 255, 255, 1);
   --fill-bg: rgba(234, 237, 245, 1);
 
-  --red: #F2545A;
+  --red: #d10c13;
   --red-bg: #FFE6E7;
   --red-hover: #ffd2d4;
-  --red-border: 1px solid #f9c6c8;
+  --red-border: 1px solid #f1b2b4;
   --outline-red: 0.2rem solid #F2545A;
 
   --green: #005a03;
@@ -39,16 +39,20 @@
   --btn-dark: rgba(243, 243, 246, 1);
   --btn-darkest: rgba(230, 230, 235, 1);
 
+  --btn-brand: rgba(184, 70, 0, 1);
+  --btn-brand-hover: #903700;
+  --btn-brand-focus: #AA4507;
+
   --btn-onImg: rgba(0, 0, 0, 0.4);
   --btn-onImg-hover: rgba(0, 0, 0, 0.5);
 
   --btn-brand-active: rgba(255, 247, 240, 1);
-  --btn-brand-active-hover: rgba(255, 240, 226, 1);
+  --btn-brand-active-hover: rgb(255 230 206);
 }
 
 :root {
   --border-brand: 0.1rem solid rgba(184, 70, 0, 1);
-  --border-brand-active: 0.1rem solid rgba(244, 220, 204, 1);
+  --border-brand-active: 0.1rem solid #e0b79b;
 
   --border-white: 0.1rem solid white;
   --border-white-15: 0.1rem solid rgba(255, 255, 255, 0.15);

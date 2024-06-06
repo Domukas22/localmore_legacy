@@ -29,7 +29,6 @@
     overflow: visible;
   }
 }
-
 .right {
   width: 30rem;
   position: sticky;
@@ -38,9 +37,68 @@
 }
 
 
+.potentialTag_NAV {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background: var(--fill-white);
+  box-shadow: 0 2px 12px #00000040;
+
+  & .top {
+    padding: 1.6rem var(--padding-mob);
+    box-shadow: var(--shadow-img);
+    position: relative;  /* for the shadow to be visible */ 
+  }
+
+  & .bottom {
+    padding: 1.6rem var(--padding-mob);
+    background-color: var(--fill-bg);  
+
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+
+    & .tagLabel_WRAP {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+
+      & .label {
+        border: 1px solid grey;
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 1.2rem;
+        padding: 0.2rem 0.8rem;
+        font-weight: 500;
+
+        &[data-color="brand"]{
+          background: var(--btn-brand-active);
+          color: var(--text-brand);
+          border: var(--border-brand-active);
+        }
+        &[data-color="green"]{
+          background: var(--green-bg);
+          color: var(--green);
+          border: var(--green-border);
+        }
+        &[data-color="red"]{
+          background: var(--red-bg);
+          color: var(--red);
+          border: var(--red-border);
+        }
+      }
+    }
+    & .btn_WRAP {
+      display: flex;
+      gap: 0.6rem;
+    }
+  }
+}
+
 
 .profile_GRID {
-  margin-top: 2rem;
+  /* margin-top: 2rem; */
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(35rem, 1fr)); /* 350px */
