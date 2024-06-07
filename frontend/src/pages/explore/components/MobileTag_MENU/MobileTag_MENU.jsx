@@ -26,17 +26,7 @@ export function MobileTag_MENU({
   return (
     <Modal isOpen={IS_mobileTagMenuOpen} className={css.tags_MODAL}>
       <Dialog aria-label="Menu" ref={scroll_REF} className={css.Dialog_MENU} autoFocus={false}>
-        {/* <TagFilters
-          tagGroups={tagGroups}
-          all_TAGS={all_TAGS}
-          tagUsages={tagUsages}
-          scroll_REF={scroll_REF}
-          active_TAGS={active_TAGS}
-          UPDATE_tags={UPDATE_tags}
-          potential_TAGS={potential_TAGS}
-          SET_potentialTags={SET_potentialTags}
-          SET_isMobileTagMenuOpen={SET_isMobileTagMenuOpen}
-        /> */}
+        {console.log(active_TAGS.size)}
         <Filterbox
           all_TAGS={all_TAGS}
           tagGroups={tagGroups}
@@ -46,6 +36,7 @@ export function MobileTag_MENU({
           potential_TAGS={potential_TAGS}
           SET_potentialTags={SET_potentialTags}
           SET_isOpen={SET_isMobileTagMenuOpen}
+          starting_MENU={active_TAGS.size > 0 ? "active-tags" : "all"}
         />
       </Dialog>
     </Modal>

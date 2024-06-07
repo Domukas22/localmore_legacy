@@ -96,7 +96,7 @@
     animation: rotation 5s infinite linear;
   }
   &[data-one-line="true"] {
-    &::before {display: none}
+    &::after {display: none}
   }
 
   &[data-color="white"] {

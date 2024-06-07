@@ -24,6 +24,7 @@ export function Filterbox({
   potential_TAGS,
   SET_potentialTags,
   SET_isOpen = () => {},
+  starting_MENU,
 }) {
   const scroll_REF = useRef(null);
   return (
@@ -37,6 +38,7 @@ export function Filterbox({
       potential_TAGS={potential_TAGS}
       SET_potentialTags={SET_potentialTags}
       SET_isOpen={SET_isOpen}
+      starting_MENU={starting_MENU}
     />
   );
 }
@@ -51,10 +53,11 @@ function TagFilters({
   potential_TAGS,
   SET_potentialTags,
   SET_isOpen,
+  starting_MENU,
 }) {
   const [search, SET_search] = useState("");
   const mainSearch_REF = useRef(null);
-  const [current_MENU, SET_currentMenu] = useState("all");
+  const [current_MENU, SET_currentMenu] = useState(starting_MENU || "all");
   const [currentTagGroup_ID, SET_currentTagGroupID] = useState(null);
   const [currentTagGroup_NAME, SET_currentTagGroupName] = useState(null);
   const { width } = USE_windowSize();

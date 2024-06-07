@@ -114,7 +114,11 @@ export function Tagbar({
             styles={["btn-40", "round"]}
             text={"Tags"}
             left_ICON={
-              <ICON_activeDigit count={active_TAGS.size} IS_active={active_TAGS.size > 0} />
+              <ICON_activeDigit
+                count={active_TAGS.size}
+                IS_active={active_TAGS.size > 0}
+                inverse={true}
+              />
             }
             aria_LABEL=""
             onClick={() => {
