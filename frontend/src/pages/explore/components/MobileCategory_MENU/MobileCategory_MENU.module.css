@@ -19,8 +19,8 @@
   & .Dialog_MENU {
     height: 105%;
     width: 100%;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    /* overflow-y: scroll;
+    overflow-x: hidden; */
     display: flex;
     flex-direction: column;
    
@@ -29,7 +29,13 @@
 
   & .menu_WRAP {
     position: relative;
+    overflow-y: scroll;
+    overflox-x: hidden;
+    height: 105%;
+  }
 
+  & .menu_SUBWRAP {
+    position: relative;
   }
 
   & .top {

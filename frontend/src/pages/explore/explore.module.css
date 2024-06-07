@@ -77,7 +77,8 @@
     & .tagLabel_WRAP {
       display: flex;
       gap: 0.6rem;
-      flex-wrap: wrap;
+      /* flex-wrap: wrap; */
+      overflow-x: auto;
       padding: var(--padding-mob) var(--padding-mob) 0;
 
       & .label {
@@ -86,6 +87,7 @@
         border-radius: 1.2rem;
         padding: 0.2rem 0.8rem;
         font-weight: 500;
+        text-wrap: nowrap;
 
         &[data-color="brand"]{
           background: var(--btn-brand-active);

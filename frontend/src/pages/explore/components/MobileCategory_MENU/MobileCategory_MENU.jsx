@@ -41,46 +41,48 @@ export function MobileCategory_MENU({
         </div>
 
         <div className={css.menu_WRAP}>
-          {/* All Categories */}
-          <CssTransition_MENU
-            current_MENU={current_MENU}
-            classNames={"menu-primary"}
-            menu_NAME="all"
-          >
-            <AllCategories_BLOCK
-              start_CATEG={startCateg_ARR}
-              end_CATEG={endCateg_ARR}
-              SET_currentMenu={SET_currentMenu}
-            />
-          </CssTransition_MENU>
+          <div className={css.menu_SUBWRAP}>
+            {/* All Categories */}
+            <CssTransition_MENU
+              current_MENU={current_MENU}
+              classNames={"menu-primary"}
+              menu_NAME="all"
+            >
+              <AllCategories_BLOCK
+                start_CATEG={startCateg_ARR}
+                end_CATEG={endCateg_ARR}
+                SET_currentMenu={SET_currentMenu}
+              />
+            </CssTransition_MENU>
 
-          {/* Category - Businesses */}
-          <CssTransition_MENU
-            current_MENU={current_MENU}
-            classNames="menu-secondary"
-            menu_NAME="businesses"
-          >
-            <BtnBack_BLOCK
-              title="All categories"
-              onClick={() => SET_currentMenu("all")}
-              aria_LABEL=""
-            />
-            <Businesses_BLOCK business_CATEG={businessCateg_ARR} />
-          </CssTransition_MENU>
+            {/* Category - Businesses */}
+            <CssTransition_MENU
+              current_MENU={current_MENU}
+              classNames="menu-secondary"
+              menu_NAME="businesses"
+            >
+              <BtnBack_BLOCK
+                title="All categories"
+                onClick={() => SET_currentMenu("all")}
+                aria_LABEL=""
+              />
+              <Businesses_BLOCK business_CATEG={businessCateg_ARR} />
+            </CssTransition_MENU>
 
-          {/* Category - Places */}
-          <CssTransition_MENU
-            current_MENU={current_MENU}
-            classNames="menu-secondary"
-            menu_NAME="places"
-          >
-            <BtnBack_BLOCK
-              title="All categories"
-              onClick={() => SET_currentMenu("all")}
-              aria_LABEL=""
-            />
-            <Places_BLOCK places_CATEG={placesCateg_ARR} />
-          </CssTransition_MENU>
+            {/* Category - Places */}
+            <CssTransition_MENU
+              current_MENU={current_MENU}
+              classNames="menu-secondary"
+              menu_NAME="places"
+            >
+              <BtnBack_BLOCK
+                title="All categories"
+                onClick={() => SET_currentMenu("all")}
+                aria_LABEL=""
+              />
+              <Places_BLOCK places_CATEG={placesCateg_ARR} />
+            </CssTransition_MENU>
+          </div>
         </div>
       </Dialog>
     </Modal>

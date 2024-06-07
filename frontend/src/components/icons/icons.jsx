@@ -3,9 +3,15 @@
 import css from "./icons.module.css";
 import PropTypes from "prop-types";
 
-export function ICON_activeDigit({ count, IS_active }) {
+export function ICON_activeDigit({ count, IS_active, inverse = false, jump = false }) {
   return (
-    <div className={css.ICON_activeDigit} data-active={IS_active} data-testid="active-digit-icon">
+    <div
+      className={css.ICON_activeDigit}
+      data-active={IS_active}
+      data-inverse={inverse}
+      data-testid="active-digit-icon"
+      data-jump={jump}
+    >
       <p>{count}</p>
     </div>
   );

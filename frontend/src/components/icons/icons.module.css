@@ -27,16 +27,35 @@
   min-width: 2rem;
   padding: 0 0.4rem;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   color: var(--text-fade);
   background-color: var(--btn-dark);
   border: var(--border-black-01);
   border-radius: 10rem;
 
+  & p {
+    margin: 0.1rem 0 0 !important;
+  }
+
   &[data-active="true"] {
     color: var(--brand);
     background-color: var(--brand-active);
     border: var(--border-brand-active);
+
+    &[data-inverse="true"] {
+      color: var(--text-white);
+      background-color: var(--brand);
+      border: var(--border-brand);
+    }
   }
+
+  &[data-jump="true"] {
+    animation: pop 0.5s ease-out;
+  }
+
 
 }
 .ICON_x {
@@ -210,6 +229,7 @@
     }
   }
 }
+
 
 @keyframes rotation {
   0% {

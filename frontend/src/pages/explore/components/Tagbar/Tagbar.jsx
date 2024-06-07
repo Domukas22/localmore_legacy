@@ -42,13 +42,14 @@ export function Tagbar({
 
   useEffect(() => {
     const nav_HEIGHT = 56 * fontSize_SCALE;
+
     const handleScroll = () => {
-      SET_shadow(nav_HEIGHT >= tagbar_REF.current.getBoundingClientRect().top);
+      SET_shadow(nav_HEIGHT >= tagbar_REF.current.getBoundingClientRect().top && width < 1100);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [fontSize, fontSize_SCALE]);
+  }, [fontSize, fontSize_SCALE, width]);
 
   useEffect(() => {
     const CALCULATE_tagWidth = (tag) => {
@@ -116,7 +117,15 @@ export function Tagbar({
               <ICON_activeDigit count={active_TAGS.size} IS_active={active_TAGS.size > 0} />
             }
             aria_LABEL=""
-            onClick={() => SET_isMobileTagMenuOpen(true)}
+            onClick={() => {
+              SET_isMobileTagMenuOpen(true);
+              const scroll = window.scrollY;
+              console.log(scroll);
+              window.scrollTo(0, -1);
+              setTimeout(() => {
+                window.scrollTo(0, scroll);
+              }, 50);
+            }}
             FIRE_clickEvent={false}
           />
         </div>

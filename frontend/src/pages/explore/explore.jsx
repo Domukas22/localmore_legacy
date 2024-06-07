@@ -1,23 +1,19 @@
 //
 //
 //
-import { useState, useContext, useEffect, useRef } from "react";
+import { useState, useContext, useEffect } from "react";
 import css from "./explore.module.css";
 
 import Profile_PREVIEW from "../../components/Profile_PREVIEW/Profile_PREVIEW";
 import Panorama from "../../components/panorama/panorama";
-import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
 
 import { Lang_CONTEXT } from "../../contexts/lang";
-
 import { profilePreview_TR } from "../../translations";
 import { global_TR } from "../../translations";
 import { Header } from "./components/header/Header";
 import { Tagbar } from "./components/Tagbar/Tagbar";
-import { CategoryBar } from "./components/CategoryBar/CategoryBar";
-import { HeartConfetti } from "../../components/HeartConfetti/HeartConfetti";
-import { FontSizeContext } from "../../contexts/fontSize";
-import { Sidepanel } from "./components/Sidepanel/Sidepanel";
+
+import { Filterbox } from "../../components/Filterbox/Filterbox";
 import { Btn } from "../../components/btn/btn";
 import { ICON_dropDownArrow, ICON_x } from "../../components/icons/icons";
 
@@ -87,19 +83,29 @@ function Explore_GRID({
   // }, [nonActive_TAGS, active_TAGS]);
 
   const UPDATE_tags = (tag, action) => {
-    SET_activeTags((prevTags) => {
-      const updatedTags = new Set(prevTags);
-      action === "add" ? updatedTags.add(tag._id) : updatedTags.delete(tag._id);
-
-      // if the tag is active, remove it from the nonActive_TAGS and vise versa
+    if (action === "deleteAll") {
+      SET_activeTags(new Set());
       SET_nonActive_TAGS((prevTags) => {
         const updatedTags = new Set(prevTags);
-        action === "add" ? updatedTags.delete(tag._id) : updatedTags.add(tag._id);
+        active_TAGS.forEach((tagId) => {
+          updatedTags.add(tagId);
+        });
         return updatedTags;
       });
+    } else {
+      SET_activeTags((prevTags) => {
+        const updatedTags = new Set(prevTags);
+        action === "add" ? updatedTags.add(tag._id) : updatedTags.delete(tag._id);
 
-      return updatedTags;
-    });
+        SET_nonActive_TAGS((prevTags) => {
+          const updatedTags = new Set(prevTags);
+          action === "add" ? updatedTags.delete(tag._id) : updatedTags.add(tag._id);
+          return updatedTags;
+        });
+
+        return updatedTags;
+      });
+    }
   };
 
   return (
@@ -164,7 +170,7 @@ function Explore_GRID({
       </div>
       {window_WIDTH > 1100 && (
         <div className={css.right}>
-          <Sidepanel
+          <Filterbox
             all_TAGS={all_TAGS}
             tagGroups={tagGroups}
             tagUsages={tagUsages}
@@ -247,20 +253,20 @@ function PotentialTags_NAV({
       </div>
       <div className={css.bottom}>
         {!IS_potentialTagNavExpanded && (
-          <div className={css.tagLabel_WRAP}>
+          <div className={css.tagLabel_WRAP} onClick={() => SET_potentialTagNavExpanded(true)}>
             {potential_TAGS.toAdd_IDs.size > 0 && (
               <div className={css.label} data-color="green">
-                Add {potential_TAGS.toAdd_IDs.size || "NUM"}
+                Add {potential_TAGS.toAdd_IDs.size || "NUM"} tags
               </div>
             )}
             {potential_TAGS.toDelete_IDs.size > 0 && (
               <div className={css.label} data-color="red">
-                Delete {potential_TAGS.toDelete_IDs.size || "NUM"}
+                Delete {potential_TAGS.toDelete_IDs.size || "NUM"} tags
               </div>
             )}
             {potentialStayTag_IDs.length > 0 && (
               <div className={css.label} data-color="brand">
-                Keep {potentialStayTag_IDs.length || "NUM"}
+                Keep {potentialStayTag_IDs.length || "NUM"} tags
               </div>
             )}
           </div>
@@ -345,7 +351,7 @@ function PotentialTags_NAV({
           />
 
           <Btn
-            styles={["btn-40", "strech", "brand"]}
+            styles={["btn-40", "strech", "brand", "brand-background-colors"]}
             text="Apply"
             onClick={() => {
               potential_TAGS.toAdd_IDs.forEach((tag_ID) =>
