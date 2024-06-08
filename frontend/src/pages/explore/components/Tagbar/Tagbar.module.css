@@ -5,23 +5,20 @@
 .header { 
   display: flex;
   gap: 0.8rem;
+
+
   width: 100%;
   max-width: 100vw;
+  padding: 1rem 0;
+  margin: 1.4rem 0;
+
+  flex-wrap: wrap;
 
   position: sticky;
   top: var(--height-nav);
   z-index: 15;
-  padding: 1rem 0;
-  margin: 1.4rem 0;
   background-color: var(--fill-bg);
-  
 
-
-  & .mainBtn_WRAP, .tags_WRAP {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-  }
 
   & .mobileBtn_WRAP {
     display: flex;

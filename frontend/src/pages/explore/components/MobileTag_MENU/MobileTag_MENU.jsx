@@ -8,16 +8,16 @@ import { ICON_arrow, ICON_x, ICON_activeDigit } from "../../../../components/ico
 import { Btn } from "../../../../components/btn/btn";
 import { CssTransition_MENU } from "../../../../components/Nav/components/Menus/CssTransition_MENU";
 import SearchBar from "../../../../components/search/Searchbar";
-import { Filterbox } from "../../../../components/Filterbox/Filterbox";
+import { Tagbox } from "../../../../components/Filterbox/Filterbox";
 
 export function MobileTag_MENU({
   tagGroups,
   all_TAGS,
   tagUsages,
-  active_TAGS,
+  activeTag_IDs,
   UPDATE_tags,
-  potential_TAGS,
-  SET_potentialTags,
+  potentialTag_IDs,
+  SET_potentialTagIDs,
   IS_mobileTagMenuOpen,
   SET_isMobileTagMenuOpen,
 }) {
@@ -26,17 +26,17 @@ export function MobileTag_MENU({
   return (
     <Modal isOpen={IS_mobileTagMenuOpen} className={css.tags_MODAL}>
       <Dialog aria-label="Menu" ref={scroll_REF} className={css.Dialog_MENU} autoFocus={false}>
-        {console.log(active_TAGS.size)}
-        <Filterbox
+        {console.log(activeTag_IDs.size)}
+        <Tagbox
           all_TAGS={all_TAGS}
           tagGroups={tagGroups}
           tagUsages={tagUsages}
-          active_TAGS={active_TAGS}
+          activeTag_IDs={activeTag_IDs}
           UPDATE_tags={UPDATE_tags}
-          potential_TAGS={potential_TAGS}
-          SET_potentialTags={SET_potentialTags}
+          potentialTag_IDs={potentialTag_IDs}
+          SET_potentialTagIDs={SET_potentialTagIDs}
           SET_isOpen={SET_isMobileTagMenuOpen}
-          starting_MENU={active_TAGS.size > 0 ? "active-tags" : "all"}
+          starting_MENU={activeTag_IDs.size > 0 ? "active-tags" : "all"}
         />
       </Dialog>
     </Modal>

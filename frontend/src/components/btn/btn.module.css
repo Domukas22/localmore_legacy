@@ -191,6 +191,20 @@
     background-color: var(--btn-brand-focus);
   }
 }
+.seeThrough {
+  background-color: transparent;
+  color: var(--text-black);
+  box-shadow: none;
+  border: var(--border-black-015);
+}
+.red-x-on-hover {
+  &[data-hovered="true"] > div {
+   &::before, &::after {
+      background-color: var(--red);
+    }
+  }
+}
+
 /* .brand-background-colors {
   
   position: relative;
@@ -322,11 +336,6 @@
 
     &[data-hovered="true"]{
       background-color: var(--btn-dark);
-      & div {
-        &::before, &::after {
-          background-color: var(--red);
-        }
-      }
     }
     &[data-pressed="true"]{
       background-color: var(--btn-darkest);

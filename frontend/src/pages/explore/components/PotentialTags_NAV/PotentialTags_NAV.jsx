@@ -6,22 +6,13 @@ import { Btn } from "../../../../components/btn/btn";
 import css from "./PotentialTags_NAV.module.css";
 import { ICON_dropDownArrow, ICON_x } from "../../../../components/icons/icons";
 
-export function PotentialTags_NAV({
-  potential_TAGS,
-  SET_potentialTags,
-  all_TAGS,
-  UPDATE_tags,
-  active_TAGS,
-}) {
+export function PotentialTags_NAV({ potentialTag_IDs, SET_potentialTagIDs, all_TAGS, UPDATE_tags, activeTag_IDs }) {
   const [IS_potentialTagNavExpanded, SET_potentialTagNavExpanded] = useState(false);
-  const potentialStayTag_IDs = Array.from(active_TAGS).filter(
-    (tag_ID) => !potential_TAGS.toDelete_IDs.has(tag_ID)
-  );
+  const potentialStayTag_IDs = Array.from(activeTag_IDs).filter((tag_ID) => !potentialTag_IDs.toDelete_IDs.has(tag_ID));
 
-  const HAS_potentialTags =
-    potential_TAGS.toAdd_IDs.size > 0 || potential_TAGS.toDelete_IDs.size > 0;
-  const HAS_potentialAddTags = potential_TAGS.toAdd_IDs.size > 0;
-  const HAS_potentialDeleteTags = potential_TAGS.toDelete_IDs.size > 0;
+  const HAS_potentialTags = potentialTag_IDs.toAdd_IDs.size > 0 || potentialTag_IDs.toDelete_IDs.size > 0;
+  const HAS_potentialAddTags = potentialTag_IDs.toAdd_IDs.size > 0;
+  const HAS_potentialDeleteTags = potentialTag_IDs.toDelete_IDs.size > 0;
 
   useEffect(() => {
     if (IS_potentialTagNavExpanded) {
@@ -33,10 +24,10 @@ export function PotentialTags_NAV({
   }, [IS_potentialTagNavExpanded]);
 
   function GET_potentialAddTags() {
-    return all_TAGS.filter((tag) => potential_TAGS.toAdd_IDs.has(tag._id));
+    return all_TAGS.filter((tag) => potentialTag_IDs.toAdd_IDs.has(tag._id));
   }
   function GET_potentialDeleteTags() {
-    return all_TAGS.filter((tag) => potential_TAGS.toDelete_IDs.has(tag._id));
+    return all_TAGS.filter((tag) => potentialTag_IDs.toDelete_IDs.has(tag._id));
   }
   function GET_potentialStayTags() {
     return all_TAGS.filter((tag) => potentialStayTag_IDs.includes(tag._id));
@@ -76,7 +67,7 @@ export function PotentialTags_NAV({
 
         {HAS_potentialAddTags && IS_potentialTagNavExpanded && (
           <div className={css.block}>
-            <p>Add {potential_TAGS?.toAdd_IDs?.size || "NUM"} tags</p>
+            <p>Add {potentialTag_IDs?.toAdd_IDs?.size || "NUM"} tags</p>
             {GET_potentialAddTags()?.map((tag) => {
               return (
                 <Btn
@@ -86,7 +77,7 @@ export function PotentialTags_NAV({
                   right_ICON={<ICON_x color="green" small={true} />}
                   text={tag?.name?.en}
                   onClick={() =>
-                    SET_potentialTags((prev) => {
+                    SET_potentialTagIDs((prev) => {
                       const updated = { ...prev };
                       updated.toAdd_IDs.delete(tag._id);
                       return updated;
@@ -99,7 +90,7 @@ export function PotentialTags_NAV({
         )}
         {HAS_potentialDeleteTags && IS_potentialTagNavExpanded && (
           <div className={css.block}>
-            <p>Delete {potential_TAGS?.toDelete_IDs?.size || "NUM"} tags</p>
+            <p>Delete {potentialTag_IDs?.toDelete_IDs?.size || "NUM"} tags</p>
             {GET_potentialDeleteTags()?.map((tag) => {
               return (
                 <Btn
@@ -109,7 +100,7 @@ export function PotentialTags_NAV({
                   right_ICON={<ICON_x color="red" small={true} />}
                   text={tag?.name?.en}
                   onClick={() =>
-                    SET_potentialTags((prev) => {
+                    SET_potentialTagIDs((prev) => {
                       const updated = { ...prev };
                       updated.toDelete_IDs.delete(tag._id);
                       return updated;
@@ -132,7 +123,7 @@ export function PotentialTags_NAV({
                   right_ICON={<ICON_x color="brand" small={true} />}
                   text={tag?.name?.en}
                   onClick={() =>
-                    SET_potentialTags((prev) => {
+                    SET_potentialTagIDs((prev) => {
                       const updated = { ...prev };
                       updated.toDelete_IDs.add(tag._id);
                       return updated;
@@ -148,27 +139,27 @@ export function PotentialTags_NAV({
           <Btn
             styles={["btn-40", "left-align", `${IS_potentialTagNavExpanded ? "grey" : ""}`]}
             text="Cancel"
-            onClick={() => SET_potentialTags({ toAdd_IDs: new Set(), toDelete_IDs: new Set() })}
+            onClick={() => SET_potentialTagIDs({ toAdd_IDs: new Set(), toDelete_IDs: new Set() })}
           />
 
           <Btn
             styles={["btn-40", "strech", "brand", "brand-background-colors"]}
             text="Apply"
             onClick={() => {
-              potential_TAGS.toAdd_IDs.forEach((tag_ID) =>
+              potentialTag_IDs.toAdd_IDs.forEach((tag_ID) =>
                 UPDATE_tags(
                   all_TAGS.find((tag) => tag._id === tag_ID),
                   "add"
                 )
               );
-              potential_TAGS.toDelete_IDs.forEach((tag_ID) =>
+              potentialTag_IDs.toDelete_IDs.forEach((tag_ID) =>
                 UPDATE_tags(
                   all_TAGS.find((tag) => tag._id === tag_ID),
                   "remove"
                 )
               );
 
-              SET_potentialTags({ toAdd_IDs: new Set(), toDelete_IDs: new Set() });
+              SET_potentialTagIDs({ toAdd_IDs: new Set(), toDelete_IDs: new Set() });
             }}
           />
         </div>

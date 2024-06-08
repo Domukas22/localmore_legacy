@@ -36,10 +36,10 @@ export default function Profile_PREVIEW({
   SET_panoramas,
   search,
   lang,
-  active_TAGS,
+  activeTag_IDs,
   UPDATE_tags,
-  potential_TAGS,
-  SET_potentialTags,
+  potentialTag_IDs,
+  SET_potentialTagIDs,
 }) {
   const { sliderRef, slide } = USE_slideSwiper();
   const [current_VIEW, SET_currentView] = useState("front");
@@ -155,21 +155,17 @@ export default function Profile_PREVIEW({
         SHOW_hearts={SHOW_hearts}
       />
 
-      <footer
-        ref={footer_REF}
-        style={{ height: `${footer_HEIGHT}px`, backgroundImage: `url(${profile?.img?.blur})` }}
-      >
+      <footer ref={footer_REF} style={{ height: `${footer_HEIGHT}px`, backgroundImage: `url(${profile?.img?.blur})` }}>
         {current_VIEW === "tags" && (
           <Footer_TAGS
             profile={profile}
             SET_currentView={SET_currentView}
-            potential_TAGS={potential_TAGS}
-            SET_potentialTags={SET_potentialTags}
             lang={lang}
             tr={tr}
             tags_REF={tags_REF}
-            active_TAGS={active_TAGS}
-            UPDATE_tags={UPDATE_tags}
+            activeTag_IDs={activeTag_IDs}
+            potentialTag_IDs={potentialTag_IDs}
+            SET_potentialTagIDs={SET_potentialTagIDs}
           />
         )}
         {current_VIEW === "front" && (
@@ -180,7 +176,7 @@ export default function Profile_PREVIEW({
             front_REF={front_REF}
             visibleIcon_COUNT={visibleIcon_COUNT}
             prosConsBtn_REF={prosConsBtn_REF}
-            active_TAGS={active_TAGS}
+            activeTag_IDs={activeTag_IDs}
           />
         )}
         {current_VIEW === "prosCons" && (
@@ -212,18 +208,11 @@ function Images({ images, SHOW_swiper, sliderRef, hover, slide, SHOW_hearts }) {
           SHOW_hearts={SHOW_hearts}
         />
       )}
-      {!SHOW_swiper.mobile && (
-        <img src={images[0] + "/Mobile"} className={css.single_IMG} /*  alt={img_ALT} */ />
-      )}
+      {!SHOW_swiper.mobile && <img src={images[0] + "/Mobile"} className={css.single_IMG} /*  alt={img_ALT} */ />}
       {images.length < 1 && (
         <div className={css.noImagesFound}>
           <p>No images found</p>
-          <Btn
-            styles={["onImg"]}
-            left_ICON={<ICON_error color="white" />}
-            onClick={() => {}}
-            text="Report issue"
-          />
+          <Btn styles={["onImg"]} left_ICON={<ICON_error color="white" />} onClick={() => {}} text="Report issue" />
         </div>
       )}
     </>
@@ -283,9 +272,9 @@ function Footer_FRONT({
   front_REF,
   visibleIcon_COUNT,
   prosConsBtn_REF,
-  active_TAGS,
+  activeTag_IDs,
 }) {
-  const matchedTags_COUNT = Array.from(active_TAGS).filter((activeTag_ID) =>
+  const matchedTags_COUNT = Array.from(activeTag_IDs).filter((activeTag_ID) =>
     profile.tags.some((profile_TAG) => profile_TAG._id === activeTag_ID)
   ).length;
   return (
@@ -324,16 +313,30 @@ function Footer_TAGS({
   lang,
   tr,
   tags_REF,
-  active_TAGS,
-  UPDATE_tags,
-  potential_TAGS,
-  SET_potentialTags,
+  activeTag_IDs,
+  potentialTag_IDs,
+  SET_potentialTagIDs,
 }) {
-  // const [potential_TAGS, SET_potentialTags] = useState({
-  //   toDelete_IDs: new Set(),
-  //   toAdd_IDs: new Set(),
-  // });
+  const HANDLE_tagPress = ({ tag, IS_active, IS_potentialAdd, IS_potentialDelete }) => {
+    SET_potentialTagIDs((prev) => {
+      const updated = { ...prev };
 
+      if (IS_active && IS_potentialDelete && !IS_potentialAdd) {
+        updated.toDelete_IDs.delete(tag._id);
+      }
+      if (IS_active && !IS_potentialAdd && !IS_potentialDelete) {
+        updated.toDelete_IDs.add(tag._id);
+      }
+      if (!IS_active && !IS_potentialDelete && !IS_potentialAdd) {
+        updated.toAdd_IDs.add(tag._id);
+      }
+      if (!IS_active && IS_potentialAdd && !IS_potentialDelete) {
+        updated.toAdd_IDs.delete(tag._id);
+      }
+
+      return updated;
+    });
+  };
   return (
     <motion.div className={css.drawer} ref={tags_REF} {...FooterMotion_PROPS}>
       <Drawer_TOP
@@ -342,11 +345,10 @@ function Footer_TAGS({
       />
       <ul key={profile?._id} className={css.bottom} data-type="tags">
         {profile?.tags?.map((tag) => {
-          const IS_active = Array.from(active_TAGS).some(
-            (activeTag_ID) => activeTag_ID === tag._id
-          );
-          const IS_potentialAdd = potential_TAGS.toAdd_IDs.has(tag._id);
-          const IS_potentialDelete = potential_TAGS.toDelete_IDs.has(tag._id);
+          const IS_active = Array.from(activeTag_IDs).some((activeTag_ID) => activeTag_ID === tag._id);
+          const IS_potentialAdd = potentialTag_IDs.toAdd_IDs.has(tag._id);
+          const IS_potentialDelete = potentialTag_IDs.toDelete_IDs.has(tag._id);
+
           return (
             <li key={tag._id}>
               <Btn
@@ -362,15 +364,7 @@ function Footer_TAGS({
                 right_ICON={
                   <ICON_x
                     rotate={!IS_active}
-                    color={
-                      IS_potentialAdd
-                        ? "green"
-                        : IS_potentialDelete
-                        ? "red"
-                        : IS_active
-                        ? "brand"
-                        : "white"
-                    }
+                    color={IS_potentialAdd ? "green" : IS_potentialDelete ? "red" : IS_active ? "brand" : "white"}
                     small={IS_active}
                     rotationAnimation={IS_potentialAdd || IS_potentialDelete}
                     oneLine={IS_potentialDelete}
@@ -378,39 +372,7 @@ function Footer_TAGS({
                 }
                 text={tag.name?.en}
                 // aria_LABEL={tr?.filterTagBtn_ARIA(tag.name?.[lang])[lang]}
-                // onClick={() => UPDATE_tags(tag, IS_active ? "remove" : "add")}
-                onClick={() => {
-                  if (!IS_active) {
-                    if (IS_potentialAdd) {
-                      SET_potentialTags((prev) => {
-                        const updated = { ...prev };
-                        updated.toAdd_IDs.delete(tag._id);
-                        return updated;
-                      });
-                      return;
-                    }
-                    SET_potentialTags((prev) => {
-                      const updated = { ...prev };
-                      updated.toAdd_IDs.add(tag._id);
-                      return updated;
-                    });
-                  } else if (IS_active) {
-                    if (IS_potentialDelete) {
-                      SET_potentialTags((prev) => {
-                        const updated = { ...prev };
-                        updated.toDelete_IDs.delete(tag._id);
-                        return updated;
-                      });
-                      return;
-                    }
-
-                    SET_potentialTags((prev) => {
-                      const updated = { ...prev };
-                      updated.toDelete_IDs.add(tag._id);
-                      return updated;
-                    });
-                  }
-                }}
+                onClick={() => HANDLE_tagPress({ tag, IS_active, IS_potentialAdd, IS_potentialDelete })}
                 test_ID={"overlay-tag-btn"}
               />
             </li>
