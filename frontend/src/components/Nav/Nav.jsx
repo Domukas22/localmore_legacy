@@ -24,6 +24,7 @@ import { ICON_menuLines } from "../icons/icons";
 import { Search_OVERLAY } from "./components/Search_OVERLAY/Search_OVERLAY";
 
 import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
+import { USE_showBrowserToolbar } from "../../hooks/USE_showBrowserToolbar";
 
 export default function Nav({ tagUsages, search, SET_search, categories, profiles }) {
   const [IS_menuOpen, xx, SET_menuOpen] = USE_Toggle(false);
@@ -43,7 +44,10 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
     if (IS_menuOpen || val === "close") {
       SET_menuOpen(false);
       setTimeout(() => SET_currentMenu("all"), 301);
-    } else SET_menuOpen(true);
+    } else {
+      SET_menuOpen(true);
+      USE_showBrowserToolbar();
+    }
   }
 
   useEffect(() => {
@@ -160,10 +164,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
             )}
             {layout < 5 && (
               <li data-marginleft={layout === 1 ? true : false}>
-                <Saved_DD
-                  savedProfile_OBJs={savedProfile_OBJs}
-                  REMOVE_fromSaved={REMOVE_fromSaved}
-                />
+                <Saved_DD savedProfile_OBJs={savedProfile_OBJs} REMOVE_fromSaved={REMOVE_fromSaved} />
               </li>
             )}
             {layout === 1 && (

@@ -18,8 +18,6 @@
   background-repeat: no-repeat;
   background-size: cover;
 
-  
-
   & header {
     display: flex;
     padding: 0.8rem;
@@ -155,6 +153,19 @@
       gap: 0.6rem;
       position: relative; 
       z-index: 6;
+    }
+    & .activeTag_WRAP {
+      display: flex;
+      width: 100%;
+      flex-wrap: wrap;
+
+      gap: 0.6rem 0.4rem;
+      padding: 0 0.8rem 0.8rem;
+
+      /* border-top: var(--border-white-15); */
+
+      
+    
     }
 
   }

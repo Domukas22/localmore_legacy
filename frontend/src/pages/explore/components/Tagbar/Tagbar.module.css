@@ -19,7 +19,6 @@
   z-index: 15;
   background-color: var(--fill-bg);
 
-
   & .mobileBtn_WRAP {
     display: flex;
     width: 100%;

@@ -8,7 +8,7 @@ import { ICON_arrow, ICON_x, ICON_activeDigit } from "../../../../components/ico
 import { Btn } from "../../../../components/btn/btn";
 import { CssTransition_MENU } from "../../../../components/Nav/components/Menus/CssTransition_MENU";
 import SearchBar from "../../../../components/search/Searchbar";
-import { Tagbox } from "../../../../components/Filterbox/Filterbox";
+import { Tagbox } from "../../../../components/Tagbox/Tagbox";
 
 export function MobileTag_MENU({
   tagGroups,

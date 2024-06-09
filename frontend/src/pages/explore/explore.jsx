@@ -13,7 +13,7 @@ import { global_TR } from "../../translations";
 import { Header } from "./components/header/Header";
 import { Tagbar } from "./components/Tagbar/Tagbar";
 
-import { Tagbox } from "../../components/Filterbox/Filterbox";
+import { Tagbox } from "../../components/Tagbox/Tagbox";
 import { Btn } from "../../components/btn/btn";
 import { ICON_dropDownArrow, ICON_x } from "../../components/icons/icons";
 import { PotentialTags_NAV } from "./components/PotentialTags_NAV/PotentialTags_NAV";
@@ -72,6 +72,25 @@ function Explore_GRID({
     SET_filteredProfiles(profiles);
   }, [profiles]);
 
+  useEffect(() => {
+    if (activeTag_IDs.size === 0) {
+      SET_filteredProfiles(profiles);
+      return;
+    }
+
+    const filtered = profiles
+      .filter((profile) => {
+        return profile.tags.some((tag) => activeTag_IDs.has(tag._id));
+      })
+      .sort((a, b) => {
+        const aCount = a.tags.filter((tag) => activeTag_IDs.has(tag._id)).length;
+        const bCount = b.tags.filter((tag) => activeTag_IDs.has(tag._id)).length;
+        return bCount - aCount;
+      });
+
+    SET_filteredProfiles(filtered);
+  }, [activeTag_IDs, profiles]);
+
   const UPDATE_tags = (tag, action) => {
     SET_activeTagIDs((prevactiveTag_IDs) => {
       if (action === "deleteAll") return new Set();
@@ -115,7 +134,7 @@ function Explore_GRID({
               />
             );
           })}
-
+          {/* 
           {filtered_PROFILES.map((profile) => {
             return (
               <Profile_PREVIEW
@@ -132,7 +151,7 @@ function Explore_GRID({
                 global_TR={global_TR}
               />
             );
-          })}
+          })} */}
         </section>
       </div>
       {window_WIDTH > 1100 && (
@@ -173,171 +192,3 @@ function Modal360({ panoramas, SET_panoramas }) {
     </div>
   );
 }
-
-// function PotentialTags_NAV({
-//   potentialTag_IDs,
-//   SET_potentialTagIDs,
-//   all_TAGS,
-//   UPDATE_tags,
-//   activeTag_IDs,
-// }) {
-//   const [IS_potentialTagNavExpanded, SET_potentialTagNavExpanded] = useState(false);
-//   const potentialStayTag_IDs = Array.from(activeTag_IDs).filter(
-//     (tag_ID) => !potentialTag_IDs.toDelete_IDs.has(tag_ID)
-//   );
-
-//   const HAS_potentialTags =
-//     potentialTag_IDs.toAdd_IDs.size > 0 || potentialTag_IDs.toDelete_IDs.size > 0;
-//   const HAS_potentialAddTags = potentialTag_IDs.toAdd_IDs.size > 0;
-//   const HAS_potentialDeleteTags = potentialTag_IDs.toDelete_IDs.size > 0;
-
-//   function GET_potentialAddTags() {
-//     return all_TAGS.filter((tag) => potentialTag_IDs.toAdd_IDs.has(tag._id));
-//   }
-//   function GET_potentialDeleteTags() {
-//     return all_TAGS.filter((tag) => potentialTag_IDs.toDelete_IDs.has(tag._id));
-//   }
-//   function GET_potentialStayTags() {
-//     return all_TAGS.filter((tag) => potentialStayTag_IDs.includes(tag._id));
-//   }
-
-//   return (
-//     <div className={css.potentialTag_NAV}>
-//       <div className={css.top}>
-//         <div className={css.text_WRAP}>
-//           <h3>Confirm tags</h3>
-//           <p>xxx results</p>
-//         </div>
-//         <Btn
-//           styles={["btn-40", "grey", "dropdown"]}
-//           onClick={() => SET_potentialTagNavExpanded((prev) => !prev)}
-//           text={IS_potentialTagNavExpanded ? "Less" : "More"}
-//           right_ICON={IS_potentialTagNavExpanded ? <ICON_x /> : <ICON_dropDownArrow />}
-//           test_ID="save-btn"
-//           expanded={IS_potentialTagNavExpanded}
-//         />
-//       </div>
-//       <div className={css.bottom}>
-//         {!IS_potentialTagNavExpanded && (
-//           <div className={css.tagLabel_WRAP} onClick={() => SET_potentialTagNavExpanded(true)}>
-//             {potentialTag_IDs.toAdd_IDs.size > 0 && (
-//               <div className={css.label} data-color="green">
-//                 Add {potentialTag_IDs.toAdd_IDs.size || "NUM"} tags
-//               </div>
-//             )}
-//             {potentialTag_IDs.toDelete_IDs.size > 0 && (
-//               <div className={css.label} data-color="red">
-//                 Delete {potentialTag_IDs.toDelete_IDs.size || "NUM"} tags
-//               </div>
-//             )}
-//             {potentialStayTag_IDs.length > 0 && (
-//               <div className={css.label} data-color="brand">
-//                 Keep {potentialStayTag_IDs.length || "NUM"} tags
-//               </div>
-//             )}
-//           </div>
-//         )}
-
-//         {HAS_potentialAddTags && IS_potentialTagNavExpanded && (
-//           <div className={css.block}>
-//             <p>Add {potentialTag_IDs?.toAdd_IDs?.size || "NUM"} tags</p>
-//             {GET_potentialAddTags()?.map((tag) => {
-//               return (
-//                 <Btn
-//                   key={tag._id}
-//                   styles={["btn-40", "strech", "green", "text-left-auto"]}
-//                   left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
-//                   right_ICON={<ICON_x color="green" small={true} />}
-//                   text={tag?.name?.en}
-//                   onClick={() =>
-//                     SET_potentialTagIDs((prev) => {
-//                       const updated = { ...prev };
-//                       updated.toAdd_IDs.delete(tag._id);
-//                       return updated;
-//                     })
-//                   }
-//                 />
-//               );
-//             })}
-//           </div>
-//         )}
-//         {HAS_potentialDeleteTags && IS_potentialTagNavExpanded && (
-//           <div className={css.block}>
-//             <p>Delete {potentialTag_IDs?.toDelete_IDs?.size || "NUM"} tags</p>
-//             {GET_potentialDeleteTags()?.map((tag) => {
-//               return (
-//                 <Btn
-//                   key={tag._id}
-//                   styles={["btn-40", "strech", "red", "text-left-auto"]}
-//                   left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
-//                   right_ICON={<ICON_x color="red" small={true} />}
-//                   text={tag?.name?.en}
-//                   onClick={() =>
-//                     SET_potentialTagIDs((prev) => {
-//                       const updated = { ...prev };
-//                       updated.toDelete_IDs.delete(tag._id);
-//                       return updated;
-//                     })
-//                   }
-//                 />
-//               );
-//             })}
-//           </div>
-//         )}
-//         {potentialStayTag_IDs.length > 0 && IS_potentialTagNavExpanded && (
-//           <div className={css.block}>
-//             <p>Keep {potentialStayTag_IDs?.length || "NUM"} tags</p>
-//             {GET_potentialStayTags()?.map((tag) => {
-//               return (
-//                 <Btn
-//                   key={tag._id}
-//                   styles={["btn-40", "strech", "active", "text-left-auto"]}
-//                   left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
-//                   right_ICON={<ICON_x color="brand" small={true} />}
-//                   text={tag?.name?.en}
-//                   onClick={() =>
-//                     SET_potentialTagIDs((prev) => {
-//                       const updated = { ...prev };
-//                       updated.toDelete_IDs.add(tag._id);
-//                       return updated;
-//                     })
-//                   }
-//                 />
-//               );
-//             })}
-//           </div>
-//         )}
-
-//         <div className={css.btn_WRAP}>
-//           <Btn
-//             styles={["btn-40", "left-align"]}
-//             right_ICON={<ICON_x color="dark" small={true} />}
-//             text="Cancel"
-//             onClick={() => SET_potentialTagIDs({ toAdd_IDs: new Set(), toDelete_IDs: new Set() })}
-//           />
-
-//           <Btn
-//             styles={["btn-40", "strech", "brand", "brand-background-colors"]}
-//             text="Apply"
-//             onClick={() => {
-//               potentialTag_IDs.toAdd_IDs.forEach((tag_ID) =>
-//                 UPDATE_tags(
-//                   all_TAGS.find((tag) => tag._id === tag_ID),
-//                   "add"
-//                 )
-//               );
-//               potentialTag_IDs.toDelete_IDs.forEach((tag_ID) =>
-//                 UPDATE_tags(
-//                   all_TAGS.find((tag) => tag._id === tag_ID),
-//                   "remove"
-//                 )
-//               );
-
-//               SET_potentialTagIDs({ toAdd_IDs: new Set(), toDelete_IDs: new Set() });
-//             }}
-//           />
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }

@@ -9,3 +9,12 @@ export function New_LABEL({ lang }) {
     </span>
   );
 }
+
+export function Tag_LABEL({ name, icon, color = "brand", small = false }) {
+  return (
+    <label className={css.Tag_LABEL} data-color={color} data-small={small}>
+      {icon && icon}
+      <p>{name}</p>
+    </label>
+  );
+}

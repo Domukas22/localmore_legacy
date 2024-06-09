@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 import { Btn } from "../../../../components/btn/btn";
 import css from "./PotentialTags_NAV.module.css";
 import { ICON_dropDownArrow, ICON_x } from "../../../../components/icons/icons";
+import { USE_showBrowserToolbar } from "../../../../hooks/USE_showBrowserToolbar";
+import { Tag_LABEL } from "../../../../components/labels/labels";
 
 export function PotentialTags_NAV({ potentialTag_IDs, SET_potentialTagIDs, all_TAGS, UPDATE_tags, activeTag_IDs }) {
   const [IS_potentialTagNavExpanded, SET_potentialTagNavExpanded] = useState(false);
@@ -17,6 +19,7 @@ export function PotentialTags_NAV({ potentialTag_IDs, SET_potentialTagIDs, all_T
   useEffect(() => {
     if (IS_potentialTagNavExpanded) {
       document.body.style.overflow = "hidden";
+      USE_showBrowserToolbar();
     }
     return () => {
       document.body.style.overflow = "auto";
@@ -53,14 +56,24 @@ export function PotentialTags_NAV({ potentialTag_IDs, SET_potentialTagIDs, all_T
         {!IS_potentialTagNavExpanded && (
           <div className={css.tagLabel_WRAP} onClick={() => SET_potentialTagNavExpanded(true)}>
             {GET_potentialAddTags()?.map((tag) => (
-              <Potential_TAG key={tag._id} type="add" name={tag.name.en} />
+              <Tag_LABEL
+                key={tag._id}
+                name={tag.name.en}
+                color="green"
+                icon={<ICON_x color="green" small={true} rotate={true} />}
+              />
             ))}
 
             {GET_potentialDeleteTags()?.map((tag) => (
-              <Potential_TAG key={tag._id} type="delete" name={tag.name.en} />
+              <Tag_LABEL
+                key={tag._id}
+                name={tag.name.en}
+                color="red"
+                icon={<ICON_x color="red" small={true} rotate={true} oneLine={true} />}
+              />
             ))}
             {GET_potentialStayTags()?.map((tag) => (
-              <Potential_TAG key={tag._id} type="keep" name={tag.name.en} />
+              <Tag_LABEL key={tag._id} name={tag.name.en} color="brand" />
             ))}
           </div>
         )}
@@ -166,29 +179,4 @@ export function PotentialTags_NAV({ potentialTag_IDs, SET_potentialTagIDs, all_T
       </div>
     </div>
   );
-}
-
-function Potential_TAG({ type, name }) {
-  switch (type) {
-    case "add":
-      return (
-        <div className={css.label} data-color="green">
-          <ICON_x color="green" small={true} rotate={true} />
-          <p>{name}</p>
-        </div>
-      );
-    case "delete":
-      return (
-        <div className={css.label} data-color="red">
-          <ICON_x color="red" small={true} rotate={true} oneLine={true} />
-          <p>{name}</p>
-        </div>
-      );
-    case "keep":
-      return (
-        <div className={css.label} data-color="brand">
-          <p>{name}</p>
-        </div>
-      );
-  }
 }

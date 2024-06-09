@@ -143,7 +143,7 @@ export function Tagbar({
           )}
         </>
       )}
-      {IS_mobileTagMenuOpen && (
+      {IS_mobileTagMenuOpen && width < 1100 && (
         <MobileTag_MENU
           {...{
             tagGroups,

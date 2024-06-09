@@ -11,7 +11,7 @@ import { ICON_arrow, ICON_error, ICON_proCon, ICON_save, ICON_x } from "../icons
 import USE_slideSwiper from "../../hooks/USE_slideSwiper";
 import USE_showSwiper from "../../hooks/USE_showSwiper";
 import { USE_isProfileNew } from "../../hooks/USE_isProfileNew";
-import { New_LABEL } from "../labels/labels";
+import { New_LABEL, Tag_LABEL } from "../labels/labels";
 import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
 import { Btn, ShowProsCons_BTN, ShowTags_BTN } from "../btn/btn";
 
@@ -56,6 +56,11 @@ export default function Profile_PREVIEW({
   const prosConsBtn_REF = useRef(null);
   const [footer_HEIGHT, SET_footerHeight] = useState(footer_REF?.current?.clientHeight || null);
 
+  const matchedTag_IDs = Array.from(activeTag_IDs).filter((activeTag_ID) =>
+    profile.tags.some((profile_TAG) => profile_TAG._id === activeTag_ID)
+  );
+  const matched_TAGS = profile.tags.filter((tag) => matchedTag_IDs.includes(tag._id));
+
   const { savedProfile_IDs, ADD_toSaved, REMOVE_fromSaved } = useContext(SavedProfileIDs_CONTEXT);
   const { fontSize, fontSize_SCALE } = useContext(FontSizeContext);
 
@@ -91,7 +96,7 @@ export default function Profile_PREVIEW({
         break;
     }
     SET_footerHeight(height);
-  }, [current_VIEW, width, fontSize]);
+  }, [current_VIEW, width, fontSize, matched_TAGS]);
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver(() => {
@@ -177,6 +182,7 @@ export default function Profile_PREVIEW({
             visibleIcon_COUNT={visibleIcon_COUNT}
             prosConsBtn_REF={prosConsBtn_REF}
             activeTag_IDs={activeTag_IDs}
+            matched_TAGS={matched_TAGS}
           />
         )}
         {current_VIEW === "prosCons" && (
@@ -273,10 +279,8 @@ function Footer_FRONT({
   visibleIcon_COUNT,
   prosConsBtn_REF,
   activeTag_IDs,
+  matched_TAGS,
 }) {
-  const matchedTags_COUNT = Array.from(activeTag_IDs).filter((activeTag_ID) =>
-    profile.tags.some((profile_TAG) => profile_TAG._id === activeTag_ID)
-  ).length;
   return (
     <motion.div className={css.footer_FRONT} ref={front_REF} {...FooterMotion_PROPS}>
       <div className={css.top}>
@@ -289,7 +293,7 @@ function Footer_FRONT({
         {profile?.tags?.length > 0 && (
           <ShowTags_BTN
             onClick={() => SET_currentView("tags")}
-            matchedTags_COUNT={matchedTags_COUNT} // get matching tags count
+            matchedTags_COUNT={matched_TAGS.length} // get matching tags count
             lang={lang}
             profile={profile}
             visibleIcon_COUNT={visibleIcon_COUNT}
@@ -304,6 +308,14 @@ function Footer_FRONT({
           />
         )}
       </div>
+      {matched_TAGS.length > 0 && (
+        <div className={css.activeTag_WRAP} onClick={() => SET_currentView("tags")}>
+          {console.log(matched_TAGS)}
+          {matched_TAGS?.map((tag) => (
+            <Tag_LABEL key={tag?._id} name={tag?.name?.en} small={true} />
+          ))}
+        </div>
+      )}
     </motion.div>
   );
 }

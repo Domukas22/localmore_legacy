@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Btn } from "../btn/btn";
 import { ICON_activeDigit, ICON_arrow, ICON_search, ICON_searchSmall, ICON_x } from "../icons/icons";
 import SearchBar from "../search/Searchbar";
-import css from "./Filterbox.module.css";
+import css from "./Tagbox.module.css";
 import { CssTransition_MENU } from "../Nav/components/Menus/CssTransition_MENU";
 import { USE_windowSize } from "../../hooks/USE_windowWidth";
 
@@ -108,7 +108,7 @@ export function Tagbox({
         </>
       )}
       {HAS_potentialTags && (
-        <div className={css.block_WRAP}>
+        <div className={css.block_WRAP} data-potential-block-wrap>
           {potentialAdd_TAGS.length > 0 && (
             <PotentialBlock type="add" tags={potentialAdd_TAGS} SET_potentialTagIDs={SET_potentialTagIDs} />
           )}
@@ -119,7 +119,7 @@ export function Tagbox({
             <PotentialBlock type="keep" tags={potentialStay_TAGS} SET_potentialTagIDs={SET_potentialTagIDs} />
           )}
 
-          <div className={css.block} style={{ flexDirection: "row", gap: "0.6rem" }}>
+          <div className={css.applyBtn_WRAP}>
             <Btn
               styles={["btn-40", "left-align"]}
               // right_ICON={<ICON_x color="dark" small={true} />}
@@ -163,37 +163,72 @@ function Top({
   width,
   SET_isOpen,
 }) {
+  const [IS_searchOpen, SET_searchOpen] = useState(false);
+  const [tagSearch, SET_tagSearch] = useState("");
+  const search_REF = useRef(null);
+
+  useEffect(() => {
+    console.log(search_REF.current);
+    if (search_REF.current && IS_searchOpen) {
+      search_REF.current.focus();
+    }
+  }, [IS_searchOpen]);
+
   return (
     <>
       {!HAS_potentialTags && (
         <div className={css.top}>
-          <div className={css.top_LEFT}>
-            <h3>Tagbox</h3>
-            <p>{activeTag_IDs.size} tags selected</p>
-          </div>
-          <Btn styles={["btn-40", "grey", "round"]} right_ICON={<ICON_searchSmall />} onClick={() => {}} />
-
-          <Btn
-            styles={["btn-40", "grey", "round", `${current_MENU === "active-tags" ? "active" : ""}`]}
-            left_ICON={
-              <div
-                className={css.circleGrowFade}
-                data-animate={SHOULD_activeDitigJump}
-                data-wider={activeTag_IDs.size >= 10}
-              ></div>
-            }
-            right_ICON={
-              <ICON_activeDigit
-                IS_active={activeTag_IDs.size > 0 || false}
-                count={activeTag_IDs?.size}
-                inverse={true}
-                jump={SHOULD_activeDitigJump}
+          {!IS_searchOpen && (
+            <>
+              <div className={css.top_LEFT}>
+                <h3>Tagbox</h3>
+                <p>{activeTag_IDs.size} tags selected</p>
+              </div>
+              <Btn
+                styles={["btn-40", "grey", "round"]}
+                right_ICON={<ICON_searchSmall />}
+                onClick={() => SET_searchOpen(true)}
               />
-            }
-            onClick={() => SET_currentMenu(current_MENU === "active-tags" ? "all" : "active-tags")}
-          />
-          {width < 1100 && (
-            <Btn styles={["btn-40", "grey", "round"]} right_ICON={<ICON_x />} onClick={() => SET_isOpen(false)} />
+
+              <Btn
+                styles={["btn-40", "grey", "round", `${current_MENU === "active-tags" ? "active" : ""}`]}
+                left_ICON={
+                  <div
+                    className={css.circleGrowFade}
+                    data-animate={SHOULD_activeDitigJump}
+                    data-wider={activeTag_IDs.size >= 10}
+                  ></div>
+                }
+                right_ICON={
+                  <ICON_activeDigit
+                    IS_active={activeTag_IDs.size > 0 || false}
+                    count={activeTag_IDs?.size}
+                    inverse={true}
+                    jump={SHOULD_activeDitigJump}
+                  />
+                }
+                onClick={() => SET_currentMenu(current_MENU === "active-tags" ? "all" : "active-tags")}
+              />
+              {width < 1100 && (
+                <Btn styles={["btn-40", "grey", "round"]} right_ICON={<ICON_x />} onClick={() => SET_isOpen(false)} />
+              )}
+            </>
+          )}
+          {IS_searchOpen && (
+            <>
+              <Btn
+                styles={["btn-40", "grey", "round"]}
+                right_ICON={<ICON_arrow direction="left" />}
+                onClick={() => SET_searchOpen(false)}
+              />
+              <SearchBar
+                search={tagSearch}
+                SET_search={SET_tagSearch}
+                placeholder="Search tags"
+                search_REF={search_REF}
+                // SET_isOpen={SET_searchOpen}
+              />
+            </>
           )}
         </div>
       )}
@@ -240,15 +275,13 @@ function ActiveTags_MENU({ current_MENU, SET_currentMenu, activeTag_IDs, UPDATE_
           })}
         </div>
         {activeTag_IDs.size > 0 && (
-          <div className={css.block}>
-            <li>
-              <Btn
-                styles={["btn-40", "strech", "text-left-auto"]}
-                right_ICON={<ICON_x small={true} />}
-                text="Reset tags"
-                onClick={() => UPDATE_tags(null, "deleteAll")}
-              />
-            </li>
+          <div className={css.applyBtn_WRAP}>
+            <Btn
+              styles={["btn-40", "strech", "text-left-auto"]}
+              right_ICON={<ICON_x small={true} />}
+              text="Reset tags"
+              onClick={() => UPDATE_tags(null, "deleteAll")}
+            />
           </div>
         )}
       </div>
