@@ -13,15 +13,12 @@ import { Btn } from "../btn/btn";
 import { Lang_CONTEXT } from "../../contexts/lang";
 import { Theme_CONTEXT } from "../../contexts/theme";
 import { FontSizeContext } from "../../contexts/fontSize";
-import SearchBar from "../search/Searchbar";
+import SearchBar from "../Searchbar/Searchbar";
 
-import { Categories_DD } from "./components/Dropdowns/Categories_DD";
-import { More_DD } from "./components/Dropdowns/More_DD";
-import { Settings_DD } from "./components/Dropdowns/Settings_DD";
-import { Saved_DD } from "./components/Dropdowns/Saved_DD";
-import { Mobile_MENU } from "./components/Mobile_MENU/Mobile_MENU";
+import { Categories_DD, More_DD, Settings_DD, Saved_DD } from "../DD/Dropdowns/Dropdowns";
+import { MobileMenu_MODAL } from "../Modals/MobileMenu_MODAL/MobileMenu_MODAL";
+
 import { ICON_menuLines } from "../icons/icons";
-import { Search_OVERLAY } from "./components/Search_OVERLAY/Search_OVERLAY";
 
 import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
 import { USE_showBrowserToolbar } from "../../hooks/USE_showBrowserToolbar";
@@ -164,7 +161,10 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
             )}
             {layout < 5 && (
               <li data-marginleft={layout === 1 ? true : false}>
-                <Saved_DD savedProfile_OBJs={savedProfile_OBJs} REMOVE_fromSaved={REMOVE_fromSaved} />
+                <Saved_DD
+                  savedProfile_OBJs={savedProfile_OBJs}
+                  REMOVE_fromSaved={REMOVE_fromSaved}
+                />
               </li>
             )}
             {layout === 1 && (
@@ -176,7 +176,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
         </nav>
       </div>
 
-      <Mobile_MENU
+      <MobileMenu_MODAL
         categories={categories}
         TOGGLE_menu={TOGGLE_menu}
         profiles={profiles}
@@ -189,12 +189,24 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
 
       <AnimatePresence>
         {IS_searchOpen && (
-          <Search_OVERLAY
-            search={search}
-            SET_search={SET_search}
-            TOGGLE_search={TOGGLE_search}
-            searchBar_REF={overlaySearch_REF}
-          />
+          <motion.div
+            className={css.search_OVERLAY}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            // transition={{ duration: 0.3, ease: "easeOut" }}
+          >
+            <SearchBar SET_search={SET_search} search={search} searchBar_REF={overlaySearch_REF} />
+            <Btn
+              styles={["btn-40", "round", "grey"]}
+              text="Cancel"
+              aria_LABEL="Search Heidelberg"
+              onClick={() => {
+                TOGGLE_search();
+                SET_search("");
+              }}
+            />
+          </motion.div>
         )}
       </AnimatePresence>
     </header>

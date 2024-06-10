@@ -3,21 +3,21 @@
 
 import { useRef } from "react";
 import { Dialog, Modal } from "react-aria-components";
-import css from "./MobileCategory_MENU.module.css";
-import { ICON_x } from "../../../../components/icons/icons";
-import { Btn } from "../../../../components/btn/btn";
+import css from "./Category_MODAL.module.css";
+import { ICON_x } from "../../icons/icons";
+import { Btn } from "../../btn/btn";
 
-import Transition_MENU from "../../../../components/Transition_MENU/Transition_MENU";
+import Transition_MENU from "../../Transition_MENU/Transition_MENU";
 import {
   BtnBack_BLOCK,
   AllCategories_BLOCK,
   Category_BLOCK,
-} from "../../../../components/Transition_MENU/Blocks/Blocks";
+} from "../../Transition_MENU/Blocks/Blocks";
 
-import { USE_DDactions } from "../../../../hooks/USE_DDactions";
-import { USE_getCategories } from "../../../../hooks/USE_getCategories";
+import { USE_DDactions } from "../../../hooks/USE_DDactions";
+import { USE_getCategories } from "../../../hooks/USE_getCategories";
 
-export function MobileCategory_MENU({
+export function Category_MODAL({
   IS_mobileCategoryMenuOpen,
   SET_isMobileCategoryMenuOpen,
   categories,

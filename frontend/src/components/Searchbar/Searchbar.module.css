@@ -144,22 +144,3 @@
 }
 
 
-.Modal_SEARCH {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 30;
-  width: 100%;
-  
-  background: var(--fill-white);
-  border-bottom: var(--border-brand-black);
- 
-  padding: var(--padding-desk);
-  padding-top: calc(6rem + var(--padding-desk));
-  
-
-  @media (--mobile) {
-    padding: var(--padding-mob);
-    padding-top: calc(6rem + var(--padding-mob));
-  }
-}

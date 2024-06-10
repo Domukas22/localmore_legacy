@@ -12,10 +12,176 @@ import { FontSizeContext } from "../../../contexts/fontSize";
 import { Lang_CONTEXT } from "../../../contexts/lang";
 import { AnimatePresence, motion } from "framer-motion";
 import { SavedProfile_LINK } from "../../btn/btn";
-import { ICON_arrow, ICON_save, ICON_x } from "../../icons/icons";
+import { ICON_activeDigit, ICON_arrow, ICON_save, ICON_x } from "../../icons/icons";
 import { SavedProfileIDs_CONTEXT } from "../../../contexts/savedProfiles";
 import logo from "../../../assets/icons/logo.png";
 
+export function BtnBack_BLOCK({ title, onClick, aria_LABEL }) {
+  return (
+    <div className={css.Block}>
+      <li key={""}>
+        <Btn
+          styles={["btn-44", "strech", "text-left-auto"]}
+          left_ICON={<ICON_arrow direction="left" />}
+          text={title}
+          aria_LABEL=""
+          onClick={onClick}
+          FIRE_clickEvent={false}
+        />
+      </li>
+    </div>
+  );
+}
+export function EndBtn_BLOCK({ text, onClick }) {
+  return (
+    <div className={css.Block}>
+      <li>
+        <Btn
+          styles={["btn-44", "strech", "red-x-on-hover", "text-left-auto"]}
+          text={text}
+          right_ICON={<ICON_x />}
+          aria_LABEL=""
+          onClick={onClick}
+          // FIRE_clickEvent={false}
+        />
+      </li>
+    </div>
+  );
+}
+
+export function Nav_BLOCKS({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT }) {
+  const {
+    home = true,
+    categories = true,
+    settings = true,
+    liked = true,
+  } = { home: true, categories: true, settings: true, liked: true, ...visible_BTNs };
+
+  const { savedProfile_IDs } = useContext(SavedProfileIDs_CONTEXT);
+  return (
+    <>
+      <div className={css.Block}>
+        {home && (
+          <li>
+            <Btn
+              styles={["btn-44", "navDD_BTN"]}
+              text="Home"
+              left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/609/609803.png"></img>}
+              aria_LABEL=""
+              // left_ICON={<ICON_activeDigit count={tagUsage_COUNT} IS_active={true} />}
+              onClick={() => {}}
+              FIRE_clickEvent={false}
+            />
+          </li>
+        )}
+        <li>
+          <Btn
+            styles={["btn-44", "navDD_BTN"]}
+            text="Alle tags"
+            aria_LABEL=""
+            left_ICON={
+              <img src="https://cdn-icons-png.freepik.com/512/9458/9458516.png?ga=GA1.1.807612306.1716024941" />
+            }
+            right_ICON={<span>{tagUsage_COUNT || 99}</span>}
+            onClick={() => {}}
+            FIRE_clickEvent={false}
+          />
+        </li>
+        {categories && (
+          <li>
+            <Btn
+              styles={["btn-44", "navDD_BTN"]}
+              text="Categories"
+              left_ICON={
+                <img src="https://cdn-icons-png.flaticon.com/512/11244/11244162.png"></img>
+              }
+              aria_LABEL=""
+              right_ICON={<ICON_arrow direction="right" />}
+              onClick={() => SET_currentMenu("categories")}
+              FIRE_clickEvent={false}
+            />
+          </li>
+        )}
+        {settings && (
+          <li>
+            <Btn
+              styles={["btn-44", "navDD_BTN"]}
+              text="Settings"
+              aria_LABEL=""
+              left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/3953/3953226.png"></img>}
+              right_ICON={<ICON_arrow direction="right" />}
+              onClick={() => SET_currentMenu("settings")}
+              FIRE_clickEvent={false}
+            />
+          </li>
+        )}
+        {liked && (
+          <li>
+            <Btn
+              styles={["btn-44", "navDD_BTN"]}
+              text={`Saved (${savedProfile_IDs.size})`}
+              // left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/2107/2107845.png"></img>}
+              left_ICON={<ICON_save style="active" />}
+              aria_LABEL=""
+              right_ICON={<ICON_arrow direction="right" />}
+              onClick={() => SET_currentMenu("saved")}
+              FIRE_clickEvent={false}
+            />
+          </li>
+        )}
+      </div>
+      <div className={css.Block}>
+        <li>
+          <Btn
+            styles={["btn-44", "navDD_BTN"]}
+            text="Provide feedback"
+            left_ICON={
+              <img src="https://cdn-icons-png.freepik.com/512/4066/4066310.png?ga=GA1.1.807612306.1716024941" />
+            }
+            right_ICON={<ICON_arrow direction="right" />}
+            aria_LABEL=""
+            onClick={() => SET_currentMenu("feedback")}
+            FIRE_clickEvent={false}
+          />
+        </li>
+
+        <li>
+          <Btn
+            styles={["btn-44", "navDD_BTN"]}
+            text="About us"
+            left_ICON={<img src={logo}></img>}
+            aria_LABEL=""
+            onClick={() => {}}
+            FIRE_clickEvent={false}
+          />
+        </li>
+        <li>
+          <Btn
+            styles={["btn-44", "navDD_BTN"]}
+            text="Contact"
+            left_ICON={
+              <img src="https://cdn-icons-png.freepik.com/512/7596/7596763.png?ga=GA1.1.807612306.1716024941" />
+            }
+            aria_LABEL=""
+            onClick={() => {}}
+            FIRE_clickEvent={false}
+          />
+        </li>
+        <li>
+          <Btn
+            styles={["btn-44", "navDD_BTN"]}
+            text="Legal"
+            left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/3122/3122321.png"></img>}
+            aria_LABEL=""
+            right_ICON={<ICON_arrow direction="right" />}
+            onClick={() => SET_currentMenu("legal")}
+            FIRE_clickEvent={false}
+          />
+        </li>
+      </div>
+    </>
+  );
+}
 export function Legal_BLOCK() {
   return (
     <div className={css.Block}>
@@ -277,171 +443,7 @@ export function Saved_BLOCK({ savedProfile_OBJs, REMOVE_fromSaved, resize = () =
     </div>
   );
 }
-export function BtnBack_BLOCK({ title, onClick, aria_LABEL }) {
-  return (
-    <div className={css.Block}>
-      <li key={""}>
-        <Btn
-          styles={["btn-44", "navDD_BTN"]}
-          left_ICON={<ICON_arrow direction="left" />}
-          text={title}
-          aria_LABEL=""
-          onClick={onClick}
-          FIRE_clickEvent={false}
-        />
-      </li>
-    </div>
-  );
-}
-export function Nav_BLOCKS({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT }) {
-  const {
-    home = true,
-    categories = true,
-    settings = true,
-    liked = true,
-  } = { home: true, categories: true, settings: true, liked: true, ...visible_BTNs };
 
-  const { savedProfile_IDs } = useContext(SavedProfileIDs_CONTEXT);
-  return (
-    <>
-      <div className={css.Block}>
-        {home && (
-          <li>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              text="Home"
-              left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/609/609803.png"></img>}
-              aria_LABEL=""
-              // left_ICON={<ICON_activeDigit count={tagUsage_COUNT} IS_active={true} />}
-              onClick={() => {}}
-              FIRE_clickEvent={false}
-            />
-          </li>
-        )}
-        <li>
-          <Btn
-            styles={["btn-44", "navDD_BTN"]}
-            text="Alle tags"
-            aria_LABEL=""
-            left_ICON={
-              <img src="https://cdn-icons-png.freepik.com/512/9458/9458516.png?ga=GA1.1.807612306.1716024941" />
-            }
-            right_ICON={<span>{tagUsage_COUNT || 99}</span>}
-            onClick={() => {}}
-            FIRE_clickEvent={false}
-          />
-        </li>
-        {categories && (
-          <li>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              text="Categories"
-              left_ICON={
-                <img src="https://cdn-icons-png.flaticon.com/512/11244/11244162.png"></img>
-              }
-              aria_LABEL=""
-              right_ICON={<ICON_arrow direction="right" />}
-              onClick={() => SET_currentMenu("categories")}
-              FIRE_clickEvent={false}
-            />
-          </li>
-        )}
-        {settings && (
-          <li>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              text="Settings"
-              aria_LABEL=""
-              left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/3953/3953226.png"></img>}
-              right_ICON={<ICON_arrow direction="right" />}
-              onClick={() => SET_currentMenu("settings")}
-              FIRE_clickEvent={false}
-            />
-          </li>
-        )}
-        {liked && (
-          <li>
-            <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              text={`Saved (${savedProfile_IDs.size})`}
-              // left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/2107/2107845.png"></img>}
-              left_ICON={<ICON_save style="active" />}
-              aria_LABEL=""
-              right_ICON={<ICON_arrow direction="right" />}
-              onClick={() => SET_currentMenu("saved")}
-              FIRE_clickEvent={false}
-            />
-          </li>
-        )}
-      </div>
-      <div className={css.Block}>
-        <li>
-          <Btn
-            styles={["btn-44", "navDD_BTN"]}
-            text="Provide feedback"
-            left_ICON={
-              <img src="https://cdn-icons-png.freepik.com/512/4066/4066310.png?ga=GA1.1.807612306.1716024941" />
-            }
-            right_ICON={<ICON_arrow direction="right" />}
-            aria_LABEL=""
-            onClick={() => SET_currentMenu("feedback")}
-            FIRE_clickEvent={false}
-          />
-        </li>
-
-        <li>
-          <Btn
-            styles={["btn-44", "navDD_BTN"]}
-            text="About us"
-            left_ICON={<img src={logo}></img>}
-            aria_LABEL=""
-            onClick={() => {}}
-            FIRE_clickEvent={false}
-          />
-        </li>
-        <li>
-          <Btn
-            styles={["btn-44", "navDD_BTN"]}
-            text="Contact"
-            left_ICON={
-              <img src="https://cdn-icons-png.freepik.com/512/7596/7596763.png?ga=GA1.1.807612306.1716024941" />
-            }
-            aria_LABEL=""
-            onClick={() => {}}
-            FIRE_clickEvent={false}
-          />
-        </li>
-        <li>
-          <Btn
-            styles={["btn-44", "navDD_BTN"]}
-            text="Legal"
-            left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/3122/3122321.png"></img>}
-            aria_LABEL=""
-            right_ICON={<ICON_arrow direction="right" />}
-            onClick={() => SET_currentMenu("legal")}
-            FIRE_clickEvent={false}
-          />
-        </li>
-      </div>
-    </>
-  );
-}
-export function EndBtn_BLOCK({ text, onClick }) {
-  return (
-    <div className={css.Block}>
-      <li>
-        <Btn
-          styles={["btn-44", "red-x-on-hover"]}
-          text={text}
-          right_ICON={<ICON_x />}
-          aria_LABEL=""
-          onClick={onClick}
-          // FIRE_clickEvent={false}
-        />
-      </li>
-    </div>
-  );
-}
 export function AllCategories_BLOCK({
   start_CATEG,
   end_CATEG,
@@ -528,6 +530,128 @@ export function Category_BLOCK({ category_OBJ, categoryChildren_ARR }) {
           </li>
         );
       })}
+    </div>
+  );
+}
+
+export function ActiveTagsbtn_BLOCK({ activeTag_IDs, SET_currentMenu }) {
+  return (
+    <div className={css.Block}>
+      <li>
+        <Btn
+          styles={["btn-40", "strech"]}
+          left_ICON={
+            <ICON_activeDigit
+              count={activeTag_IDs?.size || 0}
+              IS_active={activeTag_IDs?.size > 0 || false}
+              inverse={true}
+            />
+          }
+          right_ICON={<ICON_arrow color="dark" direction="right" />}
+          text="Active tags"
+          onClick={() => SET_currentMenu("active-tags")}
+        />
+      </li>
+    </div>
+  );
+}
+export function TagGroupBtns_BLOCK({
+  tagGroups,
+  tagUsages,
+  SET_currentMenu,
+  SET_currentTagGroupID,
+  SET_currentTagGroupName,
+}) {
+  return (
+    <div className={css.Block}>
+      <p>Tag groups</p>
+      {tagGroups.map((tagGroup) => {
+        // if there isnt a single tagUsage with this tagGroup_ID, dont render the button
+        if (!tagUsages.some((tagUsage) => tagUsage.tagGroup_ID === tagGroup._id)) return;
+
+        return (
+          <li key={tagGroup._id}>
+            <Btn
+              key={tagGroup._id}
+              styles={["btn-40", "strech"]}
+              left_ICON={<img src={tagGroup.icon?.url ? tagGroup.icon?.url : ""} />}
+              right_ICON={<ICON_arrow color="dark" direction="right" />}
+              text={tagGroup?.name?.en}
+              onClick={() => {
+                SET_currentMenu("tag-group");
+                SET_currentTagGroupID(tagGroup._id);
+                SET_currentTagGroupName(tagGroup?.name?.en);
+              }}
+            />
+          </li>
+        );
+      })}
+    </div>
+  );
+}
+export function Tags_BLOCK({ title, tags, activeTag_IDs, UPDATE_tags, tag_COUNTS }) {
+  return (
+    <div className={css.Block}>
+      {/* <p>All tags</p> */}
+      <p>{title}</p>
+      {tags?.map((tag) => {
+        const IS_active = activeTag_IDs.has(tag._id);
+        return (
+          <li key={tag._id}>
+            <Btn
+              key={tag._id}
+              styles={["btn-40", "strech", `${IS_active ? "active" : ""}`, "text-left-auto"]}
+              left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
+              right_ICON={
+                IS_active ? (
+                  <ICON_x color="brand" small={true} />
+                ) : (
+                  <span>{tag_COUNTS?.[tag._id]}</span>
+                )
+              }
+              text={tag?.name?.en}
+              onClick={() => UPDATE_tags(tag, IS_active ? "remove" : "add")}
+            />
+          </li>
+        );
+      })}
+    </div>
+  );
+}
+export function Potential_BLOCK({ type, tags, SET_potentialTagIDs }) {
+  const x_COLOR = type === "add" ? "green" : type === "delete" ? "red" : "brand";
+
+  return (
+    <div className={css.Block}>
+      <p>
+        {type === "add" ? "Add" : type === "delete" ? "Delete" : "Keep"} {tags?.length || "NUM"}{" "}
+        tags
+      </p>
+      {tags?.map((tag) => (
+        <Btn
+          key={tag._id}
+          styles={[
+            "btn-40",
+            "strech",
+            type === "add" && "green",
+            type === "delete" && "red",
+            type === "keep" && "active",
+            "text-left-auto",
+          ]}
+          left_ICON={<img src={tag.icon?.url || ""} />}
+          right_ICON={<ICON_x color={x_COLOR} small={true} />}
+          text={tag?.name?.en || ""}
+          onClick={() =>
+            SET_potentialTagIDs((prev) => {
+              const updated = { ...prev };
+              if (type === "delete") updated.toDelete_IDs.delete(tag._id);
+              if (type === "add") updated.toAdd_IDs.delete(tag._id);
+              if (type === "keep") updated.toDelete_IDs.add(tag._id);
+              return updated;
+            })
+          }
+        />
+      ))}
     </div>
   );
 }

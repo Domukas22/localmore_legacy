@@ -10,7 +10,7 @@ import Panorama from "../../components/panorama/panorama";
 import { Lang_CONTEXT } from "../../contexts/lang";
 import { profilePreview_TR } from "../../translations";
 import { global_TR } from "../../translations";
-import { Header } from "./components/header/Header";
+import { Header } from "../../components/Header/Header";
 import { Tagbar } from "./components/Tagbar/Tagbar";
 
 import { Tagbox } from "../../components/Tagbox/Tagbox";
@@ -181,11 +181,18 @@ function Explore_GRID({
           />
         </div>
       )}
-      {window_WIDTH < 1100 && (potentialTag_IDs.toAdd_IDs.size > 0 || potentialTag_IDs.toDelete_IDs.size > 0) && (
-        <PotentialTags_NAV
-          {...{ potentialTag_IDs, SET_potentialTagIDs, all_TAGS, UPDATE_tags, activeTag_IDs: activeTag_IDs }}
-        />
-      )}
+      {window_WIDTH < 1100 &&
+        (potentialTag_IDs.toAdd_IDs.size > 0 || potentialTag_IDs.toDelete_IDs.size > 0) && (
+          <PotentialTags_NAV
+            {...{
+              potentialTag_IDs,
+              SET_potentialTagIDs,
+              all_TAGS,
+              UPDATE_tags,
+              activeTag_IDs: activeTag_IDs,
+            }}
+          />
+        )}
     </div>
   );
 }

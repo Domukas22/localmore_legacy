@@ -1,28 +1,21 @@
 //
 //
-import { Categories_DD } from "../../../../components/Nav/components/Dropdowns/Categories_DD";
+import { Categories_DD } from "../../../../components/DD/Dropdowns/Dropdowns";
 import { Btn } from "../../../../components/btn/btn";
 import css from "./Tagbar.module.css";
 
-import {
-  ICON_x,
-  ICON_arrow,
-  ICON_dropDownArrow,
-  ICON_activeDigit,
-  ICON_3dots,
-} from "../../../../components/icons/icons";
+import { ICON_x, ICON_dropDownArrow, ICON_activeDigit } from "../../../../components/icons/icons";
 import { useContext, useEffect, useRef, useState } from "react";
 import { FontSizeContext } from "../../../../contexts/fontSize";
 import { USE_windowSize } from "../../../../hooks/USE_windowWidth";
-import { MobileTag_MENU } from "../MobileTag_MENU/MobileTag_MENU";
-import { MobileCategory_MENU } from "../MobileCategory_MENU/MobileCategory_MENU";
+import { PotentialTag_MODAL } from "../../../../components/Modals/PotentialTag_MODAL/PotentialTag_MODAL";
+import { Category_MODAL } from "../../../../components/Modals/Category_MODAL/Category_MODAL";
 import { USE_showBrowserToolbar } from "../../../../hooks/USE_showBrowserToolbar";
 
 export function Tagbar({
   categories,
   all_TAGS,
   activeTag_IDs,
-
   potentialTag_IDs,
   SET_potentialTagIDs,
   window_WIDTH,
@@ -62,7 +55,8 @@ export function Tagbar({
       const button_GAP = 8 * fontSize_SCALE;
       const icon_X = 16 * fontSize_SCALE;
 
-      const total = padding + icon_WIDTH + buttonInside_GAPS + letters_WIDTH + icon_WIDTH + button_GAP;
+      const total =
+        padding + icon_WIDTH + buttonInside_GAPS + letters_WIDTH + icon_WIDTH + button_GAP;
 
       return total;
     };
@@ -115,7 +109,11 @@ export function Tagbar({
             styles={["btn-40", "round"]}
             text={"Tags"}
             left_ICON={
-              <ICON_activeDigit count={activeTag_IDs.size} IS_active={activeTag_IDs.size > 0} inverse={true} />
+              <ICON_activeDigit
+                count={activeTag_IDs.size}
+                IS_active={activeTag_IDs.size > 0}
+                inverse={true}
+              />
             }
             aria_LABEL=""
             onClick={() => {
@@ -129,7 +127,10 @@ export function Tagbar({
       {window_WIDTH > 900 && (
         <>
           <div ref={categoriesDD_REF}>
-            <Categories_DD categories={categories} styles={["btn-36", "round", "dropdown", "red-x-on-hover"]} />
+            <Categories_DD
+              categories={categories}
+              styles={["btn-36", "round", "dropdown", "red-x-on-hover"]}
+            />
           </div>
           {activeTag_IDs.size === 0 && (
             <NonActive_TAGS
@@ -139,12 +140,16 @@ export function Tagbar({
             />
           )}
           {activeTag_IDs.size > 0 && (
-            <Active_TAGS all_TAGS={all_TAGS} activeTag_IDs={activeTag_IDs} UPDATE_tags={UPDATE_tags} />
+            <Active_TAGS
+              all_TAGS={all_TAGS}
+              activeTag_IDs={activeTag_IDs}
+              UPDATE_tags={UPDATE_tags}
+            />
           )}
         </>
       )}
       {IS_mobileTagMenuOpen && width < 1100 && (
-        <MobileTag_MENU
+        <PotentialTag_MODAL
           {...{
             tagGroups,
             all_TAGS,
@@ -159,7 +164,7 @@ export function Tagbar({
         />
       )}
       {IS_mobileCategoryMenuOpen && (
-        <MobileCategory_MENU
+        <Category_MODAL
           {...{
             IS_mobileCategoryMenuOpen,
             SET_isMobileCategoryMenuOpen,

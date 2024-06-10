@@ -1,7 +1,7 @@
 //
 
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
-import css from "./dd.module.css";
+import css from "./DD.module.css";
 // import {Button, Container, Menu} from './styles'
 import { Button } from "react-aria-components";
 import css_BTN from "../btn/btn.module.css";
@@ -31,11 +31,21 @@ const DD = forwardRef((props, ref) => {
   const containerRef = useRef();
   // const menu_REF = useRef();
   const buttonRef = useRef();
-  const focusable = 'a[href], button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])';
+  const focusable =
+    'a[href], button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])';
   const search = true;
 
   function HANDLE_keyPress(e) {
-    keyboardControls(e, menu_REF, buttonRef, setExpanded, containerRef, search, focusable, setFocus);
+    keyboardControls(
+      e,
+      menu_REF,
+      buttonRef,
+      setExpanded,
+      containerRef,
+      search,
+      focusable,
+      setFocus
+    );
   }
 
   // On mount.
@@ -73,7 +83,12 @@ const DD = forwardRef((props, ref) => {
 
   return (
     <>
-      <div ref={containerRef} id={`dropdown-${theId}`} className={css.container} data-expanded={expanded}>
+      <div
+        ref={containerRef}
+        id={`dropdown-${theId}`}
+        className={css.container}
+        data-expanded={expanded}
+      >
         <Button
           ref={buttonRef}
           // id={`button-${theId}`}
@@ -90,7 +105,13 @@ const DD = forwardRef((props, ref) => {
         >
           {btnLeft_ICON && btnLeft_ICON}
           {btn_TEXT && <p className={css_BTN.text}>{btn_TEXT}</p>}
-          {icon && !expanded ? icon : expanded ? <ICON_x color={"dark"} small={true} /> : <ICON_dropDownArrow />}
+          {icon && !expanded ? (
+            icon
+          ) : expanded ? (
+            <ICON_x color={"dark"} small={true} />
+          ) : (
+            <ICON_dropDownArrow />
+          )}
         </Button>
 
         {!!children && expanded && (
@@ -208,8 +229,20 @@ function setFocus(e) {
     e.focus({ preventScroll: true });
   }, 20);
 }
-function keyboardControls(event, menu_REF, buttonRef, setExpanded, containerRef, search, focusable, setFocus) {
-  if ((event.key === "ArrowDown" || event.key === "Down") && document.activeElement === buttonRef.current) {
+function keyboardControls(
+  event,
+  menu_REF,
+  buttonRef,
+  setExpanded,
+  containerRef,
+  search,
+  focusable,
+  setFocus
+) {
+  if (
+    (event.key === "ArrowDown" || event.key === "Down") &&
+    document.activeElement === buttonRef.current
+  ) {
     event.preventDefault();
     setExpanded(true);
     setFocus(menu_REF?.current?.querySelectorAll(focusable)[0]);

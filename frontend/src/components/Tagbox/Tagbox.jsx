@@ -3,14 +3,22 @@
 import { useEffect, useRef, useState } from "react";
 import { Btn } from "../btn/btn";
 import { ICON_activeDigit, ICON_arrow, ICON_search, ICON_x } from "../icons/icons";
-import SearchBar from "../search/Searchbar";
+import SearchBar from "../Searchbar/Searchbar";
 import css from "./Tagbox.module.css";
 
 import Transition_MENU from "../Transition_MENU/Transition_MENU";
 import { USE_windowSize } from "../../hooks/USE_windowWidth";
+import {
+  BtnBack_BLOCK,
+  TagGroupBtns_BLOCK,
+  ActiveTagsbtn_BLOCK,
+  Tags_BLOCK,
+  EndBtn_BLOCK,
+  Potential_BLOCK,
+} from "../Transition_MENU/Blocks/Blocks";
+import { USE_activeDigitJump } from "../../hooks/USE_activeDigitJump";
 
 export function Tagbox({
-  tags,
   tagUsages,
   tagGroups,
   all_TAGS,
@@ -43,6 +51,8 @@ export function Tagbox({
   }, [current_MENU, scroll_REF]);
 
   const sorted_TAGS = [...all_TAGS];
+  const active_TAGS = sorted_TAGS.filter((tag) => activeTag_IDs.has(tag._id));
+
   const potentialAdd_TAGS = sorted_TAGS.filter((tag) => potentialTag_IDs.toAdd_IDs.has(tag._id));
   const potentialDelete_TAGS = sorted_TAGS.filter((tag) =>
     potentialTag_IDs.toDelete_IDs.has(tag._id)
@@ -59,6 +69,13 @@ export function Tagbox({
     return acc;
   }, {});
 
+  const target_TAGUSAGES = tagUsages.filter(
+    (tagUsage) => tagUsage.tagGroup_ID === currentTagGroup_ID
+  );
+  const target_TAGS = sorted_TAGS.filter((tag) =>
+    target_TAGUSAGES.some((tagUsage) => tagUsage.tag_ID === tag._id)
+  );
+
   return (
     <div className={css.filterbox} data-potential={HAS_potentialTags}>
       <Top
@@ -73,37 +90,59 @@ export function Tagbox({
       {!HAS_potentialTags && (
         <>
           <div className={css.menu_WRAP} ref={scroll_REF}>
-            <Starter_MENU
-              SET_currentMenu={SET_currentMenu}
+            {/* Start */}
+            <Transition_MENU current_MENU={current_MENU} classNames="menu-primary" menu_NAME="all">
+              <ActiveTagsbtn_BLOCK {...{ activeTag_IDs, SET_currentMenu }} />
+              <TagGroupBtns_BLOCK
+                {...{
+                  tagGroups,
+                  tagUsages,
+                  SET_currentMenu,
+                  SET_currentTagGroupID,
+                  SET_currentTagGroupName,
+                }}
+              />
+              <Tags_BLOCK
+                title={`Explore ${sorted_TAGS.length} tags`}
+                tags={sorted_TAGS}
+                {...{ activeTag_IDs, UPDATE_tags, tag_COUNTS }}
+              />
+            </Transition_MENU>
+
+            {/* Active Tags */}
+            <Transition_MENU
               current_MENU={current_MENU}
-              tagGroups={tagGroups}
-              tagUsages={tagUsages}
-              sorted_TAGS={sorted_TAGS}
-              activeTag_IDs={activeTag_IDs}
-              UPDATE_tags={UPDATE_tags}
-              tag_COUNTS={tag_COUNTS}
-              SET_currentTagGroupID={SET_currentTagGroupID}
-              SET_currentTagGroupName={SET_currentTagGroupName}
-              totalTag_COUNT={all_TAGS.length}
-            />
-            <ActiveTags_MENU
+              classNames="menu-secondary"
+              menu_NAME="active-tags"
+            >
+              <BtnBack_BLOCK title="All tags" onClick={() => SET_currentMenu("all")} />
+              <Tags_BLOCK
+                title={`${active_TAGS?.length || 0} active tags`}
+                tags={active_TAGS}
+                {...{ activeTag_IDs, UPDATE_tags, tag_COUNTS }}
+              />
+              {active_TAGS?.length > 0 && (
+                <EndBtn_BLOCK text="Reset tags" onClick={() => UPDATE_tags(null, "deleteAll")} />
+              )}
+              {active_TAGS?.length === 0 && (
+                <div>{/* So that the last block would have a border */}</div>
+              )}
+            </Transition_MENU>
+
+            {/* Target Tag Group */}
+            <Transition_MENU
               current_MENU={current_MENU}
-              SET_currentMenu={SET_currentMenu}
-              UPDATE_tags={UPDATE_tags}
-              activeTag_IDs={activeTag_IDs}
-              sorted_TAGS={sorted_TAGS}
-            />
-            <TagGroup_MENU
-              currentTagGroup_ID={currentTagGroup_ID}
-              tagUsages={tagUsages}
-              sorted_TAGS={sorted_TAGS}
-              tag_COUNTS={tag_COUNTS}
-              currentTagGroup_NAME={currentTagGroup_NAME}
-              SET_currentMenu={SET_currentMenu}
-              current_MENU={current_MENU}
-              UPDATE_tags={UPDATE_tags}
-              activeTag_IDs={activeTag_IDs}
-            />
+              classNames="menu-secondary"
+              menu_NAME="tag-group"
+            >
+              <BtnBack_BLOCK title="All tags" onClick={() => SET_currentMenu("all")} />
+
+              <Tags_BLOCK
+                title={currentTagGroup_NAME}
+                tags={target_TAGS}
+                {...{ activeTag_IDs, UPDATE_tags, tag_COUNTS }}
+              />
+            </Transition_MENU>
           </div>
           {width < 1100 && (
             <MobileBtn_WRAP
@@ -117,21 +156,21 @@ export function Tagbox({
       {HAS_potentialTags && (
         <div className={css.block_WRAP} data-potential-block-wrap>
           {potentialAdd_TAGS.length > 0 && (
-            <PotentialBlock
+            <Potential_BLOCK
               type="add"
               tags={potentialAdd_TAGS}
               SET_potentialTagIDs={SET_potentialTagIDs}
             />
           )}
           {potentialDelete_TAGS.length > 0 && (
-            <PotentialBlock
+            <Potential_BLOCK
               type="delete"
               tags={potentialDelete_TAGS}
               SET_potentialTagIDs={SET_potentialTagIDs}
             />
           )}
           {potentialStay_TAGS.length > 0 && (
-            <PotentialBlock
+            <Potential_BLOCK
               type="keep"
               tags={potentialStay_TAGS}
               SET_potentialTagIDs={SET_potentialTagIDs}
@@ -271,209 +310,6 @@ function Top({
     </>
   );
 }
-function ActiveTags_MENU({
-  current_MENU,
-  SET_currentMenu,
-  activeTag_IDs,
-  UPDATE_tags,
-  sorted_TAGS,
-}) {
-  return (
-    <Transition_MENU
-      current_MENU={current_MENU}
-      classNames="menu-secondary"
-      menu_NAME="active-tags"
-    >
-      <div className={css.block_WRAP}>
-        <div className={css.block}>
-          <li>
-            <Btn
-              styles={["btn-40", "strech", "left-align"]}
-              left_ICON={<ICON_arrow color="dark" direction="left" />}
-              text="All tags"
-              onClick={() => SET_currentMenu("all")}
-            />
-          </li>
-        </div>
-        <div className={css.block}>
-          <p>{activeTag_IDs.size} active tags</p>
-          {sorted_TAGS.map((tag) => {
-            const IS_active = activeTag_IDs.has(tag._id);
-            if (!IS_active) return;
-            return (
-              <li key={tag._id}>
-                <Btn
-                  key={tag._id}
-                  styles={["btn-40", "strech", `${IS_active ? "active" : ""}`, "text-left-auto"]}
-                  left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
-                  right_ICON={<ICON_x color="brand" small={true} />}
-                  text={tag?.name?.en}
-                  onClick={() => UPDATE_tags(tag, IS_active ? "remove" : "add")}
-                />
-              </li>
-            );
-          })}
-        </div>
-        {activeTag_IDs.size > 0 && (
-          <div className={css.applyBtn_WRAP}>
-            <Btn
-              styles={["btn-40", "strech", "text-left-auto"]}
-              right_ICON={<ICON_x small={true} />}
-              text="Reset tags"
-              onClick={() => UPDATE_tags(null, "deleteAll")}
-            />
-          </div>
-        )}
-      </div>
-    </Transition_MENU>
-  );
-}
-function Starter_MENU({
-  SET_currentMenu,
-  current_MENU,
-  tagGroups,
-  tagUsages,
-  sorted_TAGS,
-  activeTag_IDs,
-  UPDATE_tags,
-  tag_COUNTS,
-  SET_currentTagGroupID,
-  SET_currentTagGroupName,
-  totalTag_COUNT,
-}) {
-  return (
-    <Transition_MENU current_MENU={current_MENU} classNames="menu-primary" menu_NAME="all">
-      <div className={css.block_WRAP}>
-        <div className={css.block}>
-          <li>
-            <Btn
-              styles={["btn-40", "strech"]}
-              left_ICON={
-                <ICON_activeDigit
-                  count={activeTag_IDs?.size || 0}
-                  IS_active={activeTag_IDs?.size > 0 || false}
-                  inverse={true}
-                />
-              }
-              right_ICON={<ICON_arrow color="dark" direction="right" />}
-              text="Active tags"
-              onClick={() => SET_currentMenu("active-tags")}
-            />
-          </li>
-        </div>
-        <div className={css.block}>
-          <p>Tag groups</p>
-          {tagGroups.map((tagGroup) => {
-            // if there isnt a single tagUsage with this tagGroup_ID, dont render the button
-            if (!tagUsages.some((tagUsage) => tagUsage.tagGroup_ID === tagGroup._id)) return;
-
-            return (
-              <li key={tagGroup._id}>
-                <Btn
-                  key={tagGroup._id}
-                  styles={["btn-40", "strech"]}
-                  left_ICON={<img src={tagGroup.icon?.url ? tagGroup.icon?.url : ""} />}
-                  right_ICON={<ICON_arrow color="dark" direction="right" />}
-                  text={tagGroup?.name?.en}
-                  onClick={() => {
-                    SET_currentMenu("tag-group");
-                    SET_currentTagGroupID(tagGroup._id);
-                    SET_currentTagGroupName(tagGroup?.name?.en);
-                  }}
-                />
-              </li>
-            );
-          })}
-        </div>
-        <div className={css.block}>
-          {/* <p>All tags</p> */}
-          <p>Explore {totalTag_COUNT} tags</p>
-          {sorted_TAGS?.map((tag) => {
-            const IS_active = activeTag_IDs.has(tag._id);
-            return (
-              <li key={tag._id}>
-                <Btn
-                  key={tag._id}
-                  styles={["btn-40", "strech", `${IS_active ? "active" : ""}`, "text-left-auto"]}
-                  left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
-                  right_ICON={
-                    IS_active ? (
-                      <ICON_x color="brand" small={true} />
-                    ) : (
-                      <span>{tag_COUNTS?.[tag._id]}</span>
-                    )
-                  }
-                  text={tag?.name?.en}
-                  onClick={() => UPDATE_tags(tag, IS_active ? "remove" : "add")}
-                />
-              </li>
-            );
-          })}
-        </div>
-      </div>
-    </Transition_MENU>
-  );
-}
-function TagGroup_MENU({
-  currentTagGroup_ID,
-  tagUsages,
-  sorted_TAGS,
-  tag_COUNTS,
-  currentTagGroup_NAME,
-  SET_currentMenu,
-  current_MENU,
-  activeTag_IDs,
-  UPDATE_tags,
-}) {
-  const target_TAGUSAGES = tagUsages.filter(
-    (tagUsage) => tagUsage.tagGroup_ID === currentTagGroup_ID
-  );
-  const target_TAGS = sorted_TAGS.filter((tag) =>
-    target_TAGUSAGES.some((tagUsage) => tagUsage.tag_ID === tag._id)
-  );
-
-  return (
-    <Transition_MENU current_MENU={current_MENU} classNames="menu-secondary" menu_NAME="tag-group">
-      <div className={css.block_WRAP}>
-        <div className={css.block}>
-          <li>
-            <Btn
-              styles={["btn-40", "strech", "left-align"]}
-              left_ICON={<ICON_arrow color="dark" direction="left" />}
-              text="All tags"
-              onClick={() => SET_currentMenu("all")}
-            />
-          </li>
-        </div>
-        <div className={css.block}>
-          <p>{currentTagGroup_NAME || "Tag group"}</p>
-          {target_TAGS?.map((tag) => {
-            const IS_active = activeTag_IDs.has(tag._id);
-            return (
-              <li key={tag._id}>
-                <Btn
-                  key={tag._id}
-                  styles={["btn-40", "strech", `${IS_active ? "active" : ""}`, "text-left-auto"]}
-                  left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
-                  right_ICON={
-                    IS_active ? (
-                      <ICON_x color="brand" small={true} />
-                    ) : (
-                      <span>{tag_COUNTS?.[tag._id]}</span>
-                    )
-                  }
-                  text={tag?.name?.en}
-                  onClick={() => UPDATE_tags(tag, IS_active ? "remove" : "add")}
-                />
-              </li>
-            );
-          })}
-        </div>
-      </div>
-    </Transition_MENU>
-  );
-}
-
 function MobileBtn_WRAP({ activeTag_IDs, UPDATE_tags, SET_isOpen }) {
   return (
     <div className={css.mobileBtn_WRAP}>
@@ -502,59 +338,4 @@ function MobileBtn_WRAP({ activeTag_IDs, UPDATE_tags, SET_isOpen }) {
       )}
     </div>
   );
-}
-function PotentialBlock({ type, tags, SET_potentialTagIDs }) {
-  const x_COLOR = type === "add" ? "green" : type === "delete" ? "red" : "brand";
-
-  return (
-    <div className={css.block}>
-      <p>
-        {type === "add" ? "Add" : type === "delete" ? "Delete" : "Keep"} {tags?.length || "NUM"}{" "}
-        tags
-      </p>
-      {tags?.map((tag) => (
-        <Btn
-          key={tag._id}
-          styles={[
-            "btn-40",
-            "strech",
-            type === "add" && "green",
-            type === "delete" && "red",
-            type === "keep" && "active",
-            "text-left-auto",
-          ]}
-          left_ICON={<img src={tag.icon?.url || ""} />}
-          right_ICON={<ICON_x color={x_COLOR} small={true} />}
-          text={tag?.name?.en || ""}
-          onClick={() =>
-            SET_potentialTagIDs((prev) => {
-              const updated = { ...prev };
-              if (type === "delete") updated.toDelete_IDs.delete(tag._id);
-              if (type === "add") updated.toAdd_IDs.delete(tag._id);
-              if (type === "keep") updated.toDelete_IDs.add(tag._id);
-              return updated;
-            })
-          }
-        />
-      ))}
-    </div>
-  );
-}
-function USE_activeDigitJump(activeTags, timeoutDelay = 500) {
-  const [SHOULD_activeDitigJump, SET_activeDitigJump] = useState(false);
-
-  useEffect(() => {
-    if (activeTags.size > 0) {
-      SET_activeDitigJump(true);
-      const timeout = setTimeout(() => {
-        SET_activeDitigJump(false);
-      }, timeoutDelay);
-
-      return () => clearTimeout(timeout);
-    } else {
-      SET_activeDitigJump(false);
-    }
-  }, [activeTags, timeoutDelay]);
-
-  return { SHOULD_activeDitigJump };
 }

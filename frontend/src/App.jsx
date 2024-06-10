@@ -7,8 +7,9 @@ import { USE_windowSize } from "./hooks/USE_windowWidth";
 import { USE_fetchData } from "./hooks/USE_fetchData.js";
 import { base_URL } from "./config.js";
 import Nav from "./components/Nav/Nav.jsx";
-import { Modal_SEARCH } from "./components/search/Search_RESULTS/Modal_SEARCH.jsx";
+
 import { AnimatePresence } from "framer-motion";
+import { SearchResults_MODAL } from "./components/Modals/SearchResults_MODAL/SearchResults_MODAL.jsx";
 
 export function App() {
   const [search, SET_search] = useState("");
@@ -58,7 +59,7 @@ export function App() {
         profiles={profiles}
       />
       <AnimatePresence>
-        {search !== "" && <Modal_SEARCH search={search} profiles={profiles} />}
+        {search !== "" && <SearchResults_MODAL search={search} profiles={profiles} />}
       </AnimatePresence>
 
       <Explore

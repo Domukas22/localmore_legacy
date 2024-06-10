@@ -3,11 +3,11 @@
 
 import { useRef } from "react";
 import { Dialog, Modal } from "react-aria-components";
-import css from "./MobileTag_MENU.module.css";
+import css from "./PotentialTag_MODAL.module.css";
 
-import { Tagbox } from "../../../../components/Tagbox/Tagbox";
+import { Tagbox } from "../../Tagbox/Tagbox";
 
-export function MobileTag_MENU({
+export function PotentialTag_MODAL({
   tagGroups,
   all_TAGS,
   tagUsages,

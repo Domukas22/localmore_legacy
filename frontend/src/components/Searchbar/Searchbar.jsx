@@ -2,7 +2,7 @@
 
 import { SearchField, Input, Button } from "react-aria-components";
 import { ICON_search, ICON_x } from "../icons/icons";
-import css from "./search.module.css";
+import css from "./Searchbar.module.css";
 import { useRef } from "react";
 import { useEffect } from "react";
 

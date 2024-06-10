@@ -1,15 +1,13 @@
 //
 //
+
+import css from "./MobileMenu_MODAL.module.css";
+import { useState, useRef, useEffect } from "react";
+import { USE_getCategories } from "../../../hooks/USE_getCategories";
+
 import { Dialog, Modal } from "react-aria-components";
-import { Btn } from "../../../btn/btn";
-import { useState } from "react";
-import { ICON_x } from "../../../icons/icons";
+import Transition_MENU from "../../Transition_MENU/Transition_MENU";
 
-import css from "../../Nav.module.css";
-
-import { useRef, useEffect } from "react";
-
-import Transition_MENU from "../../../../components/Transition_MENU/Transition_MENU";
 import {
   Legal_BLOCK,
   Feedback_BLOCK,
@@ -20,11 +18,9 @@ import {
   EndBtn_BLOCK,
   AllCategories_BLOCK,
   Category_BLOCK,
-} from "../../../../components/Transition_MENU/Blocks/Blocks";
+} from "../../Transition_MENU/Blocks/Blocks";
 
-import { USE_getCategories } from "../../../../hooks/USE_getCategories";
-
-export function Mobile_MENU({
+export function MobileMenu_MODAL({
   categories,
   TOGGLE_menu,
   profiles,
@@ -52,7 +48,7 @@ export function Mobile_MENU({
   }, [current_MENU]);
 
   return (
-    <Modal isOpen={IS_menuOpen} className={css.Modal_MENU}>
+    <Modal isOpen={IS_menuOpen} className={css.MobileMenu_MODAL}>
       <Dialog aria-label="Menu" ref={scroll_REF} className={css.Dialog_MENU}>
         <div style={{ height: "6rem" }}></div>
         {/* Instead of 6rem padding we have this div. The padding sometimes messes up when the toolarbar/ searchbar of the browser come sup on mobile, and everythign shifts to the top */}
