@@ -2,17 +2,26 @@
 //
 
 import React, { useEffect, useState } from "react";
-import { Btn } from "../../../../components/btn/btn";
-import css from "./PotentialTags_NAV.module.css";
-import { ICON_dropDownArrow, ICON_x } from "../../../../components/icons/icons";
-import { USE_showBrowserToolbar } from "../../../../hooks/USE_showBrowserToolbar";
-import { Tag_LABEL } from "../../../../components/labels/labels";
+import { Btn } from "../../btn/btn";
+import css from "./PotentialTags_MODAL.module.css";
+import { ICON_dropDownArrow, ICON_x } from "../../icons/icons";
+import { USE_showBrowserToolbar } from "../../../hooks/USE_showBrowserToolbar";
+import { Tag_LABEL } from "../../labels/labels";
 
-export function PotentialTags_NAV({ potentialTag_IDs, SET_potentialTagIDs, all_TAGS, UPDATE_tags, activeTag_IDs }) {
+export function PotentialTags_NAV({
+  potentialTag_IDs,
+  SET_potentialTagIDs,
+  all_TAGS,
+  UPDATE_tags,
+  activeTag_IDs,
+}) {
   const [IS_potentialTagNavExpanded, SET_potentialTagNavExpanded] = useState(false);
-  const potentialStayTag_IDs = Array.from(activeTag_IDs).filter((tag_ID) => !potentialTag_IDs.toDelete_IDs.has(tag_ID));
+  const potentialStayTag_IDs = Array.from(activeTag_IDs).filter(
+    (tag_ID) => !potentialTag_IDs.toDelete_IDs.has(tag_ID)
+  );
 
-  const HAS_potentialTags = potentialTag_IDs.toAdd_IDs.size > 0 || potentialTag_IDs.toDelete_IDs.size > 0;
+  const HAS_potentialTags =
+    potentialTag_IDs.toAdd_IDs.size > 0 || potentialTag_IDs.toDelete_IDs.size > 0;
   const HAS_potentialAddTags = potentialTag_IDs.toAdd_IDs.size > 0;
   const HAS_potentialDeleteTags = potentialTag_IDs.toDelete_IDs.size > 0;
 
@@ -44,7 +53,13 @@ export function PotentialTags_NAV({ potentialTag_IDs, SET_potentialTagIDs, all_T
           {/* <p>Confirm 3 tag changes</p> */}
         </div>
         <Btn
-          styles={["btn-40", "grey", "dropdown", "round", `${IS_potentialTagNavExpanded ? "red-x-on-hover" : ""}`]}
+          styles={[
+            "btn-40",
+            "grey",
+            "dropdown",
+            "round",
+            `${IS_potentialTagNavExpanded ? "red-x-on-hover" : ""}`,
+          ]}
           onClick={() => SET_potentialTagNavExpanded((prev) => !prev)}
           text={IS_potentialTagNavExpanded ? "Less" : "More"}
           right_ICON={IS_potentialTagNavExpanded ? <ICON_x /> : <ICON_dropDownArrow />}

@@ -8,7 +8,7 @@ import { ICON_x, ICON_dropDownArrow, ICON_activeDigit } from "../../../../compon
 import { useContext, useEffect, useRef, useState } from "react";
 import { FontSizeContext } from "../../../../contexts/fontSize";
 import { USE_windowSize } from "../../../../hooks/USE_windowWidth";
-import { PotentialTag_MODAL } from "../../../../components/Modals/PotentialTag_MODAL/PotentialTag_MODAL";
+import { Tagbox_MODAL } from "../../../../components/Modals/Tagbox_MODAL/Tagbox_MODAL";
 import { Category_MODAL } from "../../../../components/Modals/Category_MODAL/Category_MODAL";
 import { USE_showBrowserToolbar } from "../../../../hooks/USE_showBrowserToolbar";
 
@@ -149,7 +149,7 @@ export function Tagbar({
         </>
       )}
       {IS_mobileTagMenuOpen && width < 1100 && (
-        <PotentialTag_MODAL
+        <Tagbox_MODAL
           {...{
             tagGroups,
             all_TAGS,

@@ -16,7 +16,8 @@ import { Tagbar } from "./components/Tagbar/Tagbar";
 import { Tagbox } from "../../components/Tagbox/Tagbox";
 import { Btn } from "../../components/btn/btn";
 import { ICON_dropDownArrow, ICON_x } from "../../components/icons/icons";
-import { PotentialTags_NAV } from "./components/PotentialTags_NAV/PotentialTags_NAV";
+import { PotentialTags_NAV } from "../../components/Modals/PotentialTags_MODAL/PotentialTags_MODAL";
+import { Category_SWIPER } from "./components/Category_SWIPER/Category_SWIPER";
 
 export default function Explore({
   profiles,
@@ -109,7 +110,12 @@ function Explore_GRID({
     <div className={css.explore_WRAP}>
       <div className={css.left}>
         <Header>
-          <p>Look through {profiles.length} places</p>
+          {activeTag_IDs.size === 0 && <p>Look through {profiles.length} places</p>}
+          {activeTag_IDs.size > 0 && (
+            <p>
+              {activeTag_IDs.size} tags - {filtered_PROFILES.length} Results
+            </p>
+          )}
           {window_WIDTH >= 630 && <h1>Find what you're looking for in Heidelberg</h1>}
           {window_WIDTH <= 629 && window_WIDTH >= 450 && <h1>Explore the city of Heidelberg</h1>}
           {window_WIDTH <= 449 && <h1>Explore Heidelberg</h1>}
@@ -125,7 +131,9 @@ function Explore_GRID({
           tagGroups={tagGroups}
           tagUsages={tagUsages}
         />
-        {/* <CategoryBar categories={categories} window_WIDTH={window_WIDTH} /> */}
+        {activeTag_IDs.size === 0 && (
+          <Category_SWIPER categories={categories} window_WIDTH={window_WIDTH} />
+        )}
         <section className={css.profile_GRID}>
           {filtered_PROFILES.map((profile) => {
             return (

@@ -10,6 +10,7 @@ import Nav from "./components/Nav/Nav.jsx";
 
 import { AnimatePresence } from "framer-motion";
 import { SearchResults_MODAL } from "./components/Modals/SearchResults_MODAL/SearchResults_MODAL.jsx";
+import { USE_getCategories } from "./hooks/USE_getCategories.js";
 
 export function App() {
   const [search, SET_search] = useState("");
@@ -46,6 +47,16 @@ export function App() {
     loading: LOADING_tagGroups,
     error: tagGroups_ERROR,
   } = USE_fetchData(`${base_URL}/tagGroups`);
+
+  // ------------------------------
+
+  // TODO => end-categories that have no profiles, or start-categories with
+  // empty end-categories should not be displayed
+
+  // const available_CATEGORIES = categories?.filter((category) => category?.name?.en !== "All");
+  // const { startCateg_ARR, endCateg_ARR, GET_subCategories } = USE_getCategories(categories);
+
+  // ------------------------------
 
   if (profile_ERROR) console.log(profile_ERROR);
 

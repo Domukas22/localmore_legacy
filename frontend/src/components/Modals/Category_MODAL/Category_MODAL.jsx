@@ -23,11 +23,11 @@ export function Category_MODAL({
   categories,
 }) {
   const scroll_REF = useRef(null);
-  const { startCateg_ARR, endCateg_ARR, GET_categoryChildren } = USE_getCategories(categories);
+  const { startCateg_ARR, endCateg_ARR, GET_subCategories } = USE_getCategories(categories);
   const { HANLDE_dd, current_MENU, SET_currentMenu } = USE_DDactions();
 
   return (
-    <Modal isOpen={IS_mobileCategoryMenuOpen} className={css.tags_MODAL}>
+    <Modal isOpen={IS_mobileCategoryMenuOpen} className={css.Category_MODAL}>
       <Dialog aria-label="Menu" ref={scroll_REF} className={css.Dialog_MENU} autoFocus={false}>
         <div className={css.top}>
           <h3>Choose a category</h3>
@@ -71,7 +71,7 @@ export function Category_MODAL({
 
                   <Category_BLOCK
                     category_OBJ={categ}
-                    categoryChildren_ARR={GET_categoryChildren(categ._id)}
+                    categoryChildren_ARR={GET_subCategories(categ)}
                   />
                 </Transition_MENU>
               );

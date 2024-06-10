@@ -10,9 +10,10 @@ export function USE_getCategories(categories) {
     .filter((c) => c.IS_endCategory && !c.IS_startCategory)
     .sort((a, b) => a.name.en.localeCompare(b.name.en));
 
-  const GET_categoryChildren = (parentCateg_ID) => {
-    return categories.filter((c) => c.parent_CATEG === parentCateg_ID);
+  const GET_subCategories = (categ_OBJ) => {
+    console.log(categ_OBJ);
+    return categories.filter((c) => categ_OBJ.child_CATEG.some((categ_ID) => categ_ID === c._id));
   };
 
-  return { startCateg_ARR, endCateg_ARR, GET_categoryChildren };
+  return { startCateg_ARR, endCateg_ARR, GET_subCategories };
 }

@@ -3,11 +3,11 @@
 
 import { useRef } from "react";
 import { Dialog, Modal } from "react-aria-components";
-import css from "./PotentialTag_MODAL.module.css";
+import css from "./Tagbox_MODAL.module.css";
 
 import { Tagbox } from "../../Tagbox/Tagbox";
 
-export function PotentialTag_MODAL({
+export function Tagbox_MODAL({
   tagGroups,
   all_TAGS,
   tagUsages,
@@ -23,7 +23,6 @@ export function PotentialTag_MODAL({
   return (
     <Modal isOpen={IS_mobileTagMenuOpen} className={css.tags_MODAL}>
       <Dialog aria-label="Menu" ref={scroll_REF} className={css.Dialog_MENU} autoFocus={false}>
-        {console.log(activeTag_IDs.size)}
         <Tagbox
           all_TAGS={all_TAGS}
           tagGroups={tagGroups}

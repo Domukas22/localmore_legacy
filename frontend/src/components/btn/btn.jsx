@@ -51,7 +51,12 @@ export function Btn({
   );
 }
 
-export function ProfileSearch_BTN({ name, search, aria_LABEL, onClick = () => alert("No function provided") }) {
+export function ProfileSearch_BTN({
+  name,
+  search,
+  aria_LABEL,
+  onClick = () => alert("No function provided"),
+}) {
   return (
     <Button
       className={css["profile-search-btn"]}
@@ -71,7 +76,11 @@ export function ProfileSearch_BTN({ name, search, aria_LABEL, onClick = () => al
     </Button>
   );
 }
-export function ProfileName_BTN({ name, aria_LABEL, onClick = () => alert("No function provided") }) {
+export function ProfileName_BTN({
+  name,
+  aria_LABEL,
+  onClick = () => alert("No function provided"),
+}) {
   return (
     <Button
       className={css["profile-name-btn"]}
@@ -105,7 +114,8 @@ export function ShowTags_BTN({
 
   const icons = profile?.tags?.map((t) => (t.icon?.url ? t.icon.url : ""));
   const displayedIcons = icons ? icons.slice(0, visibleIcon_COUNT) : [];
-  const remainingTagsCount = displayedIcons.length > 0 ? Math.max(0, icons.length - visibleIcon_COUNT) : 0;
+  const remainingTagsCount =
+    displayedIcons.length > 0 ? Math.max(0, icons.length - visibleIcon_COUNT) : 0;
 
   return (
     <Button
@@ -161,21 +171,7 @@ export function SavedProfile_LINK({ name, subname, image_URL, remove }) {
     </div>
   );
 }
-export function Category_LINK({ name, subname, image_URL, remove }) {
-  const [IS_saved, SET_isSaved] = useState(true);
-  return (
-    <div className={css.Category_LINK}>
-      <a href="#">
-        <img src={image_URL} alt="" loading="lazy" />
-      </a>
 
-      <div className={css.text_WRAP}>
-        <h4>{name ?? "Name"}</h4>
-        {/* <p>{subname ?? "Subname"}</p> */}
-      </div>
-    </div>
-  );
-}
 export function ShowProsCons_BTN({
   onClick = () => alert("No function provided"),
   pros_COUNT,

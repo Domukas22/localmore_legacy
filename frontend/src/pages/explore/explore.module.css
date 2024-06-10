@@ -41,10 +41,6 @@
 }
 
 
-
-
-
-
 .profile_GRID {
   /* margin-top: 2rem; */
   width: 100%;
@@ -57,20 +53,24 @@
     margin-top: var(--padding-desk);
     padding-top: var(--padding-desk);
     border-top: var(--border-black-015);
+
+    @media (--mobile) {
+      margin-top: 0;
+    }
   }
   
   @media (--mobile) {
     /* grid-auto-rows: calc(100vw * (4 / 3.5) + 4rem);  */
-    grid-auto-rows: 60vh; 
+    grid-auto-rows: 62vh; 
     grid-template-columns: 1fr;
     padding: 0 var(--padding-mob) var(--padding-mob);
-    margin-top: var(--padding-mob);
-    padding-top: var(--padding-mob);
+    gap: calc(var(--padding-mob) + 0.2rem);
   }
 
   @media (--landscape) {
     background: green;
     grid-auto-rows: 30rem; /* 300px */
+ 
   }
 }
 

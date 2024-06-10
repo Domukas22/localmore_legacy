@@ -30,7 +30,7 @@ export function MobileMenu_MODAL({
   savedProfile_OBJs,
   REMOVE_fromSaved,
 }) {
-  const { startCateg_ARR, endCateg_ARR, GET_categoryChildren } = USE_getCategories(categories);
+  const { startCateg_ARR, endCateg_ARR, GET_subCategories } = USE_getCategories(categories);
   // const { savedProfile_IDs } = useContext(SavedProfileIDs_CONTEXT);
 
   const scroll_REF = useRef(null);
@@ -130,7 +130,7 @@ export function MobileMenu_MODAL({
 
                 <Category_BLOCK
                   category_OBJ={categ}
-                  categoryChildren_ARR={GET_categoryChildren(categ._id)}
+                  categoryChildren_ARR={GET_subCategories(categ)}
                 />
               </Transition_MENU>
             );

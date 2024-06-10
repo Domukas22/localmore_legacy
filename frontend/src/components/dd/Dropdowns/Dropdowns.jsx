@@ -21,7 +21,7 @@ import { ICON_save } from "../../icons/icons";
 import { useState } from "react";
 
 export function Categories_DD({ categories, styles }) {
-  const { startCateg_ARR, endCateg_ARR, GET_categoryChildren } = USE_getCategories(categories);
+  const { startCateg_ARR, endCateg_ARR, GET_subCategories } = USE_getCategories(categories);
 
   const { HANLDE_dd, current_MENU, menu_HEIGHT, SET_currentMenu, dropdown_REF, scroll } =
     USE_DDactions();
@@ -67,10 +67,7 @@ export function Categories_DD({ categories, styles }) {
               aria_LABEL=""
             />
 
-            <Category_BLOCK
-              category_OBJ={categ}
-              categoryChildren_ARR={GET_categoryChildren(categ._id)}
-            />
+            <Category_BLOCK category_OBJ={categ} categoryChildren_ARR={GET_subCategories(categ)} />
           </Transition_MENU>
         );
       })}
@@ -86,7 +83,7 @@ export function More_DD({
   SHOULD_showSettings,
   SHOULD_showHome,
 }) {
-  const { startCateg_ARR, endCateg_ARR, GET_categoryChildren } = USE_getCategories(categories);
+  const { startCateg_ARR, endCateg_ARR, GET_subCategories } = USE_getCategories(categories);
   const { HANLDE_dd, current_MENU, menu_HEIGHT, SET_currentMenu, dropdown_REF, scroll } =
     USE_DDactions();
 
@@ -161,10 +158,7 @@ export function More_DD({
               aria_LABEL=""
             />
 
-            <Category_BLOCK
-              category_OBJ={categ}
-              categoryChildren_ARR={GET_categoryChildren(categ._id)}
-            />
+            <Category_BLOCK category_OBJ={categ} categoryChildren_ARR={GET_subCategories(categ)} />
           </Transition_MENU>
         );
       })}
