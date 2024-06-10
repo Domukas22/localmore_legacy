@@ -1,7 +1,7 @@
 //
 //
 //
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useMemo } from "react";
 import css from "./explore.module.css";
 
 import Profile_PREVIEW from "../../components/Profile_PREVIEW/Profile_PREVIEW";
@@ -62,6 +62,11 @@ function Explore_GRID({
   tagUsages,
 }) {
   const [filtered_PROFILES, SET_filteredProfiles] = useState([...profiles]);
+  const theRest_PROFILES = useMemo(
+    () => profiles.filter((profile) => !filtered_PROFILES.includes(profile)),
+    [profiles, filtered_PROFILES]
+  );
+
   const [activeTag_IDs, SET_activeTagIDs] = useState(new Set());
   const [potentialTag_IDs, SET_potentialTagIDs] = useState({
     toDelete_IDs: new Set(),
@@ -103,7 +108,12 @@ function Explore_GRID({
   return (
     <div className={css.explore_WRAP}>
       <div className={css.left}>
-        <Header window_WIDTH={window_WIDTH} profile_COUNT={profiles.length} search={search} SET_search={SET_search} />
+        <Header>
+          <p>Look through {profiles.length} places</p>
+          {window_WIDTH >= 630 && <h1>Find what you're looking for in Heidelberg</h1>}
+          {window_WIDTH <= 629 && window_WIDTH >= 450 && <h1>Explore the city of Heidelberg</h1>}
+          {window_WIDTH <= 449 && <h1>Explore Heidelberg</h1>}
+        </Header>
         <Tagbar
           categories={categories}
           all_TAGS={all_TAGS}
@@ -134,25 +144,29 @@ function Explore_GRID({
               />
             );
           })}
-          {/* 
-          {filtered_PROFILES.map((profile) => {
-            return (
-              <Profile_PREVIEW
-                key={profile._id}
-                profile={profile}
-                activeTag_IDs={activeTag_IDs}
-                UPDATE_tags={UPDATE_tags}
-                SET_panoramas={SET_panoramas}
-                potentialTag_IDs={potentialTag_IDs}
-                SET_potentialTagIDs={SET_potentialTagIDs}
-                search={search}
-                lang={lang}
-                tr={profilePreview_TR}
-                global_TR={global_TR}
-              />
-            );
-          })} */}
         </section>
+
+        {activeTag_IDs.size > 0 && (
+          <section className={css.profile_GRID} data-type="the-rest">
+            {theRest_PROFILES.map((profile) => {
+              return (
+                <Profile_PREVIEW
+                  key={profile._id}
+                  profile={profile}
+                  activeTag_IDs={activeTag_IDs}
+                  UPDATE_tags={UPDATE_tags}
+                  potentialTag_IDs={potentialTag_IDs}
+                  SET_potentialTagIDs={SET_potentialTagIDs}
+                  SET_panoramas={SET_panoramas}
+                  search={search}
+                  lang={lang}
+                  tr={profilePreview_TR}
+                  global_TR={global_TR}
+                />
+              );
+            })}
+          </section>
+        )}
       </div>
       {window_WIDTH > 1100 && (
         <div className={css.right}>

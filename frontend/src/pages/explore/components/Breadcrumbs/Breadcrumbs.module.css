@@ -1,0 +1,42 @@
+/*  */
+/*  */
+
+
+.Breadcrumbs {
+  & ul {
+    display: flex;
+    column-gap: 0.4rem;
+    position: relative;
+    left: -0.6rem;
+  
+    & .breadcrunb_LINK {
+      text-decoration: none;
+      color: var(--text-black);
+      padding: 0.25rem 0.6rem 0.2rem;
+      border-radius: var(--radius-8);
+      border: 0.1rem solid transparent;
+      outline: 0.2rem solid transparent;
+      transition: 100ms;
+  
+      &[data-hovered="true"] {background: var(--btn-dark)}
+      &[data-pressed="true"] {
+        background: var(--btn-dark);
+        border-color: var(--brand-black);
+        box-shadow: none;
+      }
+      &[data-focus-visible] {
+        outline: var(--outline-brand-black);
+        outline-offset: -0.1rem;
+      }
+  
+      &[data-active="true"] {font-weight: 700}
+    }
+  
+    & span {
+      color: var(--text-black);
+      font-size: 1.4rem;
+      padding-top: 0.15rem;
+    }
+  }
+}
+

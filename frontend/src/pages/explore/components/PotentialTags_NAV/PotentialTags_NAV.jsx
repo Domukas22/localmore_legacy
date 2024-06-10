@@ -44,7 +44,7 @@ export function PotentialTags_NAV({ potentialTag_IDs, SET_potentialTagIDs, all_T
           {/* <p>Confirm 3 tag changes</p> */}
         </div>
         <Btn
-          styles={["btn-40", "grey", "dropdown", "round"]}
+          styles={["btn-40", "grey", "dropdown", "round", `${IS_potentialTagNavExpanded ? "red-x-on-hover" : ""}`]}
           onClick={() => SET_potentialTagNavExpanded((prev) => !prev)}
           text={IS_potentialTagNavExpanded ? "Less" : "More"}
           right_ICON={IS_potentialTagNavExpanded ? <ICON_x /> : <ICON_dropDownArrow />}
@@ -145,6 +145,20 @@ export function PotentialTags_NAV({ potentialTag_IDs, SET_potentialTagIDs, all_T
                 />
               );
             })}
+          </div>
+        )}
+
+        {IS_potentialTagNavExpanded && (
+          <div className={css.applyBtn_WRAP}>
+            <Btn
+              right_ICON={<ICON_x small={true} />}
+              styles={["btn-40", "strech", "text-left-auto", "red-x-on-hover"]}
+              text="Clear all tags"
+              onClick={() => {
+                UPDATE_tags(null, "deleteAll");
+                SET_potentialTagIDs({ toAdd_IDs: new Set(), toDelete_IDs: new Set() });
+              }}
+            />
           </div>
         )}
 

@@ -236,7 +236,7 @@
   color: var(--text-brand);
   background-color: var(--btn-brand-active);
   border: var(--border-brand-active);
-  font-weight: 500;
+  font-weight: 600;
   text-shadow: none;
 
   &[data-hovered="true"]{
@@ -256,7 +256,7 @@
   border: var(--green-border);
   color: var(--green);
   text-shadow: none;
-  font-weight: 500;
+  font-weight: 600;
 
   &[data-hovered="true"]{
     background-color: var(--green-hover);
@@ -276,7 +276,7 @@
   border: var(--red-border);
   color: var(--red);
   text-shadow: none;
-  font-weight: 500;
+  font-weight: 600;
 
   &[data-hovered="true"]{
     background-color: var(--red-hover);

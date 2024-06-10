@@ -3,31 +3,26 @@
 import { Dialog, Modal } from "react-aria-components";
 import { Btn } from "../../../btn/btn";
 import { useState } from "react";
-import { CSSTransition } from "react-transition-group";
-import { ICON_activeDigit, ICON_x } from "../../../icons/icons";
-import lightbulb from "../../../../assets/icons/lightbulb.png";
+import { ICON_x } from "../../../icons/icons";
 
 import css from "../../Nav.module.css";
-import { ICON_arrow } from "../../../icons/icons";
-import { SavedProfileIDs_CONTEXT } from "../../../../contexts/savedProfiles";
-import { useContext } from "react";
+
 import { useRef, useEffect } from "react";
 
-import { Settings_BLOCKS } from "../Transition_BLOCKS/Settings_BLOCKS";
-import { BtnBack_BLOCK } from "../Transition_BLOCKS/BtnBack_BLOCK";
-import { Legal_BLOCK } from "../Transition_BLOCKS/Legal_BLOCK";
-import { Saved_BLOCK } from "../Transition_BLOCKS/Saved_BLOCK";
+import Transition_MENU from "../../../../components/Transition_MENU/Transition_MENU";
+import {
+  Legal_BLOCK,
+  Feedback_BLOCK,
+  Settings_BLOCKS,
+  Saved_BLOCK,
+  BtnBack_BLOCK,
+  Nav_BLOCKS,
+  EndBtn_BLOCK,
+  AllCategories_BLOCK,
+  Category_BLOCK,
+} from "../../../../components/Transition_MENU/Blocks/Blocks";
 
-import { USE_getCategoryByID } from "../../../../hooks/USE_getDDcategory";
-import { USE_filterCategType } from "../../../../hooks/USE_filterCategType";
-import logo from "../../../../assets/icons/logo.png";
-import { CssTransition_MENU } from "../Menus/CssTransition_MENU";
-import { AllCategories_BLOCK } from "../Transition_BLOCKS/AllCategories_BLOCKS";
-import { Businesses_BLOCK } from "../Transition_BLOCKS/Businesses_BLOCK";
-import { Places_BLOCK } from "../Transition_BLOCKS/Places_BLOCK";
-import { Upper_BLOCK } from "../Transition_BLOCKS/Upper_BLOCK";
-import { Lower_BLOCK } from "../Transition_BLOCKS/Lower_BLOCK";
-import { Feedback_BLOCK } from "../Transition_BLOCKS/Feeback_BLOCK";
+import { USE_getCategories } from "../../../../hooks/USE_getCategories";
 
 export function Mobile_MENU({
   categories,
@@ -39,8 +34,7 @@ export function Mobile_MENU({
   savedProfile_OBJs,
   REMOVE_fromSaved,
 }) {
-  const { startCateg_ARR, endCateg_ARR, businessCateg_ARR, placesCateg_ARR } =
-    USE_filterCategType(categories);
+  const { startCateg_ARR, endCateg_ARR, GET_categoryChildren } = USE_getCategories(categories);
   // const { savedProfile_IDs } = useContext(SavedProfileIDs_CONTEXT);
 
   const scroll_REF = useRef(null);
@@ -68,26 +62,13 @@ export function Mobile_MENU({
           /* Avoids width glitches. The CSS menu's become absolute when swapping. */
         >
           {/* All */}
-          <CssTransition_MENU current_MENU={current_MENU} classNames="menu-primary" menu_NAME="all">
-            <Upper_BLOCK SET_currentMenu={SET_currentMenu} SET_reverse={SET_reverse} />
-
-            <Lower_BLOCK SET_currentMenu={SET_currentMenu} />
-            <div className={css.block_WRAP}>
-              <li>
-                <Btn
-                  styles={["btn-44", "navDD_BTN"]}
-                  text="Close menu"
-                  right_ICON={<ICON_x />}
-                  aria_LABEL=""
-                  onClick={() => TOGGLE_menu()}
-                  FIRE_clickEvent={false}
-                />
-              </li>
-            </div>
-          </CssTransition_MENU>
+          <Transition_MENU current_MENU={current_MENU} classNames="menu-primary" menu_NAME="all">
+            <Nav_BLOCKS SET_currentMenu={SET_currentMenu} SET_reverse={SET_reverse} />
+            <EndBtn_BLOCK text="Close menu" onClick={() => TOGGLE_menu()} />
+          </Transition_MENU>
 
           {/* Legal */}
-          <CssTransition_MENU
+          <Transition_MENU
             current_MENU={current_MENU}
             classNames="menu-secondary"
             menu_NAME="legal"
@@ -98,10 +79,10 @@ export function Mobile_MENU({
               aria_LABEL=""
             />
             <Legal_BLOCK />
-          </CssTransition_MENU>
+          </Transition_MENU>
 
           {/* Settings */}
-          <CssTransition_MENU
+          <Transition_MENU
             current_MENU={current_MENU}
             classNames="menu-secondary"
             menu_NAME="settings"
@@ -112,10 +93,10 @@ export function Mobile_MENU({
               aria_LABEL=""
             />
             <Settings_BLOCKS />
-          </CssTransition_MENU>
+          </Transition_MENU>
 
           {/* All Categories */}
-          <CssTransition_MENU
+          <Transition_MENU
             current_MENU={current_MENU}
             classNames={reverse ? "menu-secondary-reverse" : "menu-secondary"}
             menu_NAME="categories"
@@ -134,38 +115,33 @@ export function Mobile_MENU({
               SET_currentMenu={SET_currentMenu}
               SET_reverse={SET_reverse}
             />
-          </CssTransition_MENU>
+          </Transition_MENU>
 
-          {/* Category - Businesses */}
-          <CssTransition_MENU
-            current_MENU={current_MENU}
-            classNames="menu-third"
-            menu_NAME="businesses"
-          >
-            <BtnBack_BLOCK
-              title="All categories"
-              onClick={() => SET_currentMenu("categories")}
-              aria_LABEL=""
-            />
-            <Businesses_BLOCK business_CATEG={businessCateg_ARR} />
-          </CssTransition_MENU>
+          {/* Individual Categories */}
+          {startCateg_ARR.map((categ) => {
+            return (
+              <Transition_MENU
+                key={categ._id}
+                current_MENU={current_MENU}
+                classNames="menu-third"
+                menu_NAME={categ._id}
+              >
+                <BtnBack_BLOCK
+                  title="All categories"
+                  onClick={() => SET_currentMenu("categories")}
+                  aria_LABEL=""
+                />
 
-          {/* Category - Places */}
-          <CssTransition_MENU
-            current_MENU={current_MENU}
-            classNames="menu-third"
-            menu_NAME="places"
-          >
-            <BtnBack_BLOCK
-              title="All categories"
-              onClick={() => SET_currentMenu("categories")}
-              aria_LABEL=""
-            />
-            <Places_BLOCK places_CATEG={placesCateg_ARR} />
-          </CssTransition_MENU>
+                <Category_BLOCK
+                  category_OBJ={categ}
+                  categoryChildren_ARR={GET_categoryChildren(categ._id)}
+                />
+              </Transition_MENU>
+            );
+          })}
 
           {/* Saved */}
-          <CssTransition_MENU
+          <Transition_MENU
             current_MENU={current_MENU}
             classNames="menu-secondary"
             menu_NAME="saved"
@@ -179,17 +155,17 @@ export function Mobile_MENU({
               savedProfile_OBJs={savedProfile_OBJs}
               REMOVE_fromSaved={REMOVE_fromSaved}
             />
-          </CssTransition_MENU>
+          </Transition_MENU>
 
           {/* Feedback */}
-          <CssTransition_MENU
+          <Transition_MENU
             current_MENU={current_MENU}
             classNames="menu-secondary"
             menu_NAME="feedback"
           >
             <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
             <Feedback_BLOCK />
-          </CssTransition_MENU>
+          </Transition_MENU>
         </div>
       </Dialog>
     </Modal>

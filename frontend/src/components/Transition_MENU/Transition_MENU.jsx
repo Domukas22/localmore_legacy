@@ -1,7 +1,8 @@
 //
 //
+
 import { CSSTransition } from "react-transition-group";
-export function CssTransition_MENU({
+export default function Transition_MENU({
   children,
   current_MENU,
   menu_NAME,

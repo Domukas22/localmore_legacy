@@ -1,15 +1,15 @@
 //
 import { global_TR } from "../../translations";
 import css from "./labels.module.css";
+import PropTypes from "prop-types";
 
-export function New_LABEL({ lang }) {
+export function New_LABEL({ lang = "en" }) {
   return (
     <span className={css.labelNew} data-testid="label-new">
       {global_TR?.new_TEXT?.[lang] || "New"}
     </span>
   );
 }
-
 export function Tag_LABEL({ name, icon, color = "brand", small = false }) {
   return (
     <label className={css.Tag_LABEL} data-color={color} data-small={small}>
@@ -18,3 +18,13 @@ export function Tag_LABEL({ name, icon, color = "brand", small = false }) {
     </label>
   );
 }
+
+New_LABEL.propTypes = {
+  lang: PropTypes.string,
+};
+Tag_LABEL.propTypes = {
+  name: PropTypes.string.isRequired,
+  icon: PropTypes.element.isRequired,
+  color: PropTypes.string,
+  small: PropTypes.bool,
+};

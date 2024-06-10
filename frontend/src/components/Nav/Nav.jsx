@@ -255,9 +255,10 @@ function GET_layout(windowWidth, fontSize) {
   return sizeMapping.default;
 }
 
-// Nav.propTypes = {
-//   tagUsages: PropTypes.array,
-//   search: PropTypes.string,
-//   SET_search: PropTypes.func,
-//   categories: PropTypes.array,
-// };
+Nav.propTypes = {
+  tagUsages: PropTypes.array.isRequired,
+  search: PropTypes.string.isRequired,
+  SET_search: PropTypes.func.isRequired,
+  categories: PropTypes.array.isRequired,
+  profiles: PropTypes.array.isRequired,
+};

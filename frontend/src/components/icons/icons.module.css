@@ -8,17 +8,6 @@
   height: 2rem;
   object-fit: contain;
 }
-.path_FILL {
-  &[data-color="dark"] {
-    fill: var(--brand-black)
-  }
-  &[data-color="white"] {
-    fill: white;
-  }
-  &[data-color="red"] {
-    fill: var(--red);
-  }
-}
 
 .ICON_activeDigit {
   font-size: 1.4rem;
@@ -139,12 +128,12 @@
   composes: all;
   & path {
     &[data-style="white"] {
-        stroke: white;
+      stroke: white;
     }
     &[data-style="dark"] {
       stroke: var(--text-fade);
     }
-    &[data-style="active"] {
+    &[data-style="red"] {
       stroke: var(--red-heart);
       fill: var(--red-heart);
     }

@@ -1,0 +1,24 @@
+/*  */
+/*  */
+
+.Block {
+  display: flex;
+  flex-direction: column;  
+  gap: 0.6rem;
+  padding: 1.2rem;
+  border-bottom: var(--border-black-01);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &[data-custom="saved"] {
+    & li {
+      margin-bottom: 0.2rem;
+    }
+  }
+
+  @media (--mobile) {
+    padding: var(--padding-mob);
+  }
+}

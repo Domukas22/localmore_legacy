@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Btn } from "../btn/btn";
-import { ICON_activeDigit, ICON_arrow, ICON_search, ICON_searchSmall, ICON_x } from "../icons/icons";
+import { ICON_activeDigit, ICON_arrow, ICON_search, ICON_x } from "../icons/icons";
 import SearchBar from "../search/Searchbar";
 import css from "./Tagbox.module.css";
-import { CssTransition_MENU } from "../Nav/components/Menus/CssTransition_MENU";
+
+import Transition_MENU from "../Transition_MENU/Transition_MENU";
 import { USE_windowSize } from "../../hooks/USE_windowWidth";
 
 export function Tagbox({
@@ -43,7 +44,9 @@ export function Tagbox({
 
   const sorted_TAGS = [...all_TAGS];
   const potentialAdd_TAGS = sorted_TAGS.filter((tag) => potentialTag_IDs.toAdd_IDs.has(tag._id));
-  const potentialDelete_TAGS = sorted_TAGS.filter((tag) => potentialTag_IDs.toDelete_IDs.has(tag._id));
+  const potentialDelete_TAGS = sorted_TAGS.filter((tag) =>
+    potentialTag_IDs.toDelete_IDs.has(tag._id)
+  );
   const potentialStay_TAGS = sorted_TAGS?.filter((tag) =>
     Array.from(activeTag_IDs)
       .filter((tag_ID) => !potentialTag_IDs.toDelete_IDs.has(tag_ID))
@@ -103,20 +106,36 @@ export function Tagbox({
             />
           </div>
           {width < 1100 && (
-            <MobileBtn_WRAP activeTag_IDs={activeTag_IDs} UPDATE_tags={UPDATE_tags} SET_isOpen={SET_isOpen} />
+            <MobileBtn_WRAP
+              activeTag_IDs={activeTag_IDs}
+              UPDATE_tags={UPDATE_tags}
+              SET_isOpen={SET_isOpen}
+            />
           )}
         </>
       )}
       {HAS_potentialTags && (
         <div className={css.block_WRAP} data-potential-block-wrap>
           {potentialAdd_TAGS.length > 0 && (
-            <PotentialBlock type="add" tags={potentialAdd_TAGS} SET_potentialTagIDs={SET_potentialTagIDs} />
+            <PotentialBlock
+              type="add"
+              tags={potentialAdd_TAGS}
+              SET_potentialTagIDs={SET_potentialTagIDs}
+            />
           )}
           {potentialDelete_TAGS.length > 0 && (
-            <PotentialBlock type="delete" tags={potentialDelete_TAGS} SET_potentialTagIDs={SET_potentialTagIDs} />
+            <PotentialBlock
+              type="delete"
+              tags={potentialDelete_TAGS}
+              SET_potentialTagIDs={SET_potentialTagIDs}
+            />
           )}
           {potentialStay_TAGS.length > 0 && (
-            <PotentialBlock type="keep" tags={potentialStay_TAGS} SET_potentialTagIDs={SET_potentialTagIDs} />
+            <PotentialBlock
+              type="keep"
+              tags={potentialStay_TAGS}
+              SET_potentialTagIDs={SET_potentialTagIDs}
+            />
           )}
 
           <div className={css.applyBtn_WRAP}>
@@ -186,12 +205,17 @@ function Top({
               </div>
               <Btn
                 styles={["btn-40", "grey", "round"]}
-                right_ICON={<ICON_searchSmall />}
+                right_ICON={<ICON_search small={true} />}
                 onClick={() => SET_searchOpen(true)}
               />
 
               <Btn
-                styles={["btn-40", "grey", "round", `${current_MENU === "active-tags" ? "active" : ""}`]}
+                styles={[
+                  "btn-40",
+                  "grey",
+                  "round",
+                  `${current_MENU === "active-tags" ? "active" : ""}`,
+                ]}
                 left_ICON={
                   <div
                     className={css.circleGrowFade}
@@ -207,10 +231,16 @@ function Top({
                     jump={SHOULD_activeDitigJump}
                   />
                 }
-                onClick={() => SET_currentMenu(current_MENU === "active-tags" ? "all" : "active-tags")}
+                onClick={() =>
+                  SET_currentMenu(current_MENU === "active-tags" ? "all" : "active-tags")
+                }
               />
               {width < 1100 && (
-                <Btn styles={["btn-40", "grey", "round"]} right_ICON={<ICON_x />} onClick={() => SET_isOpen(false)} />
+                <Btn
+                  styles={["btn-40", "grey", "round"]}
+                  right_ICON={<ICON_x />}
+                  onClick={() => SET_isOpen(false)}
+                />
               )}
             </>
           )}
@@ -241,9 +271,19 @@ function Top({
     </>
   );
 }
-function ActiveTags_MENU({ current_MENU, SET_currentMenu, activeTag_IDs, UPDATE_tags, sorted_TAGS }) {
+function ActiveTags_MENU({
+  current_MENU,
+  SET_currentMenu,
+  activeTag_IDs,
+  UPDATE_tags,
+  sorted_TAGS,
+}) {
   return (
-    <CssTransition_MENU current_MENU={current_MENU} classNames="menu-secondary" menu_NAME="active-tags">
+    <Transition_MENU
+      current_MENU={current_MENU}
+      classNames="menu-secondary"
+      menu_NAME="active-tags"
+    >
       <div className={css.block_WRAP}>
         <div className={css.block}>
           <li>
@@ -285,7 +325,7 @@ function ActiveTags_MENU({ current_MENU, SET_currentMenu, activeTag_IDs, UPDATE_
           </div>
         )}
       </div>
-    </CssTransition_MENU>
+    </Transition_MENU>
   );
 }
 function Starter_MENU({
@@ -302,7 +342,7 @@ function Starter_MENU({
   totalTag_COUNT,
 }) {
   return (
-    <CssTransition_MENU current_MENU={current_MENU} classNames="menu-primary" menu_NAME="all">
+    <Transition_MENU current_MENU={current_MENU} classNames="menu-primary" menu_NAME="all">
       <div className={css.block_WRAP}>
         <div className={css.block}>
           <li>
@@ -356,7 +396,13 @@ function Starter_MENU({
                   key={tag._id}
                   styles={["btn-40", "strech", `${IS_active ? "active" : ""}`, "text-left-auto"]}
                   left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
-                  right_ICON={IS_active ? <ICON_x color="brand" small={true} /> : <span>{tag_COUNTS?.[tag._id]}</span>}
+                  right_ICON={
+                    IS_active ? (
+                      <ICON_x color="brand" small={true} />
+                    ) : (
+                      <span>{tag_COUNTS?.[tag._id]}</span>
+                    )
+                  }
                   text={tag?.name?.en}
                   onClick={() => UPDATE_tags(tag, IS_active ? "remove" : "add")}
                 />
@@ -365,7 +411,7 @@ function Starter_MENU({
           })}
         </div>
       </div>
-    </CssTransition_MENU>
+    </Transition_MENU>
   );
 }
 function TagGroup_MENU({
@@ -379,11 +425,15 @@ function TagGroup_MENU({
   activeTag_IDs,
   UPDATE_tags,
 }) {
-  const target_TAGUSAGES = tagUsages.filter((tagUsage) => tagUsage.tagGroup_ID === currentTagGroup_ID);
-  const target_TAGS = sorted_TAGS.filter((tag) => target_TAGUSAGES.some((tagUsage) => tagUsage.tag_ID === tag._id));
+  const target_TAGUSAGES = tagUsages.filter(
+    (tagUsage) => tagUsage.tagGroup_ID === currentTagGroup_ID
+  );
+  const target_TAGS = sorted_TAGS.filter((tag) =>
+    target_TAGUSAGES.some((tagUsage) => tagUsage.tag_ID === tag._id)
+  );
 
   return (
-    <CssTransition_MENU current_MENU={current_MENU} classNames="menu-secondary" menu_NAME="tag-group">
+    <Transition_MENU current_MENU={current_MENU} classNames="menu-secondary" menu_NAME="tag-group">
       <div className={css.block_WRAP}>
         <div className={css.block}>
           <li>
@@ -405,7 +455,13 @@ function TagGroup_MENU({
                   key={tag._id}
                   styles={["btn-40", "strech", `${IS_active ? "active" : ""}`, "text-left-auto"]}
                   left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
-                  right_ICON={IS_active ? <ICON_x color="brand" small={true} /> : <span>{tag_COUNTS?.[tag._id]}</span>}
+                  right_ICON={
+                    IS_active ? (
+                      <ICON_x color="brand" small={true} />
+                    ) : (
+                      <span>{tag_COUNTS?.[tag._id]}</span>
+                    )
+                  }
                   text={tag?.name?.en}
                   onClick={() => UPDATE_tags(tag, IS_active ? "remove" : "add")}
                 />
@@ -414,7 +470,7 @@ function TagGroup_MENU({
           })}
         </div>
       </div>
-    </CssTransition_MENU>
+    </Transition_MENU>
   );
 }
 
@@ -453,7 +509,8 @@ function PotentialBlock({ type, tags, SET_potentialTagIDs }) {
   return (
     <div className={css.block}>
       <p>
-        {type === "add" ? "Add" : type === "delete" ? "Delete" : "Keep"} {tags?.length || "NUM"} tags
+        {type === "add" ? "Add" : type === "delete" ? "Delete" : "Keep"} {tags?.length || "NUM"}{" "}
+        tags
       </p>
       {tags?.map((tag) => (
         <Btn

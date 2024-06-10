@@ -1,7 +1,7 @@
 //
 
 import { SearchField, Input, Button } from "react-aria-components";
-import { ICON_searchSmall, ICON_x } from "../icons/icons";
+import { ICON_search, ICON_x } from "../icons/icons";
 import css from "./search.module.css";
 import { useRef } from "react";
 import { useEffect } from "react";
@@ -18,7 +18,7 @@ export default function SearchBar({ SET_search, search, searchBar_REF, placehold
   return (
     <div className={css.search_WRAP}>
       <div className={css.searchIcon_WRAP}>
-        <ICON_searchSmall />
+        <ICON_search small={true} />
       </div>
 
       <SearchField

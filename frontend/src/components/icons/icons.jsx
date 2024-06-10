@@ -7,22 +7,16 @@ export function ICON_activeDigit({ count, IS_active, inverse = false, jump = fal
   return (
     <div
       className={css.ICON_activeDigit}
-      data-active={IS_active}
+      data-active={IS_active || false}
       data-inverse={inverse}
       data-testid="active-digit-icon"
       data-jump={jump}
     >
-      <p>{count}</p>
+      <p>{count || "0"}</p>
     </div>
   );
 }
-export function ICON_x({
-  rotate,
-  color = "dark",
-  small = false,
-  rotationAnimation = false,
-  oneLine = false,
-}) {
+export function ICON_x({ rotate = false, color = "dark", small = false, rotationAnimation = false, oneLine = false }) {
   return (
     <div
       className={small ? css.ICON_x_small : css.ICON_x}
@@ -33,14 +27,13 @@ export function ICON_x({
     ></div>
   );
 }
-export function ICON_arrow({ direction, color = "dark" }) {
-  const rotationAngle =
-    {
-      right: "0deg",
-      left: "180deg",
-      down: "90deg",
-      up: "-90deg",
-    }[direction] || "0deg";
+export function ICON_arrow({ direction = "right", color = "dark" }) {
+  const rotationAngle = {
+    right: "0deg",
+    left: "180deg",
+    down: "90deg",
+    up: "-90deg",
+  }[direction];
 
   return (
     <svg
@@ -59,7 +52,7 @@ export function ICON_arrow({ direction, color = "dark" }) {
     </svg>
   );
 }
-export function ICON_save({ style }) {
+export function ICON_save({ color = "dark" }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +67,7 @@ export function ICON_save({ style }) {
         d="M9.00013 15C9.78229 15 10.8832 14.1123 11.5544 13.5634C12.2256 13.0145 13.9986 11.5084 14.8111 10.586C15.6236 9.66357 16.8154 8.00547 16.9787 6.26592C17.142 4.52637 16.3515 2.63429 15.1411 1.7933C13.9307 0.952322 12.7047 0.873466 11.7856 1.12768C10.8196 1.39538 10.3318 1.61432 9.03826 3.07008C9.03334 3.07546 9.02745 3.07974 9.02094 3.08267C9.01443 3.08559 9.00744 3.08709 9.00037 3.08709C8.99331 3.08709 8.98631 3.08559 8.9798 3.08267C8.97329 3.07974 8.96741 3.07546 8.96248 3.07008C7.66898 1.61432 7.18111 1.39538 6.21514 1.12768C5.29609 0.873466 4.06956 0.952841 2.85965 1.7933C1.64974 2.63377 0.855356 4.52585 1.02205 6.26592C1.18875 8.00599 2.3752 9.66357 3.18963 10.586C4.00405 11.5084 5.77517 13.0151 6.44636 13.5634C7.11756 14.1118 8.21796 15 9.00013 15Z"
         stroke="black"
         strokeWidth="1.6"
-        data-style={style}
+        data-style={color}
       />
     </svg>
   );
@@ -96,27 +89,22 @@ export function ICON_dropDownArrow({ color = "dark" }) {
     </div>
   );
 }
-export function ICON_search({ color }) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path
-        d="M13 13L19 19"
-        stroke="#383940"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15Z"
-        stroke="#383940"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-export function ICON_searchSmall({ color }) {
+export function ICON_search({ small = false }) {
+  if (!small) {
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M13 13L19 19" stroke="#383940" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+          d="M8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15Z"
+          stroke="#383940"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    );
+  }
+
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
       <path
@@ -149,13 +137,7 @@ export function ICON_proCon({ IS_pro = true }) {
   return (
     <div className={css.ICON_proCon} data-pro={IS_pro}>
       {IS_pro && (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="10"
-          height="12"
-          viewBox="0 0 10 12"
-          fill="none"
-        >
+        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="12" viewBox="0 0 10 12" fill="none">
           <path
             d="M1.3337 6.57719L3.85275 10.0198L8.93721 1.91042"
             stroke="white"
@@ -210,18 +192,36 @@ export function ICON_error({ color = "dark" }) {
 ICON_activeDigit.propTypes = {
   count: PropTypes.number,
   IS_active: PropTypes.bool,
+  inverse: PropTypes.bool,
+  jump: PropTypes.bool,
 };
-
 ICON_x.propTypes = {
   rotate: PropTypes.bool,
   color: PropTypes.string,
+  small: PropTypes.bool,
+  rotationAnimation: PropTypes.bool,
+  oneLine: PropTypes.bool,
 };
-
 ICON_arrow.propTypes = {
   direction: PropTypes.string,
   color: PropTypes.string,
 };
-
 ICON_save.propTypes = {
   style: PropTypes.string,
+};
+ICON_dropDownArrow.propTypes = {
+  color: PropTypes.string,
+};
+ICON_search.propTypes = {
+  color: PropTypes.string,
+};
+ICON_menuLines.propTypes = {};
+ICON_proCon.propTypes = {
+  IS_pro: PropTypes.bool,
+};
+ICON_3dots.propTypes = {
+  color: PropTypes.string,
+};
+ICON_error.propTypes = {
+  color: PropTypes.string,
 };

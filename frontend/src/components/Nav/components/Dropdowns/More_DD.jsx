@@ -2,22 +2,23 @@
 //
 
 import DD from "../../../dd/dd";
-import { useState, useRef } from "react";
+import { useState } from "react";
 
 import { USE_DDactions } from "../../../../hooks/USE_DDactions";
-import { CssTransition_MENU } from "../Menus/CssTransition_MENU";
 
-import { Settings_BLOCKS } from "../Transition_BLOCKS/Settings_BLOCKS";
-import { BtnBack_BLOCK } from "../Transition_BLOCKS/BtnBack_BLOCK";
-import { Legal_BLOCK } from "../Transition_BLOCKS/Legal_BLOCK";
-import { Lower_BLOCK } from "../Transition_BLOCKS/Lower_BLOCK";
-import { Upper_BLOCK } from "../Transition_BLOCKS/Upper_BLOCK";
-import { Feedback_BLOCK } from "../Transition_BLOCKS/Feeback_BLOCK";
-import { Businesses_BLOCK } from "../Transition_BLOCKS/Businesses_BLOCK";
-import { Places_BLOCK } from "../Transition_BLOCKS/Places_BLOCK";
+import Transition_MENU from "../../../../components/Transition_MENU/Transition_MENU";
+import {
+  Legal_BLOCK,
+  Feedback_BLOCK,
+  Settings_BLOCKS,
+  BtnBack_BLOCK,
+  Nav_BLOCKS,
+  AllCategories_BLOCK,
+  Category_BLOCK,
+} from "../../../../components/Transition_MENU/Blocks/Blocks";
 
-import { USE_filterCategType } from "../../../../hooks/USE_filterCategType";
-import { AllCategories_BLOCK } from "../Transition_BLOCKS/AllCategories_BLOCKS";
+import { USE_getCategories } from "../../../../hooks/USE_getCategories";
+// import { AllCategories_BLOCK } from "../Transition_BLOCKS/AllCategories_BLOCKS";
 
 export function More_DD({
   tag_USAGES,
@@ -28,8 +29,7 @@ export function More_DD({
   SHOULD_showSettings,
   SHOULD_showHome,
 }) {
-  const { startCateg_ARR, endCateg_ARR, businessCateg_ARR, placesCateg_ARR } =
-    USE_filterCategType(categories);
+  const { startCateg_ARR, endCateg_ARR, GET_categoryChildren } = USE_getCategories(categories);
   const { HANLDE_dd, current_MENU, menu_HEIGHT, SET_currentMenu, dropdown_REF, scroll } =
     USE_DDactions();
 
@@ -47,13 +47,13 @@ export function More_DD({
       menu_REF={dropdown_REF}
     >
       {/* All */}
-      <CssTransition_MENU
+      <Transition_MENU
         current_MENU={current_MENU}
         classNames="menu-primary"
         menu_NAME="all"
         resize={(el) => HANLDE_dd("resize", el)}
       >
-        <Upper_BLOCK
+        <Nav_BLOCKS
           SET_currentMenu={SET_currentMenu}
           visible_BTNs={{
             liked: false,
@@ -63,12 +63,10 @@ export function More_DD({
           }}
           SET_reverse={SET_reverse}
         />
-
-        <Lower_BLOCK SET_currentMenu={SET_currentMenu} />
-      </CssTransition_MENU>
+      </Transition_MENU>
 
       {/* All Categories */}
-      <CssTransition_MENU
+      <Transition_MENU
         current_MENU={current_MENU}
         classNames={reverse ? "menu-secondary-reverse" : "menu-secondary"}
         menu_NAME="categories"
@@ -88,40 +86,34 @@ export function More_DD({
           SET_currentMenu={SET_currentMenu}
           SET_reverse={SET_reverse}
         />
-      </CssTransition_MENU>
+      </Transition_MENU>
 
-      {/* Category - Businesses */}
-      <CssTransition_MENU
-        current_MENU={current_MENU}
-        classNames="menu-third"
-        menu_NAME="businesses"
-        resize={(el) => HANLDE_dd("resize", el)}
-      >
-        <BtnBack_BLOCK
-          title="All categories"
-          onClick={() => SET_currentMenu("categories")}
-          aria_LABEL=""
-        />
-        <Businesses_BLOCK business_CATEG={businessCateg_ARR} />
-      </CssTransition_MENU>
+      {/* Individual Categories */}
+      {startCateg_ARR.map((categ) => {
+        return (
+          <Transition_MENU
+            key={categ._id}
+            resize={(el) => HANLDE_dd("resize", el)}
+            current_MENU={current_MENU}
+            classNames="menu-third"
+            menu_NAME={categ._id}
+          >
+            <BtnBack_BLOCK
+              title="All categories"
+              onClick={() => SET_currentMenu("categories")}
+              aria_LABEL=""
+            />
 
-      {/* Category - Places */}
-      <CssTransition_MENU
-        current_MENU={current_MENU}
-        classNames="menu-third"
-        menu_NAME="places"
-        resize={(el) => HANLDE_dd("resize", el)}
-      >
-        <BtnBack_BLOCK
-          title="All categories"
-          onClick={() => SET_currentMenu("categories")}
-          aria_LABEL=""
-        />
-        <Places_BLOCK places_CATEG={placesCateg_ARR} />
-      </CssTransition_MENU>
+            <Category_BLOCK
+              category_OBJ={categ}
+              categoryChildren_ARR={GET_categoryChildren(categ._id)}
+            />
+          </Transition_MENU>
+        );
+      })}
 
       {/* Settings */}
-      <CssTransition_MENU
+      <Transition_MENU
         current_MENU={current_MENU}
         classNames="menu-secondary"
         menu_NAME="settings"
@@ -129,10 +121,10 @@ export function More_DD({
       >
         <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
         <Settings_BLOCKS resize={() => HANLDE_dd("fit-content-font-resize")} />
-      </CssTransition_MENU>
+      </Transition_MENU>
 
       {/* Feedback */}
-      <CssTransition_MENU
+      <Transition_MENU
         current_MENU={current_MENU}
         classNames="menu-secondary"
         menu_NAME="feedback"
@@ -140,10 +132,10 @@ export function More_DD({
       >
         <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
         <Feedback_BLOCK />
-      </CssTransition_MENU>
+      </Transition_MENU>
 
       {/* Legal */}
-      <CssTransition_MENU
+      <Transition_MENU
         current_MENU={current_MENU}
         classNames="menu-secondary"
         menu_NAME="legal"
@@ -151,7 +143,7 @@ export function More_DD({
       >
         <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
         <Legal_BLOCK />
-      </CssTransition_MENU>
+      </Transition_MENU>
     </DD>
   );
 }

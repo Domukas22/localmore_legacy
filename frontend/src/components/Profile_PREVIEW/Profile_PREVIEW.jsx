@@ -83,6 +83,10 @@ export default function Profile_PREVIEW({
   );
 
   useEffect(() => {
+    SET_currentView("front");
+  }, [activeTag_IDs]);
+
+  useEffect(() => {
     let height = 0;
     switch (current_VIEW) {
       case "front":
@@ -144,7 +148,7 @@ export default function Profile_PREVIEW({
             styles={["btn-36", "onImg", "save"]}
             onClick={() => (IS_saved ? HANDLE_save("delete") : HANDLE_save("save"))}
             saved={IS_saved}
-            left_ICON={<ICON_save style={IS_saved ? "active" : "white"} />}
+            left_ICON={<ICON_save color={IS_saved ? "red" : "white"} />}
             // aria_LABEL={tr?.saveBtn_ARIA(name)[lang]}
             test_ID="save-btn"
           />
@@ -366,6 +370,7 @@ function Footer_TAGS({
               <Btn
                 key={tag._id}
                 styles={[
+                  "btn-36",
                   "onBlur",
                   "round",
                   `${IS_active ? "active" : ""}`,

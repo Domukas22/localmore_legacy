@@ -1,19 +1,21 @@
 //
 //
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { Dialog, Modal } from "react-aria-components";
 import css from "./MobileCategory_MENU.module.css";
-import { ICON_arrow, ICON_x, ICON_activeDigit } from "../../../../components/icons/icons";
+import { ICON_x } from "../../../../components/icons/icons";
 import { Btn } from "../../../../components/btn/btn";
-import { CssTransition_MENU } from "../../../../components/Nav/components/Menus/CssTransition_MENU";
-import SearchBar from "../../../../components/search/Searchbar";
-import { AllCategories_BLOCK } from "../../../../components/Nav/components/Transition_BLOCKS/AllCategories_BLOCKS";
-import { BtnBack_BLOCK } from "../../../../components/Nav/components/Transition_BLOCKS/BtnBack_BLOCK";
-import { Businesses_BLOCK } from "../../../../components/Nav/components/Transition_BLOCKS/Businesses_BLOCK";
-import { Places_BLOCK } from "../../../../components/Nav/components/Transition_BLOCKS/Places_BLOCK";
+
+import Transition_MENU from "../../../../components/Transition_MENU/Transition_MENU";
+import {
+  BtnBack_BLOCK,
+  AllCategories_BLOCK,
+  Category_BLOCK,
+} from "../../../../components/Transition_MENU/Blocks/Blocks";
+
 import { USE_DDactions } from "../../../../hooks/USE_DDactions";
-import { USE_filterCategType } from "../../../../hooks/USE_filterCategType";
+import { USE_getCategories } from "../../../../hooks/USE_getCategories";
 
 export function MobileCategory_MENU({
   IS_mobileCategoryMenuOpen,
@@ -21,12 +23,8 @@ export function MobileCategory_MENU({
   categories,
 }) {
   const scroll_REF = useRef(null);
-
-  const { startCateg_ARR, endCateg_ARR, businessCateg_ARR, placesCateg_ARR } =
-    USE_filterCategType(categories);
-
-  const { HANLDE_dd, current_MENU, menu_HEIGHT, SET_currentMenu, dropdown_REF, scroll } =
-    USE_DDactions();
+  const { startCateg_ARR, endCateg_ARR, GET_categoryChildren } = USE_getCategories(categories);
+  const { HANLDE_dd, current_MENU, SET_currentMenu } = USE_DDactions();
 
   return (
     <Modal isOpen={IS_mobileCategoryMenuOpen} className={css.tags_MODAL}>
@@ -43,7 +41,7 @@ export function MobileCategory_MENU({
         <div className={css.menu_WRAP}>
           <div className={css.menu_SUBWRAP}>
             {/* All Categories */}
-            <CssTransition_MENU
+            <Transition_MENU
               current_MENU={current_MENU}
               classNames={"menu-primary"}
               menu_NAME="all"
@@ -53,35 +51,31 @@ export function MobileCategory_MENU({
                 end_CATEG={endCateg_ARR}
                 SET_currentMenu={SET_currentMenu}
               />
-            </CssTransition_MENU>
+            </Transition_MENU>
 
-            {/* Category - Businesses */}
-            <CssTransition_MENU
-              current_MENU={current_MENU}
-              classNames="menu-secondary"
-              menu_NAME="businesses"
-            >
-              <BtnBack_BLOCK
-                title="All categories"
-                onClick={() => SET_currentMenu("all")}
-                aria_LABEL=""
-              />
-              <Businesses_BLOCK business_CATEG={businessCateg_ARR} />
-            </CssTransition_MENU>
+            {/* Individual Categories */}
+            {startCateg_ARR.map((categ) => {
+              return (
+                <Transition_MENU
+                  key={categ._id}
+                  resize={(el) => HANLDE_dd("resize", el)}
+                  current_MENU={current_MENU}
+                  classNames="menu-third"
+                  menu_NAME={categ._id}
+                >
+                  <BtnBack_BLOCK
+                    title="All categories"
+                    onClick={() => SET_currentMenu("all")}
+                    aria_LABEL=""
+                  />
 
-            {/* Category - Places */}
-            <CssTransition_MENU
-              current_MENU={current_MENU}
-              classNames="menu-secondary"
-              menu_NAME="places"
-            >
-              <BtnBack_BLOCK
-                title="All categories"
-                onClick={() => SET_currentMenu("all")}
-                aria_LABEL=""
-              />
-              <Places_BLOCK places_CATEG={placesCateg_ARR} />
-            </CssTransition_MENU>
+                  <Category_BLOCK
+                    category_OBJ={categ}
+                    categoryChildren_ARR={GET_categoryChildren(categ._id)}
+                  />
+                </Transition_MENU>
+              );
+            })}
           </div>
         </div>
       </Dialog>
