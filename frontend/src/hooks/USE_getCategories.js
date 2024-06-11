@@ -11,7 +11,6 @@ export function USE_getCategories(categories) {
     .sort((a, b) => a.name.en.localeCompare(b.name.en));
 
   const GET_subCategories = (categ_OBJ) => {
-    console.log(categ_OBJ);
     return categories.filter((c) => categ_OBJ.child_CATEG.some((categ_ID) => categ_ID === c._id));
   };
 

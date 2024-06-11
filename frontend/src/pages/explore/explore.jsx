@@ -13,14 +13,24 @@ import { global_TR } from "../../translations";
 import { Header } from "../../components/Header/Header";
 import { Tagbar } from "./components/Tagbar/Tagbar";
 
+import { AnimatePresence, motion } from "framer-motion";
+
 import { Tagbox } from "../../components/Tagbox/Tagbox";
 import { Btn } from "../../components/btn/btn";
 import { ICON_dropDownArrow, ICON_x } from "../../components/icons/icons";
 import { PotentialTags_NAV } from "../../components/Modals/PotentialTags_MODAL/PotentialTags_MODAL";
 import { Category_SWIPER } from "./components/Category_SWIPER/Category_SWIPER";
 
+const decoy_PROPS = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0, transition: { duration: 0.3 } },
+  transition: { duration: 0.3, ease: "easeOut" },
+  zIndex: 1,
+};
+
 export default function Explore({
-  profiles,
+  shuffled_PROFILES,
   tags,
   tagUsages,
   window_WIDTH,
@@ -28,6 +38,7 @@ export default function Explore({
   categories,
   SET_search,
   tagGroups,
+  profiles_OBJ,
 }) {
   const [panoramas, SET_panoramas] = useState(null);
   const { lang } = useContext(Lang_CONTEXT);
@@ -35,7 +46,7 @@ export default function Explore({
   return (
     <>
       <Explore_GRID
-        profiles={profiles}
+        shuffled_PROFILES={shuffled_PROFILES}
         SET_panoramas={SET_panoramas}
         search={search}
         lang={lang}
@@ -44,6 +55,7 @@ export default function Explore({
         tags={tags}
         tagGroups={tagGroups}
         tagUsages={tagUsages}
+        profiles_OBJ={profiles_OBJ}
       />
       {panoramas !== null && <Modal360 panoramas={panoramas} SET_panoramas={SET_panoramas} />}
     </>
@@ -51,7 +63,6 @@ export default function Explore({
 }
 
 function Explore_GRID({
-  profiles,
   SET_panoramas,
   search,
   SET_search,
@@ -61,11 +72,14 @@ function Explore_GRID({
   tags: all_TAGS,
   tagGroups,
   tagUsages,
+  profiles_OBJ,
 }) {
-  const [filtered_PROFILES, SET_filteredProfiles] = useState([...profiles]);
+  const { shuffled_PROFILES, LOADING_profiles } = profiles_OBJ;
+
+  const [filtered_PROFILES, SET_filteredProfiles] = useState([...shuffled_PROFILES]);
   const theRest_PROFILES = useMemo(
-    () => profiles.filter((profile) => !filtered_PROFILES.includes(profile)),
-    [profiles, filtered_PROFILES]
+    () => shuffled_PROFILES.filter((profile) => !filtered_PROFILES.includes(profile)),
+    [shuffled_PROFILES, filtered_PROFILES]
   );
 
   const [activeTag_IDs, SET_activeTagIDs] = useState(new Set());
@@ -75,16 +89,12 @@ function Explore_GRID({
   });
 
   useEffect(() => {
-    SET_filteredProfiles(profiles);
-  }, [profiles]);
-
-  useEffect(() => {
     if (activeTag_IDs.size === 0) {
-      SET_filteredProfiles(profiles);
+      SET_filteredProfiles(shuffled_PROFILES);
       return;
     }
 
-    const filtered = profiles
+    const filtered = shuffled_PROFILES
       .filter((profile) => {
         return profile.tags.some((tag) => activeTag_IDs.has(tag._id));
       })
@@ -95,13 +105,14 @@ function Explore_GRID({
       });
 
     SET_filteredProfiles(filtered);
-  }, [activeTag_IDs, profiles]);
+  }, [activeTag_IDs, shuffled_PROFILES]);
 
   const UPDATE_tags = (tag, action) => {
     SET_activeTagIDs((prevactiveTag_IDs) => {
       if (action === "deleteAll") return new Set();
       const newactiveTag_IDs = new Set(prevactiveTag_IDs);
       action === "add" ? newactiveTag_IDs.add(tag._id) : newactiveTag_IDs.delete(tag._id);
+      window.scrollTo({ top: window_WIDTH > 1100 ? 0 : 100, behavior: "smooth" });
       return newactiveTag_IDs;
     });
   };
@@ -110,12 +121,7 @@ function Explore_GRID({
     <div className={css.explore_WRAP}>
       <div className={css.left}>
         <Header>
-          {activeTag_IDs.size === 0 && <p>Look through {profiles.length} places</p>}
-          {activeTag_IDs.size > 0 && (
-            <p>
-              {activeTag_IDs.size} tags - {filtered_PROFILES.length} Results
-            </p>
-          )}
+          <p>Look through {shuffled_PROFILES.length} places</p>
           {window_WIDTH >= 630 && <h1>Find what you're looking for in Heidelberg</h1>}
           {window_WIDTH <= 629 && window_WIDTH >= 450 && <h1>Explore the city of Heidelberg</h1>}
           {window_WIDTH <= 449 && <h1>Explore Heidelberg</h1>}
@@ -131,27 +137,47 @@ function Explore_GRID({
           tagGroups={tagGroups}
           tagUsages={tagUsages}
         />
-        {activeTag_IDs.size === 0 && (
-          <Category_SWIPER categories={categories} window_WIDTH={window_WIDTH} />
-        )}
+        {/* {activeTag_IDs.size === 0 && (
+          <Category_SWIPER
+            categories={categories}
+            window_WIDTH={window_WIDTH}
+            shuffled_PROFILES={shuffled_PROFILES}
+          />
+        )} */}
+
         <section className={css.profile_GRID}>
-          {filtered_PROFILES.map((profile) => {
-            return (
-              <Profile_PREVIEW
-                key={profile._id}
-                profile={profile}
-                activeTag_IDs={activeTag_IDs}
-                UPDATE_tags={UPDATE_tags}
-                potentialTag_IDs={potentialTag_IDs}
-                SET_potentialTagIDs={SET_potentialTagIDs}
-                SET_panoramas={SET_panoramas}
-                search={search}
-                lang={lang}
-                tr={profilePreview_TR}
-                global_TR={global_TR}
-              />
-            );
-          })}
+          <AnimatePresence>
+            {LOADING_profiles ? (
+              [...Array(9)].map((_, i) => {
+                return (
+                  <motion.div
+                    {...decoy_PROPS}
+                    key={i}
+                    className={css.profile_DECOY}
+                    data-loading="true"
+                  ></motion.div>
+                );
+              })
+            ) : (
+              <>
+                {filtered_PROFILES.map((profile) => (
+                  <Profile_PREVIEW
+                    key={profile?.name?.en}
+                    profile={profile}
+                    activeTag_IDs={activeTag_IDs}
+                    UPDATE_tags={UPDATE_tags}
+                    potentialTag_IDs={potentialTag_IDs}
+                    SET_potentialTagIDs={SET_potentialTagIDs}
+                    SET_panoramas={SET_panoramas}
+                    search={search}
+                    lang={lang}
+                    tr={profilePreview_TR}
+                    global_TR={global_TR}
+                  />
+                ))}
+              </>
+            )}
+          </AnimatePresence>
         </section>
 
         {activeTag_IDs.size > 0 && (

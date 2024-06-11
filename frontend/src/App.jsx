@@ -1,7 +1,7 @@
 import "./styles/reset.css";
 import "./styles/App.css";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Explore from "./pages/explore/explore.jsx";
 import { USE_windowSize } from "./hooks/USE_windowWidth";
 import { USE_fetchData } from "./hooks/USE_fetchData.js";
@@ -15,8 +15,6 @@ import { USE_getCategories } from "./hooks/USE_getCategories.js";
 export function App() {
   const [search, SET_search] = useState("");
   const { width } = USE_windowSize();
-
-  // memoize the fetch calls
 
   const {
     data: profiles,
@@ -58,6 +56,14 @@ export function App() {
 
   // ------------------------------
 
+  const available_CATEGORIES = categories?.filter((category) => category?.visible);
+  const shuffled_PROFILES = useMemo(
+    () => profiles?.sort(() => Math.random() - 0.5),
+    [LOADING_profiles]
+  );
+
+  console.log(shuffled_PROFILES);
+
   if (profile_ERROR) console.log(profile_ERROR);
 
   return (
@@ -66,7 +72,7 @@ export function App() {
         tagUsages={tagUsages}
         search={search}
         SET_search={SET_search}
-        categories={categories}
+        categories={available_CATEGORIES}
         profiles={profiles}
       />
       <AnimatePresence>
@@ -74,13 +80,13 @@ export function App() {
       </AnimatePresence>
 
       <Explore
-        profiles={profiles}
+        profiles_OBJ={{ shuffled_PROFILES, LOADING_profiles }}
         tags={tags}
         tagUsages={tagUsages}
         window_WIDTH={width}
         search={search}
         SET_search={SET_search}
-        categories={categories}
+        categories={available_CATEGORIES}
         tagGroups={tagGroups}
       />
     </>

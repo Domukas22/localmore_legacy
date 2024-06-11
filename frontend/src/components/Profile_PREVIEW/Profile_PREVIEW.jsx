@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import { useState, useContext, useEffect, useRef, useCallback, useMemo } from "react";
 import css from "./Profile_PREVIEW.module.css";
-import { motion } from "framer-motion";
+import { delay, motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import { ICON_arrow, ICON_error, ICON_proCon, ICON_save, ICON_x } from "../icons/icons";
@@ -23,7 +23,7 @@ import { USE_windowSize } from "../../hooks/USE_windowWidth";
 import { HeartConfetti } from "../HeartConfetti/HeartConfetti";
 import { FontSizeContext } from "../../contexts/fontSize";
 
-const FooterMotion_PROPS = {
+const Motion_PROPS = {
   initial: { opacity: 0 },
   animate: { opacity: 1 },
   exit: { opacity: 0 },
@@ -56,10 +56,18 @@ export default function Profile_PREVIEW({
   const prosConsBtn_REF = useRef(null);
   const [footer_HEIGHT, SET_footerHeight] = useState(footer_REF?.current?.clientHeight || null);
 
-  const matchedTag_IDs = Array.from(activeTag_IDs).filter((activeTag_ID) =>
-    profile.tags.some((profile_TAG) => profile_TAG._id === activeTag_ID)
+  const matchedTag_IDs = useMemo(
+    () =>
+      Array.from(activeTag_IDs).filter((activeTag_ID) =>
+        profile.tags.some((profile_TAG) => profile_TAG._id === activeTag_ID)
+      ),
+    [activeTag_IDs, profile]
   );
-  const matched_TAGS = profile.tags.filter((tag) => matchedTag_IDs.includes(tag._id));
+
+  const matched_TAGS = useMemo(
+    () => profile.tags.filter((tag) => matchedTag_IDs.includes(tag._id)),
+    [profile, matchedTag_IDs]
+  );
 
   const { savedProfile_IDs, ADD_toSaved, REMOVE_fromSaved } = useContext(SavedProfileIDs_CONTEXT);
   const { fontSize, fontSize_SCALE } = useContext(FontSizeContext);
@@ -122,13 +130,18 @@ export default function Profile_PREVIEW({
     };
   }, [fontSize, fontSize_SCALE]);
 
+  const style = useMemo(
+    () => (profile?.img?.blur ? { backgroundImage: `url(${profile.img.blur})` } : {}),
+    [profile]
+  );
+
   return (
     <article
       className={css.profile_PREVIEW}
       // aria-label={
       //   tr?.profileIntro_ARIA(profile?.name?.[lang], profile?.subname?.[lang])[lang] || "Profile"
       // }
-      style={profile?.img?.blur ? { backgroundImage: `url(${profile.img.blur})` } : {}}
+      style={style}
       onMouseEnter={() => SET_hover(true)}
       onMouseLeave={() => SET_hover(false)}
     >
@@ -164,7 +177,10 @@ export default function Profile_PREVIEW({
         SHOW_hearts={SHOW_hearts}
       />
 
-      <footer ref={footer_REF} style={{ height: `${footer_HEIGHT}px`, backgroundImage: `url(${profile?.img?.blur})` }}>
+      <footer
+        ref={footer_REF}
+        style={{ height: `${footer_HEIGHT}px`, backgroundImage: `url(${profile?.img?.blur})` }}
+      >
         {current_VIEW === "tags" && (
           <Footer_TAGS
             profile={profile}
@@ -218,11 +234,18 @@ function Images({ images, SHOW_swiper, sliderRef, hover, slide, SHOW_hearts }) {
           SHOW_hearts={SHOW_hearts}
         />
       )}
-      {!SHOW_swiper.mobile && <img src={images[0] + "/Mobile"} className={css.single_IMG} /*  alt={img_ALT} */ />}
+      {!SHOW_swiper.mobile && (
+        <img src={images[0] + "/Mobile"} className={css.single_IMG} /*  alt={img_ALT} */ />
+      )}
       {images.length < 1 && (
         <div className={css.noImagesFound}>
           <p>No images found</p>
-          <Btn styles={["onImg"]} left_ICON={<ICON_error color="white" />} onClick={() => {}} text="Report issue" />
+          <Btn
+            styles={["onImg"]}
+            left_ICON={<ICON_error color="white" />}
+            onClick={() => {}}
+            text="Report issue"
+          />
         </div>
       )}
     </>
@@ -286,7 +309,7 @@ function Footer_FRONT({
   matched_TAGS,
 }) {
   return (
-    <motion.div className={css.footer_FRONT} ref={front_REF} {...FooterMotion_PROPS}>
+    <motion.div className={css.footer_FRONT} ref={front_REF} {...Motion_PROPS}>
       <div className={css.top}>
         <div className={css.name_WRAP}>
           <h4>{profile?.name?.en || "Name"}</h4>
@@ -354,14 +377,16 @@ function Footer_TAGS({
     });
   };
   return (
-    <motion.div className={css.drawer} ref={tags_REF} {...FooterMotion_PROPS}>
+    <motion.div className={css.drawer} ref={tags_REF} {...Motion_PROPS}>
       <Drawer_TOP
         title={`${profile.tags.length} Tags of ${profile.name.en}`}
         CLOSE_drawer={() => SET_currentView("front")}
       />
       <ul key={profile?._id} className={css.bottom} data-type="tags">
         {profile?.tags?.map((tag) => {
-          const IS_active = Array.from(activeTag_IDs).some((activeTag_ID) => activeTag_ID === tag._id);
+          const IS_active = Array.from(activeTag_IDs).some(
+            (activeTag_ID) => activeTag_ID === tag._id
+          );
           const IS_potentialAdd = potentialTag_IDs.toAdd_IDs.has(tag._id);
           const IS_potentialDelete = potentialTag_IDs.toDelete_IDs.has(tag._id);
 
@@ -381,7 +406,15 @@ function Footer_TAGS({
                 right_ICON={
                   <ICON_x
                     rotate={!IS_active}
-                    color={IS_potentialAdd ? "green" : IS_potentialDelete ? "red" : IS_active ? "brand" : "white"}
+                    color={
+                      IS_potentialAdd
+                        ? "green"
+                        : IS_potentialDelete
+                        ? "red"
+                        : IS_active
+                        ? "brand"
+                        : "white"
+                    }
                     small={IS_active}
                     rotationAnimation={IS_potentialAdd || IS_potentialDelete}
                     oneLine={IS_potentialDelete}
@@ -389,7 +422,9 @@ function Footer_TAGS({
                 }
                 text={tag.name?.en}
                 // aria_LABEL={tr?.filterTagBtn_ARIA(tag.name?.[lang])[lang]}
-                onClick={() => HANDLE_tagPress({ tag, IS_active, IS_potentialAdd, IS_potentialDelete })}
+                onClick={() =>
+                  HANDLE_tagPress({ tag, IS_active, IS_potentialAdd, IS_potentialDelete })
+                }
                 test_ID={"overlay-tag-btn"}
               />
             </li>
@@ -401,7 +436,7 @@ function Footer_TAGS({
 }
 function Footer_PROCON({ pros, cons, prosCons_REF, close, profile }) {
   return (
-    <motion.div className={css.drawer} ref={prosCons_REF} {...FooterMotion_PROPS}>
+    <motion.div className={css.drawer} ref={prosCons_REF} {...Motion_PROPS}>
       <Drawer_TOP title={`Pros & Cons of ${profile.name.en}`} CLOSE_drawer={close} />
       <div className={css.bottom} data-type="prosCons">
         {pros?.length > 0 && (
