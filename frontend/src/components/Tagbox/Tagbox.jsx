@@ -8,14 +8,15 @@ import css from "./Tagbox.module.css";
 
 import Transition_MENU from "../Transition_MENU/Transition_MENU";
 import { USE_windowSize } from "../../hooks/USE_windowWidth";
-import {
-  BtnBack_BLOCK,
-  TagGroupBtns_BLOCK,
-  ActiveTagsbtn_BLOCK,
-  Tags_BLOCK,
-  EndBtn_BLOCK,
-  Potential_BLOCK,
-} from "../Transition_MENU/Blocks/Blocks";
+
+import { EndBtn_BLOCK } from "../Transition_MENU/Blocks/General/EndBtn_BLOCK/EndBtn_BLOCK";
+import { BtnBack_BLOCK } from "../Transition_MENU/Blocks/General/BtnBack_BLOCK/BtnBack_BLOCK";
+
+import { Tags_BLOCK } from "../Transition_MENU/Blocks/Tags/Tags_BLOCK/Tags_BLOCK";
+import { PotentialTags_BLOCK } from "../Transition_MENU/Blocks/Tags/PotentialTags_BLOCK/PotentialTags_BLOCK";
+import { TagGroupBtns_BLOCK } from "../Transition_MENU/Blocks/Tags/TagGroupBtns_BLOCK/TagGroupBtns_BLOCK";
+import { ActiveTagsBtn_BLOCK } from "../Transition_MENU/Blocks/Tags/ActiveTagsBtn_BLOCK/ActiveTagsBtn_BLOCK";
+
 import { USE_activeDigitJump } from "../../hooks/USE_activeDigitJump";
 
 export function Tagbox({
@@ -43,7 +44,6 @@ export function Tagbox({
   useEffect(() => {
     // scroll to top when menu changes
     if (scroll_REF.current) {
-      console.log("scroll");
       scroll_REF.current.scrollTo({
         top: 0,
         behavior: "smooth",
@@ -93,7 +93,7 @@ export function Tagbox({
           <div className={css.menu_WRAP} ref={scroll_REF}>
             {/* Start */}
             <Transition_MENU current_MENU={current_MENU} classNames="menu-primary" menu_NAME="all">
-              <ActiveTagsbtn_BLOCK {...{ activeTag_IDs, SET_currentMenu }} />
+              <ActiveTagsBtn_BLOCK {...{ activeTag_IDs, SET_currentMenu }} />
               <TagGroupBtns_BLOCK
                 {...{
                   tagGroups,
@@ -158,21 +158,21 @@ export function Tagbox({
       {HAS_potentialTags && (
         <div className={css.block_WRAP} data-potential-block-wrap>
           {potentialAdd_TAGS.length > 0 && (
-            <Potential_BLOCK
+            <PotentialTags_BLOCK
               type="add"
               tags={potentialAdd_TAGS}
               SET_potentialTagIDs={SET_potentialTagIDs}
             />
           )}
           {potentialDelete_TAGS.length > 0 && (
-            <Potential_BLOCK
+            <PotentialTags_BLOCK
               type="delete"
               tags={potentialDelete_TAGS}
               SET_potentialTagIDs={SET_potentialTagIDs}
             />
           )}
           {potentialStay_TAGS.length > 0 && (
-            <Potential_BLOCK
+            <PotentialTags_BLOCK
               type="keep"
               tags={potentialStay_TAGS}
               SET_potentialTagIDs={SET_potentialTagIDs}
@@ -188,7 +188,7 @@ export function Tagbox({
             />
 
             <Btn
-              styles={["btn-40", "strech", "brand", "brand-background-colors"]}
+              styles={["btn-40", "fullWidth", "brand", "brand-background-colors"]}
               text={`Show ${3} places`}
               onClick={() => {
                 potentialTag_IDs.toAdd_IDs.forEach((tag_ID) =>
@@ -228,7 +228,6 @@ function Top({
   const search_REF = useRef(null);
 
   useEffect(() => {
-    console.log(search_REF.current);
     if (search_REF.current && IS_searchOpen) {
       search_REF.current.focus();
     }
@@ -324,7 +323,7 @@ function MobileBtn_WRAP({ activeTag_IDs, UPDATE_tags, SET_isOpen, result_COUNT }
             onClick={() => UPDATE_tags(null, "deleteAll")}
           />
           <Btn
-            styles={["btn-40", "brand", "strech"]}
+            styles={["btn-40", "brand", "fullWidth"]}
             text={`See ${result_COUNT} results`}
             onClick={() => SET_isOpen(false)}
           />
@@ -332,7 +331,7 @@ function MobileBtn_WRAP({ activeTag_IDs, UPDATE_tags, SET_isOpen, result_COUNT }
       )}
       {activeTag_IDs.size === 0 && (
         <Btn
-          styles={["btn-40", "grey", "strech", "text-left-auto"]}
+          styles={["btn-40", "grey", "fullWidth", "text-left-auto"]}
           text="Close Tagbox"
           right_ICON={<ICON_x color="dark" small={true} />}
           onClick={() => SET_isOpen(false)}

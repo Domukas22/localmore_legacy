@@ -6,16 +6,15 @@
   flex-direction: column;  
   gap: 0.6rem;
   padding: 1.2rem;
-  border-bottom: var(--border-black-01);
+  &:not(:last-child) { border-bottom: var(--border-black-01) }
 
-  &:last-child {
-    border-bottom: none;
-  }
+  & li { display: flex }
+  
+  & .inline_SPAN {
+    display: flex;
+    gap: 0.6rem;
 
-  &[data-custom="saved"] {
-    & li {
-      margin-bottom: 0.2rem;
-    }
+    & li { flex: 1 }
   }
 
   @media (--mobile) {

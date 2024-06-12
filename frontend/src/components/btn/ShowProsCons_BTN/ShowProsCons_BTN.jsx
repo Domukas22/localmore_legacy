@@ -17,7 +17,6 @@ export function ShowProsCons_BTN({
       onPress={() => {
         onClick();
         document.dispatchEvent(new Event("click")); // for the dropdowns
-        console.log("click");
       }}
       ref={prosConsBtn_REF}
     >

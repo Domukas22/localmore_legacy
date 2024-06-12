@@ -3,76 +3,44 @@
 @import '@styles/global.css';
 @custom-media --low-height (max-width: 700px);
 
-.dropdown {
-  position: absolute;
-  top: calc(100% + 1.6rem);
-  left: 0;
-  z-index: 100;
+
+
+.dropdown_PARENT {
+  width: auto;
+  position: relative;
+
+  & .dropdown {
+    position: absolute;
+    top: calc(100% + 1.6rem);
+    left: 0;
+    z-index: 100;
+    
+    border-radius: var(--radius-16);
+    overflow: hidden;
+    box-shadow: 0 0 1rem #0000006b;
+    
+    width: 100%;
+    min-width: fit-content;
+    background-color: var(--fill-bg);
   
-  border-radius: var(--radius-16);
-  overflow: hidden;
-  box-shadow: 0 0 1rem #0000006b;
+    max-height: min(700px, calc(100vh - 6rem - 2rem)); /* 100vh - nav height - gap */
+    transition: 300ms;
+    animation: dropdown 300ms forwards;
   
-  width: 100%;
-  min-width: fit-content;
-  background-color: var(--fill-bg);
-
-  max-height: min(700px, calc(100vh - 6rem - 2rem)); /* 100vh - nav height - gap */
-  transition: 300ms;
-  animation: dropdown 300ms forwards;
-
-  &[data-scroll="true"]{overflow-y: scroll};
-  -webkit-scrollbar-track {
-    background-color: red;
-  }
-
-  & ul {
-    display: flex;
-    flex-direction: column;
-
-    & button {
-      width: 100%;
-      justify-content: left;
+    &[data-scroll="true"]{overflow-y: scroll};
+    -webkit-scrollbar-track {
+      background-color: red;
     }
-  }
-  & .dropdownContent_WRAP {
-    border: 1px solid red !important;
+  
+    & ul { flex-direction: column }
+  
   }
 }
+
+
 @keyframes dropdown {
   0% {opacity: 0} 100% {opacity: 1}
 }
-.dropdown.active {
-  bottom: auto;
-  display: auto;
-  left: auto;
-  right: auto;
-  top: auto;
-  transform: none;
-}
-.container {
-  width: auto;
-  position: relative;
-}
-.option_WRAP {
-  display: flex;
-  flex-wrap: wrap;
-  row-gap: 0.4rem;
-  column-gap: 0.6rem;
-  &:not(:last-child) {
-    margin-bottom: 0.8rem;
-  }
 
-  & span:first-child {
-    width: 100%;
-  }
 
-  & li {
-    flex: 1;
-    
-    & button {
-      justify-content: center;
-    }
-  }
-}
 

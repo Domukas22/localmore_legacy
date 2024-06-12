@@ -128,9 +128,6 @@ function Explore_GRID({
         behavior: "smooth",
       });
 
-      // header_REF.current.offsetHeight
-      console.log(nav_REF.current.clientHeight);
-      console.log(tagbar_REF.current.offsetTop);
       return newactiveTag_IDs;
     });
   };

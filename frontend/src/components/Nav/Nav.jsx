@@ -93,7 +93,6 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
                     aria_LABEL=""
                     onClick={() => {
                       TOGGLE_search();
-                      console.log("ss");
                     }}
                     custom_DATA="search-btn"
                     FIRE_clickEvent={false}

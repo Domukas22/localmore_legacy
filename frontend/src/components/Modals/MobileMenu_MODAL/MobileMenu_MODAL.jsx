@@ -8,17 +8,29 @@ import { USE_getCategories } from "../../../hooks/USE_getCategories";
 import { Dialog, Modal } from "react-aria-components";
 import Transition_MENU from "../../Transition_MENU/Transition_MENU";
 
-import {
-  Legal_BLOCK,
-  Feedback_BLOCK,
-  Settings_BLOCKS,
-  Saved_BLOCK,
-  BtnBack_BLOCK,
-  Nav_BLOCKS,
-  EndBtn_BLOCK,
-  AllCategories_BLOCK,
-  Category_BLOCK,
-} from "../../Transition_MENU/Blocks/Blocks";
+// import {
+//   Legal_BLOCK,
+//   Feedback_BLOCK,
+//   Settings_BLOCKS,
+//   Saved_BLOCK,
+//   BtnBack_BLOCK,
+//   Nav_BLOCKS,
+//   EndBtn_BLOCK,
+//   AllCategories_BLOCK,
+//   Category_BLOCK,
+// } from "../../Transition_MENU/Blocks/Blocks";
+
+import { BtnBack_BLOCK } from "../../Transition_MENU/Blocks/General/BtnBack_BLOCK/BtnBack_BLOCK";
+import { EndBtn_BLOCK } from "../../Transition_MENU/Blocks/General/EndBtn_BLOCK/EndBtn_BLOCK";
+
+import { Category_BLOCK } from "../../Transition_MENU/Blocks/Categories/Category_BLOCK/Category_BLOCK";
+import { AllCategories_BLOCK } from "../../Transition_MENU/Blocks/Categories/AllCategories_BLOCK/AllCategories_BLOCK";
+
+import { Legal_BLOCK } from "../../Transition_MENU/Blocks/Nav/Legal_BLOCK/Legal_BLOCK";
+import { Settings_BLOCKS } from "../../Transition_MENU/Blocks/Nav/Settings_BLOCKS/Settings_BLOCKS";
+import { Feedback_BLOCK } from "../../Transition_MENU/Blocks/Nav/Feedback_BLOCK/Feedback_BLOCK";
+import { Saved_BLOCK } from "../../Transition_MENU/Blocks/Nav/Saved_BLOCK/Saved_BLOCK";
+import { Nav_BLOCKS } from "../../Transition_MENU/Blocks/Nav/Nav_BLOCKS/Nav_BLOCKS";
 
 export function MobileMenu_MODAL({
   categories,
@@ -39,7 +51,6 @@ export function MobileMenu_MODAL({
   useEffect(() => {
     // scroll to top when menu changes
     if (scroll_REF.current) {
-      console.log("scroll");
       scroll_REF.current.scrollTo({
         top: 0,
         behavior: "smooth",

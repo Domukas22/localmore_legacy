@@ -2,11 +2,11 @@
 //
 // create a custom hook to handle the dropdown actions
 import { useEffect, useState, useRef } from "react";
-import { USE_windowSize } from "./USE_windowWidth";
+import { USE_windowSize } from "../../../hooks/USE_windowWidth";
 
-export function USE_DDactions() {
+export function USE_handleDropdown(initial_HEIGHT = 200) {
   const [current_MENU, SET_currentMenu] = useState("all");
-  const [menu_HEIGHT, SET_menuHeight] = useState(null);
+  const [menu_HEIGHT, SET_menuHeight] = useState(initial_HEIGHT);
 
   const dropdown_REF = useRef(null);
   const scroll = SHOULD_scroll(menu_HEIGHT);
@@ -23,6 +23,7 @@ export function USE_DDactions() {
         break;
 
       case "resize":
+        console.log("resize");
         SET_menuHeight(el.offsetHeight + 1);
         break;
 
@@ -34,7 +35,7 @@ export function USE_DDactions() {
         break;
 
       case "close":
-        SET_menuHeight(null);
+        SET_menuHeight(initial_HEIGHT);
         SET_currentMenu("all");
         break;
     }

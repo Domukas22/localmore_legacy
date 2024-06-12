@@ -27,7 +27,7 @@
   outline: 0.2rem solid transparent;
 
   
-  &[data-hovered="true"] {background: var(--btn-dark)}
+  &[data-hovered] {background: var(--btn-dark)}
   &[data-pressed] {
     background: var(--btn-dark);
     border-color: var(--brand-black);
@@ -62,11 +62,6 @@
     font-size: 1.4rem;
     font-weight: 600;
     color: var(--text-brand-black)
-  }
-
-  &[data-custom="disabled"] {
-    opacity: 0.4 !important;
-    pointer-events: none !important;
   }
 
   @media (--mobile) {
@@ -104,8 +99,9 @@
 
 .flex { flex: 1 }
 .spaceBetween { justify-content: space-between }
-.strech { width: 100% }
+.fullWidth { width: 100% }
 .left-align { justify-content: left }
+.center { justify-content: center }
 .text-left-auto { & p { margin-right: auto }}
 .round { border-radius: 10rem }
 .red-x-on-hover {
@@ -252,34 +248,29 @@
   }
 }
 .disabled {
-  user-select: none;
-  pointer-events: none;
-  cursor: auto;
-  * {
-    opacity: 20%
-  }
+  opacity: 0.4 !important;
+  pointer-events: none !important;
   
 }
-.save {
-  &[data-custom="saved"] {
-    background-color: var(--btn-brand-active);
-    border: var(--border-brand-active);
-    opacity: 100% !important;
+.saved {
+  background-color: var(--btn-brand-active);
+  border: var(--border-brand-active);
+  opacity: 100% !important;
 
-    &[data-hovered="true"] {
-      background-color: var(--red-bg);
-    }
-    &[data-pressed="true"]  {
-      border: var(--border-red);
-    }
-    &[data-focus-visible] {
-      outline: var(--red);
-    }
-
-    & svg {
-      animation: pop 0.5s ease-out;
-    }
+  &[data-hovered="true"] {
+    background-color: var(--red-bg);
   }
+  &[data-pressed="true"]  {
+    border: var(--border-red);
+  }
+  &[data-focus-visible] {
+    outline: var(--red);
+  }
+
+  & svg {
+    animation: pop 0.5s ease-out;
+  }
+  
 }
 
 .dropdown {

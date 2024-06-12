@@ -100,7 +100,7 @@ export function PotentialTags_NAV({
               return (
                 <Btn
                   key={tag._id}
-                  styles={["btn-40", "strech", "green", "text-left-auto"]}
+                  styles={["btn-40", "fullWidth", "green", "text-left-auto"]}
                   left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
                   right_ICON={<ICON_x color="green" small={true} />}
                   text={tag?.name?.en}
@@ -123,7 +123,7 @@ export function PotentialTags_NAV({
               return (
                 <Btn
                   key={tag._id}
-                  styles={["btn-40", "strech", "red", "text-left-auto"]}
+                  styles={["btn-40", "fullWidth", "red", "text-left-auto"]}
                   left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
                   right_ICON={<ICON_x color="red" small={true} />}
                   text={tag?.name?.en}
@@ -146,7 +146,7 @@ export function PotentialTags_NAV({
               return (
                 <Btn
                   key={tag._id}
-                  styles={["btn-40", "strech", "active", "text-left-auto"]}
+                  styles={["btn-40", "fullWidth", "active", "text-left-auto"]}
                   left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
                   right_ICON={<ICON_x color="brand" small={true} />}
                   text={tag?.name?.en}
@@ -167,7 +167,7 @@ export function PotentialTags_NAV({
           <div className={css.applyBtn_WRAP}>
             <Btn
               right_ICON={<ICON_x small={true} />}
-              styles={["btn-40", "strech", "text-left-auto", "red-x-on-hover"]}
+              styles={["btn-40", "fullWidth", "text-left-auto", "red-x-on-hover"]}
               text="Clear all tags"
               onClick={() => {
                 UPDATE_tags(null, "deleteAll");
@@ -185,7 +185,7 @@ export function PotentialTags_NAV({
           />
 
           <Btn
-            styles={["btn-40", "strech", "brand", "brand-background-colors"]}
+            styles={["btn-40", "fullWidth", "brand", "brand-background-colors"]}
             text="Apply"
             onClick={() => {
               potentialTag_IDs.toAdd_IDs.forEach((tag_ID) =>

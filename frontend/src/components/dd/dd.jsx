@@ -6,9 +6,6 @@ import css from "./DD.module.css";
 import { Button } from "react-aria-components";
 import css_BTN from "../Btn/Btn.module.css";
 import { ICON_dropDownArrow, ICON_x } from "../icons/icons";
-import en_FLAG from "../../assets/icons/flags/en.png";
-import de_FLAG from "../../assets/icons/flags/de.webp";
-import { AnimatePresence, motion } from "framer-motion";
 
 const DD = forwardRef((props, ref) => {
   const {
@@ -85,8 +82,8 @@ const DD = forwardRef((props, ref) => {
     <>
       <div
         ref={containerRef}
+        className={css.dropdown_PARENT}
         id={`dropdown-${theId}`}
-        className={css.container}
         data-expanded={expanded}
       >
         <Button
@@ -96,7 +93,6 @@ const DD = forwardRef((props, ref) => {
           onPress={() => {
             if (!expanded) document.dispatchEvent(new Event("click")); // for the dropdowns
             setExpanded((expanded) => !expanded);
-            // console.log(expanded);
           }}
           aria-expanded={expanded ? "true" : "false"}
           aria-haspopup="true"
@@ -184,7 +180,6 @@ function setFocusable(menu_REF, focusable) {
   }
 }
 function searchByFirstLetter(current, char, menu_REF, focusable) {
-  console.log("searchByFirstLetter");
   const elements = menu_REF.current.querySelectorAll(focusable);
   let start = 0;
   let index = 0;
@@ -367,7 +362,6 @@ function ADD_eventListeners(menu_REF, buttonRef, setExpanded, containerRef, HAND
   document.addEventListener("keydown", HANDLE_keyPress);
 }
 function REMOVE_eventListeners(menu_REF, buttonRef, setExpanded, containerRef, HANDLE_keyPress) {
-  // console.log("REMOVE_eventListeners");
   document.removeEventListener("click", (e) => clickOutside(e, menu_REF, buttonRef, setExpanded));
   document.removeEventListener("keyup", (e) => focusOutside(e, setExpanded, containerRef));
   document.removeEventListener("keydown", HANDLE_keyPress);

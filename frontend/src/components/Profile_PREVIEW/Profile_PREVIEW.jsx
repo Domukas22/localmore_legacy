@@ -160,9 +160,8 @@ export default function Profile_PREVIEW({
             />
           )}
           <Btn
-            styles={["btn-36", "onImg", "save"]}
+            styles={["btn-36", "onImg", `${IS_saved ? "saved" : ""}`]}
             onClick={() => (IS_saved ? HANDLE_save("delete") : HANDLE_save("save"))}
-            custom={IS_saved && "saved"}
             left_ICON={<ICON_save color={IS_saved ? "red" : "white"} />}
             // aria_LABEL={tr?.saveBtn_ARIA(name)[lang]}
             test_ID="save-btn"
@@ -271,21 +270,19 @@ function CREATE_swiper({ sliderRef, images, img_END, hover, slide, SHOW_hearts }
     >
       <div className={css.slider_ARROWS}>
         <Btn
-          styles={["onImg", "round"]}
+          styles={["onImg", "round", `${activeIndex === 0 ? "disabled" : ""}`]}
           right_ICON={<ICON_arrow color="white" direction="left" />}
           onClick={() => {
             slide("prev");
           }}
-          custom={activeIndex === 0 && "disabled"}
         />
 
         <Btn
-          styles={["onImg", "round"]}
+          styles={["onImg", "round", `${activeIndex === images.length - 1 ? "disabled" : ""}`]}
           right_ICON={<ICON_arrow color="white" direction="right" />}
           onClick={() => {
             slide("next");
           }}
-          custom={activeIndex === images.length - 1 && "disabled"}
         />
       </div>
 
@@ -339,7 +336,6 @@ function Footer_FRONT({
       </div>
       {matched_TAGS.length > 0 && (
         <div className={css.activeTag_WRAP} onClick={() => SET_currentView("tags")}>
-          {console.log(matched_TAGS)}
           {matched_TAGS?.map((tag) => (
             <Tag_LABEL key={tag?._id} name={tag?.name?.en} small={true} />
           ))}
@@ -480,24 +476,3 @@ function Drawer_TOP({ title, CLOSE_drawer }) {
     </div>
   );
 }
-
-// Profile_PREVIEW.propTypes = {
-//   profile: PropTypes.object.isRequired,
-//   SET_panoramas: PropTypes.func.isRequired,
-//   search: PropTypes.string,
-//   lang: PropTypes.string.isRequired,
-// };
-
-// CREATE_swiper.propTypes = {
-//   sliderRef: PropTypes.object.isRequired,
-//   images: PropTypes.array.isRequired,
-//   img_END: PropTypes.string.isRequired,
-//   img_ALT: PropTypes.string.isRequired,
-// };
-
-// Tag_OVERLAY.propTypes = {
-//   profile: PropTypes.object.isRequired,
-//   TOGGLE_showTags: PropTypes.func.isRequired,
-//   lang: PropTypes.string.isRequired,
-//   name: PropTypes.string,
-// };

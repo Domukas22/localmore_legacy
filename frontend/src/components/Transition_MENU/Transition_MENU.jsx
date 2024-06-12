@@ -17,7 +17,7 @@ export default function Transition_MENU({
       in={current_MENU === menu_NAME}
       timeout={300}
       classNames={classNames}
-      onEnter={resize}
+      onEnter={() => resize(nodeRef.current)}
       unmountOnExit
       nodeRef={nodeRef}
     >

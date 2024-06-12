@@ -10,7 +10,6 @@ export function Btn({
   FIRE_clickEvent = true,
   left_ICON,
   right_ICON,
-  custom,
   test_ID,
   aria_LABEL,
 }) {
@@ -21,7 +20,6 @@ export function Btn({
         onClick();
         if (FIRE_clickEvent) document.dispatchEvent(new Event("click")); // for the dropdowns
       }}
-      data-custom={custom}
       aria-label={aria_LABEL}
       data-testid={test_ID}
     >

@@ -8,13 +8,12 @@ import { ICON_x } from "../../icons/icons";
 import { Btn } from "../../Btn/Btn";
 
 import Transition_MENU from "../../Transition_MENU/Transition_MENU";
-import {
-  BtnBack_BLOCK,
-  AllCategories_BLOCK,
-  Category_BLOCK,
-} from "../../Transition_MENU/Blocks/Blocks";
 
-import { USE_DDactions } from "../../../hooks/USE_DDactions";
+import { Category_BLOCK } from "../../Transition_MENU/Blocks/Categories/Category_BLOCK/Category_BLOCK";
+import { BtnBack_BLOCK } from "../../Transition_MENU/Blocks/General/BtnBack_BLOCK/BtnBack_BLOCK";
+import { AllCategories_BLOCK } from "../../Transition_MENU/Blocks/Categories/AllCategories_BLOCK/AllCategories_BLOCK";
+
+import { USE_handleDropdown } from "../../DD/hooks/USE_handleDropdown";
 import { USE_getCategories } from "../../../hooks/USE_getCategories";
 
 export function Category_MODAL({
@@ -24,7 +23,7 @@ export function Category_MODAL({
 }) {
   const scroll_REF = useRef(null);
   const { startCateg_ARR, endCateg_ARR, GET_subCategories } = USE_getCategories(categories);
-  const { HANLDE_dd, current_MENU, SET_currentMenu } = USE_DDactions();
+  const { HANLDE_dd, current_MENU, SET_currentMenu } = USE_handleDropdown();
 
   return (
     <Modal isOpen={IS_mobileCategoryMenuOpen} className={css.Category_MODAL}>

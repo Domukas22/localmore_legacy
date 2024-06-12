@@ -18,13 +18,3 @@ export function Tag_LABEL({ name, icon, color = "brand", small = false }) {
     </label>
   );
 }
-
-New_LABEL.propTypes = {
-  lang: PropTypes.string,
-};
-Tag_LABEL.propTypes = {
-  name: PropTypes.string.isRequired,
-  icon: PropTypes.element.isRequired,
-  color: PropTypes.string,
-  small: PropTypes.bool,
-};
