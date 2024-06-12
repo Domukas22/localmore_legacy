@@ -2,7 +2,7 @@
 //
 
 import css from "./Blocks.module.css";
-import { Btn } from "../../btn/btn";
+import { Btn } from "../../Btn/Btn";
 import en_FLAG from "../../../assets/icons/flags/en.png";
 import de_FLAG from "../../../assets/icons/flags/de.webp";
 import light from "../../../assets/icons/light.png";
@@ -11,7 +11,6 @@ import { useContext, useState } from "react";
 import { FontSizeContext } from "../../../contexts/fontSize";
 import { Lang_CONTEXT } from "../../../contexts/lang";
 import { AnimatePresence, motion } from "framer-motion";
-import { SavedProfile_LINK } from "../../btn/btn";
 import { ICON_activeDigit, ICON_arrow, ICON_save, ICON_x } from "../../icons/icons";
 import { SavedProfileIDs_CONTEXT } from "../../../contexts/savedProfiles";
 import logo from "../../../assets/icons/logo.png";
@@ -42,7 +41,6 @@ export function EndBtn_BLOCK({ text, onClick }) {
           right_ICON={<ICON_x />}
           aria_LABEL=""
           onClick={onClick}
-          // FIRE_clickEvent={false}
         />
       </li>
     </div>
@@ -64,11 +62,10 @@ export function Nav_BLOCKS({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT 
         {home && (
           <li>
             <Btn
-              styles={["btn-44", "navDD_BTN"]}
+              styles={["btn-44"]}
               text="Home"
               left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/609/609803.png"></img>}
               aria_LABEL=""
-              // left_ICON={<ICON_activeDigit count={tagUsage_COUNT} IS_active={true} />}
               onClick={() => {}}
               FIRE_clickEvent={false}
             />
@@ -76,7 +73,7 @@ export function Nav_BLOCKS({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT 
         )}
         <li>
           <Btn
-            styles={["btn-44", "navDD_BTN"]}
+            styles={["btn-44"]}
             text="Alle tags"
             aria_LABEL=""
             left_ICON={
@@ -90,7 +87,7 @@ export function Nav_BLOCKS({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT 
         {categories && (
           <li>
             <Btn
-              styles={["btn-44", "navDD_BTN"]}
+              styles={["btn-44"]}
               text="Categories"
               left_ICON={
                 <img src="https://cdn-icons-png.flaticon.com/512/11244/11244162.png"></img>
@@ -105,7 +102,7 @@ export function Nav_BLOCKS({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT 
         {settings && (
           <li>
             <Btn
-              styles={["btn-44", "navDD_BTN"]}
+              styles={["btn-44"]}
               text="Settings"
               aria_LABEL=""
               left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/3953/3953226.png"></img>}
@@ -118,7 +115,7 @@ export function Nav_BLOCKS({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT 
         {liked && (
           <li>
             <Btn
-              styles={["btn-44", "navDD_BTN"]}
+              styles={["btn-44"]}
               text={`Saved (${savedProfile_IDs.size})`}
               // left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/2107/2107845.png"></img>}
               left_ICON={<ICON_save style="active" />}
@@ -133,7 +130,7 @@ export function Nav_BLOCKS({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT 
       <div className={css.Block}>
         <li>
           <Btn
-            styles={["btn-44", "navDD_BTN"]}
+            styles={["btn-44"]}
             text="Provide feedback"
             left_ICON={
               <img src="https://cdn-icons-png.freepik.com/512/4066/4066310.png?ga=GA1.1.807612306.1716024941" />
@@ -147,7 +144,7 @@ export function Nav_BLOCKS({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT 
 
         <li>
           <Btn
-            styles={["btn-44", "navDD_BTN"]}
+            styles={["btn-44"]}
             text="About us"
             left_ICON={<img src={logo}></img>}
             aria_LABEL=""
@@ -157,7 +154,7 @@ export function Nav_BLOCKS({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT 
         </li>
         <li>
           <Btn
-            styles={["btn-44", "navDD_BTN"]}
+            styles={["btn-44"]}
             text="Contact"
             left_ICON={
               <img src="https://cdn-icons-png.freepik.com/512/7596/7596763.png?ga=GA1.1.807612306.1716024941" />
@@ -169,7 +166,7 @@ export function Nav_BLOCKS({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT 
         </li>
         <li>
           <Btn
-            styles={["btn-44", "navDD_BTN"]}
+            styles={["btn-44"]}
             text="Legal"
             left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/3122/3122321.png"></img>}
             aria_LABEL=""
@@ -188,7 +185,7 @@ export function Legal_BLOCK() {
       <p>Legal</p>
       <li>
         <Btn
-          styles={["btn-44", "navDD_BTN"]}
+          styles={["btn-44"]}
           text="Impressum"
           aria_LABEL=""
           left_ICON={
@@ -203,7 +200,7 @@ export function Legal_BLOCK() {
       </li>
       <li>
         <Btn
-          styles={["btn-44", "navDD_BTN"]}
+          styles={["btn-44"]}
           text="Datenschutz"
           aria_LABEL=""
           onClick={() => {}}
@@ -213,7 +210,7 @@ export function Legal_BLOCK() {
       </li>
       <li>
         <Btn
-          styles={["btn-44", "navDD_BTN"]}
+          styles={["btn-44"]}
           text="Einwillingung" // Einwilligungseinstellungen
           left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/4315/4315445.png"></img>}
           aria_LABEL=""
@@ -223,7 +220,7 @@ export function Legal_BLOCK() {
       </li>
       <li>
         <Btn
-          styles={["btn-44", "navDD_BTN"]}
+          styles={["btn-44"]}
           text="Attributions"
           left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/2448/2448648.png"></img>}
           aria_LABEL=""
@@ -240,7 +237,7 @@ export function Feedback_BLOCK() {
       <p>Provide feedback</p>
       <li>
         <Btn
-          styles={["btn-44", "navDD_BTN"]}
+          styles={["btn-44"]}
           text="Suggest an idea"
           aria_LABEL=""
           left_ICON={
@@ -253,7 +250,7 @@ export function Feedback_BLOCK() {
       </li>
       <li>
         <Btn
-          styles={["btn-44", "navDD_BTN"]}
+          styles={["btn-44"]}
           left_ICON={
             <img src="https://cdn-icons-png.freepik.com/512/725/725022.png?ga=GA1.1.807612306.17160249411" />
           }
@@ -265,7 +262,7 @@ export function Feedback_BLOCK() {
       </li>
       <li>
         <Btn
-          styles={["btn-44", "navDD_BTN"]}
+          styles={["btn-44"]}
           text="Quick survey"
           left_ICON={
             <img src="https://cdn-icons-png.freepik.com/512/5321/5321120.png?ga=GA1.1.807612306.1716024941" />
@@ -291,23 +288,23 @@ export function Settings_BLOCKS({ resize = () => {} }) {
         <div className={css.inline_SPAN}>
           <li>
             <Btn
-              styles={["btn-44", "navDD_BTN"]}
+              styles={["btn-44"]}
               left_ICON={<img src={en_FLAG} style={{ borderRadius: "8px" }} />}
               text={"EN"}
               aria_LABEL=""
               onClick={() => TOGGLE_lang("en")}
-              active={lang === "en"}
+              custom={lang === "en" && "active"}
               FIRE_clickEvent={false}
             />
           </li>
           <li>
             <Btn
-              styles={["btn-44", "navDD_BTN"]}
+              styles={["btn-44"]}
               left_ICON={<img src={de_FLAG} style={{ borderRadius: "8px" }} />}
               text={"DE"}
               aria_LABEL=""
               onClick={() => TOGGLE_lang("de")}
-              active={lang === "de"}
+              custom={lang === "de" && "active"}
               FIRE_clickEvent={false}
             />
           </li>
@@ -318,23 +315,22 @@ export function Settings_BLOCKS({ resize = () => {} }) {
         <div className={css.inline_SPAN}>
           <li>
             <Btn
-              styles={["btn-44", "navDD_BTN"]}
+              styles={["btn-44"]}
               left_ICON={<img src={light} />}
               text={"Light"}
               aria_LABEL=""
               onClick={() => TOGGLE_theme("light")}
-              active={theme === "light" ? true : false}
+              custom={theme === "light" && "active"}
               FIRE_clickEvent={false}
             />
           </li>
           <li>
             <Btn
-              styles={["btn-44", "navDD_BTN"]}
-              // left_ICON={<img src={light} />}
+              styles={["btn-44"]}
               text={"Dark"}
               aria_LABEL=""
               onClick={() => TOGGLE_theme("dark")}
-              active={theme === "dark" ? true : false}
+              custom={theme === "dark" && "active"}
               FIRE_clickEvent={false}
             />
           </li>
@@ -345,40 +341,40 @@ export function Settings_BLOCKS({ resize = () => {} }) {
         <div className={css.inline_SPAN}>
           <li data-item="li-btn-normal">
             <Btn
-              styles={["btn-44", "navDD_BTN"]}
+              styles={["btn-44"]}
               text={"Normal"}
               aria_LABEL=""
               onClick={() => {
                 setFontSize(1);
                 resize();
               }}
-              active={fontSize === 1 ? true : false}
+              custom={fontSize === 1 && "active"}
               FIRE_clickEvent={false}
             />
           </li>
           <li data-item="li-btn-big">
             <Btn
-              styles={["btn-44", "navDD_BTN"]}
+              styles={["btn-44"]}
               text={"Big"}
               aria_LABEL=""
               onClick={() => {
                 setFontSize(2);
                 resize();
               }}
-              active={fontSize === 2 ? true : false}
+              custom={fontSize === 2 && "active"}
               FIRE_clickEvent={false}
             />
           </li>
           <li data-item="li-btn-huge">
             <Btn
-              styles={["btn-44", "navDD_BTN"]}
+              styles={["btn-44"]}
               text={"Huge"}
               aria_LABEL=""
               onClick={() => {
                 setFontSize(3);
                 resize();
               }}
-              active={fontSize === 3 ? true : false}
+              custom={fontSize === 3 && "active"}
               FIRE_clickEvent={false}
             />
           </li>
@@ -407,28 +403,41 @@ export function Saved_BLOCK({ savedProfile_OBJs, REMOVE_fromSaved, resize = () =
     <div className={css.Block} data-custom="saved">
       <p>{savedProfile_OBJs.length} liked profiles</p>
       <AnimatePresence>
-        {savedProfile_OBJs.map((profile) => (
-          <motion.li
-            className={css.savedBtn_LI}
-            key={`Saved-${profile._id}`}
-            initial={{ opacity: 1, height: "auto" }}
-            animate={{
-              opacity: deletingItem === profile._id ? 0 : 1,
-              height: deletingItem === profile._id ? 0 : "auto",
-            }}
-            transition={{ opacity: { duration: 0.3 }, height: { duration: 0.3 } }}
-          >
-            <SavedProfile_LINK
-              name={profile.name.en}
-              subname={profile.subname.en}
-              image_URL={profile?.img?.desktop?.[0] + "/Big"}
-              aria_LABEL=""
-              remove={() => handleRemove(profile._id)}
-            />
-          </motion.li>
-        ))}
+        {savedProfile_OBJs.map((profile) => {
+          const IS_saved = savedProfile_OBJs.some((p) => p._id === profile._id);
+          return (
+            <motion.li
+              className={css.savedBtn_LI}
+              key={`Saved-${profile._id}`}
+              initial={{ opacity: 1, height: "auto" }}
+              animate={{
+                opacity: deletingItem === profile._id ? 0 : 1,
+                height: deletingItem === profile._id ? 0 : "auto",
+              }}
+              transition={{ opacity: { duration: 0.3 }, height: { duration: 0.3 } }}
+            >
+              <div className={css.SavedProfile_LINK}>
+                <Btn
+                  styles={["btn-36", "onImg", "save"]}
+                  onClick={() => {
+                    handleRemove(profile._id);
+                  }}
+                  custom={IS_saved && "saved"}
+                  left_ICON={<ICON_save style={IS_saved ? "active" : "white"} />}
+                  // aria_LABEL={tr?.saveBtn_ARIA(name)[lang]}
+                  test_ID="save-btn"
+                  FIRE_clickEvent={false}
+                />
+                <a
+                  href="#"
+                  style={{ backgroundImage: `url(${profile?.img?.desktop?.[0] + "/Big" || ""})` }}
+                ></a>
+                <h4>{name ?? "Name"}</h4>
+              </div>
+            </motion.li>
+          );
+        })}
       </AnimatePresence>
-
       <AnimatePresence>
         {SHOULD_noItemBoxBeVisible && (
           <motion.div
@@ -452,10 +461,10 @@ export function AllCategories_BLOCK({
 }) {
   return (
     <>
-      <div className={css.Block}>
+      <div className={css.Block} key={"all-categories-upper-block"}>
         <li key={"all-categories"}>
           <Btn
-            styles={["btn-44", "navDD_BTN"]}
+            styles={["btn-44"]}
             text="All Categories"
             aria_LABEL=""
             onClick={() => {}}
@@ -464,9 +473,9 @@ export function AllCategories_BLOCK({
         </li>
         {start_CATEG.map((categ) => {
           return (
-            <li key={categ._id}>
+            <li key={categ.name?.en}>
               <Btn
-                styles={["btn-44", "navDD_BTN"]}
+                styles={["btn-44"]}
                 left_ICON={<img src={categ.icon?.url} />}
                 right_ICON={<ICON_arrow direction="right" />}
                 text={categ.name.en}
@@ -474,7 +483,6 @@ export function AllCategories_BLOCK({
                 onClick={() => {
                   SET_reverse(true);
                   SET_currentMenu(categ._id);
-                  // SET_currentMenu("business");
                 }}
                 FIRE_clickEvent={false}
               />
@@ -482,15 +490,14 @@ export function AllCategories_BLOCK({
           );
         })}
       </div>
-      <div className={css.Block}>
+      <div className={css.Block} key={"all-categories-lower-block"}>
         <p>All categories</p>
         {end_CATEG.map((categ) => {
           return (
-            <li key={categ.id}>
+            <li key={categ.name?.en}>
               <Btn
-                styles={["btn-44", "navDD_BTN"]}
+                styles={["btn-44"]}
                 left_ICON={<img src={categ.icon?.url} />}
-                // right_ICON={<ICON_arrow direction="right" />}
                 text={categ.name.en}
                 aria_LABEL=""
                 onClick={() => {}}
@@ -509,7 +516,7 @@ export function Category_BLOCK({ category_OBJ, categoryChildren_ARR }) {
       <p>Find {category_OBJ.name.en}</p>
       <li>
         <Btn
-          styles={["btn-44", "navDD_BTN"]}
+          styles={["btn-44"]}
           text={`All ${category_OBJ.name.en}`}
           aria_LABEL=""
           onClick={() => {}}
@@ -520,7 +527,7 @@ export function Category_BLOCK({ category_OBJ, categoryChildren_ARR }) {
         return (
           <li key={category_OBJ._id}>
             <Btn
-              styles={["btn-44", "navDD_BTN"]}
+              styles={["btn-44"]}
               left_ICON={<img src={categ.icon?.url} />}
               text={categ.name.en}
               aria_LABEL=""

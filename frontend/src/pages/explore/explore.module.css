@@ -95,8 +95,8 @@
   }
   
   @media (--mobile) {
-    /* grid-auto-rows: calc(100vw * (4 / 3.5) + 4rem);  */
-    grid-auto-rows: 62vh; 
+
+    grid-auto-rows: 65vh;
     grid-template-columns: 1fr;
     padding: 0 var(--padding-mob) var(--padding-mob);
     gap: calc(var(--padding-mob) + 0.2rem);

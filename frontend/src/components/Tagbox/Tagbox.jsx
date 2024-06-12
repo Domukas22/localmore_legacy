@@ -1,7 +1,7 @@
 //
 
 import { useEffect, useRef, useState } from "react";
-import { Btn } from "../btn/btn";
+import { Btn } from "../Btn/Btn";
 import { ICON_activeDigit, ICON_arrow, ICON_search, ICON_x } from "../icons/icons";
 import SearchBar from "../Searchbar/Searchbar";
 import css from "./Tagbox.module.css";
@@ -28,6 +28,7 @@ export function Tagbox({
   SET_potentialTagIDs,
   SET_isOpen = () => {},
   starting_MENU,
+  result_COUNT,
 }) {
   const [search, SET_search] = useState("");
   const mainSearch_REF = useRef(null);
@@ -149,6 +150,7 @@ export function Tagbox({
               activeTag_IDs={activeTag_IDs}
               UPDATE_tags={UPDATE_tags}
               SET_isOpen={SET_isOpen}
+              result_COUNT={result_COUNT}
             />
           )}
         </>
@@ -310,7 +312,7 @@ function Top({
     </>
   );
 }
-function MobileBtn_WRAP({ activeTag_IDs, UPDATE_tags, SET_isOpen }) {
+function MobileBtn_WRAP({ activeTag_IDs, UPDATE_tags, SET_isOpen, result_COUNT }) {
   return (
     <div className={css.mobileBtn_WRAP}>
       {activeTag_IDs.size > 0 && (
@@ -323,7 +325,7 @@ function MobileBtn_WRAP({ activeTag_IDs, UPDATE_tags, SET_isOpen }) {
           />
           <Btn
             styles={["btn-40", "brand", "strech"]}
-            text={`Apply ${activeTag_IDs.size} tags`}
+            text={`See ${result_COUNT} results`}
             onClick={() => SET_isOpen(false)}
           />
         </>

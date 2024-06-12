@@ -3,8 +3,6 @@
 @import '@styles/global.css';
 @custom-media --mobile (max-width: 800px);
 
-
-
 .btn {
   display: flex;
   align-items: center;
@@ -18,7 +16,6 @@
   color: var(--text-black);
 
   transition: 100ms;
-  /* opacity: 100%; */
 
   cursor: pointer;
   font-size: inherit;
@@ -48,13 +45,13 @@
     pointer-events: none;
     transition: 100ms;
   }
-  & .icon, img, svg  {
+  & img, svg  {
     width: 2rem;
     height: 2rem;
     object-fit: contain;
     filter: saturate(1.2);
   }
-  & .icon, img:last-child, svg:last-child, span:last-child {
+  & img:last-child, svg:last-child, span:last-child {
     margin-left: auto;
   }
   
@@ -67,9 +64,14 @@
     color: var(--text-brand-black)
   }
 
+  &[data-custom="disabled"] {
+    opacity: 0.4 !important;
+    pointer-events: none !important;
+  }
+
   @media (--mobile) {
     column-gap: 1rem;
-    & .icon, img, svg {
+    & img, svg {
       width: 2.2rem;
       height: 2.2rem;
     }
@@ -100,10 +102,20 @@
   }
 }
 
-
-.round {
-  border-radius: 10rem;
+.flex { flex: 1 }
+.spaceBetween { justify-content: space-between }
+.strech { width: 100% }
+.left-align { justify-content: left }
+.text-left-auto { & p { margin-right: auto }}
+.round { border-radius: 10rem }
+.red-x-on-hover {
+  &[data-hovered="true"] > div {
+   &::before, &::after {
+      background-color: var(--red);
+    }
+  }
 }
+
 .onImg {
   composes: btn-36;
   border: var(--border-white-15);
@@ -144,40 +156,12 @@
   }
 
 
-  &[data-active="true"] {
+  &[data-custom="active"] {
     text-shadow: none;
     border: var(--border-brand-active);
-
-    /* &[data-hovered="true"]{
-      background-color: var(--btn-brand-active-hover);
-    }
-    &[data-pressed="true"] {
-      background-color: var(--btn-brand-active-hover);
-      border: var(--border-brand);
-    }
-
-    &[data-focus-visible] {
-      outline: var(--outline-brand);
-    } */
   }
 }
-.flex {
-  flex: 1;
-}
-.spaceBetween{
-  justify-content: space-between;
-}
-.strech {
-  width: 100%;
-}
-.left-align {
-  justify-content: left;
-}
-.text-left-auto {
-  & p {
-    margin-right: auto;
-  }
-}
+
 .brand {
   color: white;
   background-color: var(--btn-brand);
@@ -197,28 +181,6 @@
   box-shadow: none;
   border: var(--border-black-015);
 }
-.red-x-on-hover {
-  &[data-hovered="true"] > div {
-   &::before, &::after {
-      background-color: var(--red);
-    }
-  }
-}
-
-/* .brand-background-colors {
-  
-  position: relative;
-  background-image: linear-gradient(to right top, #B84600, #D65D14, #D24D00, #A93F04, #D96D2B);
-  overflow: hidden;
-  border: none;
-} */
-@keyframes move {
-  to {
-    background-position: 200% 200%; /* Move the background diagonally to the opposite corner */
-  }
-}
-
-
 .grey {
   background-color: var(--btn-dark);
   border: var(--border-black-01);
@@ -289,7 +251,6 @@
     outline: var(--outline-red);
   }
 }
-
 .disabled {
   user-select: none;
   pointer-events: none;
@@ -300,7 +261,7 @@
   
 }
 .save {
-  &[data-saved="true"] {
+  &[data-custom="saved"] {
     background-color: var(--btn-brand-active);
     border: var(--border-brand-active);
     opacity: 100% !important;
@@ -320,14 +281,6 @@
     }
   }
 }
-.close {
-  /* &:active {
-    & div {
-      transform: scale(0.9);
-    }
-  } */
-}
-
 
 .dropdown {
   &[data-expanded="true"] {
@@ -340,145 +293,9 @@
     &[data-pressed="true"]{
       background-color: var(--btn-darkest);
     }
-   
 
   }
 }
-.navDD_BTN {
-  &[data-active="true"] {
-    color: var(--brand);
-    background-color: var(--btn-brand-active);
-    border: var(--border-brand-active);
-    /* box-shadow: none; */
-
-    &[data-hovered="true"]{
-      background-color: var(--btn-brand-active-hover);
-    }
-    &[data-pressed="true"] {
-      background-color: var(--btn-brand-active-hover);
-      border: var(--border-brand);
-    }
-
-    &[data-focus-visible] {
-      outline: var(--outline-brand);
-    }
-  }
-}
-
-/* //////////////////////////////////////// */
-/* only used in one place / in one form */
-
-.profile-search-btn {
-  composes: btn;
-  composes: onImg;
-
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0.8rem 1.2rem;  
-
-  text-align: left;
-  font-weight: 300;
-  grid-column: 1/3;
-
-  width: 100%;
-  max-width: 100%;
-
-  & h4, p {
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  & .highlight {
-    font-weight: 700;
-    background: var(--brand);
-    padding: 0rem 0.6rem;
-    border-radius: 0.8rem;
-  }
-}
-.profile-name-btn {
-  composes: btn-36;
-  composes: onImg;
-  composes: round;
-
-  padding: 0.8rem 1.2rem;  
-  text-align: left;
-  width: fit-content;
-  max-width: 100%;
-
-  & h4 {
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-}
-.show-icons-btn {
-  composes: btn-36;
-  composes: onImg;
-}
-@keyframes jump {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  33% {
-    transform: translateY(-0.3rem);
-  }
-  66% {
-    transform: translateY(0.3rem);
-  }
-}
-.SavedProfile_LINK {
-
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--radius-12);
-  box-shadow: var(--shadow-img);
-
-  height: 18rem;
-  @media (--mobile) {height: 50vw}
-
-  & a {
-    box-shadow: var(--shadow-btn);
-    & img {
-      object-fit: cover;
-      width: 100%;
-      height: 100%;
-      
-    }
-  }
-  
-
-  & button {
-    position: absolute;
-    top: 0.8rem;
-    right: 0.8rem;
-    width: fit-content !important;
-  }
-
-  & .text_WRAP {
-    position: absolute;
-    padding: 2rem 1.2rem 0.8rem;
-    width: 100%;
-
-    left: 0;
-    bottom: 0;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
-
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    color: white;
-    text-shadow: var(--shadow-text);
-
-    & p {
-      color: var(--text-fade-white);
-    }
-  }
-}
-
 .prosCons {
   composes: onBlur;
 
@@ -495,12 +312,4 @@
     justify-content: center;
   }
 }
-.sliderArrow {
-  &[data-custom="true"] {
-    opacity: 0.4 !important;
-    pointer-events: none !important;
-  }
-}
 
-
-/* /////////////////////////////////////// */

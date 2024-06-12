@@ -59,7 +59,7 @@ html[data-noscroll="true"]{
 }
 
 body {
-  padding-top: 6rem;
+  padding-top: var(--height-nav);
   overflow-x: hidden !important;
   font-size: var(--user-font-size, 1.6rem);
     @media (--mobile) {
@@ -69,6 +69,10 @@ body {
 
 * {
   font-family: "Nunito" !important;
+
+  &[aria-hidden="true"] {
+    pointer-events: none;
+  }
 }
 
 h1 {

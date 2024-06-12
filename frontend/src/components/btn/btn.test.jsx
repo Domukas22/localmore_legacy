@@ -5,7 +5,7 @@ import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
-import { Btn, ProfileSearch_BTN, ProfileName_BTN, ShowTags_BTN } from "./btn";
+import { Btn, ProfileSearch_BTN, ProfileName_BTN, ShowTags_BTN } from "./Btn";
 import { ICON_save, ICON_activeDigit } from "../icons/icons";
 
 describe("Btn", () => {

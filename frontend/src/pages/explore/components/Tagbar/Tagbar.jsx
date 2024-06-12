@@ -1,7 +1,7 @@
 //
 //
 import { Categories_DD } from "../../../../components/DD/Dropdowns/Dropdowns";
-import { Btn } from "../../../../components/btn/btn";
+import { Btn } from "../../../../components/Btn/Btn";
 import css from "./Tagbar.module.css";
 
 import { ICON_x, ICON_dropDownArrow, ICON_activeDigit } from "../../../../components/icons/icons";
@@ -22,13 +22,14 @@ export function Tagbar({
   UPDATE_tags,
   tagGroups,
   tagUsages,
+  tagbar_REF,
+  result_COUNT,
 }) {
   const { fontSize, fontSize_SCALE } = useContext(FontSizeContext);
   const { width } = USE_windowSize();
   const [chosen_TAGS, SET_chosenTags] = useState([]);
   const [HAS_shadow, SET_shadow] = useState(false);
 
-  const tagbar_REF = useRef(null);
   const mainBtns_REF = useRef(null);
   const categoriesDD_REF = useRef(null);
 
@@ -44,7 +45,7 @@ export function Tagbar({
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [fontSize, fontSize_SCALE, width]);
+  }, [fontSize, fontSize_SCALE, width, tagbar_REF]);
 
   useEffect(() => {
     const CALCULATE_tagWidth = (tag) => {
@@ -90,7 +91,7 @@ export function Tagbar({
     return () => {
       resizeObserver.disconnect();
     };
-  }, [all_TAGS, fontSize, fontSize_SCALE, width, activeTag_IDs]);
+  }, [all_TAGS, fontSize, fontSize_SCALE, width, activeTag_IDs, tagbar_REF]);
 
   return (
     <header className={css.header} ref={tagbar_REF} data-shadow={HAS_shadow}>
@@ -160,6 +161,7 @@ export function Tagbar({
             SET_potentialTagIDs,
             IS_mobileTagMenuOpen,
             SET_isMobileTagMenuOpen,
+            result_COUNT,
           }}
         />
       )}

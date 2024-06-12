@@ -1,7 +1,7 @@
 //
 //
 //
-import { useState, useContext, useEffect, useMemo } from "react";
+import { useState, useContext, useEffect, useMemo, useRef } from "react";
 import css from "./explore.module.css";
 
 import Profile_PREVIEW from "../../components/Profile_PREVIEW/Profile_PREVIEW";
@@ -16,7 +16,7 @@ import { Tagbar } from "./components/Tagbar/Tagbar";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { Tagbox } from "../../components/Tagbox/Tagbox";
-import { Btn } from "../../components/btn/btn";
+import { Btn } from "../../components/Btn/Btn";
 import { ICON_dropDownArrow, ICON_x } from "../../components/icons/icons";
 import { PotentialTags_NAV } from "../../components/Modals/PotentialTags_MODAL/PotentialTags_MODAL";
 import { Category_SWIPER } from "./components/Category_SWIPER/Category_SWIPER";
@@ -39,6 +39,7 @@ export default function Explore({
   SET_search,
   tagGroups,
   profiles_OBJ,
+  nav_REF,
 }) {
   const [panoramas, SET_panoramas] = useState(null);
   const { lang } = useContext(Lang_CONTEXT);
@@ -56,6 +57,7 @@ export default function Explore({
         tagGroups={tagGroups}
         tagUsages={tagUsages}
         profiles_OBJ={profiles_OBJ}
+        nav_REF={nav_REF}
       />
       {panoramas !== null && <Modal360 panoramas={panoramas} SET_panoramas={SET_panoramas} />}
     </>
@@ -73,8 +75,10 @@ function Explore_GRID({
   tagGroups,
   tagUsages,
   profiles_OBJ,
+  nav_REF,
 }) {
   const { shuffled_PROFILES, LOADING_profiles } = profiles_OBJ;
+  const tagbar_REF = useRef(null);
 
   const [filtered_PROFILES, SET_filteredProfiles] = useState([...shuffled_PROFILES]);
   const theRest_PROFILES = useMemo(
@@ -107,12 +111,26 @@ function Explore_GRID({
     SET_filteredProfiles(filtered);
   }, [activeTag_IDs, shuffled_PROFILES]);
 
+  // nav_REF
+
+  const header_REF = useRef(null);
+
   const UPDATE_tags = (tag, action) => {
     SET_activeTagIDs((prevactiveTag_IDs) => {
       if (action === "deleteAll") return new Set();
       const newactiveTag_IDs = new Set(prevactiveTag_IDs);
       action === "add" ? newactiveTag_IDs.add(tag._id) : newactiveTag_IDs.delete(tag._id);
-      window.scrollTo({ top: window_WIDTH > 1100 ? 0 : 100, behavior: "smooth" });
+      window.scrollTo({
+        top:
+          window_WIDTH > 1100
+            ? tagbar_REF.current.offsetTop - nav_REF.current.clientHeight
+            : header_REF.current.offsetHeight,
+        behavior: "smooth",
+      });
+
+      // header_REF.current.offsetHeight
+      console.log(nav_REF.current.clientHeight);
+      console.log(tagbar_REF.current.offsetTop);
       return newactiveTag_IDs;
     });
   };
@@ -120,7 +138,7 @@ function Explore_GRID({
   return (
     <div className={css.explore_WRAP}>
       <div className={css.left}>
-        <Header>
+        <Header header_REF={header_REF}>
           <p>Look through {shuffled_PROFILES.length} places</p>
           {window_WIDTH >= 630 && <h1>Find what you're looking for in Heidelberg</h1>}
           {window_WIDTH <= 629 && window_WIDTH >= 450 && <h1>Explore the city of Heidelberg</h1>}
@@ -136,14 +154,16 @@ function Explore_GRID({
           UPDATE_tags={UPDATE_tags}
           tagGroups={tagGroups}
           tagUsages={tagUsages}
+          tagbar_REF={tagbar_REF}
+          result_COUNT={filtered_PROFILES.length}
         />
-        {/* {activeTag_IDs.size === 0 && (
+        {activeTag_IDs.size === 0 && (
           <Category_SWIPER
             categories={categories}
             window_WIDTH={window_WIDTH}
             shuffled_PROFILES={shuffled_PROFILES}
           />
-        )} */}
+        )}
 
         <section className={css.profile_GRID}>
           <AnimatePresence>

@@ -13,7 +13,9 @@ import USE_showSwiper from "../../hooks/USE_showSwiper";
 import { USE_isProfileNew } from "../../hooks/USE_isProfileNew";
 import { New_LABEL, Tag_LABEL } from "../labels/labels";
 import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
-import { Btn, ShowProsCons_BTN, ShowTags_BTN } from "../btn/btn";
+import { Btn } from "../Btn/Btn";
+import { ShowProsCons_BTN } from "../Btn/ShowProsCons_BTN/ShowProsCons_BTN";
+import { ShowTags_BTN } from "../Btn/ShowTags_BTN/ShowTags_BTN";
 
 import { profilePreview_TR as tr } from "../../translations";
 
@@ -160,7 +162,7 @@ export default function Profile_PREVIEW({
           <Btn
             styles={["btn-36", "onImg", "save"]}
             onClick={() => (IS_saved ? HANDLE_save("delete") : HANDLE_save("save"))}
-            saved={IS_saved}
+            custom={IS_saved && "saved"}
             left_ICON={<ICON_save color={IS_saved ? "red" : "white"} />}
             // aria_LABEL={tr?.saveBtn_ARIA(name)[lang]}
             test_ID="save-btn"
@@ -269,21 +271,21 @@ function CREATE_swiper({ sliderRef, images, img_END, hover, slide, SHOW_hearts }
     >
       <div className={css.slider_ARROWS}>
         <Btn
-          styles={["onImg", "round", "sliderArrow"]}
+          styles={["onImg", "round"]}
           right_ICON={<ICON_arrow color="white" direction="left" />}
           onClick={() => {
             slide("prev");
           }}
-          custom_DATA={activeIndex === 0}
+          custom={activeIndex === 0 && "disabled"}
         />
 
         <Btn
-          styles={["onImg", "round", "sliderArrow"]}
+          styles={["onImg", "round"]}
           right_ICON={<ICON_arrow color="white" direction="right" />}
           onClick={() => {
             slide("next");
           }}
-          custom_DATA={activeIndex === images.length - 1}
+          custom={activeIndex === images.length - 1 && "disabled"}
         />
       </div>
 
@@ -402,7 +404,7 @@ function Footer_TAGS({
                   `${IS_potentialAdd ? "green" : ""}`,
                   `${IS_potentialDelete ? "red" : ""}`,
                 ]}
-                leftIcon_URL={tag.icon?.url ? tag.icon?.url : ""}
+                left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
                 right_ICON={
                   <ICON_x
                     rotate={!IS_active}

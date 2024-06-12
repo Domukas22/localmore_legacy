@@ -2,7 +2,7 @@
 //
 
 import css from "./Category_SWIPER.module.css";
-import { Btn } from "../../../../components/btn/btn";
+import { Btn } from "../../../../components/Btn/Btn";
 import { ICON_arrow } from "../../../../components/icons/icons";
 import USE_scrollable from "../../../../hooks/USE_scrollable";
 
@@ -18,9 +18,11 @@ export function Category_SWIPER({ categories, window_WIDTH, profiles }) {
   const categoryImages = {};
 
   categories.forEach((category) => {
-    const categoryProfiles = profiles.filter((profile) =>
+    const categoryProfiles = profiles?.filter((profile) =>
       profile.categories.includes(category._id)
     );
+
+    if (!categoryProfiles) return;
     const usedImages = new Set();
 
     for (const profile of categoryProfiles) {

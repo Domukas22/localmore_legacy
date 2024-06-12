@@ -1,7 +1,9 @@
 //
 //
 
+import { forwardRef, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
+
 export default function Transition_MENU({
   children,
   current_MENU,
@@ -9,6 +11,7 @@ export default function Transition_MENU({
   classNames,
   resize = () => {},
 }) {
+  const nodeRef = useRef();
   return (
     <CSSTransition
       in={current_MENU === menu_NAME}
@@ -16,8 +19,11 @@ export default function Transition_MENU({
       classNames={classNames}
       onEnter={resize}
       unmountOnExit
+      nodeRef={nodeRef}
     >
-      <ul className="menu">{children && children}</ul>
+      <ul className="menu" ref={nodeRef}>
+        {children && children}
+      </ul>
     </CSSTransition>
   );
 }

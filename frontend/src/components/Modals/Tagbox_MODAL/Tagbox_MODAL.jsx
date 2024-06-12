@@ -17,6 +17,7 @@ export function Tagbox_MODAL({
   SET_potentialTagIDs,
   IS_mobileTagMenuOpen,
   SET_isMobileTagMenuOpen,
+  result_COUNT,
 }) {
   const scroll_REF = useRef(null);
 
@@ -33,6 +34,7 @@ export function Tagbox_MODAL({
           SET_potentialTagIDs={SET_potentialTagIDs}
           SET_isOpen={SET_isMobileTagMenuOpen}
           starting_MENU={activeTag_IDs.size > 0 ? "active-tags" : "all"}
+          result_COUNT={result_COUNT}
         />
       </Dialog>
     </Modal>

@@ -1,7 +1,7 @@
 import "./styles/reset.css";
 import "./styles/App.css";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Explore from "./pages/explore/explore.jsx";
 import { USE_windowSize } from "./hooks/USE_windowWidth";
 import { USE_fetchData } from "./hooks/USE_fetchData.js";
@@ -62,7 +62,7 @@ export function App() {
     [LOADING_profiles]
   );
 
-  console.log(shuffled_PROFILES);
+  const nav_REF = useRef(null);
 
   if (profile_ERROR) console.log(profile_ERROR);
 
@@ -74,6 +74,7 @@ export function App() {
         SET_search={SET_search}
         categories={available_CATEGORIES}
         profiles={profiles}
+        nav_REF={nav_REF}
       />
       <AnimatePresence>
         {search !== "" && <SearchResults_MODAL search={search} profiles={profiles} />}
@@ -88,6 +89,7 @@ export function App() {
         SET_search={SET_search}
         categories={available_CATEGORIES}
         tagGroups={tagGroups}
+        nav_REF={nav_REF}
       />
     </>
   );

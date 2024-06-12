@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import { USE_windowSize } from "../../hooks/USE_windowWidth";
 import { AnimatePresence, motion } from "framer-motion";
 import USE_Toggle from "../../hooks/USE_toggle";
-import { Btn } from "../btn/btn";
+import { Btn } from "../Btn/Btn";
 import { Lang_CONTEXT } from "../../contexts/lang";
 import { Theme_CONTEXT } from "../../contexts/theme";
 import { FontSizeContext } from "../../contexts/fontSize";
@@ -23,7 +23,7 @@ import { ICON_menuLines } from "../icons/icons";
 import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
 import { USE_showBrowserToolbar } from "../../hooks/USE_showBrowserToolbar";
 
-export default function Nav({ tagUsages, search, SET_search, categories, profiles }) {
+export default function Nav({ tagUsages, search, SET_search, categories, profiles, nav_REF }) {
   const [IS_menuOpen, xx, SET_menuOpen] = USE_Toggle(false);
   const [IS_searchOpen, TOGGLE_search, SET_searchOpen] = USE_Toggle(false);
   const { fontSize } = useContext(FontSizeContext); // 1, 2, 3
@@ -63,7 +63,12 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
   const SHOULD_showSearchBtn = layout > 4 && !IS_menuOpen;
 
   return (
-    <header className={css.header} data-theme={theme} data-hidemainnav={IS_searchOpen}>
+    <header
+      className={css.header}
+      data-theme={theme}
+      data-hidemainnav={IS_searchOpen}
+      ref={nav_REF}
+    >
       <div className={css.nav_WRAP}>
         <h1 key="nav-logo" data-shrink={SHRINK_logo}>
           <a href="http://localhost:5173/" title="← Back to the homepage">

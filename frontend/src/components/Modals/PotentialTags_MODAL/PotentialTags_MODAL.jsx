@@ -2,7 +2,7 @@
 //
 
 import React, { useEffect, useState } from "react";
-import { Btn } from "../../btn/btn";
+import { Btn } from "../../Btn/Btn";
 import css from "./PotentialTags_MODAL.module.css";
 import { ICON_dropDownArrow, ICON_x } from "../../icons/icons";
 import { USE_showBrowserToolbar } from "../../../hooks/USE_showBrowserToolbar";

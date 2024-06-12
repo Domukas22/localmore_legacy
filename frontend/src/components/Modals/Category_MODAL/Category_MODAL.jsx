@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { Dialog, Modal } from "react-aria-components";
 import css from "./Category_MODAL.module.css";
 import { ICON_x } from "../../icons/icons";
-import { Btn } from "../../btn/btn";
+import { Btn } from "../../Btn/Btn";
 
 import Transition_MENU from "../../Transition_MENU/Transition_MENU";
 import {
