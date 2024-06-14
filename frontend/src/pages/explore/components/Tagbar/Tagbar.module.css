@@ -24,12 +24,17 @@
     width: 100%;
     gap: 0.8rem;
 
+
     & button:first-child {
       flex: 1;
       justify-content: left;
       & p {
         margin-right: auto;
       }
+    }
+
+    &[data-bottom="true"] {
+      padding-bottom: 10dvh;
     }
   }
 

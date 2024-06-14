@@ -16,7 +16,13 @@ export function ICON_activeDigit({ count, IS_active, inverse = false, jump = fal
     </div>
   );
 }
-export function ICON_x({ rotate = false, color = "dark", small = false, rotationAnimation = false, oneLine = false }) {
+export function ICON_x({
+  rotate = false,
+  color = "dark",
+  small = false,
+  rotationAnimation = false,
+  oneLine = false,
+}) {
   return (
     <div
       className={small ? css.ICON_x_small : css.ICON_x}
@@ -92,8 +98,20 @@ export function ICON_dropDownArrow({ color = "dark" }) {
 export function ICON_search({ small = false }) {
   if (!small) {
     return (
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-        <path d="M13 13L19 19" stroke="#383940" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+      >
+        <path
+          d="M13 13L19 19"
+          stroke="#383940"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
         <path
           d="M8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15Z"
           stroke="#383940"
@@ -137,7 +155,13 @@ export function ICON_proCon({ IS_pro = true }) {
   return (
     <div className={css.ICON_proCon} data-pro={IS_pro}>
       {IS_pro && (
-        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="12" viewBox="0 0 10 12" fill="none">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="10"
+          height="12"
+          viewBox="0 0 10 12"
+          fill="none"
+        >
           <path
             d="M1.3337 6.57719L3.85275 10.0198L8.93721 1.91042"
             stroke="white"

@@ -12,18 +12,24 @@
 
 
   z-index: 60;
-  background-color: rgba(234, 237, 245, 1);
+  background-color: rgba(0, 0, 0, 0.75);
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
+
 
   & .Dialog_MENU {
-    height: 105%;
+    height: 85dvh;
     width: 100%;
-    /* overflow-y: scroll;
-    overflow-x: hidden; */
     display: flex;
+    border-radius: 1.6rem 1.6rem 0 0;
+    overflow: hidden;    
     flex-direction: column;
-   
+    transition: all 0.3s;
+
+    box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.8);
+    background-color: var(--fill-bg);
+    animation: FADE_BottomTo0 200ms ease-out;
 
   }
 
@@ -63,4 +69,74 @@
     }
   }
   
+  &[data-entering="true"] {
+    animation: fade 200ms;
+  }
+  &[data-exiting="true"] {
+    animation: fade 200ms reverse;
+    pointer-events: none;
+
+     & .Dialog_MENU {
+      overflow-y: hidden;
+      animation: FADE_0ToBottom 200ms ease-out;
+    } 
+  }
+
+  & ul > div {
+    opacity: 0;
+    animation: FADE_leftTo0 0.3s forwards; 
+  }
+  & ul > div:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  & ul > div:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+  & ul > div:nth-child(3) {
+    animation-delay: 0.2s;
+  }
+  & ul > div:nth-child(4) {
+    animation-delay: 0.25s;
+  }
+  & ul > div:nth-child(5) {
+    animation-delay: 0.3s;
+  }
+
+}
+
+
+@keyframes FADE_leftTo0 {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes FADE_BottomTo0 {
+  from {
+    opacity: 0;
+    transform: translateY(6rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0rem);
+  }
+}
+@keyframes FADE_0ToBottom {
+  from {
+    opacity: 1;
+    transform: translateY(0rem);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(6rem);
+  }
+}
+
+@keyframes fade {
+  from {opacity: 0}
+  to {opacity: 1}
 }

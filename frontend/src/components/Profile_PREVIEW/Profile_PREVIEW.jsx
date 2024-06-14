@@ -11,7 +11,7 @@ import { ICON_arrow, ICON_error, ICON_proCon, ICON_save, ICON_x } from "../icons
 import USE_slideSwiper from "../../hooks/USE_slideSwiper";
 import USE_showSwiper from "../../hooks/USE_showSwiper";
 import { USE_isProfileNew } from "../../hooks/USE_isProfileNew";
-import { New_LABEL, Tag_LABEL } from "../labels/labels";
+import { New_LABEL, PotentialTag_LABEL } from "../labels/labels";
 import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
 import { Btn } from "../Btn/Btn";
 import { ShowProsCons_BTN } from "../Btn/ShowProsCons_BTN/ShowProsCons_BTN";
@@ -337,7 +337,7 @@ function Footer_FRONT({
       {matched_TAGS.length > 0 && (
         <div className={css.activeTag_WRAP} onClick={() => SET_currentView("tags")}>
           {matched_TAGS?.map((tag) => (
-            <Tag_LABEL key={tag?._id} name={tag?.name?.en} small={true} />
+            <PotentialTag_LABEL key={tag?._id} name={tag?.name?.en} small={true} />
           ))}
         </div>
       )}

@@ -12,8 +12,6 @@
     background: var(--fill-white);
     box-shadow: var(--shadow-img);
     border-radius: var(--radius-16);
-  
-    
   }
 
   @media (--mobile) {

@@ -6,6 +6,7 @@ import { Btn } from "../../../../Btn/Btn";
 
 import { AnimatePresence, motion } from "framer-motion";
 import { ICON_save } from "../../../../icons/icons";
+import { useState } from "react";
 
 export function Saved_BLOCK({ savedProfile_OBJs, REMOVE_fromSaved, resize = () => {} }) {
   const [deletingItem, setDeletingItem] = useState(null);

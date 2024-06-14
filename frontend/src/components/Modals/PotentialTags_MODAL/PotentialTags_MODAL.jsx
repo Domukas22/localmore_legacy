@@ -6,7 +6,7 @@ import { Btn } from "../../Btn/Btn";
 import css from "./PotentialTags_MODAL.module.css";
 import { ICON_dropDownArrow, ICON_x } from "../../icons/icons";
 import { USE_showBrowserToolbar } from "../../../hooks/USE_showBrowserToolbar";
-import { Tag_LABEL } from "../../labels/labels";
+import { PotentialTag_LABEL } from "../../labels/labels";
 
 export function PotentialTags_NAV({
   potentialTag_IDs,
@@ -71,7 +71,7 @@ export function PotentialTags_NAV({
         {!IS_potentialTagNavExpanded && (
           <div className={css.tagLabel_WRAP} onClick={() => SET_potentialTagNavExpanded(true)}>
             {GET_potentialAddTags()?.map((tag) => (
-              <Tag_LABEL
+              <PotentialTag_LABEL
                 key={tag._id}
                 name={tag.name.en}
                 color="green"
@@ -80,7 +80,7 @@ export function PotentialTags_NAV({
             ))}
 
             {GET_potentialDeleteTags()?.map((tag) => (
-              <Tag_LABEL
+              <PotentialTag_LABEL
                 key={tag._id}
                 name={tag.name.en}
                 color="red"
@@ -88,7 +88,7 @@ export function PotentialTags_NAV({
               />
             ))}
             {GET_potentialStayTags()?.map((tag) => (
-              <Tag_LABEL key={tag._id} name={tag.name.en} color="brand" />
+              <PotentialTag_LABEL key={tag._id} name={tag.name.en} color="brand" />
             ))}
           </div>
         )}

@@ -18,6 +18,7 @@ import { TagGroupBtns_BLOCK } from "../Transition_MENU/Blocks/Tags/TagGroupBtns_
 import { ActiveTagsBtn_BLOCK } from "../Transition_MENU/Blocks/Tags/ActiveTagsBtn_BLOCK/ActiveTagsBtn_BLOCK";
 
 import { USE_activeDigitJump } from "../../hooks/USE_activeDigitJump";
+import { USE_isBrowserToolbarClosed } from "../../hooks/USE_isBrowserToolbarOpen";
 
 export function Tagbox({
   tagUsages,
@@ -312,8 +313,10 @@ function Top({
   );
 }
 function MobileBtn_WRAP({ activeTag_IDs, UPDATE_tags, SET_isOpen, result_COUNT }) {
+  const IS_mobibeBrowserToolbarClosed = USE_isBrowserToolbarClosed();
+
   return (
-    <div className={css.mobileBtn_WRAP}>
+    <div className={css.mobileBtn_WRAP} data-paddingbottom={IS_mobibeBrowserToolbarClosed}>
       {activeTag_IDs.size > 0 && (
         <>
           <Btn

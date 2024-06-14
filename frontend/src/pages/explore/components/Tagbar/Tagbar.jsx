@@ -1,6 +1,6 @@
 //
 //
-import { Categories_DD } from "../../../../components/DD/Dropdowns/Dropdowns";
+
 import { Btn } from "../../../../components/Btn/Btn";
 import css from "./Tagbar.module.css";
 
@@ -11,6 +11,8 @@ import { USE_windowSize } from "../../../../hooks/USE_windowWidth";
 import { Tagbox_MODAL } from "../../../../components/Modals/Tagbox_MODAL/Tagbox_MODAL";
 import { Category_MODAL } from "../../../../components/Modals/Category_MODAL/Category_MODAL";
 import { USE_showBrowserToolbar } from "../../../../hooks/USE_showBrowserToolbar";
+
+import { Categories_DD } from "../../../../components/DD/Dropdowns/Categories_DD/Categories_DD";
 
 export function Tagbar({
   categories,
@@ -149,31 +151,28 @@ export function Tagbar({
           )}
         </>
       )}
-      {IS_mobileTagMenuOpen && width < 1100 && (
-        <Tagbox_MODAL
-          {...{
-            tagGroups,
-            all_TAGS,
-            tagUsages,
-            activeTag_IDs,
-            UPDATE_tags,
-            potentialTag_IDs,
-            SET_potentialTagIDs,
-            IS_mobileTagMenuOpen,
-            SET_isMobileTagMenuOpen,
-            result_COUNT,
-          }}
-        />
-      )}
-      {IS_mobileCategoryMenuOpen && (
-        <Category_MODAL
-          {...{
-            IS_mobileCategoryMenuOpen,
-            SET_isMobileCategoryMenuOpen,
-            categories,
-          }}
-        />
-      )}
+      <Tagbox_MODAL
+        {...{
+          tagGroups,
+          all_TAGS,
+          tagUsages,
+          activeTag_IDs,
+          UPDATE_tags,
+          potentialTag_IDs,
+          SET_potentialTagIDs,
+          IS_mobileTagMenuOpen,
+          SET_isMobileTagMenuOpen,
+          result_COUNT,
+        }}
+      />
+
+      <Category_MODAL
+        {...{
+          IS_mobileCategoryMenuOpen,
+          SET_isMobileCategoryMenuOpen,
+          categories,
+        }}
+      />
     </header>
   );
 }

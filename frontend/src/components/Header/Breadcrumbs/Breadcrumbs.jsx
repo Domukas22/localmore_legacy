@@ -2,33 +2,53 @@
 //
 
 import css from "./Breadcrumbs.module.css";
-import { Link } from "react-aria-components";
 
-export function Breadcrumbs() {
-  // TODO => Re-write this to use the react-aria-components
+import { Breadcrumbs, Breadcrumb, Link } from "react-aria-components";
+
+export function Breadcrumbss({ texts_ARR = [], urls_ARR = [] }) {
+  const [text_1, text_2, text_3, text_4] = texts_ARR;
+  const [url_1, url_2, url_3] = urls_ARR;
 
   return (
-    <nav className={css.Breadcrumbs}>
-      <ul>
-        <li>
-          <Breadcrumb_LINK link="#" text="Link 1" />
-        </li>
-        <span>{">"}</span>
-        <li>
-          <Breadcrumb_LINK link="#" text="Link 2" />
-        </li>
-        <span>{">"}</span>
-        <li>
-          <Breadcrumb_LINK link="#" text="Link 3" IS_active={true} />
-        </li>
-      </ul>
+    <nav>
+      <Breadcrumbs className={css.Breadcrumbs}>
+        {text_1 && (
+          <Breadcrumb>
+            <Link href={`${url_1 ? url_1 : ""}`} className={css.breadcrumb_LINK}>
+              {text_1}
+            </Link>
+          </Breadcrumb>
+        )}
+        {text_2 && (
+          <Breadcrumb>
+            <Link
+              href={`${url_2 ? url_2 : ""}`}
+              className={css.breadcrumb_LINK}
+              data-active={texts_ARR.length === 2}
+            >
+              {text_2}
+            </Link>
+          </Breadcrumb>
+        )}
+        {text_3 && (
+          <Breadcrumb>
+            <Link
+              href={`${url_3 ? url_3 : ""}`}
+              className={css.breadcrumb_LINK}
+              data-active={texts_ARR.length === 3}
+            >
+              {text_3}
+            </Link>
+          </Breadcrumb>
+        )}
+        {text_4 && (
+          <Breadcrumb>
+            <Link className={css.breadcrumb_LINK} data-active={texts_ARR.length === 4}>
+              {text_4}
+            </Link>
+          </Breadcrumb>
+        )}
+      </Breadcrumbs>
     </nav>
-  );
-}
-function Breadcrumb_LINK({ link, text, IS_active }) {
-  return (
-    <Link href={link || "/"} className={css.breadcrunb_LINK} data-active={IS_active}>
-      {text || "Link"}
-    </Link>
   );
 }

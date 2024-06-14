@@ -65,4 +65,84 @@
     border-bottom: var(--border-black-01);
     }
   }
+
+  &[data-entering] {
+    animation: fade 200ms;
+  }
+  &[data-exiting="true"] {
+    animation: fade 200ms reverse;
+    pointer-events: none;
+
+    & .Dialog_MENU {
+      overflow-y: hidden;
+      /* animation: FADE_0ToLeft 150ms ease-in forwards; */
+    }
+  }
+
+  
+  
+  & ul > div {
+    opacity: 0;
+    animation: FADE_leftTo0 0.3s forwards; 
+  }
+  & ul > div:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  & ul > div:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+  & ul > div:nth-child(3) {
+    animation-delay: 0.2s;
+  }
+  & ul > div:nth-child(4) {
+    animation-delay: 0.25s;
+  }
+  & ul > div:nth-child(5) {
+    animation-delay: 0.3s;
+  }
+}
+
+@keyframes FADE_leftTo0 {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes FADE_rightTo0 {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes FADE_0ToLeft {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50px); /* Move to the right */
+  }
+}
+@keyframes FADE_0ToRight{
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(50px); /* Move to the right */
+  }
+}
+@keyframes fade {
+  from {opacity: 0}
+  to {opacity: 1}
 }

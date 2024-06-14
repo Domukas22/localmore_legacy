@@ -8,18 +8,6 @@ import { USE_getCategories } from "../../../hooks/USE_getCategories";
 import { Dialog, Modal } from "react-aria-components";
 import Transition_MENU from "../../Transition_MENU/Transition_MENU";
 
-// import {
-//   Legal_BLOCK,
-//   Feedback_BLOCK,
-//   Settings_BLOCKS,
-//   Saved_BLOCK,
-//   BtnBack_BLOCK,
-//   Nav_BLOCKS,
-//   EndBtn_BLOCK,
-//   AllCategories_BLOCK,
-//   Category_BLOCK,
-// } from "../../Transition_MENU/Blocks/Blocks";
-
 import { BtnBack_BLOCK } from "../../Transition_MENU/Blocks/General/BtnBack_BLOCK/BtnBack_BLOCK";
 import { EndBtn_BLOCK } from "../../Transition_MENU/Blocks/General/EndBtn_BLOCK/EndBtn_BLOCK";
 

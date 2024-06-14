@@ -15,7 +15,11 @@ import { Theme_CONTEXT } from "../../contexts/theme";
 import { FontSizeContext } from "../../contexts/fontSize";
 import SearchBar from "../Searchbar/Searchbar";
 
-import { Categories_DD, More_DD, Settings_DD, Saved_DD } from "../DD/Dropdowns/Dropdowns";
+import { Categories_DD } from "../DD/Dropdowns/Categories_DD/Categories_DD";
+import { More_DD } from "../DD/Dropdowns/More_DD/More_DD";
+import { Settings_DD } from "../DD/Dropdowns/Settings_DD/Settings_DD";
+import { Saved_DD } from "../DD/Dropdowns/Saved_DD/Saved_DD";
+
 import { MobileMenu_MODAL } from "../Modals/MobileMenu_MODAL/MobileMenu_MODAL";
 
 import { ICON_menuLines } from "../icons/icons";

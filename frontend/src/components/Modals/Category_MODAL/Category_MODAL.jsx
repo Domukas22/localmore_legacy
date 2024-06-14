@@ -26,12 +26,19 @@ export function Category_MODAL({
   const { HANLDE_dd, current_MENU, SET_currentMenu } = USE_handleDropdown();
 
   return (
-    <Modal isOpen={IS_mobileCategoryMenuOpen} className={css.Category_MODAL}>
+    <Modal
+      isOpen={IS_mobileCategoryMenuOpen}
+      className={css.Category_MODAL}
+      onClick={() => {
+        SET_isMobileCategoryMenuOpen(false);
+        console.log("err");
+      }}
+    >
       <Dialog aria-label="Menu" ref={scroll_REF} className={css.Dialog_MENU} autoFocus={false}>
         <div className={css.top}>
           <h3>Choose a category</h3>
           <Btn
-            styles={["btn-44", "grey"]}
+            styles={["btn-40", "round", "grey"]}
             right_ICON={<ICON_x color="dark" />}
             onClick={() => SET_isMobileCategoryMenuOpen(false)}
           />

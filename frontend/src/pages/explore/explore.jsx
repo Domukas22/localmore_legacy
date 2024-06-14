@@ -20,6 +20,7 @@ import { Btn } from "../../components/Btn/Btn";
 import { ICON_dropDownArrow, ICON_x } from "../../components/icons/icons";
 import { PotentialTags_NAV } from "../../components/Modals/PotentialTags_MODAL/PotentialTags_MODAL";
 import { Category_SWIPER } from "./components/Category_SWIPER/Category_SWIPER";
+import { Breadcrumbss } from "../../components/Header/Breadcrumbs/Breadcrumbs";
 
 const decoy_PROPS = {
   initial: { opacity: 0 },
@@ -136,6 +137,7 @@ function Explore_GRID({
     <div className={css.explore_WRAP}>
       <div className={css.left}>
         <Header header_REF={header_REF}>
+          {/* <Breadcrumbss texts_ARR={["text_1", "text_2"]} urls_ARR={["#"]} /> */}
           <p>Look through {shuffled_PROFILES.length} places</p>
           {window_WIDTH >= 630 && <h1>Find what you're looking for in Heidelberg</h1>}
           {window_WIDTH <= 629 && window_WIDTH >= 450 && <h1>Explore the city of Heidelberg</h1>}

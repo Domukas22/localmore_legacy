@@ -70,9 +70,9 @@ body {
 * {
   font-family: "Nunito" !important;
 
-  &[aria-hidden="true"] {
+  /* &[aria-hidden="true"] {
     pointer-events: none;
-  }
+  } */
 }
 
 h1 {
