@@ -27,10 +27,17 @@
         & .swiperSlide {
           margin-right: 1.2rem !important;
           @media (--mobile) {margin-right: 1rem !important}
-
           width: fit-content;
           display: flex;
           position: relative;
+
+          & .label_WRAP {
+            position: absolute;
+            right: 0.8rem;
+            top: 0.8rem;
+            z-index: 10;
+
+          }
         }
       }
       

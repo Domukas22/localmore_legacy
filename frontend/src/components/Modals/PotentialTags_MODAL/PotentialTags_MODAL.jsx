@@ -6,7 +6,7 @@ import { Btn } from "../../Btn/Btn";
 import css from "./PotentialTags_MODAL.module.css";
 import { ICON_arrow, ICON_dropDownArrow, ICON_x } from "../../icons/icons";
 import { USE_showBrowserToolbar } from "../../../hooks/USE_showBrowserToolbar";
-import { PotentialTag_LABEL } from "../../labels/labels";
+import { Label } from "../../labels/labels";
 import { USE_getPotentialTags } from "./hooks/USE_getPotentialTags";
 import { PotentialTags_BLOCK } from "../../Transition_MENU/Blocks/Tags/PotentialTags_BLOCK/PotentialTags_BLOCK";
 import { AnimatePresence, motion } from "framer-motion";
@@ -46,13 +46,11 @@ export function PotentialTags_MODAL({
           "px"
         );
       });
-      console.log(modal_HEIGHT);
+
       return;
     }
 
     SET_modal_HEIGHT(() => "100dvh");
-
-    console.log("100dvh");
   }, [IS_potentialTagNavExpanded]);
 
   useEffect(() => {
@@ -115,7 +113,7 @@ export function PotentialTags_MODAL({
             transition={{ duration: 0.3 }}
           >
             {potentialAdd_TAGS?.map((tag) => (
-              <PotentialTag_LABEL
+              <Label
                 key={tag._id}
                 name={tag.name.en}
                 color="green"
@@ -123,7 +121,7 @@ export function PotentialTags_MODAL({
               />
             ))}
             {potentialDelete_TAGS?.map((tag) => (
-              <PotentialTag_LABEL
+              <Label
                 key={tag._id}
                 name={tag.name.en}
                 color="red"
@@ -131,7 +129,7 @@ export function PotentialTags_MODAL({
               />
             ))}
             {potentialStay_TAGS?.map((tag) => (
-              <PotentialTag_LABEL key={tag._id} name={tag.name.en} color="brand" />
+              <Label key={tag._id} name={tag.name.en} color="brand" />
             ))}
           </motion.div>
         )}

@@ -1,6 +1,6 @@
 //
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Btn } from "../Btn/Btn";
 import { ICON_activeDigit, ICON_arrow, ICON_search, ICON_x } from "../icons/icons";
 import SearchBar from "../Searchbar/Searchbar";
@@ -32,8 +32,9 @@ export function Tagbox({
   starting_MENU,
   result_COUNT,
 }) {
-  const [search, SET_search] = useState("");
-  const mainSearch_REF = useRef(null);
+  const [tagSearch, SET_tagSearch] = useState("");
+  const search_REF = useRef(null);
+
   const [current_MENU, SET_currentMenu] = useState(starting_MENU || "all");
   const [currentTagGroup_ID, SET_currentTagGroupID] = useState(null);
   const [currentTagGroup_NAME, SET_currentTagGroupName] = useState(null);
@@ -53,6 +54,20 @@ export function Tagbox({
   }, [current_MENU, scroll_REF]);
 
   const sorted_TAGS = [...all_TAGS];
+  const [searched_TAGS, SET_searchedTags] = useState([]);
+
+  useEffect(() => {
+    // if (tagSearch === "") {
+    //   SET_searchedTags([]);
+    //   return;
+    // }
+
+    console.log(searched_TAGS);
+    const search = tagSearch.toLowerCase();
+    const searchedTags = all_TAGS.filter((tag) => tag?.name?.en?.toLowerCase().includes(search));
+    SET_searchedTags(searchedTags);
+  }, [tagSearch, SET_tagSearch, all_TAGS]);
+
   const active_TAGS = sorted_TAGS.filter((tag) => activeTag_IDs.has(tag._id));
 
   const potentialAdd_TAGS = sorted_TAGS.filter((tag) => potentialTag_IDs.toAdd_IDs.has(tag._id));
@@ -88,8 +103,11 @@ export function Tagbox({
         SHOULD_activeDitigJump={SHOULD_activeDitigJump}
         width={width}
         SET_isOpen={SET_isOpen}
+        tagSearch={tagSearch}
+        SET_tagSearch={SET_tagSearch}
+        search_REF={search_REF}
       />
-      {!HAS_potentialTags && (
+      {!HAS_potentialTags && tagSearch === "" && (
         <>
           <div className={css.menu_WRAP} ref={scroll_REF}>
             {/* Start */}
@@ -156,7 +174,7 @@ export function Tagbox({
           )}
         </>
       )}
-      {HAS_potentialTags && (
+      {HAS_potentialTags && tagSearch === "" && (
         <div className={css.block_WRAP} data-potential-block-wrap>
           {potentialAdd_TAGS.length > 0 && (
             <PotentialTags_BLOCK
@@ -211,6 +229,14 @@ export function Tagbox({
           </div>
         </div>
       )}
+
+      {!HAS_potentialTags && tagSearch !== "" && (
+        <Tags_BLOCK
+          title={`${searched_TAGS.length} tags with "${tagSearch}"`}
+          tags={searched_TAGS}
+          {...{ activeTag_IDs, UPDATE_tags, tag_COUNTS }}
+        />
+      )}
     </div>
   );
 }
@@ -223,10 +249,11 @@ function Top({
   SHOULD_activeDitigJump,
   width,
   SET_isOpen,
+  tagSearch,
+  SET_tagSearch,
+  search_REF,
 }) {
   const [IS_searchOpen, SET_searchOpen] = useState(false);
-  const [tagSearch, SET_tagSearch] = useState("");
-  const search_REF = useRef(null);
 
   useEffect(() => {
     if (search_REF.current && IS_searchOpen) {

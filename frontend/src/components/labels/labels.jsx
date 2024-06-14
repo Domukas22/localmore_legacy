@@ -10,7 +10,7 @@ export function New_LABEL({ lang = "en" }) {
     </span>
   );
 }
-export function PotentialTag_LABEL({ name, icon, color = "brand", small = false }) {
+export function Label({ name, icon, color = "brand", small = false }) {
   return (
     <label className={css.Tag_LABEL} data-color={color} data-small={small}>
       {icon && icon}

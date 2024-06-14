@@ -30,7 +30,6 @@ export function Saved_BLOCK({ savedProfile_OBJs, REMOVE_fromSaved, resize = () =
       <AnimatePresence>
         {savedProfile_OBJs.map((profile) => {
           const IS_saved = savedProfile_OBJs.some((p) => p._id === profile._id);
-          console.log(IS_saved);
 
           return (
             <motion.li

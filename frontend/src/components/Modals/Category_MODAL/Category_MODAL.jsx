@@ -31,7 +31,6 @@ export function Category_MODAL({
       className={css.Category_MODAL}
       onClick={() => {
         SET_isMobileCategoryMenuOpen(false);
-        console.log("err");
       }}
     >
       <Dialog aria-label="Menu" ref={scroll_REF} className={css.Dialog_MENU} autoFocus={false}>
