@@ -79,7 +79,7 @@ export function Nav_BLOCKS({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT 
               styles={["btn-44", "flex", "text-left-auto"]}
               text={`Saved (${savedProfile_IDs.size})`}
               // left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/2107/2107845.png"></img>}
-              left_ICON={<ICON_save style="active" />}
+              left_ICON={<ICON_save color="red" />}
               aria_LABEL=""
               right_ICON={<ICON_arrow direction="right" />}
               onClick={() => SET_currentMenu("saved")}

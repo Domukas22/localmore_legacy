@@ -18,7 +18,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Tagbox } from "../../components/Tagbox/Tagbox";
 import { Btn } from "../../components/Btn/Btn";
 import { ICON_dropDownArrow, ICON_x } from "../../components/icons/icons";
-import { PotentialTags_NAV } from "../../components/Modals/PotentialTags_MODAL/PotentialTags_MODAL";
+import { PotentialTags_MODAL } from "../../components/Modals/PotentialTags_MODAL/PotentialTags_MODAL";
 import { Category_SWIPER } from "./components/Category_SWIPER/Category_SWIPER";
 import { Breadcrumbss } from "../../components/Header/Breadcrumbs/Breadcrumbs";
 
@@ -236,7 +236,7 @@ function Explore_GRID({
       )}
       {window_WIDTH < 1100 &&
         (potentialTag_IDs.toAdd_IDs.size > 0 || potentialTag_IDs.toDelete_IDs.size > 0) && (
-          <PotentialTags_NAV
+          <PotentialTags_MODAL
             {...{
               potentialTag_IDs,
               SET_potentialTagIDs,

@@ -253,7 +253,7 @@
   
 }
 .saved {
-  background-color: var(--btn-brand-active);
+  background-color: var(--red-bg);
   border: var(--border-brand-active);
   opacity: 100% !important;
 

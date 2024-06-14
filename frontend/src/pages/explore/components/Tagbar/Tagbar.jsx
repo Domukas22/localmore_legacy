@@ -90,6 +90,11 @@ export function Tagbar({
     const resizeObserver = new ResizeObserver(calculateTagsToFit);
     resizeObserver.observe(tagbar_REF.current);
 
+    if (window_WIDTH > 900) {
+      if (IS_mobileTagMenuOpen) SET_isMobileTagMenuOpen(false);
+      if (IS_mobileCategoryMenuOpen) SET_isMobileCategoryMenuOpen(false);
+    }
+
     return () => {
       resizeObserver.disconnect();
     };

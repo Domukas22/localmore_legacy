@@ -30,6 +30,8 @@ export function Saved_BLOCK({ savedProfile_OBJs, REMOVE_fromSaved, resize = () =
       <AnimatePresence>
         {savedProfile_OBJs.map((profile) => {
           const IS_saved = savedProfile_OBJs.some((p) => p._id === profile._id);
+          console.log(IS_saved);
+
           return (
             <motion.li
               className={css.savedBtn_LI}
@@ -47,7 +49,7 @@ export function Saved_BLOCK({ savedProfile_OBJs, REMOVE_fromSaved, resize = () =
                   onClick={() => {
                     handleRemove(profile._id);
                   }}
-                  left_ICON={<ICON_save style={IS_saved ? "active" : "white"} />}
+                  left_ICON={<ICON_save color={IS_saved ? "red" : "white"} />}
                   // aria_LABEL={tr?.saveBtn_ARIA(name)[lang]}
                   test_ID="save-btn"
                   FIRE_clickEvent={false}
