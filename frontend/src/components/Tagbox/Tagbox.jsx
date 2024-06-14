@@ -316,7 +316,10 @@ function MobileBtn_WRAP({ activeTag_IDs, UPDATE_tags, SET_isOpen, result_COUNT }
   const IS_mobibeBrowserToolbarClosed = USE_isBrowserToolbarClosed();
 
   return (
-    <div className={css.mobileBtn_WRAP} data-paddingbottom={IS_mobibeBrowserToolbarClosed}>
+    <div
+      className={css.mobileBtn_WRAP}
+      data-browser-tab-padding-bottom={IS_mobibeBrowserToolbarClosed}
+    >
       {activeTag_IDs.size > 0 && (
         <>
           <Btn

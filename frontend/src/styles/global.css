@@ -199,3 +199,8 @@
   transform: translateX(calc(100% + 1.4rem)); 
   opacity: 0;
 }
+
+div[data-browser-tab-padding-bottom="true"],
+button[data-browser-tab-padding-bottom="true"] {
+  padding-bottom: 10dvh !important;
+}
