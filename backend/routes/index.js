@@ -22,7 +22,6 @@ router.get("/cities", city_CONT.LIST_cities);
 router.get("/countries", country_CONT.LIST_countries);
 router.get("/staticProfiles", staticProfile_CONT.LIST_staticProfiles);
 router.get("/tags", tag_CONT.LIST_tags);
-router.get("/subtags", tag_CONT.LIST_subtags);
 router.get("/tagGroups", tagGroup_CONT.LIST_tagGroups);
 router.get("/tagUsages", tagUsage_CONT.LIST_tagUsages);
 router.get("/uiTranslations", uiTranslation_CONT.LIST_uiTranslations);

@@ -62,9 +62,16 @@ export function Tagbox({
     //   return;
     // }
 
-    console.log(searched_TAGS);
     const search = tagSearch.toLowerCase();
-    const searchedTags = all_TAGS.filter((tag) => tag?.name?.en?.toLowerCase().includes(search));
+    const searchedTags = all_TAGS.filter((tag) => {
+      const nameMatch = tag?.name?.en?.toLowerCase().includes(search.toLowerCase());
+      const keywordsMatch = tag?.keywords?.en?.some((keyword) =>
+        keyword.toLowerCase().includes(search.toLowerCase())
+      );
+
+      return nameMatch || keywordsMatch;
+    });
+    console.log(searchedTags);
     SET_searchedTags(searchedTags);
   }, [tagSearch, SET_tagSearch, all_TAGS]);
 

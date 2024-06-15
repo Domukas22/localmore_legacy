@@ -1,16 +1,12 @@
 // create an update fucntion which only patches the specific fields
 // The tag collection has 2 schemas, the tag schema and the subtag schema
 
-const { tag_MODEL, subtag_MODEL } = require("../models/tag_MODEL");
+const { tag_MODEL } = require("../models/tag_MODEL");
 const asyncHandler = require("express-async-handler");
 
 exports.LIST_tags = asyncHandler(async (req, res, next) => {
   const tags = await tag_MODEL.find().populate("icon").exec();
   res.json(tags);
-});
-exports.LIST_subtags = asyncHandler(async (req, res, next) => {
-  const subtags = await subtag_MODEL.find({ type: "subtag" }).exec();
-  res.json(subtags);
 });
 
 // exports.CREATE_tag = asyncHandler(async (req, res) => {
