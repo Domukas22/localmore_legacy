@@ -18,6 +18,8 @@ export function PotentialTags_MODAL({
   all_TAGS,
   UPDATE_tags,
   activeTag_IDs,
+  tagUsages,
+  shuffled_PROFILES,
 }) {
   const [IS_potentialTagNavExpanded, SET_potentialTagNavExpanded] = useState(false);
 
@@ -27,8 +29,31 @@ export function PotentialTags_MODAL({
   const btnWrap_REF = useRef(null);
 
   const [modal_HEIGHT, SET_modal_HEIGHT] = useState("auto");
-
   const [midlleMinHeight, SET_middleMinHeight] = useState(null);
+
+  const result_COUNT = useMemo(() => {
+    // curernt potential tags - tags to remove
+    const currentTagsMinusToRemoveTags = Array.from(activeTag_IDs)?.filter(
+      (tag_ID) => !potentialTag_IDs.toDelete_IDs.has(tag_ID)
+    );
+
+    // future tags = current tags - tags to remove + tags to add
+    const future_TAGS = [
+      ...currentTagsMinusToRemoveTags,
+      ...Array.from(potentialTag_IDs.toAdd_IDs),
+    ];
+
+    const future_PROFILES = shuffled_PROFILES.filter((profile) =>
+      profile.tags.some((tag) => future_TAGS.includes(tag._id))
+    );
+
+    return future_PROFILES.length;
+  }, [
+    potentialTag_IDs.toDelete_IDs.size,
+    potentialTag_IDs.toAdd_IDs.size,
+    activeTag_IDs.size,
+    shuffled_PROFILES.length,
+  ]);
 
   useEffect(() => {
     if (!midlleMinHeight && miniTags_REF.current) {
@@ -151,7 +176,7 @@ export function PotentialTags_MODAL({
             <div className={css.applyBtn_WRAP}>
               <Btn
                 right_ICON={<ICON_x small={true} />}
-                styles={["btn-40", "fullWidth", "text-left-auto", "red-x-on-hover"]}
+                styles={["btn-44", "fullWidth", "text-left-auto", "red-x-on-hover"]}
                 text="Cancel tag changes"
                 onClick={() =>
                   SET_potentialTagIDs({ toAdd_IDs: new Set(), toDelete_IDs: new Set() })
@@ -181,7 +206,8 @@ export function PotentialTags_MODAL({
 
         <Btn
           styles={["btn-40", "fullWidth", "brand", "brand-background-colors"]}
-          text="Apply"
+          text={`${result_COUNT} results`}
+          right_ICON={<ICON_arrow direction="right" color="white" />}
           onClick={() => {
             potentialTag_IDs.toAdd_IDs.forEach((tag_ID) =>
               UPDATE_tags(

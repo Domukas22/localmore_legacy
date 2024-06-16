@@ -36,6 +36,7 @@
     position: relative;
     overflow-y: scroll;
     overflox-x: hidden;
+    padding-bottom: var(--mobile-scroll-bottom-padding);
     height: 105%;
   }
 
@@ -51,6 +52,7 @@
     box-shadow: var(--shadow-img);
     justify-content: space-between;
     align-items: center;
+    z-index: 1;
 
     & button {
       width: fit-content;

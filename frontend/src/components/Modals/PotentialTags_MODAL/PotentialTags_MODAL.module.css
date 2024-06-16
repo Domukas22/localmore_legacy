@@ -28,6 +28,7 @@
     background-color: var(--fill-white);  
     justify-content: space-between;
     align-items: center;
+    z-index: 1;
 
   }
 
@@ -87,8 +88,9 @@
       display: flex;
       gap: 0.6rem;
       padding: 1.2rem var(--padding-mob);
-      /* margin-top: auto; */
       transition: background-color 300ms;
+      z-index: 1;
+
     }
     & .applyBtn_WRAP {
       display: flex;
@@ -111,8 +113,6 @@
   
 
   &[data-open="true"] {
-
-
     & .btn_WRAP {
       background: var(--fill-white);
       box-shadow: 0px -2px 12px rgba(0, 0, 0, 0.3);

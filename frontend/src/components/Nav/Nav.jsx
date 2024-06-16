@@ -151,7 +151,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
               <li>
                 <Btn
                   styles={["btn-40", "round", "grey", "nav-DD"]}
-                  text={layout <= 7 && "Menu"}
+                  text="Menu"
                   right_ICON={
                     IS_menuOpen ? (
                       <ICON_x small={layout <= 7 ? true : false} />
@@ -193,6 +193,7 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
         SET_currentMenu={SET_currentMenu}
         savedProfile_OBJs={savedProfile_OBJs}
         REMOVE_fromSaved={REMOVE_fromSaved}
+        width={window_WIDTH}
       />
 
       <AnimatePresence>

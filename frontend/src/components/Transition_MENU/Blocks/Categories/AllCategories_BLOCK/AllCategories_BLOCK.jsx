@@ -57,6 +57,63 @@ export function AllCategories_BLOCK({
             </li>
           );
         })}
+        {end_CATEG.map((categ) => {
+          return (
+            <li key={categ.name?.en}>
+              <Btn
+                styles={["btn-44", "flex", "text-left-auto"]}
+                left_ICON={<img src={categ.icon?.url} />}
+                text={categ.name.en}
+                aria_LABEL=""
+                onClick={() => {}}
+                FIRE_clickEvent={false}
+              />
+            </li>
+          );
+        })}
+        {end_CATEG.map((categ) => {
+          return (
+            <li key={categ.name?.en}>
+              <Btn
+                styles={["btn-44", "flex", "text-left-auto"]}
+                left_ICON={<img src={categ.icon?.url} />}
+                text={categ.name.en}
+                aria_LABEL=""
+                onClick={() => {}}
+                FIRE_clickEvent={false}
+              />
+            </li>
+          );
+        })}
+        {end_CATEG.map((categ) => {
+          return (
+            <li key={categ.name?.en}>
+              <Btn
+                styles={["btn-44", "flex", "text-left-auto"]}
+                left_ICON={<img src={categ.icon?.url} />}
+                text={categ.name.en}
+                aria_LABEL=""
+                onClick={() => {}}
+                FIRE_clickEvent={false}
+              />
+            </li>
+          );
+        })}
+
+        {end_CATEG.map((categ) => {
+          return (
+            <li key={categ.name?.en}>
+              <Btn
+                styles={["btn-44", "flex", "text-left-auto"]}
+                left_ICON={<img src={categ.icon?.url} />}
+                text={categ.name.en}
+                aria_LABEL=""
+                onClick={() => {}}
+                FIRE_clickEvent={false}
+              />
+            </li>
+          );
+        })}
       </div>
     </>
   );

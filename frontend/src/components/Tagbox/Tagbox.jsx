@@ -19,6 +19,7 @@ import { ActiveTagsBtn_BLOCK } from "../Transition_MENU/Blocks/Tags/ActiveTagsBt
 
 import { USE_activeDigitJump } from "../../hooks/USE_activeDigitJump";
 import { USE_isBrowserToolbarClosed } from "../../hooks/USE_isBrowserToolbarOpen";
+import { USE_scrollCssMenuToTop } from "../../hooks/USE_scrollCssMenuToTop";
 
 export function Tagbox({
   tagUsages,
@@ -43,15 +44,7 @@ export function Tagbox({
 
   const scroll_REF = useRef(null);
 
-  useEffect(() => {
-    // scroll to top when menu changes
-    if (scroll_REF.current) {
-      scroll_REF.current.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    }
-  }, [current_MENU, scroll_REF]);
+  USE_scrollCssMenuToTop({ scroll_REF, current_MENU });
 
   const sorted_TAGS = [...all_TAGS];
   const [searched_TAGS, SET_searchedTags] = useState([]);
@@ -71,7 +64,6 @@ export function Tagbox({
 
       return nameMatch || keywordsMatch;
     });
-    console.log(searchedTags);
     SET_searchedTags(searchedTags);
   }, [tagSearch, SET_tagSearch, all_TAGS]);
 
@@ -119,7 +111,7 @@ export function Tagbox({
           <div className={css.menu_WRAP} ref={scroll_REF}>
             {/* Start */}
             <Transition_MENU current_MENU={current_MENU} classNames="menu-primary" menu_NAME="all">
-              <ActiveTagsBtn_BLOCK {...{ activeTag_IDs, SET_currentMenu }} />
+              <ActiveTagsBtn_BLOCK {...{ activeTag_IDs, SET_currentMenu, width }} />
               <TagGroupBtns_BLOCK
                 {...{
                   tagGroups,
@@ -127,12 +119,13 @@ export function Tagbox({
                   SET_currentMenu,
                   SET_currentTagGroupID,
                   SET_currentTagGroupName,
+                  width,
                 }}
               />
               <Tags_BLOCK
                 title={`Explore ${sorted_TAGS.length} tags`}
                 tags={sorted_TAGS}
-                {...{ activeTag_IDs, UPDATE_tags, tag_COUNTS }}
+                {...{ activeTag_IDs, UPDATE_tags, tag_COUNTS, width }}
               />
             </Transition_MENU>
 
@@ -142,14 +135,22 @@ export function Tagbox({
               classNames="menu-secondary"
               menu_NAME="active-tags"
             >
-              <BtnBack_BLOCK title="All tags" onClick={() => SET_currentMenu("all")} />
+              <BtnBack_BLOCK
+                title="All tags"
+                onClick={() => SET_currentMenu("all")}
+                width={width}
+              />
               <Tags_BLOCK
                 title={`${active_TAGS?.length || 0} active tags`}
                 tags={active_TAGS}
-                {...{ activeTag_IDs, UPDATE_tags, tag_COUNTS }}
+                {...{ activeTag_IDs, UPDATE_tags, tag_COUNTS, width }}
               />
               {active_TAGS?.length > 0 && (
-                <EndBtn_BLOCK text="Reset tags" onClick={() => UPDATE_tags(null, "deleteAll")} />
+                <EndBtn_BLOCK
+                  text="Reset tags"
+                  onClick={() => UPDATE_tags(null, "deleteAll")}
+                  width={width}
+                />
               )}
               {active_TAGS?.length === 0 && (
                 <div>{/* So that the last block would have a border */}</div>
@@ -162,12 +163,16 @@ export function Tagbox({
               classNames="menu-secondary"
               menu_NAME="tag-group"
             >
-              <BtnBack_BLOCK title="All tags" onClick={() => SET_currentMenu("all")} />
+              <BtnBack_BLOCK
+                title="All tags"
+                onClick={() => SET_currentMenu("all")}
+                width={width}
+              />
 
               <Tags_BLOCK
                 title={currentTagGroup_NAME}
                 tags={target_TAGS}
-                {...{ activeTag_IDs, UPDATE_tags, tag_COUNTS }}
+                {...{ activeTag_IDs, UPDATE_tags, tag_COUNTS, width }}
               />
             </Transition_MENU>
           </div>
@@ -188,6 +193,7 @@ export function Tagbox({
               type="add"
               tags={potentialAdd_TAGS}
               SET_potentialTagIDs={SET_potentialTagIDs}
+              width={width}
             />
           )}
           {potentialDelete_TAGS.length > 0 && (
@@ -195,6 +201,7 @@ export function Tagbox({
               type="delete"
               tags={potentialDelete_TAGS}
               SET_potentialTagIDs={SET_potentialTagIDs}
+              width={width}
             />
           )}
           {potentialStay_TAGS.length > 0 && (
@@ -202,6 +209,7 @@ export function Tagbox({
               type="keep"
               tags={potentialStay_TAGS}
               SET_potentialTagIDs={SET_potentialTagIDs}
+              width={width}
             />
           )}
 
@@ -241,7 +249,7 @@ export function Tagbox({
         <Tags_BLOCK
           title={`${searched_TAGS.length} tags with "${tagSearch}"`}
           tags={searched_TAGS}
-          {...{ activeTag_IDs, UPDATE_tags, tag_COUNTS }}
+          {...{ activeTag_IDs, UPDATE_tags, tag_COUNTS, width }}
         />
       )}
     </div>

@@ -5,7 +5,7 @@ import css from "../../Blocks.module.css";
 import { Btn } from "../../../../Btn/Btn";
 import { ICON_x } from "../../../../icons/icons";
 
-export function PotentialTags_BLOCK({ type, tags, SET_potentialTagIDs }) {
+export function PotentialTags_BLOCK({ type, tags, SET_potentialTagIDs, width = 100 }) {
   const x_COLOR = type === "add" ? "green" : type === "delete" ? "red" : "brand";
 
   return (
@@ -18,7 +18,7 @@ export function PotentialTags_BLOCK({ type, tags, SET_potentialTagIDs }) {
         <Btn
           key={tag._id}
           styles={[
-            "btn-40",
+            `${width > 900 ? "btn-40" : "btn-44"}`,
             "fullWidth",
             type === "add" && "green",
             type === "delete" && "red",

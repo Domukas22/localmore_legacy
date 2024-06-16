@@ -19,6 +19,7 @@ import { Settings_BLOCKS } from "../../Transition_MENU/Blocks/Nav/Settings_BLOCK
 import { Feedback_BLOCK } from "../../Transition_MENU/Blocks/Nav/Feedback_BLOCK/Feedback_BLOCK";
 import { Saved_BLOCK } from "../../Transition_MENU/Blocks/Nav/Saved_BLOCK/Saved_BLOCK";
 import { Nav_BLOCKS } from "../../Transition_MENU/Blocks/Nav/Nav_BLOCKS/Nav_BLOCKS";
+import { USE_scrollCssMenuToTop } from "../../../hooks/USE_scrollCssMenuToTop";
 
 export function MobileMenu_MODAL({
   categories,
@@ -29,22 +30,14 @@ export function MobileMenu_MODAL({
   SET_currentMenu,
   savedProfile_OBJs,
   REMOVE_fromSaved,
+  width,
 }) {
   const { startCateg_ARR, endCateg_ARR, GET_subCategories } = USE_getCategories(categories);
   // const { savedProfile_IDs } = useContext(SavedProfileIDs_CONTEXT);
 
   const scroll_REF = useRef(null);
   const [reverse, SET_reverse] = useState(false);
-
-  useEffect(() => {
-    // scroll to top when menu changes
-    if (scroll_REF.current) {
-      scroll_REF.current.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    }
-  }, [current_MENU]);
+  USE_scrollCssMenuToTop({ scroll_REF, current_MENU });
 
   return (
     <Modal isOpen={IS_menuOpen} className={css.MobileMenu_MODAL}>
@@ -59,7 +52,7 @@ export function MobileMenu_MODAL({
           {/* All */}
           <Transition_MENU current_MENU={current_MENU} classNames="menu-primary" menu_NAME="all">
             <Nav_BLOCKS SET_currentMenu={SET_currentMenu} SET_reverse={SET_reverse} />
-            <EndBtn_BLOCK text="Close menu" onClick={() => TOGGLE_menu()} />
+            <EndBtn_BLOCK text="Close menu" onClick={() => TOGGLE_menu()} width={width} />
           </Transition_MENU>
 
           {/* Legal */}

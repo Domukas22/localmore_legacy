@@ -11,6 +11,7 @@ export function TagGroupBtns_BLOCK({
   SET_currentMenu,
   SET_currentTagGroupID,
   SET_currentTagGroupName,
+  width = 901,
 }) {
   return (
     <div className={css.Block}>
@@ -23,7 +24,7 @@ export function TagGroupBtns_BLOCK({
           <li key={tagGroup._id}>
             <Btn
               key={tagGroup._id}
-              styles={["btn-40", "fullWidth"]}
+              styles={[`${width > 900 ? "btn-40" : "btn-44"}`, "fullWidth"]}
               left_ICON={<img src={tagGroup.icon?.url ? tagGroup.icon?.url : ""} />}
               right_ICON={<ICON_arrow color="dark" direction="right" />}
               text={tagGroup?.name?.en}

@@ -231,6 +231,7 @@ function Explore_GRID({
             UPDATE_tags={UPDATE_tags}
             potentialTag_IDs={potentialTag_IDs}
             SET_potentialTagIDs={SET_potentialTagIDs}
+            width={window_WIDTH}
           />
         </div>
       )}
@@ -243,6 +244,8 @@ function Explore_GRID({
               all_TAGS,
               UPDATE_tags,
               activeTag_IDs: activeTag_IDs,
+              tagUsages,
+              shuffled_PROFILES,
             }}
           />
         )}

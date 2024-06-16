@@ -4,7 +4,7 @@ import css from "../../Blocks.module.css";
 import { Btn } from "../../../../Btn/Btn";
 import { ICON_x } from "../../../../icons/icons";
 
-export function Tags_BLOCK({ title, tags, activeTag_IDs, UPDATE_tags, tag_COUNTS }) {
+export function Tags_BLOCK({ title, tags, activeTag_IDs, UPDATE_tags, tag_COUNTS, width = 901 }) {
   return (
     <div className={css.Block}>
       {/* <p>All tags</p> */}
@@ -15,7 +15,12 @@ export function Tags_BLOCK({ title, tags, activeTag_IDs, UPDATE_tags, tag_COUNTS
           <li key={tag._id}>
             <Btn
               key={tag._id}
-              styles={["btn-40", "fullWidth", `${IS_active ? "active" : ""}`, "text-left-auto"]}
+              styles={[
+                `${width > 900 ? "btn-40" : "btn-44"}`,
+                "fullWidth",
+                `${IS_active ? "active" : ""}`,
+                "text-left-auto",
+              ]}
               left_ICON={<img src={tag.icon?.url ? tag.icon?.url : ""} />}
               right_ICON={
                 IS_active ? (

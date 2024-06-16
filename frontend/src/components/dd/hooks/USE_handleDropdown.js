@@ -3,6 +3,7 @@
 // create a custom hook to handle the dropdown actions
 import { useEffect, useState, useRef } from "react";
 import { USE_windowSize } from "../../../hooks/USE_windowWidth";
+import { USE_scrollCssMenuToTop } from "../../../hooks/USE_scrollCssMenuToTop";
 
 export function USE_handleDropdown(initial_HEIGHT = 200) {
   const [current_MENU, SET_currentMenu] = useState("all");
@@ -10,11 +11,7 @@ export function USE_handleDropdown(initial_HEIGHT = 200) {
 
   const dropdown_REF = useRef(null);
   const scroll = SHOULD_scroll(menu_HEIGHT);
-
-  useEffect(() => {
-    if (!dropdown_REF.current) return;
-    dropdown_REF.current.scrollTo({ top: 0, behavior: "smooth" });
-  }, [current_MENU]);
+  USE_scrollCssMenuToTop({ scroll_REF: dropdown_REF, current_MENU });
 
   function HANLDE_dd(action, el = null) {
     switch (action) {

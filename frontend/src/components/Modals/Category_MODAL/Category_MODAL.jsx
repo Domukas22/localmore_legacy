@@ -1,7 +1,7 @@
 //
 //
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Dialog, Modal } from "react-aria-components";
 import css from "./Category_MODAL.module.css";
 import { ICON_x } from "../../icons/icons";
@@ -15,6 +15,7 @@ import { AllCategories_BLOCK } from "../../Transition_MENU/Blocks/Categories/All
 
 import { USE_handleDropdown } from "../../DD/hooks/USE_handleDropdown";
 import { USE_getCategories } from "../../../hooks/USE_getCategories";
+import { USE_scrollCssMenuToTop } from "../../../hooks/USE_scrollCssMenuToTop";
 
 export function Category_MODAL({
   IS_mobileCategoryMenuOpen,
@@ -24,6 +25,7 @@ export function Category_MODAL({
   const scroll_REF = useRef(null);
   const { startCateg_ARR, endCateg_ARR, GET_subCategories } = USE_getCategories(categories);
   const { HANLDE_dd, current_MENU, SET_currentMenu } = USE_handleDropdown();
+  USE_scrollCssMenuToTop({ scroll_REF, current_MENU });
 
   return (
     <Modal
@@ -33,17 +35,20 @@ export function Category_MODAL({
         SET_isMobileCategoryMenuOpen(false);
       }}
     >
-      <Dialog aria-label="Menu" ref={scroll_REF} className={css.Dialog_MENU} autoFocus={false}>
+      <Dialog aria-label="Menu" className={css.Dialog_MENU} autoFocus={false}>
         <div className={css.top}>
           <h3>Choose a category</h3>
           <Btn
             styles={["btn-40", "round", "grey"]}
             right_ICON={<ICON_x color="dark" />}
-            onClick={() => SET_isMobileCategoryMenuOpen(false)}
+            onClick={() => {
+              SET_isMobileCategoryMenuOpen(false);
+              SET_currentMenu("all");
+            }}
           />
         </div>
 
-        <div className={css.menu_WRAP}>
+        <div className={css.menu_WRAP} ref={scroll_REF}>
           <div className={css.menu_SUBWRAP}>
             {/* All Categories */}
             <Transition_MENU
