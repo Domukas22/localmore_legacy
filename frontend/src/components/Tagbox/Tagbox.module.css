@@ -22,25 +22,54 @@
 
   & .top {
     position: relative;
-    display: flex;
-    align-items: center;
-
     padding: 1rem 1.4rem;
-    gap: 0.6rem;
 
     background-color: var(--fill-white);
     box-shadow: var(--shadow-img);
     z-index: 1;
     height: 7.2rem;
 
-    & .top_LEFT{
-      margin-right: auto;
+    & .top_FRONT {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      height: 100%;
+
+      & .top_LEFT{
+        margin-right: auto;
+      }
     }
 
 
+    & .topSearch_WRAP {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      gap: 0.6rem;
+    }
+
+  
     & .bottom_WRAP {
       display: flex;
       gap: 0.6rem;
+    }
+
+    &[data-is-search-open="true"] {
+      & .top_FRONT {
+        pointer-events: none;
+      }
+      & .topSearch_WRAP {
+        pointer-events: auto;
+      }
+    }
+
+    &[data-is-search-open="false"] {
+      & .top_FRONT {
+        pointer-events: auto;
+      }
+      & .topSearch_WRAP {
+        pointer-events: none;
+      }
     }
   }
 

@@ -26,6 +26,7 @@ export function Tagbar({
   tagUsages,
   tagbar_REF,
   result_COUNT,
+  shuffled_PROFILES,
 }) {
   const { fontSize, fontSize_SCALE } = useContext(FontSizeContext);
   const { width } = USE_windowSize();
@@ -168,6 +169,7 @@ export function Tagbar({
           IS_mobileTagMenuOpen,
           SET_isMobileTagMenuOpen,
           result_COUNT,
+          shuffled_PROFILES,
         }}
       />
 

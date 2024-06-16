@@ -95,6 +95,8 @@
   --mobile-scroll-bottom-padding: 8rem;
 }
 
+
+
 @keyframes pop {
   0% {
     transform: scale(1);

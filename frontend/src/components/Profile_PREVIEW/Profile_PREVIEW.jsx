@@ -16,6 +16,7 @@ import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
 import { Btn } from "../Btn/Btn";
 import { ShowProsCons_BTN } from "../Btn/ShowProsCons_BTN/ShowProsCons_BTN";
 import { ShowTags_BTN } from "../Btn/ShowTags_BTN/ShowTags_BTN";
+import { Link } from "react-aria-components";
 
 import { profilePreview_TR as tr } from "../../translations";
 
@@ -138,11 +139,9 @@ export default function Profile_PREVIEW({
   );
 
   return (
-    <article
+    <Link
       className={css.profile_PREVIEW}
-      // aria-label={
-      //   tr?.profileIntro_ARIA(profile?.name?.[lang], profile?.subname?.[lang])[lang] || "Profile"
-      // }
+      href={`/profile/${profile?._id}`}
       style={style}
       onMouseEnter={() => SET_hover(true)}
       onMouseLeave={() => SET_hover(false)}
@@ -150,7 +149,7 @@ export default function Profile_PREVIEW({
       <header className={css.top}>
         {USE_isProfileNew(profile) && <New_LABEL lang={lang} />}
         <div className={css.btn_WRAP}>
-          {HAS_panoramas && (
+          {/* {HAS_panoramas && (
             <Btn
               styles={["btn-36", "onImg"]}
               onClick={() => SET_panoramas(profile?.img?.panoramas)}
@@ -158,7 +157,7 @@ export default function Profile_PREVIEW({
               // aria_LABEL={tr?.panoramaBtn_ARIA(name)[lang]}
               test_ID="panorama-btn"
             />
-          )}
+          )} */}
           <Btn
             styles={["btn-36", "onImg", `${IS_saved ? "saved" : ""}`]}
             onClick={() => (IS_saved ? HANDLE_save("delete") : HANDLE_save("save"))}
@@ -218,7 +217,7 @@ export default function Profile_PREVIEW({
           />
         )}
       </footer>
-    </article>
+    </Link>
   );
 }
 

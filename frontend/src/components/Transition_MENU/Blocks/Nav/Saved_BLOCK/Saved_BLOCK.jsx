@@ -57,7 +57,7 @@ export function Saved_BLOCK({ savedProfile_OBJs, REMOVE_fromSaved, resize = () =
                   href="#"
                   style={{ backgroundImage: `url(${profile?.img?.desktop?.[0] + "/Big" || ""})` }}
                 ></a>
-                <h4>{name ?? "Name"}</h4>
+                <h4>{profile?.name?.en ?? "Name"}</h4>
               </div>
             </motion.li>
           );

@@ -9,11 +9,11 @@ import { useEffect } from "react";
 export default function SearchBar({ SET_search, search, searchBar_REF, placeholder, width }) {
   // const ref = useRef(null);
   const clear_BTN = useRef(null);
-  useEffect(() => {
-    if (searchBar_REF?.current) {
-      searchBar_REF.current.focus();
-    }
-  }, [searchBar_REF]);
+  // useEffect(() => {
+  //   if (searchBar_REF?.current) {
+  //     searchBar_REF.current.focus();
+  //   }
+  // }, [searchBar_REF]);
 
   return (
     <div className={css.search_WRAP}>

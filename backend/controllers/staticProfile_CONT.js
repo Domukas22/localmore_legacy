@@ -36,62 +36,40 @@ exports.LIST_staticProfiles = asyncHandler(async (req, res, next) => {
 
   res.json(profiles_withAddedTagArray);
 });
+exports.GET_staticProfileById = asyncHandler(async (req, res, next) => {
+  const profileId = req.params.id;
 
-// exports.LIST_staticProfiles = asyncHandler(async (req, res, next) => {
-//   console.log("LIST_staticProfiles");
-//   const profiles = await staticProfile_MODEL.find({}).exec();
-//   res.json(profiles);
-// });
+  const profile = await staticProfile_MODEL
+    .findById(profileId)
+    .populate("city")
+    .populate("categories")
+    .populate("category_PATH")
+    .populate({
+      path: "tag_STRUCTURE.tagUsages.tag_ID",
+      model: "Tag",
+      populate: {
+        path: "icon", // Assuming 'icon' is the field in the 'Tag' model that needs to be populated
+        model: "icons", // Specify the model name of the 'Icon' if it's different
+      },
+    })
+    .exec();
 
-// -------> update all functions if needed <-------
+  if (!profile) {
+    res.status(404);
+    throw new Error("Profile not found");
+  }
 
-// exports.CREATE_staticProfile = asyncHandler(async (req, res) => {
-//   const profile = new staticProfile_MODEL({
-//     desc: req.body.desc,
-//     IS_new: req.body.new,
-//     city: req.body.city,
-//     category: req.body.category,
-//     category_PATH: req.body.category_PATH,
-//     tags: req.body.tags,
-//     img: req.body.img,
-//     adress: req.body.adress,
-//     name: req.body.name,
-//     subname: req.body.subname,
-//     pros: req.body.pros,
-//     cons: req.body.cons,
-//     about_TITLE: req.body.about_TITLE,
-//     about_PARAG: req.body.about_PARAG,
-//   });
+  const tags = new Set([]);
+  if (profile.tag_STRUCTURE && profile.tag_STRUCTURE.tagUsages) {
+    for (const tagUsage of profile.tag_STRUCTURE.tagUsages) {
+      tags.add(tagUsage.tag_ID);
+    }
+  }
 
-//   await profile.save();
-//   res.status(201).json(profile);
-// });
+  const profile_withTags = {
+    ...profile._doc,
+    tags: Array.from(tags),
+  };
 
-// exports.DELETE_staticProfile = asyncHandler(async (req, res) => {
-//   const result = await staticProfile_MODEL.findByIdAndDelete(req.params.id);
-//   if (result) {
-//     res.json({ message: "staticProfile removed" });
-//   } else {
-//     res.status(404).json({ message: "staticProfile not found" });
-//   }
-// });
-
-// exports.UPDATE_staticProfile = asyncHandler(async (req, res) => {
-//   const profile = await staticProfile_MODEL.findById(req.params.id);
-//   if (profile) {
-//     profile.desc = req.body.desc;
-//     profile.new = req.body.new;
-//     profile.city = req.body.city;
-//     profile.category = req.body.category;
-//     profile.category_PATH = req.body.category_PATH;
-//     profile.tags = req.body.tags;
-//     profile.text = req.body.text;
-//     profile.img = req.body.img;
-//     profile.adress = req.body.adress;
-//     profile.text = req.body.text;
-//     const updatedProfile = await profile.save();
-//     res.json(updatedProfile);
-//   } else {
-//     res.status(404).json({ message: "staticProfile not found" });
-//   }
-// });
+  res.json(profile_withTags);
+});

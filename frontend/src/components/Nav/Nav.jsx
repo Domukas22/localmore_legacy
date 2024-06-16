@@ -10,6 +10,7 @@ import { USE_windowSize } from "../../hooks/USE_windowWidth";
 import { AnimatePresence, motion } from "framer-motion";
 import USE_Toggle from "../../hooks/USE_toggle";
 import { Btn } from "../Btn/Btn";
+import { Link_BTN } from "../Btn/Link_BTN/Link_BTN";
 import { Lang_CONTEXT } from "../../contexts/lang";
 import { Theme_CONTEXT } from "../../contexts/theme";
 import { FontSizeContext } from "../../contexts/fontSize";
@@ -119,11 +120,12 @@ export default function Nav({ tagUsages, search, SET_search, categories, profile
 
             {layout < 3 && (
               <li>
-                <Btn
+                <Link_BTN
                   styles={["btn-40", "round", "grey", "active"]}
                   text="Startseite"
                   aria_LABEL=""
-                  onClick={() => {}}
+                  // onClick={() => {}}
+                  href={"/"}
                   active="true"
                   key="nav-btn-1"
                 />

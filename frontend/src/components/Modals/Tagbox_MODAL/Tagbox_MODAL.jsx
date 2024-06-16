@@ -18,6 +18,7 @@ export function Tagbox_MODAL({
   IS_mobileTagMenuOpen,
   SET_isMobileTagMenuOpen,
   result_COUNT,
+  shuffled_PROFILES,
 }) {
   const scroll_REF = useRef(null);
 
@@ -35,6 +36,7 @@ export function Tagbox_MODAL({
           SET_isOpen={SET_isMobileTagMenuOpen}
           starting_MENU={activeTag_IDs.size > 0 ? "active-tags" : "all"}
           result_COUNT={result_COUNT}
+          shuffled_PROFILES={shuffled_PROFILES}
         />
       </Dialog>
     </Modal>

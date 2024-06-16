@@ -33,6 +33,7 @@ app.use(
   })
 );
 
+app.use("/profile", require("./routes/profile"));
 app.use("/", require("./routes/index"));
 
 // Custom middleware for catching 404 errors and forwarding to error handler

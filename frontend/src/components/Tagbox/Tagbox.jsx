@@ -31,7 +31,7 @@ export function Tagbox({
   SET_potentialTagIDs,
   SET_isOpen = () => {},
   starting_MENU,
-  result_COUNT,
+  shuffled_PROFILES,
 }) {
   const [tagSearch, SET_tagSearch] = useState("");
   const search_REF = useRef(null);
@@ -41,20 +41,24 @@ export function Tagbox({
   const [currentTagGroup_NAME, SET_currentTagGroupName] = useState(null);
   const { width } = USE_windowSize();
   const { SHOULD_activeDitigJump } = USE_activeDigitJump(activeTag_IDs);
+  const [IS_searchOpen, SET_searchOpen] = useState(false);
 
   const scroll_REF = useRef(null);
-
-  USE_scrollCssMenuToTop({ scroll_REF, current_MENU });
-
   const sorted_TAGS = [...all_TAGS];
   const [searched_TAGS, SET_searchedTags] = useState([]);
+  USE_scrollCssMenuToTop({ scroll_REF, current_MENU });
 
   useEffect(() => {
-    // if (tagSearch === "") {
-    //   SET_searchedTags([]);
-    //   return;
+    if (!IS_searchOpen) SET_tagSearch("");
+    // if (search_REF.current && IS_searchOpen) {
+    //   search_REF.current.focus();
     // }
 
+    // console.log(search_REF.current);
+    // console.log(IS_searchOpen);
+  }, [IS_searchOpen]);
+
+  useEffect(() => {
     const search = tagSearch.toLowerCase();
     const searchedTags = all_TAGS.filter((tag) => {
       const nameMatch = tag?.name?.en?.toLowerCase().includes(search.toLowerCase());
@@ -92,6 +96,30 @@ export function Tagbox({
     target_TAGUSAGES.some((tagUsage) => tagUsage.tag_ID === tag._id)
   );
 
+  const result_COUNT = useMemo(() => {
+    // curernt potential tags - tags to remove
+    const currentTagsMinusToRemoveTags = Array.from(activeTag_IDs)?.filter(
+      (tag_ID) => !potentialTag_IDs.toDelete_IDs.has(tag_ID)
+    );
+
+    // future tags = current tags - tags to remove + tags to add
+    const future_TAGS = [
+      ...currentTagsMinusToRemoveTags,
+      ...Array.from(potentialTag_IDs.toAdd_IDs),
+    ];
+
+    const future_PROFILES = shuffled_PROFILES.filter((profile) =>
+      profile.tags.some((tag) => future_TAGS.includes(tag._id))
+    );
+
+    return future_PROFILES.length;
+  }, [
+    potentialTag_IDs.toDelete_IDs.size,
+    potentialTag_IDs.toAdd_IDs.size,
+    activeTag_IDs.size,
+    shuffled_PROFILES.length,
+  ]);
+
   return (
     <div className={css.filterbox} data-potential={HAS_potentialTags}>
       <Top
@@ -105,10 +133,13 @@ export function Tagbox({
         tagSearch={tagSearch}
         SET_tagSearch={SET_tagSearch}
         search_REF={search_REF}
+        IS_searchOpen={IS_searchOpen}
+        SET_searchOpen={SET_searchOpen}
       />
-      {!HAS_potentialTags && tagSearch === "" && (
-        <>
-          <div className={css.menu_WRAP} ref={scroll_REF}>
+
+      <div className={css.menu_WRAP} ref={scroll_REF}>
+        {!HAS_potentialTags && tagSearch === "" && (
+          <>
             {/* Start */}
             <Transition_MENU current_MENU={current_MENU} classNames="menu-primary" menu_NAME="all">
               <ActiveTagsBtn_BLOCK {...{ activeTag_IDs, SET_currentMenu, width }} />
@@ -175,17 +206,17 @@ export function Tagbox({
                 {...{ activeTag_IDs, UPDATE_tags, tag_COUNTS, width }}
               />
             </Transition_MENU>
-          </div>
-          {width < 1100 && (
-            <MobileBtn_WRAP
-              activeTag_IDs={activeTag_IDs}
-              UPDATE_tags={UPDATE_tags}
-              SET_isOpen={SET_isOpen}
-              result_COUNT={result_COUNT}
-            />
-          )}
-        </>
-      )}
+          </>
+        )}
+        {!HAS_potentialTags && tagSearch !== "" && (
+          <Tags_BLOCK
+            title={`${searched_TAGS.length} tag matches for "${tagSearch}"`}
+            tags={searched_TAGS}
+            {...{ activeTag_IDs, UPDATE_tags, tag_COUNTS, width }}
+          />
+        )}
+      </div>
+
       {HAS_potentialTags && tagSearch === "" && (
         <div className={css.block_WRAP} data-potential-block-wrap>
           {potentialAdd_TAGS.length > 0 && (
@@ -223,7 +254,8 @@ export function Tagbox({
 
             <Btn
               styles={["btn-40", "fullWidth", "brand", "brand-background-colors"]}
-              text={`Show ${3} places`}
+              text={`${result_COUNT} results`}
+              right_ICON={<ICON_arrow direction="right" color="white" />}
               onClick={() => {
                 potentialTag_IDs.toAdd_IDs.forEach((tag_ID) =>
                   UPDATE_tags(
@@ -245,11 +277,12 @@ export function Tagbox({
         </div>
       )}
 
-      {!HAS_potentialTags && tagSearch !== "" && (
-        <Tags_BLOCK
-          title={`${searched_TAGS.length} tags with "${tagSearch}"`}
-          tags={searched_TAGS}
-          {...{ activeTag_IDs, UPDATE_tags, tag_COUNTS, width }}
+      {width < 1100 && (
+        <MobileBtn_WRAP
+          activeTag_IDs={activeTag_IDs}
+          UPDATE_tags={UPDATE_tags}
+          SET_isOpen={SET_isOpen}
+          result_COUNT={result_COUNT}
         />
       )}
     </div>
@@ -267,21 +300,15 @@ function Top({
   tagSearch,
   SET_tagSearch,
   search_REF,
+  IS_searchOpen,
+  SET_searchOpen,
 }) {
-  const [IS_searchOpen, SET_searchOpen] = useState(false);
-
-  useEffect(() => {
-    if (search_REF.current && IS_searchOpen) {
-      search_REF.current.focus();
-    }
-  }, [IS_searchOpen]);
-
   return (
     <>
       {!HAS_potentialTags && (
-        <div className={css.top}>
+        <div className={css.top} data-is-search-open={IS_searchOpen}>
           {!IS_searchOpen && (
-            <>
+            <div className={css.top_FRONT} data-front>
               <div className={css.top_LEFT}>
                 <h3>Tagbox</h3>
                 <p>{activeTag_IDs.size} tags selected</p>
@@ -325,10 +352,10 @@ function Top({
                   onClick={() => SET_isOpen(false)}
                 />
               )}
-            </>
+            </div>
           )}
           {IS_searchOpen && (
-            <>
+            <div className={css.topSearch_WRAP} data-search>
               <Btn
                 styles={["btn-40", "grey", "round"]}
                 right_ICON={<ICON_arrow direction="left" />}
@@ -338,10 +365,9 @@ function Top({
                 search={tagSearch}
                 SET_search={SET_tagSearch}
                 placeholder="Search tags"
-                search_REF={search_REF}
-                // SET_isOpen={SET_searchOpen}
+                searchBar_REF={search_REF}
               />
-            </>
+            </div>
           )}
         </div>
       )}
@@ -372,7 +398,8 @@ function MobileBtn_WRAP({ activeTag_IDs, UPDATE_tags, SET_isOpen, result_COUNT }
           />
           <Btn
             styles={["btn-40", "brand", "fullWidth"]}
-            text={`See ${result_COUNT} results`}
+            text={`${result_COUNT} results`}
+            right_ICON={<ICON_arrow direction="right" color="white" />}
             onClick={() => SET_isOpen(false)}
           />
         </>

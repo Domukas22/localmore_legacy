@@ -46,22 +46,11 @@ export function App() {
     error: tagGroups_ERROR,
   } = USE_fetchData(`${base_URL}/tagGroups`);
 
-  // ------------------------------
-
-  // TODO => end-categories that have no profiles, or start-categories with
-  // empty end-categories should not be displayed
-
-  // const available_CATEGORIES = categories?.filter((category) => category?.name?.en !== "All");
-  // const { startCateg_ARR, endCateg_ARR, GET_subCategories } = USE_getCategories(categories);
-
-  // ------------------------------
-
   const available_CATEGORIES = categories?.filter((category) => category?.visible);
   const shuffled_PROFILES = useMemo(
     () => profiles?.sort(() => Math.random() - 0.5),
     [LOADING_profiles]
   );
-
   const nav_REF = useRef(null);
 
   if (profile_ERROR) console.log(profile_ERROR);

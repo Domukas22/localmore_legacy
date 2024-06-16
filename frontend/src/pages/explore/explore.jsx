@@ -155,6 +155,7 @@ function Explore_GRID({
           tagUsages={tagUsages}
           tagbar_REF={tagbar_REF}
           result_COUNT={filtered_PROFILES.length}
+          shuffled_PROFILES={shuffled_PROFILES}
         />
         {activeTag_IDs.size === 0 && (
           <Category_SWIPER
@@ -232,6 +233,7 @@ function Explore_GRID({
             potentialTag_IDs={potentialTag_IDs}
             SET_potentialTagIDs={SET_potentialTagIDs}
             width={window_WIDTH}
+            shuffled_PROFILES={shuffled_PROFILES}
           />
         </div>
       )}

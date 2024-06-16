@@ -19,7 +19,7 @@ export function EndBtn_BLOCK({ text, onClick, width = 100 }) {
             "text-left-auto",
           ]}
           text={text}
-          right_ICON={<ICON_x />}
+          right_ICON={<ICON_x small={true} />}
           aria_LABEL=""
           onClick={onClick}
         />
