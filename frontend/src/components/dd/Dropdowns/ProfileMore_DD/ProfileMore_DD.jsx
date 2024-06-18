@@ -25,7 +25,7 @@ export function ProfileMore_DD({ align }) {
       scroll={scroll}
       height={menu_HEIGHT}
       menu_REF={dropdown_REF}
-      styles={["btn-40", "onBlur", "dropdown-white", "red-x-on-hover"]}
+      styles={["btn-44", "onBlur", "dropdown-white", "red-x-on-hover"]}
       closed_ICON={<ICON_dropDownArrow color="white" />}
       open_ICON={<ICON_x color="white" small={true} />}
     >

@@ -13,7 +13,7 @@ export function ShowProsCons_BTN({
 }) {
   return (
     <Button
-      className={css["prosCons"]}
+      className={["btn-36", "onBlur", "prosCons"].map((style) => css[style]).join(" ")}
       onPress={() => {
         onClick();
         document.dispatchEvent(new Event("click")); // for the dropdowns

@@ -2,7 +2,7 @@
 //
 // create a custom hook to handle the dropdown actions
 import { useEffect, useState, useRef } from "react";
-import { USE_windowSize } from "../../../hooks/USE_windowWidth";
+import { USE_windowSize } from "../../../hooks/USE_windowSize";
 import { USE_scrollCssMenuToTop } from "../../../hooks/USE_scrollCssMenuToTop";
 
 export function USE_handleDropdown(initial_HEIGHT = 200) {

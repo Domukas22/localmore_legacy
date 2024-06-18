@@ -113,7 +113,6 @@
 }
 
 .onImg {
-  composes: btn-36;
   border: var(--border-white-15);
   background: var(--btn-onImg);
 
@@ -133,7 +132,7 @@
   }
 }
 .onBlur {
-  composes: btn-36;
+
   border: var(--border-white-15);
   background: rgba(255, 255, 255, 0.03);
 
@@ -302,7 +301,7 @@
   }
 }
 .prosCons {
-  composes: onBlur;
+
 
   & p {
     font-size: 1.6rem;

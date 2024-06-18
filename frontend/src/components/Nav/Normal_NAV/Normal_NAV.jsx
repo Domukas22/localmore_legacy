@@ -1,34 +1,41 @@
 //
 
-import css from "./Nav.module.css";
+import css from "./Normal_NAV.module.css";
 import { useContext, useEffect, useRef, useState } from "react";
 
-import { LogoSvg_COMP } from "../../assets/logo/LogoSvg_COMP";
-import { ICON_x, ICON_dropDownArrow, ICON_search } from "../icons/icons";
+import { LogoSvg_COMP } from "../../../assets/logo/LogoSvg_COMP";
+import { ICON_x, ICON_dropDownArrow, ICON_search } from "../../icons/icons";
 import PropTypes from "prop-types";
-import { USE_windowSize } from "../../hooks/USE_windowWidth";
+import { USE_windowSize } from "../../../hooks/USE_windowSize";
 import { AnimatePresence, motion } from "framer-motion";
-import USE_Toggle from "../../hooks/USE_toggle";
-import { Btn } from "../Btn/Btn";
-import { Link_BTN } from "../Btn/Link_BTN/Link_BTN";
-import { Lang_CONTEXT } from "../../contexts/lang";
-import { Theme_CONTEXT } from "../../contexts/theme";
-import { FontSizeContext } from "../../contexts/fontSize";
-import SearchBar from "../Searchbar/Searchbar";
+import USE_Toggle from "../../../hooks/USE_toggle";
+import { Btn } from "../../Btn/Btn";
+import { Link_BTN } from "../../Btn/Link_BTN/Link_BTN";
+import { Lang_CONTEXT } from "../../../contexts/lang";
+import { Theme_CONTEXT } from "../../../contexts/theme";
+import { FontSizeContext } from "../../../contexts/fontSize";
+import SearchBar from "../../Searchbar/Searchbar";
 
-import { Categories_DD } from "../DD/Dropdowns/Categories_DD/Categories_DD";
-import { More_DD } from "../DD/Dropdowns/More_DD/More_DD";
-import { Settings_DD } from "../DD/Dropdowns/Settings_DD/Settings_DD";
-import { Saved_DD } from "../DD/Dropdowns/Saved_DD/Saved_DD";
+import { Categories_DD } from "../../DD/Dropdowns/Categories_DD/Categories_DD";
+import { More_DD } from "../../DD/Dropdowns/More_DD/More_DD";
+import { Settings_DD } from "../../DD/Dropdowns/Settings_DD/Settings_DD";
+import { Saved_DD } from "../../DD/Dropdowns/Saved_DD/Saved_DD";
 
-import { MobileMenu_MODAL } from "../Modals/MobileMenu_MODAL/MobileMenu_MODAL";
+import { MobileMenu_MODAL } from "../../Modals/MobileMenu_MODAL/MobileMenu_MODAL";
 
-import { ICON_menuLines } from "../icons/icons";
+import { ICON_menuLines } from "../../icons/icons";
 
-import { SavedProfileIDs_CONTEXT } from "../../contexts/savedProfiles";
-import { USE_showBrowserToolbar } from "../../hooks/USE_showBrowserToolbar";
+import { SavedProfileIDs_CONTEXT } from "../../../contexts/savedProfiles";
+import { USE_showBrowserToolbar } from "../../../hooks/USE_showBrowserToolbar";
 
-export default function Nav({ tagUsages, search, SET_search, categories, profiles, nav_REF }) {
+export default function Normal_NAV({
+  tagUsages,
+  search,
+  SET_search,
+  categories,
+  profiles,
+  nav_REF,
+}) {
   const [IS_menuOpen, xx, SET_menuOpen] = USE_Toggle(false);
   const [IS_searchOpen, TOGGLE_search, SET_searchOpen] = USE_Toggle(false);
   const { fontSize } = useContext(FontSizeContext); // 1, 2, 3
@@ -278,7 +285,7 @@ function GET_layout(windowWidth, fontSize) {
   return sizeMapping.default;
 }
 
-Nav.propTypes = {
+Normal_NAV.propTypes = {
   tagUsages: PropTypes.array.isRequired,
   search: PropTypes.string.isRequired,
   SET_search: PropTypes.func.isRequired,

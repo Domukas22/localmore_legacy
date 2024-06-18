@@ -7,7 +7,7 @@ import SearchBar from "../Searchbar/Searchbar";
 import css from "./Tagbox.module.css";
 
 import Transition_MENU from "../Transition_MENU/Transition_MENU";
-import { USE_windowSize } from "../../hooks/USE_windowWidth";
+import { USE_windowSize } from "../../hooks/USE_windowSize";
 
 import { EndBtn_BLOCK } from "../Transition_MENU/Blocks/General/EndBtn_BLOCK/EndBtn_BLOCK";
 import { BtnBack_BLOCK } from "../Transition_MENU/Blocks/General/BtnBack_BLOCK/BtnBack_BLOCK";

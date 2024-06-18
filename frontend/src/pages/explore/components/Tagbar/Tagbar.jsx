@@ -7,7 +7,7 @@ import css from "./Tagbar.module.css";
 import { ICON_x, ICON_dropDownArrow, ICON_activeDigit } from "../../../../components/icons/icons";
 import { useContext, useEffect, useRef, useState } from "react";
 import { FontSizeContext } from "../../../../contexts/fontSize";
-import { USE_windowSize } from "../../../../hooks/USE_windowWidth";
+import { USE_windowSize } from "../../../../hooks/USE_windowSize";
 import { Tagbox_MODAL } from "../../../../components/Modals/Tagbox_MODAL/Tagbox_MODAL";
 import { Category_MODAL } from "../../../../components/Modals/Category_MODAL/Category_MODAL";
 import { USE_showBrowserToolbar } from "../../../../hooks/USE_showBrowserToolbar";

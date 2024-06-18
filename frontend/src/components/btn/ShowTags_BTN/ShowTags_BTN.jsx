@@ -21,7 +21,7 @@ export function ShowTags_BTN({
 
   return (
     <Button
-      className={css["onBlur"]}
+      className={["btn-36", "onBlur"].map((style) => css[style]).join(" ")}
       onPress={() => {
         onClick();
 

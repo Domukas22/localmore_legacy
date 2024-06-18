@@ -3,10 +3,10 @@ import "./styles/App.css";
 
 import { useMemo, useRef, useState } from "react";
 import Explore from "./pages/explore/explore.jsx";
-import { USE_windowSize } from "./hooks/USE_windowWidth";
+import { USE_windowSize } from "./hooks/USE_windowSize";
 import { USE_fetchData } from "./hooks/USE_fetchData.js";
 import { base_URL } from "./config.js";
-import Nav from "./components/Nav/Nav.jsx";
+import Normal_NAV from "./components/Nav/Normal_NAV/Normal_NAV.jsx";
 
 import { AnimatePresence } from "framer-motion";
 import { SearchResults_MODAL } from "./components/Modals/SearchResults_MODAL/SearchResults_MODAL.jsx";
@@ -57,7 +57,7 @@ export function App() {
 
   return (
     <>
-      <Nav
+      <Normal_NAV
         tagUsages={tagUsages}
         search={search}
         SET_search={SET_search}

@@ -4,17 +4,21 @@ import css from "./Profile.module.css";
 import "../../styles/Swiper.css";
 
 import { useParams } from "react-router-dom";
-import { USE_windowSize } from "../../hooks/USE_windowWidth";
+import { USE_windowSize } from "../../hooks/USE_windowSize.js";
 import { base_URL } from "../../config.js";
 import { USE_fetchData } from "../../hooks/USE_fetchData.js";
 import { useMemo, useRef, useState } from "react";
-import Nav from "../../components/Nav/Nav.jsx";
+import Normal_NAV from "../../components/Nav/Normal_NAV/Normal_NAV.jsx";
 import { ProfileContent_WRAP } from "./components/ProfileContent_WRAP.jsx";
+import MobileProfile_NAV from "../../components/Nav/MobileProfile_NAV/MobileProfile_NAV.jsx";
+import USE_windowScroll from "../../hooks/USE_windowScroll.js";
 
 export function Profile() {
   const [search, SET_search] = useState("");
   const { width } = USE_windowSize();
   const { id } = useParams();
+
+  const scrolled = USE_windowScroll();
 
   const {
     data: profile,
@@ -61,25 +65,24 @@ export function Profile() {
 
   if (profile_ERROR) console.log(profile_ERROR);
 
-  console.log(profile?.color_FADE);
-
   return (
     <>
-      {/* <Nav
-        tagUsages={tagUsages}
-        search={search}
-        SET_search={SET_search}
-        categories={available_CATEGORIES}
-        profiles={profiles}
-        nav_REF={nav_REF}
-      /> */}
-
-      <div
-        className={css.color_FADE}
-        // data-ss={profile.color_FADE}
-
-        style={{ background: profile?.color_FADE }}
-      ></div>
+      {width > 700 && (
+        <Normal_NAV
+          tagUsages={tagUsages}
+          search={search}
+          SET_search={SET_search}
+          categories={available_CATEGORIES}
+          profiles={profiles}
+          nav_REF={nav_REF}
+        />
+      )}
+      {width <= 700 && (
+        <MobileProfile_NAV white={scrolled > 150} profile_NAME={profile?.name?.en} />
+      )}
+      {width > 700 && (
+        <div className={css.color_FADE} style={{ background: profile?.color_FADE }}></div>
+      )}
       <ProfileContent_WRAP profile={profile} />
     </>
   );

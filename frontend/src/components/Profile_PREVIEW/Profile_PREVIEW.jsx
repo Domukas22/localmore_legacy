@@ -22,7 +22,7 @@ import { profilePreview_TR as tr } from "../../translations";
 
 import "swiper/css";
 import "swiper/css/free-mode";
-import { USE_windowSize } from "../../hooks/USE_windowWidth";
+import { USE_windowSize } from "../../hooks/USE_windowSize";
 import { HeartConfetti } from "../HeartConfetti/HeartConfetti";
 import { FontSizeContext } from "../../contexts/fontSize";
 

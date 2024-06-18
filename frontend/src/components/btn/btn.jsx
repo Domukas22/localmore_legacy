@@ -4,7 +4,7 @@ import css from "./Btn.module.css";
 import { Button } from "react-aria-components";
 
 export function Btn({
-  styles,
+  styles = ["btn-36"],
   text,
   onClick = () => alert("No function provided"),
   FIRE_clickEvent = true,
@@ -16,7 +16,7 @@ export function Btn({
 }) {
   return (
     <Button
-      className={styles ? styles.map((style) => css[style]).join(" ") : css["btn-36"]}
+      className={styles.map((style) => css[style]).join(" ")}
       // href={href}
       onPress={(e) => {
         // e.stopPropagation();

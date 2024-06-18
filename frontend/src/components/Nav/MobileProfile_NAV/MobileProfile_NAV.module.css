@@ -1,0 +1,44 @@
+/*  */
+/*  */
+
+@import '@styles/global.css';
+
+.MobileProfile_NAV {
+  position: fixed;
+  top: 0;
+  z-index: 20;
+  width: 100%; 
+  height: var(--height-nav);
+  transition: 300ms;
+
+  display: flex;
+  align-items: center;
+  padding: 0 var(--padding-mob);
+
+  & .name {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    transition: 300ms;
+    cursor: pointer;
+
+    opacity: 0;
+    pointer-events: none;
+   
+  }
+
+
+
+  &[data-white='true'] {
+    background-color: var(--fill-white);
+    box-shadow: 0rem 0.2rem 0.8rem 0rem rgba(0, 0, 0, 0.10);
+
+    & .name {
+      opacity: 1;
+      pointer-events: auto;
+     
+    }
+  }
+}
