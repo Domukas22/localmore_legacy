@@ -8,6 +8,7 @@
 .dropdown_PARENT {
   width: auto;
   position: relative;
+  display: flex;
 
   & .dropdown {
     position: absolute;
@@ -34,6 +35,10 @@
   
     & ul { flex-direction: column }
   
+  }
+
+  &[data-flex="true"] {
+    flex: 1;
   }
 }
 

@@ -3,6 +3,7 @@
 //
 import { useState, useContext, useEffect, useMemo, useRef } from "react";
 import css from "./explore.module.css";
+import "../../styles/Swiper.css";
 
 import Profile_PREVIEW from "../../components/Profile_PREVIEW/Profile_PREVIEW";
 import Panorama from "../../components/panorama/panorama";

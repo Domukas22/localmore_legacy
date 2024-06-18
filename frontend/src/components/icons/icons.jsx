@@ -49,6 +49,7 @@ export function ICON_arrow({ direction = "right", color = "dark" }) {
       viewBox="0 0 18 12"
       fill="none"
       style={{ rotate: rotationAngle }}
+      className={css.ICON_arrow}
     >
       <path
         d="M1 5.25C0.585786 5.25 0.25 5.58579 0.25 6C0.25 6.41421 0.585786 6.75 1 6.75L1 5.25ZM17.5303 6.53033C17.8232 6.23744 17.8232 5.76256 17.5303 5.46967L12.7574 0.696699C12.4645 0.403806 11.9896 0.403806 11.6967 0.696699C11.4038 0.989593 11.4038 1.46447 11.6967 1.75736L15.9393 6L11.6967 10.2426C11.4038 10.5355 11.4038 11.0104 11.6967 11.3033C11.9896 11.5962 12.4645 11.5962 12.7574 11.3033L17.5303 6.53033ZM1 6.75L17 6.75L17 5.25L1 5.25L1 6.75Z"
@@ -58,11 +59,21 @@ export function ICON_arrow({ direction = "right", color = "dark" }) {
     </svg>
   );
 }
+export function ICON_leavePage({ color = "dark" }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" className={css.ICON_leavePage}>
+      <path
+        d="M0.434315 8.43431C0.121895 8.74673 0.121895 9.25327 0.434315 9.56569C0.746734 9.8781 1.25327 9.8781 1.56569 9.56569L0.434315 8.43431ZM9.8 1C9.8 0.558172 9.44183 0.2 9 0.2L1.8 0.200001C1.35817 0.200001 1 0.558173 1 1C1 1.44183 1.35817 1.8 1.8 1.8H8.2V8.2C8.2 8.64183 8.55817 9 9 9C9.44183 9 9.8 8.64183 9.8 8.2L9.8 1ZM1.56569 9.56569L9.56569 1.56569L8.43431 0.434315L0.434315 8.43431L1.56569 9.56569Z"
+        data-color={color}
+      />
+    </svg>
+  );
+}
 export function ICON_save({ color = "dark" }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="18rem"
+      width="18"
       height="16"
       viewBox="0 0 18 16"
       fill="none"
@@ -78,6 +89,7 @@ export function ICON_save({ color = "dark" }) {
     </svg>
   );
 }
+
 export function ICON_dropDownArrow({ color = "dark" }) {
   return (
     <div className={css.ICON_dropDownArrow} data-color={color}>
@@ -194,7 +206,7 @@ export function ICON_proCon({ IS_pro = true }) {
 }
 export function ICON_3dots({ color = "dark" }) {
   return (
-    <div className={css.ICON_3dots} color={color}>
+    <div className={css.ICON_3dots} data-color={color}>
       <div></div>
       <div></div>
       <div></div>

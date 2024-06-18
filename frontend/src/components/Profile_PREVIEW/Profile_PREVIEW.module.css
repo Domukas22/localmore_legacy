@@ -19,6 +19,26 @@
   background-repeat: no-repeat;
   background-size: cover;
 
+  text-decoration: none;
+  outline: 0.2rem solid transparent;
+
+  & .link_OVERLAY {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+  }
+
+  & .upper {
+    display: flex;
+    flex: 1;
+    height: 100px;
+    width: 100%;
+  }
+  
+
   & header {
     display: flex;
     padding: 0.8rem;
@@ -36,29 +56,13 @@
   }
 
   & div[data-target="swiper"] {
-    flex: 1;
-    height: 100%;
-    width: 100%;
-
-    & img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
 
     & .slider_ARROWS {
-      position: absolute;
-      right: 0.8rem;
-      bottom: 0.8rem;
-      z-index: 10;
-      
+      padding: 0.8rem;
       display: flex;
       gap: 0.6rem;
-
       transition: 100ms;
       opacity: 0;
-
-   
     } 
     &[data-hover="true"] {
       & .slider_ARROWS {
@@ -66,6 +70,7 @@
         pointer-events: auto;
       } 
     }
+
     @media (--mobile) {
   
         & .slider_ARROWS {
@@ -78,29 +83,6 @@
        
   }
 
-  & .single_IMG {
-    flex: 1;
-    height: 100px;
-    object-fit: cover;
-    /* This is weird. We need both of these for the image to flex properly,
-    and not push the footer out of view */
-  }
-  & .noImagesFound{ 
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1.2rem;
-
-    & > p {
-      color: var(--text-white); 
-      text-shadow: var(--shadow-text);
-      font-size: 2rem;
-      font-weight: 600;
-    }
-  }
-
   & footer {
     display: flex;
     flex-direction: column;
@@ -110,8 +92,8 @@
     color: var(--text-white);
     text-shadow: 0 0 0.4rem rgb(0 0 0 / 60%);
     
-     position: relative;
-     box-shadow: 0px -4px 12px 0px rgba(0, 0, 0, 0.45);
+    position: relative;
+    box-shadow: 0px -4px 12px 0px rgba(0, 0, 0, 0.45);
     z-index: 10;
     width: 100%;
 
@@ -132,6 +114,8 @@
       pointer-events: none;
       z-index: 4;
     }
+
+   
   
     & .top {
       padding: 0.8rem 1.2rem 0.6rem;
@@ -139,10 +123,13 @@
       border-bottom: var(--border-white-15);
       border-top: var(--border-white-15);
       align-items: center;
+    
 
       & p {
         font-weight: 400;
       }
+
+
 
     }
     & .bottom {
@@ -172,6 +159,18 @@
 
       
     
+    }
+    
+    & div[data-top-hover]{
+      color: var(--text-white);
+      text-decoration: none;
+      transition: 100ms;  
+      outline: none;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
     }
 
   }
@@ -240,6 +239,13 @@
       
     }
   }
+
+  
+  &[data-focus-visible] {
+    outline: var(--outline-brand-black);
+  }
+
+
   
 }
 
@@ -258,14 +264,4 @@
   }
 }
 
-
-
-
-
-path {
-  &[data-color="brand"] {fill: var(--brand)}
-  /* white, brnt brand dark */
-  &[data-color="dark"] {fill: var(--brand-black)}
-  &[data-color="white"] {fill: white}
-}
 

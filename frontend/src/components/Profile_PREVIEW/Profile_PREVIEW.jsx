@@ -141,15 +141,18 @@ export default function Profile_PREVIEW({
   return (
     <Link
       className={css.profile_PREVIEW}
-      href={`/profile/${profile?._id}`}
       style={style}
-      onMouseEnter={() => SET_hover(true)}
-      onMouseLeave={() => SET_hover(false)}
+      // onMouseEnter={() => SET_hover(true)}
+      // onMouseLeave={() => SET_hover(false)}
+      onHoverStart={() => SET_hover(true)}
+      onHoverEnd={() => SET_hover(false)}
+      href={`/profile/${profile?._id}`}
     >
-      <header className={css.top}>
-        {USE_isProfileNew(profile) && <New_LABEL lang={lang} />}
-        <div className={css.btn_WRAP}>
-          {/* {HAS_panoramas && (
+      <div className={css.upper}>
+        <header className={css.top}>
+          {USE_isProfileNew(profile) && <New_LABEL lang={lang} />}
+          <div className={css.btn_WRAP}>
+            {/* {HAS_panoramas && (
             <Btn
               styles={["btn-36", "onImg"]}
               onClick={() => SET_panoramas(profile?.img?.panoramas)}
@@ -158,25 +161,25 @@ export default function Profile_PREVIEW({
               test_ID="panorama-btn"
             />
           )} */}
-          <Btn
-            styles={["btn-36", "onImg", `${IS_saved ? "saved" : ""}`]}
-            onClick={() => (IS_saved ? HANDLE_save("delete") : HANDLE_save("save"))}
-            left_ICON={<ICON_save color={IS_saved ? "red" : "white"} />}
-            // aria_LABEL={tr?.saveBtn_ARIA(name)[lang]}
-            test_ID="save-btn"
-          />
-        </div>
-      </header>
+            <Btn
+              styles={["btn-36", "onImg", `${IS_saved ? "saved" : ""}`]}
+              onClick={() => (IS_saved ? HANDLE_save("delete") : HANDLE_save("save"))}
+              left_ICON={<ICON_save color={IS_saved ? "red" : "white"} />}
+              // aria_LABEL={tr?.saveBtn_ARIA(name)[lang]}
+              test_ID="save-btn"
+            />
+          </div>
+        </header>
 
-      <Images
-        images={profile?.img?.["mobile"] || profile?.img?.["desktop"] || []}
-        SHOW_swiper={USE_showSwiper(profile)}
-        sliderRef={sliderRef}
-        hover={hover}
-        slide={slide}
-        SHOW_hearts={SHOW_hearts}
-      />
-
+        <Images
+          images={profile?.img?.["mobile"] || profile?.img?.["desktop"] || []}
+          SHOW_swiper={USE_showSwiper(profile)}
+          sliderRef={sliderRef}
+          hover={hover}
+          slide={slide}
+          SHOW_hearts={SHOW_hearts}
+        />
+      </div>
       <footer
         ref={footer_REF}
         style={{ height: `${footer_HEIGHT}px`, backgroundImage: `url(${profile?.img?.blur})` }}
@@ -234,11 +237,9 @@ function Images({ images, SHOW_swiper, sliderRef, hover, slide, SHOW_hearts }) {
           SHOW_hearts={SHOW_hearts}
         />
       )}
-      {!SHOW_swiper.mobile && (
-        <img src={images[0] + "/Mobile"} className={css.single_IMG} /*  alt={img_ALT} */ />
-      )}
+      {!SHOW_swiper.mobile && <img src={images[0] + "/Mobile"} className="single_IMG" />}
       {images.length < 1 && (
-        <div className={css.noImagesFound}>
+        <div className="noImagesFound">
           <p>No images found</p>
           <Btn
             styles={["onImg"]}
@@ -251,6 +252,7 @@ function Images({ images, SHOW_swiper, sliderRef, hover, slide, SHOW_hearts }) {
     </>
   );
 }
+
 function CREATE_swiper({ sliderRef, images, img_END, hover, slide, SHOW_hearts }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -266,23 +268,26 @@ function CREATE_swiper({ sliderRef, images, img_END, hover, slide, SHOW_hearts }
       data-target="swiper"
       data-hover={hover}
       onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+      className="profile_SWIPER"
     >
-      <div className={css.slider_ARROWS}>
-        <Btn
-          styles={["onImg", "round", `${activeIndex === 0 ? "disabled" : ""}`]}
-          right_ICON={<ICON_arrow color="white" direction="left" />}
-          onClick={() => {
-            slide("prev");
-          }}
-        />
+      <div className="bottom-right">
+        <div className={css.slider_ARROWS}>
+          <Btn
+            styles={["onImg", "round", `${activeIndex === 0 ? "disabled" : ""}`]}
+            right_ICON={<ICON_arrow color="white" direction="left" />}
+            onClick={(e) => {
+              slide("prev");
+            }}
+          />
 
-        <Btn
-          styles={["onImg", "round", `${activeIndex === images.length - 1 ? "disabled" : ""}`]}
-          right_ICON={<ICON_arrow color="white" direction="right" />}
-          onClick={() => {
-            slide("next");
-          }}
-        />
+          <Btn
+            styles={["onImg", "round", `${activeIndex === images.length - 1 ? "disabled" : ""}`]}
+            right_ICON={<ICON_arrow color="white" direction="right" />}
+            onClick={() => {
+              slide("next");
+            }}
+          />
+        </div>
       </div>
 
       {images.map((img, i) => (
@@ -290,7 +295,6 @@ function CREATE_swiper({ sliderRef, images, img_END, hover, slide, SHOW_hearts }
           <img src={img + img_END} className={css.profile_IMG} data-normal="true" />
         </SwiperSlide>
       ))}
-
       <HeartConfetti SHOW_hearts={SHOW_hearts} />
     </Swiper>
   );
@@ -308,7 +312,7 @@ function Footer_FRONT({
 }) {
   return (
     <motion.div className={css.footer_FRONT} ref={front_REF} {...Motion_PROPS}>
-      <div className={css.top}>
+      <div className={css.top} data-top-hover href={`/profile/${profile?._id}`}>
         <div className={css.name_WRAP}>
           <h4>{profile?.name?.en || "Name"}</h4>
           <p>{profile?.subname?.en || "Subname"}</p>
@@ -332,6 +336,14 @@ function Footer_FRONT({
             prosConsBtn_REF={prosConsBtn_REF}
           />
         )}
+        {/* <Btn
+          styles={["btn-36", "onBlur", "close"]}
+          // onClick={() => SET_currentView("prosCons")}
+          onClick={() => console.log("ss")}
+          right_ICON={<ICON_x color="white" />}
+          // aria_LABEL={tr?.hideTagsBtn_ARIA(name)[lang]}
+          test_ID={"close-tag-overlay-btn"}
+        /> */}
       </div>
       {matched_TAGS.length > 0 && (
         <div className={css.activeTag_WRAP} onClick={() => SET_currentView("tags")}>

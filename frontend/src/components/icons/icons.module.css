@@ -9,6 +9,31 @@
   object-fit: contain;
 }
 
+.ICON_arrow {
+  composes: all;
+  & path {
+
+    &[data-color="white"] {
+      fill: white;
+    }
+    &[data-color="dark"] {
+      fill: var(--brand-black);
+    }
+  }
+}
+.ICON_leavePage {
+  composes: all;
+  height: 1.4rem !important;
+
+  & path {
+    &[data-color="white"] {
+      fill: white;
+    }
+    &[data-color="dark"] {
+      fill: var(--text-fade);
+    }
+  }
+}
 .ICON_activeDigit {
   font-size: 1.4rem;
   font-weight: 700;
@@ -124,6 +149,7 @@
   width: 1.6rem;
   height: 1.6rem;
 }
+
 .ICON_save {
   composes: all;
   & path {

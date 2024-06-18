@@ -14,13 +14,15 @@ const DD = forwardRef((props, ref) => {
     btnLeft_ICON,
     width = 26,
     align = "left",
+    flex = false,
     children,
     onClose = () => {},
     onOpen = () => {},
     scroll = false,
     height = 200,
     menu_REF,
-    icon = undefined,
+    closed_ICON = undefined,
+    open_ICON = undefined,
     styles = ["btn-40", "round", "grey", "dropdown", "red-x-on-hover"],
   } = props;
   const [expanded, setExpanded] = useState(false);
@@ -85,6 +87,7 @@ const DD = forwardRef((props, ref) => {
         className={css.dropdown_PARENT}
         id={`dropdown-${theId}`}
         data-expanded={expanded}
+        data-flex={flex}
       >
         <Button
           ref={buttonRef}
@@ -98,16 +101,13 @@ const DD = forwardRef((props, ref) => {
           aria-haspopup="true"
           aria-controls={`menu-${theId}`}
           data-expanded={expanded}
+          style={{ flex: `1`, justifyContent: "space-between" }}
         >
           {btnLeft_ICON && btnLeft_ICON}
           {btn_TEXT && <p className={css_BTN.text}>{btn_TEXT}</p>}
-          {icon && !expanded ? (
-            icon
-          ) : expanded ? (
-            <ICON_x color={"dark"} small={true} />
-          ) : (
-            <ICON_dropDownArrow />
-          )}
+          {!expanded
+            ? closed_ICON || <ICON_dropDownArrow color={"dark"} />
+            : open_ICON || <ICON_x color={"dark"} small={true} />}
         </Button>
 
         {!!children && expanded && (

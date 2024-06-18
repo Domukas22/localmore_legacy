@@ -17,10 +17,12 @@ export function Btn({
   return (
     <Button
       className={styles ? styles.map((style) => css[style]).join(" ") : css["btn-36"]}
-      href={href}
-      onPress={() => {
-        onClick();
-        if (FIRE_clickEvent) document.dispatchEvent(new Event("click")); // for the dropdowns
+      // href={href}
+      onPress={(e) => {
+        // e.stopPropagation();
+        console.log(e.target);
+        onClick(e);
+        //  if (FIRE_clickEvent) document.dispatchEvent(new Event("click")); // for the dropdowns
       }}
       aria-label={aria_LABEL}
       data-testid={test_ID}
