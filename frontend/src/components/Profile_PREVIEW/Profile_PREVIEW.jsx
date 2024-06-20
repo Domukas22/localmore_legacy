@@ -6,7 +6,7 @@ import css from "./Profile_PREVIEW.module.css";
 import { delay, motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
-import { ICON_arrow, ICON_error, ICON_proCon, ICON_save, ICON_x } from "../icons/icons";
+import { ICON_3dots, ICON_arrow, ICON_error, ICON_proCon, ICON_save, ICON_x } from "../icons/icons";
 
 import USE_slideSwiper from "../../hooks/USE_slideSwiper";
 import USE_showSwiper from "../../hooks/USE_showSwiper";
@@ -56,7 +56,10 @@ export default function Profile_PREVIEW({
   const front_REF = useRef(null);
   const tags_REF = useRef(null);
   const prosCons_REF = useRef(null);
+  const about_REF = useRef(null);
+
   const prosConsBtn_REF = useRef(null);
+  const aboutBtn_REF = useRef(null);
   const [footer_HEIGHT, SET_footerHeight] = useState(footer_REF?.current?.clientHeight || null);
 
   const matchedTag_IDs = useMemo(
@@ -109,18 +112,22 @@ export default function Profile_PREVIEW({
       case "prosCons":
         height = prosCons_REF?.current?.clientHeight;
         break;
+      case "about":
+        height = about_REF?.current?.clientHeight;
+        break;
     }
     SET_footerHeight(height);
   }, [current_VIEW, width, fontSize, matched_TAGS]);
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver(() => {
-      if (footer_REF.current && prosConsBtn_REF.current) {
+      if (footer_REF.current && prosConsBtn_REF.current && aboutBtn_REF.current) {
         const footer_WIDTH = footer_REF.current.clientWidth;
-        const prosCons_WIDTH = prosConsBtn_REF.current.clientWidth;
+        const prosConsBtn_WIDTH = prosConsBtn_REF.current.clientWidth;
+        const aboutBtn_WIDTH = aboutBtn_REF.current.clientWidth;
         const padding = 120 * fontSize_SCALE;
 
-        const remaining_SPACE = footer_WIDTH - prosCons_WIDTH - padding; // Adjust for padding or margins
+        const remaining_SPACE = footer_WIDTH - prosConsBtn_WIDTH - aboutBtn_WIDTH - padding; // Adjust for padding or margins
         const newVisibleIconCount = Math.floor(remaining_SPACE / 30); // 30 is the assumed width of each icon
         SET_visibleIconCount(newVisibleIconCount > 0 ? newVisibleIconCount : 1); // Ensure at least one icon is visible
       }
@@ -203,19 +210,25 @@ export default function Profile_PREVIEW({
             lang={lang}
             front_REF={front_REF}
             visibleIcon_COUNT={visibleIcon_COUNT}
-            prosConsBtn_REF={prosConsBtn_REF}
             activeTag_IDs={activeTag_IDs}
             matched_TAGS={matched_TAGS}
+            prosConsBtn_REF={prosConsBtn_REF}
+            aboutBtn_REF={aboutBtn_REF}
           />
         )}
         {current_VIEW === "prosCons" && (
           <Footer_PROCON
-            CLOSE_prosCons={() => SET_currentView("front")}
             pros={profile?.pros}
             cons={profile?.cons}
             prosCons_REF={prosCons_REF}
             close={() => SET_currentView("front")}
-            SET_currentView={SET_currentView}
+            profile={profile}
+          />
+        )}
+        {current_VIEW === "about" && (
+          <Footer_ABOUT
+            about_REF={about_REF}
+            close={() => SET_currentView("front")}
             profile={profile}
           />
         )}
@@ -273,7 +286,7 @@ function CREATE_swiper({ sliderRef, images, img_END, hover, slide, SHOW_hearts }
       <div className="bottom-right">
         <div className={css.slider_ARROWS}>
           <Btn
-            styles={["onImg", "round", `${activeIndex === 0 ? "disabled" : ""}`]}
+            styles={["btn-36", "onImg", "round", `${activeIndex === 0 ? "disabled" : ""}`]}
             right_ICON={<ICON_arrow color="white" direction="left" />}
             onClick={(e) => {
               slide("prev");
@@ -281,7 +294,12 @@ function CREATE_swiper({ sliderRef, images, img_END, hover, slide, SHOW_hearts }
           />
 
           <Btn
-            styles={["onImg", "round", `${activeIndex === images.length - 1 ? "disabled" : ""}`]}
+            styles={[
+              "btn-36",
+              "onImg",
+              "round",
+              `${activeIndex === images.length - 1 ? "disabled" : ""}`,
+            ]}
             right_ICON={<ICON_arrow color="white" direction="right" />}
             onClick={() => {
               slide("next");
@@ -309,6 +327,7 @@ function Footer_FRONT({
   prosConsBtn_REF,
   activeTag_IDs,
   matched_TAGS,
+  aboutBtn_REF,
 }) {
   return (
     <motion.div className={css.footer_FRONT} ref={front_REF} {...Motion_PROPS}>
@@ -318,6 +337,7 @@ function Footer_FRONT({
           <p>{profile?.subname?.en || "Subname"}</p>
         </div>
       </div>
+
       <div className={css.bottom}>
         {profile?.tags?.length > 0 && (
           <ShowTags_BTN
@@ -336,14 +356,14 @@ function Footer_FRONT({
             prosConsBtn_REF={prosConsBtn_REF}
           />
         )}
-        {/* <Btn
-          styles={["btn-36", "onBlur", "close"]}
-          // onClick={() => SET_currentView("prosCons")}
-          onClick={() => console.log("ss")}
-          right_ICON={<ICON_x color="white" />}
-          // aria_LABEL={tr?.hideTagsBtn_ARIA(name)[lang]}
-          test_ID={"close-tag-overlay-btn"}
-        /> */}
+        {(profile?.about_PARAG?.en || profile?.about_TITLE?.en) && (
+          <Btn
+            onClick={() => SET_currentView("about")}
+            left_ICON={<ICON_3dots color="white" />}
+            styles={["btn-36", "onBlur"]}
+            _ref={aboutBtn_REF}
+          />
+        )}
       </div>
       {matched_TAGS.length > 0 && (
         <div className={css.activeTag_WRAP} onClick={() => SET_currentView("tags")}>
@@ -468,6 +488,17 @@ function Footer_PROCON({ pros, cons, prosCons_REF, close, profile }) {
             ))}
           </ul>
         )}
+      </div>
+    </motion.div>
+  );
+}
+function Footer_ABOUT({ about_REF, close, profile }) {
+  return (
+    <motion.div className={css.drawer} ref={about_REF} {...Motion_PROPS}>
+      <Drawer_TOP title={`About ${profile?.name?.en}`} CLOSE_drawer={close} />
+      <div className={css.bottom} data-type="about">
+        <h5>{profile?.about_TITLE?.en}</h5>
+        <p>{profile?.about_PARAG?.en}</p>
       </div>
     </motion.div>
   );

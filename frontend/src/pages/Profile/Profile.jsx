@@ -65,6 +65,8 @@ export function Profile() {
 
   if (profile_ERROR) console.log(profile_ERROR);
 
+  console.log(profile?.color_FADE);
+
   return (
     <>
       {width > 700 && (
@@ -81,7 +83,11 @@ export function Profile() {
         <MobileProfile_NAV white={scrolled > 150} profile_NAME={profile?.name?.en} />
       )}
       {width > 700 && (
-        <div className={css.color_FADE} style={{ background: profile?.color_FADE }}></div>
+        <div
+          className={css.color_FADE}
+          data-ss={profile?.color_FADE}
+          style={{ background: profile?.color_FADE }}
+        ></div>
       )}
       <ProfileContent_WRAP profile={profile} />
     </>

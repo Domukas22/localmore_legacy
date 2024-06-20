@@ -12,7 +12,6 @@
 .ICON_arrow {
   composes: all;
   & path {
-
     &[data-color="white"] {
       fill: white;
     }
@@ -144,12 +143,12 @@
     }
   }
 }
+
 .ICON_x_small {
   composes: ICON_x;
   width: 1.6rem;
   height: 1.6rem;
 }
-
 .ICON_save {
   composes: all;
   & path {
@@ -206,6 +205,7 @@
     background-color: #fb5e5e
   }
 }
+
 .ICON_dropDownArrow {
   width: 1.6rem;
   height: 1.6rem;
@@ -244,7 +244,20 @@
     }
   }
 }
-
+.ICON_error {
+  composes: all;
+  & path {
+    &[data-color="red"] {
+      fill: var(--red);
+    }
+    &[data-color="dark"] {
+      fill: var(--brand-black);
+    }
+    &[data-color="white"] {
+      fill: var(--text-white);
+    }
+  }
+}
 
 @keyframes rotation {
   0% {

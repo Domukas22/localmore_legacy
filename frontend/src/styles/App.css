@@ -62,9 +62,9 @@ body {
   /* padding-top: var(--height-nav); */
   overflow-x: hidden !important;
   font-size: var(--user-font-size, 1.6rem);
-    @media (--mobile) {
-      font-size: calc(var(--user-font-size, 1.6rem) + 0.2rem);
-    }
+  @media (--mobile) {
+    font-size: calc(var(--user-font-size, 1.6rem) + 0.2rem);
+  }
 }
 
 * {
@@ -83,6 +83,13 @@ h1 {
 
 h4 {
   letter-spacing: 0.01rem;
+}
+
+h5 {
+  font-size: var(--user-font-size, 1.6rem);
+  @media (--mobile) {
+    font-size: calc(var(--user-font-size, 1.6rem) + 0.2rem);
+  }
 }
 
 p {

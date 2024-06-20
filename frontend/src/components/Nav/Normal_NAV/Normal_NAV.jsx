@@ -27,6 +27,7 @@ import { ICON_menuLines } from "../../icons/icons";
 
 import { SavedProfileIDs_CONTEXT } from "../../../contexts/savedProfiles";
 import { USE_showBrowserToolbar } from "../../../hooks/USE_showBrowserToolbar";
+import { ReportProblem_MODAL } from "../../Modals/Feedback_MODALS/ReportProblem_MODAL/ReportProblem_MODAL";
 
 export default function Normal_NAV({
   tagUsages,
@@ -37,6 +38,8 @@ export default function Normal_NAV({
   nav_REF,
 }) {
   const [IS_menuOpen, xx, SET_menuOpen] = USE_Toggle(false);
+  const [IS_reportProblemModalOpen, SET_reportProblemModalOpen] = USE_Toggle(false);
+
   const [IS_searchOpen, TOGGLE_search, SET_searchOpen] = USE_Toggle(false);
   const { fontSize } = useContext(FontSizeContext); // 1, 2, 3
   const { lang, TOGGLE_lang } = useContext(Lang_CONTEXT);
@@ -153,6 +156,7 @@ export default function Normal_NAV({
                   SHOULD_showCategories={layout > 3}
                   SHOULD_showSettings={layout !== 1}
                   SHOULD_showHome={layout > 2}
+                  SET_reportProblemModalOpen={SET_reportProblemModalOpen}
                 />
               </li>
             )}
@@ -203,6 +207,12 @@ export default function Normal_NAV({
         savedProfile_OBJs={savedProfile_OBJs}
         REMOVE_fromSaved={REMOVE_fromSaved}
         width={window_WIDTH}
+        SET_reportProblemModalOpen={SET_reportProblemModalOpen}
+      />
+
+      <ReportProblem_MODAL
+        IS_open={IS_reportProblemModalOpen}
+        SET_isOpen={SET_reportProblemModalOpen}
       />
 
       <AnimatePresence>

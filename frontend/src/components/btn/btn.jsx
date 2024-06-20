@@ -13,19 +13,20 @@ export function Btn({
   test_ID,
   aria_LABEL,
   href = null,
+  _ref = null,
+  type = "button",
 }) {
   return (
     <Button
       className={styles.map((style) => css[style]).join(" ")}
-      // href={href}
       onPress={(e) => {
-        // e.stopPropagation();
-        console.log(e.target);
         onClick(e);
-        //  if (FIRE_clickEvent) document.dispatchEvent(new Event("click")); // for the dropdowns
+        if (FIRE_clickEvent) document.dispatchEvent(new Event("click")); // for the dropdowns
       }}
       aria-label={aria_LABEL}
       data-testid={test_ID}
+      ref={_ref}
+      type={type}
     >
       {left_ICON && left_ICON}
       {text && <p className={css.text}>{text}</p>}

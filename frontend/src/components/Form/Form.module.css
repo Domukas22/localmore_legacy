@@ -1,0 +1,59 @@
+/*  */
+/*  */
+
+@import '@styles/global.css';
+
+.input_BLOCK {
+  width: 100%;
+
+  & label {
+    display: block;
+    font-size: inherit;
+    font-weight: 400;
+    margin-bottom: 0.4rem;
+    cursor: pointer;
+  }
+
+  & input[type='text'], textarea {
+    width: 100%;
+    padding: 1.2rem 1.6rem;
+    height: 5rem;
+    margin: 0;
+
+    font-size: inherit;
+    box-shadow: var(--shadow-btn);
+    border-radius: var(--radius-12);
+    transition: border-color 0.3s;
+
+    outline: none;
+    border: 1px solid transparent;
+    outline: 2px solid transparent;
+
+    &[data-focused='true'] {
+      border: var(--border-brand-black);
+      box-shadow: none;
+    }
+
+    &[data-invalid='true'] {
+      border: var(--border-red);
+    }
+  }
+
+  & textarea {
+    resize: vertical;
+    height: 12rem;
+  }
+
+  & .input_ERROR {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--red);
+    font-weight: 600;
+    margin-top: 0.8rem;
+
+    & svg {
+      margin-bottom: 0.4rem;
+    }
+  }
+}

@@ -4,7 +4,7 @@
 import css from "../../Blocks.module.css";
 import { Btn } from "../../../../Btn/Btn";
 
-export function Feedback_BLOCK() {
+export function Feedback_BLOCK({ SET_reportProblemModalOpen }) {
   return (
     <div className={css.Block}>
       <p>Provide feedback</p>
@@ -30,7 +30,10 @@ export function Feedback_BLOCK() {
           right_ICON={<span>2 min</span>}
           text="Report a problem"
           aria_LABEL=""
-          onClick={() => ""}
+          onClick={() => {
+            SET_reportProblemModalOpen(true);
+            document.dispatchEvent(new Event("click")); // for the dropdowns
+          }}
         />
       </li>
       <li>

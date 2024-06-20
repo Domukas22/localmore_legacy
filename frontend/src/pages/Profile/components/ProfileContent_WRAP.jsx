@@ -168,7 +168,10 @@ function Swiper_BOX({ images, img_END, hover, SHOW_hearts, width }) {
 
 function Info_WRAP({ width, profile }) {
   return (
-    <div className={css.info_WRAP}>
+    <div
+      className={css.info_WRAP}
+      style={{ background: `${width > 700 ? "" : profile?.color_FADE}` }}
+    >
       {width > 900 && (
         <div className={css.info_LOWER}>
           <div className={css.left}>

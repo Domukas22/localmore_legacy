@@ -236,6 +236,10 @@
         }    
 
       }
+
+      &[data-type="about"] {
+        flex-direction: column;
+      }
       
     }
   }

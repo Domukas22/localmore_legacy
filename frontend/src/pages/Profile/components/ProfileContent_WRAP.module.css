@@ -121,7 +121,7 @@
 
     @media (max-width: 699px) {
       border-radius: 0;
-      height: 75vh;
+      height: 80vh;
     }
 
     
@@ -146,6 +146,7 @@
     & .info_LOWER {
       display: grid;
       gap: 1.2rem;
+      width: 100%;
   
       grid-template-columns: 2fr 1fr;
       @media (--tablet)  {grid-template-columns: 1fr;}

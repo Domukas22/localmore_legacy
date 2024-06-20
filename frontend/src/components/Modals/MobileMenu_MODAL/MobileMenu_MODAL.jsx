@@ -31,6 +31,7 @@ export function MobileMenu_MODAL({
   savedProfile_OBJs,
   REMOVE_fromSaved,
   width,
+  SET_reportProblemModalOpen,
 }) {
   const { startCateg_ARR, endCateg_ARR, GET_subCategories } = USE_getCategories(categories);
   // const { savedProfile_IDs } = useContext(SavedProfileIDs_CONTEXT);
@@ -152,7 +153,7 @@ export function MobileMenu_MODAL({
             menu_NAME="feedback"
           >
             <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
-            <Feedback_BLOCK />
+            <Feedback_BLOCK SET_reportProblemModalOpen={SET_reportProblemModalOpen} />
           </Transition_MENU>
         </div>
       </Dialog>

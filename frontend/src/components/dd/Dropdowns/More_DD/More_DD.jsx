@@ -22,6 +22,7 @@ export function More_DD({
   SHOULD_showCategories,
   SHOULD_showSettings,
   SHOULD_showHome,
+  SET_reportProblemModalOpen,
 }) {
   const { startCateg_ARR, endCateg_ARR, GET_subCategories } = USE_getCategories(categories);
   const { HANLDE_dd, current_MENU, menu_HEIGHT, SET_currentMenu, dropdown_REF, scroll } =
@@ -122,7 +123,7 @@ export function More_DD({
         resize={(el) => HANLDE_dd("resize", el)}
       >
         <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
-        <Feedback_BLOCK />
+        <Feedback_BLOCK SET_reportProblemModalOpen={SET_reportProblemModalOpen} />
       </Transition_MENU>
 
       {/* Legal */}
