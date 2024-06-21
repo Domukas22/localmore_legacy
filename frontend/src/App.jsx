@@ -4,7 +4,7 @@ import "./styles/App.css";
 import { useMemo, useRef, useState } from "react";
 import Explore from "./pages/explore/explore.jsx";
 import { USE_windowSize } from "./hooks/USE_windowSize";
-import { USE_fetchData } from "./hooks/USE_fetchData.js";
+import { USE_fetchData } from "./hooks/fetch/USE_fetchData.js";
 import { base_URL } from "./config.js";
 import Normal_NAV from "./components/Nav/Normal_NAV/Normal_NAV.jsx";
 

@@ -3,15 +3,15 @@
 
 import css from "./Breadcrumbs.module.css";
 
-import { Breadcrumbs, Breadcrumb, Link } from "react-aria-components";
+import { Breadcrumbs as ReactAriaBreadcrumbs, Breadcrumb, Link } from "react-aria-components";
 
-export function Breadcrumbss({ texts_ARR = [], urls_ARR = [] }) {
+export function Breadcrumbs({ texts_ARR = [], urls_ARR = [] }) {
   const [text_1, text_2, text_3, text_4] = texts_ARR;
   const [url_1, url_2, url_3] = urls_ARR;
 
   return (
     <nav>
-      <Breadcrumbs className={css.Breadcrumbs}>
+      <ReactAriaBreadcrumbs className={css.Breadcrumbs}>
         {text_1 && (
           <Breadcrumb>
             <Link href={`${url_1 ? url_1 : ""}`} className={css.breadcrumb_LINK}>
@@ -48,7 +48,7 @@ export function Breadcrumbss({ texts_ARR = [], urls_ARR = [] }) {
             </Link>
           </Breadcrumb>
         )}
-      </Breadcrumbs>
+      </ReactAriaBreadcrumbs>
     </nav>
   );
 }

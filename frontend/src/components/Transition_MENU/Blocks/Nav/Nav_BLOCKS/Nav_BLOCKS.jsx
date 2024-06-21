@@ -7,6 +7,7 @@ import { ICON_arrow, ICON_save } from "../../../../icons/icons";
 import logo from "../../../../../assets/icons/logo.png";
 import { useContext } from "react";
 import { SavedProfileIDs_CONTEXT } from "../../../../../contexts/savedProfiles";
+import { Link_BTN } from "../../../../Btn/Link_BTN/Link_BTN";
 
 export function Nav_BLOCKS({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT }) {
   const {
@@ -22,12 +23,12 @@ export function Nav_BLOCKS({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT 
       <div className={css.Block}>
         {home && (
           <li>
-            <Btn
+            <Link_BTN
               styles={["btn-44", "flex", "text-left-auto"]}
               text="Home"
               left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/609/609803.png"></img>}
               aria_LABEL=""
-              onClick={() => {}}
+              href={"/"}
               FIRE_clickEvent={false}
             />
           </li>
@@ -114,14 +115,14 @@ export function Nav_BLOCKS({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT 
           />
         </li>
         <li>
-          <Btn
+          <Link_BTN
             styles={["btn-44", "flex", "text-left-auto"]}
             text="Contact"
             left_ICON={
               <img src="https://cdn-icons-png.freepik.com/512/7596/7596763.png?ga=GA1.1.807612306.1716024941" />
             }
+            href="/contact"
             aria_LABEL=""
-            onClick={() => {}}
             FIRE_clickEvent={false}
           />
         </li>

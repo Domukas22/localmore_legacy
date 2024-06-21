@@ -1,0 +1,76 @@
+/*  */
+/*  */
+
+@import '@styles/global.css';
+    
+& .contactPerson_WRAP {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  
+  @media (max-width: 1000px) {
+    padding-bottom: 2rem;
+    border-bottom: var(--border-black-01);
+  }
+
+
+  & .image_BLOCK {
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: var(--shadow-btn);
+
+
+    background-color: var(--fill-white);
+    border-radius: var(--radius-16);
+    box-shadow: var(--shadow-btn);
+
+    & img {
+      width: 100%;
+      object-fit: cover;
+      height: 30rem;
+    }
+
+    & .bottom {
+      background-size: cover;
+
+      & .bottom_BLOCK {
+        padding: 1.2rem 1.6rem;
+        width: 100%;
+        color: var(--text-white);
+        text-shadow: var(--shadow-text);
+        border-top: var(--border-white-1);
+
+      
+      }
+
+    }
+
+    @media (max-width: 1000px) {
+      flex-direction: row;
+      & img {
+        width: 20rem;
+        height: 100%;
+      }
+
+      & .bottom {
+        height: 100%;
+      }
+    }
+
+    @media (max-width: 630px) {
+      flex-direction: column;
+      & img {
+        width: 100%;
+        height: 100vw;
+      }
+
+      & .bottom {
+        height: 100%;
+      }
+    }
+  }
+  
+}

@@ -7,6 +7,8 @@
 
 :root {
   --brand: rgba(184, 70, 0, 1);
+  --brand-darkMode: #ff8134;
+
   --brand-hover: rgba(170, 69, 7, 1);
   --brand-focus: rgba(144, 55, 0, 1);
   --brand-black: rgba(56, 57, 64, 1);
@@ -56,6 +58,7 @@
   --border-brand-active: 0.1rem solid #e0b79b;
 
   --border-white: 0.1rem solid white;
+  --border-white-1: 0.1rem solid rgba(255, 255, 255, 0.1);
   --border-white-15: 0.1rem solid rgba(255, 255, 255, 0.15);
   --border-brand-black: 0.1rem solid rgba(56, 57, 64, 1);
   --border-black-01: 0.1rem solid rgba(0, 0, 0, 0.1);
@@ -96,7 +99,14 @@
   --mobile-scroll-bottom-padding: 8rem;
 }
 
-
+.link_SPAN {
+  color: var(--text-brand);
+  font-weight: 500;
+  text-decoration: none;
+}
+.link_SPAN[data-dark-mode="true"] {
+  color: var(--brand-darkMode);
+}
 
 @keyframes pop {
   0% {

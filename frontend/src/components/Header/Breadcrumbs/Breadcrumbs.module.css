@@ -5,6 +5,7 @@
 .Breadcrumbs {
   
   display: flex;
+  flex-wrap: wrap;
   column-gap: 0.4rem;
   position: relative;
   left: -0.6rem;
@@ -59,6 +60,7 @@
     padding-top: 0.15rem;
     user-select: none;
     pointer-events: none;
+    white-space: nowrap;
   }
  
 }

@@ -17,7 +17,7 @@ export function Legal_BLOCK() {
             <img
               src="https://cdn.iconscout.com/icon/free/png-256/free-impressum-1-1181601.png?f=webp"
               style={{ opacity: "0.7" }}
-            ></img>
+            />
           }
           onClick={() => {}}
           FIRE_clickEvent={false}

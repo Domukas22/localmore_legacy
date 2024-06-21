@@ -9,7 +9,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Profile } from "./pages/Profile/Profile.jsx";
 
 import { base_URL } from "./config.js";
-import ReportProblem_PAGE from "./pages/Feedback/ReportProblem_PAGE/ReportProblem_PAGE.jsx";
+import Contact_PAGE from "./pages/simple/Contact_PAGE/Contact_PAGE.jsx";
+import ReportProblem_PAGE from "./pages/simple/Feedback/ReportProblem_PAGE/ReportProblem_PAGE.jsx";
+import SuggestIdea_PAGE from "./pages/simple/Feedback/SuggestIdea_PAGE/SuggestIdea_PAGE.jsx";
 
 // Use Node's process.env to check if in production
 const isProduction = import.meta.env.PROD;
@@ -30,8 +32,16 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                   element={<Profile />}
                 />
                 <Route
+                  path={isProduction ? "/localmore/contact" : "/contact"}
+                  element={<Contact_PAGE />}
+                />
+                <Route
                   path={isProduction ? "/localmore/reportProblem" : "/reportProblem"}
                   element={<ReportProblem_PAGE />}
+                />
+                <Route
+                  path={isProduction ? "/localmore/suggestIdea" : "/suggestIdea"}
+                  element={<SuggestIdea_PAGE />}
                 />
                 {/* <Route path="*" element={<NoPageFound />} /> */}
               </Routes>

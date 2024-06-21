@@ -6,7 +6,7 @@ import "../../styles/Swiper.css";
 import { useParams } from "react-router-dom";
 import { USE_windowSize } from "../../hooks/USE_windowSize.js";
 import { base_URL } from "../../config.js";
-import { USE_fetchData } from "../../hooks/USE_fetchData.js";
+import { USE_fetchData } from "../../hooks/fetch/USE_fetchData.js";
 import { useMemo, useRef, useState } from "react";
 import Normal_NAV from "../../components/Nav/Normal_NAV/Normal_NAV.jsx";
 import { ProfileContent_WRAP } from "./components/ProfileContent_WRAP.jsx";
@@ -33,12 +33,6 @@ export function Profile() {
   } = USE_fetchData(`${base_URL}/staticProfiles`);
 
   const {
-    data: tags,
-    loading: LOADING_tags,
-    error: tags_ERROR,
-  } = USE_fetchData(`${base_URL}/tags`);
-
-  const {
     data: tagUsages,
     loading: LOADING_tagUsages,
     error: tagUsages_ERROR,
@@ -50,22 +44,13 @@ export function Profile() {
     error: categories_ERROR,
   } = USE_fetchData(`${base_URL}/categories`);
 
-  const {
-    data: tagGroups,
-    loading: LOADING_tagGroups,
-    error: tagGroups_ERROR,
-  } = USE_fetchData(`${base_URL}/tagGroups`);
-
   const available_CATEGORIES = categories?.filter((category) => category?.visible);
-  const shuffled_PROFILES = useMemo(
-    () => profiles?.sort(() => Math.random() - 0.5),
-    [LOADING_profiles]
-  );
   const nav_REF = useRef(null);
 
   if (profile_ERROR) console.log(profile_ERROR);
-
-  console.log(profile?.color_FADE);
+  if (profiles_ERROR) console.log(profiles_ERROR);
+  if (tagUsages_ERROR) console.log(tagUsages_ERROR);
+  if (categories_ERROR) console.log(categories_ERROR);
 
   return (
     <>
