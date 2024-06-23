@@ -21,7 +21,12 @@ import Impressum_PAGE from "./pages/simple/Impressum_PAGE/Impressum_PAGE.jsx";
 const isProduction = import.meta.env.PROD;
 const basePath = isProduction ? "/localmore" : "";
 
-const RENDER_route = (path, element) => <Route path={`${basePath}${path}`} element={element} />;
+const RENDER_route = (path, element) => {
+  console.log(`Rendering route: ${basePath}${path}`);
+  return <Route path={`${basePath}${path}`} element={element} />;
+};
+
+console.log();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

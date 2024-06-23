@@ -17,11 +17,9 @@ import { Tagbar } from "./components/Tagbar/Tagbar";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { Tagbox } from "../../components/Tagbox/Tagbox";
-import { Btn } from "../../components/Btn/Btn";
-import { ICON_dropDownArrow, ICON_x } from "../../components/icons/icons";
+
 import { PotentialTags_MODAL } from "../../components/Modals/PotentialTags_MODAL/PotentialTags_MODAL";
 import { Category_SWIPER } from "./components/Category_SWIPER/Category_SWIPER";
-import { Breadcrumbs } from "../../components/Header/Breadcrumbs/Breadcrumbs";
 
 const decoy_PROPS = {
   initial: { opacity: 0 },
