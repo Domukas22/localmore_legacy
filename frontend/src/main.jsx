@@ -34,8 +34,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <AppProviders>
       <BrowserRouter basename={isProduction ? "/localmore" : "/"}>
         <Routes>
-          {RENDER_route("/", <App />)}
-          {RENDER_route("/profile/:id", <Profile_PAGE />)}
+          {RENDER_route("/localmore", <App />)}
+          {RENDER_route("localmore/profile/:id", <Profile_PAGE />)}
 
           {RENDER_route("/contact", <Contact_PAGE />)}
 
