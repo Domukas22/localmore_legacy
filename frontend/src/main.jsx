@@ -32,7 +32,7 @@ console.log();
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AppProviders>
-      <BrowserRouter basename={"/localmore"}>
+      <BrowserRouter basename={"/"}>
         <Routes>
           {RENDER_route("/", <App />)}
           {RENDER_route("/profile/:id", <Profile_PAGE />)}
