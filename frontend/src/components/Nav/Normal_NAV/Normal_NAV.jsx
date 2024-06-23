@@ -27,7 +27,6 @@ import { ICON_menuLines } from "../../icons/icons";
 
 import { SavedProfileIDs_CONTEXT } from "../../../contexts/savedProfiles";
 import { USE_showBrowserToolbar } from "../../../hooks/USE_showBrowserToolbar";
-import { ReportProblem_MODAL } from "../../Modals/Feedback_MODALS/ReportProblem_MODAL/ReportProblem_MODAL";
 
 export default function Normal_NAV({
   tagUsages,
@@ -134,7 +133,6 @@ export default function Normal_NAV({
                   styles={["btn-40", "round", "grey", "active"]}
                   text="Startseite"
                   aria_LABEL=""
-                  // onClick={() => {}}
                   href={"/"}
                   active="true"
                   key="nav-btn-1"
@@ -208,11 +206,6 @@ export default function Normal_NAV({
         REMOVE_fromSaved={REMOVE_fromSaved}
         width={window_WIDTH}
         SET_reportProblemModalOpen={SET_reportProblemModalOpen}
-      />
-
-      <ReportProblem_MODAL
-        IS_open={IS_reportProblemModalOpen}
-        SET_isOpen={SET_reportProblemModalOpen}
       />
 
       <AnimatePresence>

@@ -29,7 +29,6 @@ export function Nav_BLOCKS({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT 
               left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/609/609803.png"></img>}
               aria_LABEL=""
               href={"/"}
-              FIRE_clickEvent={false}
             />
           </li>
         )}
@@ -123,7 +122,6 @@ export function Nav_BLOCKS({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT 
             }
             href="/contact"
             aria_LABEL=""
-            FIRE_clickEvent={false}
           />
         </li>
         <li>
@@ -131,8 +129,8 @@ export function Nav_BLOCKS({ SET_currentMenu, visible_BTNs = {}, tagUsage_COUNT 
             styles={["btn-44", "flex", "text-left-auto"]}
             text="Legal"
             left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/3122/3122321.png"></img>}
-            aria_LABEL=""
             right_ICON={<ICON_arrow direction="right" />}
+            aria_LABEL=""
             onClick={() => SET_currentMenu("legal")}
             FIRE_clickEvent={false}
           />

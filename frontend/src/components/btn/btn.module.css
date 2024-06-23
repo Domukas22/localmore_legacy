@@ -72,12 +72,6 @@
     }
   }
 }
-.btn-60 {
-  composes: btn;
-  height: 6rem;
-  min-height: 6rem;
-  padding: 0 1.8rem;
-}
 .btn-44 {
   composes: btn;
   height: 4.4rem;

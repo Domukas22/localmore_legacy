@@ -14,12 +14,12 @@ import { EndBtn_BLOCK } from "../../Transition_MENU/Blocks/General/EndBtn_BLOCK/
 import { Category_BLOCK } from "../../Transition_MENU/Blocks/Categories/Category_BLOCK/Category_BLOCK";
 import { AllCategories_BLOCK } from "../../Transition_MENU/Blocks/Categories/AllCategories_BLOCK/AllCategories_BLOCK";
 
-import { Legal_BLOCK } from "../../Transition_MENU/Blocks/Nav/Legal_BLOCK/Legal_BLOCK";
 import { Settings_BLOCKS } from "../../Transition_MENU/Blocks/Nav/Settings_BLOCKS/Settings_BLOCKS";
 import { Feedback_BLOCK } from "../../Transition_MENU/Blocks/Nav/Feedback_BLOCK/Feedback_BLOCK";
 import { Saved_BLOCK } from "../../Transition_MENU/Blocks/Nav/Saved_BLOCK/Saved_BLOCK";
 import { Nav_BLOCKS } from "../../Transition_MENU/Blocks/Nav/Nav_BLOCKS/Nav_BLOCKS";
 import { USE_scrollCssMenuToTop } from "../../../hooks/USE_scrollCssMenuToTop";
+import { Legal_BLOCK } from "../../Transition_MENU/Blocks/Nav/Legal_BLOCK/Legal_BLOCK";
 
 export function MobileMenu_MODAL({
   categories,
@@ -54,20 +54,6 @@ export function MobileMenu_MODAL({
           <Transition_MENU current_MENU={current_MENU} classNames="menu-primary" menu_NAME="all">
             <Nav_BLOCKS SET_currentMenu={SET_currentMenu} SET_reverse={SET_reverse} />
             <EndBtn_BLOCK text="Close menu" onClick={() => TOGGLE_menu()} width={width} />
-          </Transition_MENU>
-
-          {/* Legal */}
-          <Transition_MENU
-            current_MENU={current_MENU}
-            classNames="menu-secondary"
-            menu_NAME="legal"
-          >
-            <BtnBack_BLOCK
-              title="Back to menu"
-              onClick={() => SET_currentMenu("all")}
-              aria_LABEL=""
-            />
-            <Legal_BLOCK />
           </Transition_MENU>
 
           {/* Settings */}
@@ -154,6 +140,16 @@ export function MobileMenu_MODAL({
           >
             <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
             <Feedback_BLOCK SET_reportProblemModalOpen={SET_reportProblemModalOpen} />
+          </Transition_MENU>
+
+          {/* Legal */}
+          <Transition_MENU
+            current_MENU={current_MENU}
+            classNames="menu-secondary"
+            menu_NAME="legal"
+          >
+            <BtnBack_BLOCK title="Back" onClick={() => SET_currentMenu("all")} aria_LABEL="" />
+            <Legal_BLOCK />
           </Transition_MENU>
         </div>
       </Dialog>

@@ -19,7 +19,6 @@ export function Feedback_BLOCK({ SET_reportProblemModalOpen }) {
           }
           right_ICON={<span>3 min</span>}
           onClick={() => {}}
-          FIRE_clickEvent={false}
           href="/suggestIdea"
         />
       </li>
@@ -43,11 +42,10 @@ export function Feedback_BLOCK({ SET_reportProblemModalOpen }) {
           left_ICON={
             <img src="https://cdn-icons-png.freepik.com/512/5321/5321120.png?ga=GA1.1.807612306.1716024941" />
           }
-          right_ICON={<span>3 min</span>}
+          right_ICON={<span>5 min</span>}
           aria_LABEL=""
           onClick={() => {}}
-          FIRE_clickEvent={false}
-          href="/quickSurvey"
+          href="/survey"
         />
       </li>
     </div>

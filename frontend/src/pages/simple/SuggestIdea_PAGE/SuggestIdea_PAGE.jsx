@@ -2,24 +2,24 @@
 //
 
 import { useEffect, useRef, useState } from "react";
-import { USE_windowSize } from "../../../../hooks/USE_windowSize";
-import USE_fetchTagUsages from "../../../../hooks/fetch/USE_fetchTagUsages";
-import USE_fetchProfiles from "../../../../hooks/fetch/USE_fetchProfiles";
-import USE_fetchCategories from "../../../../hooks/fetch/USE_fetchCategories";
-import Normal_NAV from "../../../../components/Nav/Normal_NAV/Normal_NAV";
+import { USE_windowSize } from "../../../hooks/USE_windowSize";
+import USE_fetchTagUsages from "../../../hooks/fetch/USE_fetchTagUsages";
+import USE_fetchProfiles from "../../../hooks/fetch/USE_fetchProfiles";
+import USE_fetchCategories from "../../../hooks/fetch/USE_fetchCategories";
+import Normal_NAV from "../../../components/Nav/Normal_NAV/Normal_NAV";
 import {
-  FeedbackPagesSide_LINKS,
   SimplePageContent_WRAP,
   SimplePage_MAIN,
   SimplePage_SIDE,
-} from "../../SimplePage_COMPS";
-import { Header } from "../../../../components/Header/Header";
-import { Breadcrumbs } from "../../../../components/Header/Breadcrumbs/Breadcrumbs";
-import Form from "../../../../components/Form/Form";
-import Text_INPUT from "../../../../components/Form/Inputs/Text_INPUT/Text_INPUT";
-import Radio_LINES from "../../../../components/Form/Inputs/Radio_LINES/Radio_LINES";
-import Text_AREA from "../../../../components/Form/Inputs/Text_AREA/Text_AREA";
-import { Btn } from "../../../../components/Btn/Btn";
+  Simple_BLOCK,
+} from "../SimplePage_COMPS";
+import { Header } from "../../../components/Header/Header";
+import { Breadcrumbs } from "../../../components/Header/Breadcrumbs/Breadcrumbs";
+import Form from "../../../components/Form/Form";
+import Text_INPUT from "../../../components/Form/Inputs/Text_INPUT/Text_INPUT";
+import Radio_LINES from "../../../components/Form/Inputs/Radio_LINES/Radio_LINES";
+import Text_AREA from "../../../components/Form/Inputs/Text_AREA/Text_AREA";
+import { Btn } from "../../../components/Btn/Btn";
 
 export default function SuggestIdea_PAGE() {
   const { width } = USE_windowSize();
@@ -52,7 +52,7 @@ export default function SuggestIdea_PAGE() {
   const nav_REF = useRef(null);
 
   return (
-    <>
+    <Simple_BLOCK>
       <Normal_NAV
         tagUsages={tagUsages}
         search={search}
@@ -71,7 +71,7 @@ export default function SuggestIdea_PAGE() {
           </Header>
 
           <Form autoComplete="on">
-            <>
+            <Simple_BLOCK>
               <h3>Which subject does your idea belong to?</h3>
               <Radio_LINES
                 required={true}
@@ -89,8 +89,8 @@ export default function SuggestIdea_PAGE() {
                   "Something else...",
                 ]}
               />
-            </>
-            <>
+            </Simple_BLOCK>
+            <Simple_BLOCK>
               <h3>Describe what you have in mind</h3>
               <Text_AREA
                 label={inquiry.question}
@@ -98,8 +98,8 @@ export default function SuggestIdea_PAGE() {
                 SET_value={SET_message}
                 required={true}
               />
-            </>
-            <>
+            </Simple_BLOCK>
+            <Simple_BLOCK>
               <h3>Tell us about yourself</h3>
               <Text_INPUT
                 label="What's your name? "
@@ -118,9 +118,9 @@ export default function SuggestIdea_PAGE() {
                 SET_value={SET_email}
                 type="email"
               />
-            </>
+            </Simple_BLOCK>
 
-            <>
+            <Simple_BLOCK>
               <p>
                 Your message will reach{" "}
                 <a href="mailto: domassirbike@gmail.com" className="link_SPAN">
@@ -133,16 +133,12 @@ export default function SuggestIdea_PAGE() {
                 onClick={() => {}}
                 type="submit"
               />
-            </>
+            </Simple_BLOCK>
           </Form>
         </SimplePage_MAIN>
 
-        {width > 1000 && (
-          <SimplePage_SIDE>
-            <FeedbackPagesSide_LINKS />
-          </SimplePage_SIDE>
-        )}
+        {width > 1000 && <SimplePage_SIDE />}
       </SimplePageContent_WRAP>
-    </>
+    </Simple_BLOCK>
   );
 }

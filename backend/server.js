@@ -9,7 +9,7 @@ const createError = require("http-errors");
 const compression = require("compression");
 const helmet = require("helmet");
 const RateLimit = require("express-rate-limit");
-const limiter = RateLimit({ windowMs: 1 * 60 * 1000, max: 60 });
+const limiter = RateLimit({ windowMs: 1 * 60 * 1000, max: 200 });
 const CONNECTdatabase = require("./db");
 const app = express();
 require("dotenv").config(); // Loads environment variables from the .env file into process.env

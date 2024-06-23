@@ -12,6 +12,5 @@ export default function USE_fetchProfiles() {
   } = USE_fetchData(`${base_URL}/staticProfiles`);
 
   if (profiles_ERROR) console.log(profiles_ERROR);
-
   return { profiles, LOADING_profiles, profiles_ERROR };
 }

@@ -1,55 +1,50 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { App } from "./App.jsx";
-import { FontSizeProvider } from "./contexts/fontSize.jsx";
-import { Theme_PROVIDER } from "./contexts/theme.jsx";
-import { Lang_PROVIDER } from "./contexts/lang.jsx";
-import { SavedProfileIDs_PROVIDER } from "./contexts/savedProfiles.jsx";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Profile } from "./pages/Profile/Profile.jsx";
+import { Profile_PAGE } from "./pages/Profile_PAGE/Profile_PAGE.jsx";
 
 import { base_URL } from "./config.js";
+
 import Contact_PAGE from "./pages/simple/Contact_PAGE/Contact_PAGE.jsx";
-import ReportProblem_PAGE from "./pages/simple/Feedback/ReportProblem_PAGE/ReportProblem_PAGE.jsx";
-import SuggestIdea_PAGE from "./pages/simple/Feedback/SuggestIdea_PAGE/SuggestIdea_PAGE.jsx";
+import ReportProblem_PAGE from "./pages/simple/ReportProblem_PAGE/ReportProblem_PAGE.jsx";
+import SuggestIdea_PAGE from "./pages/simple/SuggestIdea_PAGE/SuggestIdea_PAGE.jsx";
+import Survey_PAGE from "./pages/simple/Survey_PAGE/Survey_PAGE.jsx";
+import Attributions_PAGE from "./pages/simple/Attributions_PAGE/Attributions_PAGE.jsx";
+import Consent_PAGE from "./pages/simple/Consent_PAGE/Consent_PAGE.jsx";
+import Privacy_PAGE from "./pages/simple/Privacy_PAGE/Privacy_PAGE.jsx";
+import AppProviders from "./contexts/AppProviders.jsx";
+import Impressum_PAGE from "./pages/simple/Impressum_PAGE/Impressum_PAGE.jsx";
 
 // Use Node's process.env to check if in production
 const isProduction = import.meta.env.PROD;
+const basePath = isProduction ? "/localmore" : "";
 
-console.log(import.meta);
+const RENDER_route = (path, element) => <Route path={`${basePath}${path}`} element={element} />;
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Theme_PROVIDER>
-      <FontSizeProvider>
-        <Lang_PROVIDER>
-          <SavedProfileIDs_PROVIDER>
-            <BrowserRouter basename={new URL(base_URL).pathname}>
-              <Routes>
-                <Route path={isProduction ? "/localmore" : "/"} element={<App />} />
-                <Route
-                  path={isProduction ? "/localmore/profile/:id" : "/profile/:id"}
-                  element={<Profile />}
-                />
-                <Route
-                  path={isProduction ? "/localmore/contact" : "/contact"}
-                  element={<Contact_PAGE />}
-                />
-                <Route
-                  path={isProduction ? "/localmore/reportProblem" : "/reportProblem"}
-                  element={<ReportProblem_PAGE />}
-                />
-                <Route
-                  path={isProduction ? "/localmore/suggestIdea" : "/suggestIdea"}
-                  element={<SuggestIdea_PAGE />}
-                />
-                {/* <Route path="*" element={<NoPageFound />} /> */}
-              </Routes>
-            </BrowserRouter>
-          </SavedProfileIDs_PROVIDER>
-        </Lang_PROVIDER>
-      </FontSizeProvider>
-    </Theme_PROVIDER>
+    <AppProviders>
+      <BrowserRouter basename={new URL(base_URL).pathname}>
+        <Routes>
+          {RENDER_route("/", <App />)}
+          {RENDER_route("/profile/:id", <Profile_PAGE />)}
+
+          {RENDER_route("/contact", <Contact_PAGE />)}
+
+          {RENDER_route("/suggestIdea", <SuggestIdea_PAGE />)}
+          {RENDER_route("/reportProblem", <ReportProblem_PAGE />)}
+          {RENDER_route("/survey", <Survey_PAGE />)}
+
+          {RENDER_route("/impressum", <Impressum_PAGE />)}
+          {RENDER_route("/consent", <Consent_PAGE />)}
+          {RENDER_route("/privacy", <Privacy_PAGE />)}
+          {RENDER_route("/attributions", <Attributions_PAGE />)}
+          {/* <Route path="*" element={<NoPageFound />} /> */}
+        </Routes>
+      </BrowserRouter>
+    </AppProviders>
   </React.StrictMode>
 );
 

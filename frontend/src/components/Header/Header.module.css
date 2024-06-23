@@ -10,7 +10,7 @@
     width: 100%;
     padding: 1.6rem 1.8rem 1rem 1.8rem;
     background: var(--fill-white);
-    box-shadow: var(--shadow-img);
+    box-shadow: var(--shadow-btn);
     border-radius: var(--radius-16);
   }
 

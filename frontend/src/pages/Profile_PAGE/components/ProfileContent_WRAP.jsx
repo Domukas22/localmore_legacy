@@ -3,7 +3,7 @@
 
 import css from "./ProfileContent_WRAP.module.css";
 
-import { Pagination } from "swiper/modules";
+import { Pagination, EffectFade } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Btn } from "../../../components/Btn/Btn";
 import {
@@ -42,8 +42,10 @@ export function ProfileContent_WRAP({ profile, color_FADE }) {
 
   return (
     <div className={css.all_WRAP}>
-      <Img_WRAP width={width} profile={profile} SHOW_hearts={SHOW_hearts} />
-      <Info_WRAP width={width} profile={profile} />
+      <div className={css.content_WRAP}>
+        <Img_WRAP width={width} profile={profile} SHOW_hearts={SHOW_hearts} />
+        <Info_WRAP width={width} profile={profile} />
+      </div>
     </div>
   );
 }
@@ -102,17 +104,18 @@ function Swiper_BOX({ images, img_END, hover, SHOW_hearts, width }) {
 
   return (
     <Swiper
-      // loop={true}
+      // effect={"fade"}
       ref={sliderRef}
       pagination={true}
-      modules={[Pagination]}
+      modules={[EffectFade, Pagination]}
       speed={width > 900 ? 700 : 400}
       data-testid="swiper"
-      lazyPreloadPrevNext={4}
       data-target="swiper"
       data-hover={hover}
       onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
       className="profile_SWIPER"
+      // effect={width > 900 ? "fade" : "slide"}
+      // data-eff={width > 900 ? "fade" : "slide"}
     >
       {/* <div className="bottom-left">
         <div className={css.corner_BOX}>
@@ -161,6 +164,18 @@ function Swiper_BOX({ images, img_END, hover, SHOW_hearts, width }) {
           <img src={img + img_END} className={css.profile_IMG} data-normal="true" />
         </SwiperSlide>
       ))}
+      {/* <SwiperSlide>
+        <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+      </SwiperSlide>
+      <SwiperSlide>
+        <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+      </SwiperSlide>
+      <SwiperSlide>
+        <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+      </SwiperSlide>
+      <SwiperSlide>
+        <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+      </SwiperSlide> */}
       <HeartConfetti SHOW_hearts={SHOW_hearts} />
     </Swiper>
   );

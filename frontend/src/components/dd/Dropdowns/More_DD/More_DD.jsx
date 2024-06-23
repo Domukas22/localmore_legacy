@@ -6,13 +6,13 @@ import { AllCategories_BLOCK } from "../../../Transition_MENU/Blocks/Categories/
 import { Category_BLOCK } from "../../../Transition_MENU/Blocks/Categories/Category_BLOCK/Category_BLOCK";
 import { BtnBack_BLOCK } from "../../../Transition_MENU/Blocks/General/BtnBack_BLOCK/BtnBack_BLOCK";
 import { Feedback_BLOCK } from "../../../Transition_MENU/Blocks/Nav/Feedback_BLOCK/Feedback_BLOCK";
-import { Legal_BLOCK } from "../../../Transition_MENU/Blocks/Nav/Legal_BLOCK/Legal_BLOCK";
 import { Nav_BLOCKS } from "../../../Transition_MENU/Blocks/Nav/Nav_BLOCKS/Nav_BLOCKS";
 import { Settings_BLOCKS } from "../../../Transition_MENU/Blocks/Nav/Settings_BLOCKS/Settings_BLOCKS";
 import Transition_MENU from "../../../Transition_MENU/Transition_MENU";
 import DD from "../../DD";
 import { USE_handleDropdown } from "../../hooks/USE_handleDropdown";
 import { USE_getCategories } from "../../../../hooks/USE_getCategories";
+import { Legal_BLOCK } from "../../../Transition_MENU/Blocks/Nav/Legal_BLOCK/Legal_BLOCK";
 
 export function More_DD({
   tag_USAGES,
@@ -126,7 +126,7 @@ export function More_DD({
         <Feedback_BLOCK SET_reportProblemModalOpen={SET_reportProblemModalOpen} />
       </Transition_MENU>
 
-      {/* Legal */}
+      {/* Feedback */}
       <Transition_MENU
         current_MENU={current_MENU}
         classNames="menu-secondary"

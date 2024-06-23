@@ -21,7 +21,7 @@ module.exports = {
     {
       files: ["*.jsx"],
       rules: {
-        // "react/prop-types": "off",
+        "react/prop-types": "off",
       },
     },
   ],

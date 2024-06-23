@@ -1,6 +1,6 @@
 //
 //
-import css from "./Profile.module.css";
+import css from "./Profile_PAGE.module.css";
 import "../../styles/Swiper.css";
 
 import { useParams } from "react-router-dom";
@@ -13,7 +13,7 @@ import { ProfileContent_WRAP } from "./components/ProfileContent_WRAP.jsx";
 import MobileProfile_NAV from "../../components/Nav/MobileProfile_NAV/MobileProfile_NAV.jsx";
 import USE_windowScroll from "../../hooks/USE_windowScroll.js";
 
-export function Profile() {
+export function Profile_PAGE() {
   const [search, SET_search] = useState("");
   const { width } = USE_windowSize();
   const { id } = useParams();

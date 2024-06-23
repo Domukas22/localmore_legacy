@@ -258,6 +258,21 @@
     }
   }
 }
+.ICON_smiley {
+  object-fit: contain;
+  height:  3.2rem;
+  width: 3.2rem;
+
+  & path {
+    &[data-color="brand"] {
+      fill: var(--brand);
+    }
+    &[data-color="dark"] {
+      fill: var(--brand-black);
+      opacity: 0.8;
+    }
+  }
+}
 
 @keyframes rotation {
   0% {

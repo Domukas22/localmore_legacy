@@ -12,9 +12,9 @@
   
   & .content_WRAP {
     width: 100%;
-    max-width: 120rem;
+    max-width: 100rem;
     display: flex;
-    gap: 2rem;
+    gap: 2.8rem;
 
     & .main {
       flex: 1;
@@ -22,6 +22,17 @@
       flex-direction: column;
       gap: 2rem;
       padding-bottom: 10rem;
+
+      & .Simple_BLOCK {
+        padding: 1.4rem 1.8rem 1.8rem;
+        background-color: var(--fill-white);
+        border-radius: var(--radius-16);
+        box-shadow: var(--shadow-btn);
+    
+        display: flex;
+        flex-direction: column;
+        gap: 1.6rem;
+      }
     }
 
     & .side {
@@ -29,21 +40,88 @@
       position: sticky;
       top: calc(6rem + 2.8rem); /* nav height + explore_WRAP padding */
       height: calc(100vh - 6rem - (2.8rem * 2)); /* screen - nav height - explore_WRAP padding */
+      
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
 
-      & .SimplePageSide_LINKS {
+      
+
+      & .link_BLOCK {
         display: flex;
         flex-direction: column;
-        gap: 2rem;
+        gap: 0.6rem;
+       
         
-        & .link_BLOCK {
-          display: flex;
-          flex-direction: column;
-          gap: 0.6rem;
-         
-          
-        }
       }
 
     }
   } 
+}
+
+.iconAttribution_LINE {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  & .icon {
+    width: 2rem;
+    height: 2rem;
+    object-fit: contain;
+  }
+}
+
+.contactPerson_WRAP {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  /* padding-bottom: 2rem;
+  border-bottom: var(--border-black-01); */
+
+  & .image_BLOCK {
+    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: var(--shadow-btn);
+
+    background-color: var(--fill-white);
+    border-radius: var(--radius-16);
+    box-shadow: var(--shadow-btn);
+
+    & img {
+      width: 20rem;
+      height: 100%;
+      object-fit: cover;
+    }
+    & .text_WRAP {
+      background-size: cover;
+      height: 100%;
+      border-left: var(--border-white-1);
+      flex: 1;
+
+      & .block {
+        padding: 1.2rem 1.6rem;
+        width: 100%;
+        color: var(--text-white);
+        text-shadow: var(--shadow-text);
+        border-top: var(--border-white-1);
+      }
+
+    }
+
+    @media (max-width: 630px) {
+      flex-direction: column;
+      & img {
+        width: 100%;
+        height: 100vw;
+      }
+
+      & .bottom {
+        height: 100%;
+      }
+    }
+  }
+  
 }

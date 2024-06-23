@@ -1,7 +1,6 @@
 //
 //
 
-import css from "./Contact_PAGE.module.css";
 import { Breadcrumbs } from "../../../components/Header/Breadcrumbs/Breadcrumbs";
 import { Header } from "../../../components/Header/Header";
 import { USE_windowSize } from "../../../hooks/USE_windowSize";
@@ -14,11 +13,16 @@ import Normal_NAV from "../../../components/Nav/Normal_NAV/Normal_NAV";
 import Form from "../../../components/Form/Form";
 import Radio_LINES from "../../../components/Form/Inputs/Radio_LINES/Radio_LINES";
 import USE_isMobileDevice from "../../../hooks/USE_isMobileDevice";
-import { SimplePageContent_WRAP, SimplePage_MAIN, SimplePage_SIDE } from "../SimplePage_COMPS";
+import {
+  SimplePageContent_WRAP,
+  SimplePage_MAIN,
+  SimplePage_SIDE,
+  Simple_BLOCK,
+} from "../SimplePage_COMPS";
 import USE_fetchCategories from "../../../hooks/fetch/USE_fetchCategories";
 import USE_fetchProfiles from "../../../hooks/fetch/USE_fetchProfiles";
 import USE_fetchTagUsages from "../../../hooks/fetch/USE_fetchTagUsages";
-import ContactPerson_WRAP from "./ContactPerson_WRAP/ContactPerson_WRAP";
+import { ContactPerson_WRAP } from "../SimplePage_COMPS";
 
 export default function Contact_PAGE() {
   const IS_mobileDevice = USE_isMobileDevice();
@@ -51,7 +55,7 @@ export default function Contact_PAGE() {
   const nav_REF = useRef(null);
 
   return (
-    <>
+    <Simple_BLOCK>
       <Normal_NAV
         tagUsages={tagUsages}
         search={search}
@@ -69,10 +73,10 @@ export default function Contact_PAGE() {
               {width <= 550 && <h1>Report a problem</h1>} */}
             <h1>Let's chat!</h1>
           </Header>
-          {width <= 1000 && <ContactPerson_WRAP IS_mobileDevice={IS_mobileDevice} />}
+          <ContactPerson_WRAP />
 
           <Form autoComplete="on">
-            <>
+            <Simple_BLOCK>
               <h3>Erzählen Sie über sich selbst.</h3>
               <Text_INPUT
                 label="Wie heißen Sie?"
@@ -91,8 +95,8 @@ export default function Contact_PAGE() {
                 SET_value={SET_email}
                 type="email"
               />
-            </>
-            <>
+            </Simple_BLOCK>
+            <Simple_BLOCK>
               <h3>Worum geht es?</h3>
               <Radio_LINES
                 required={true}
@@ -107,8 +111,8 @@ export default function Contact_PAGE() {
                   "Sonstiges",
                 ]}
               />
-            </>
-            <>
+            </Simple_BLOCK>
+            <Simple_BLOCK>
               <h3>Was gibt’s?</h3>
               <Text_AREA
                 label={inquiry.question}
@@ -116,8 +120,8 @@ export default function Contact_PAGE() {
                 SET_value={SET_message}
                 required={true}
               />
-            </>
-            <>
+            </Simple_BLOCK>
+            <Simple_BLOCK>
               <p>
                 Ihre Nachricht erreicht{" "}
                 <a href="mailto: domassirbike@gmail.com" className="link_SPAN">
@@ -130,16 +134,12 @@ export default function Contact_PAGE() {
                 onClick={() => {}}
                 type="submit"
               />
-            </>
+            </Simple_BLOCK>
           </Form>
         </SimplePage_MAIN>
 
-        {width > 1000 && (
-          <SimplePage_SIDE>
-            <ContactPerson_WRAP IS_mobileDevice={IS_mobileDevice} />
-          </SimplePage_SIDE>
-        )}
+        {width > 1000 && <SimplePage_SIDE />}
       </SimplePageContent_WRAP>
-    </>
+    </Simple_BLOCK>
   );
 }

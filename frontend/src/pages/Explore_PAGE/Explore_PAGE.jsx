@@ -2,7 +2,7 @@
 //
 //
 import { useState, useContext, useEffect, useMemo, useRef } from "react";
-import css from "./explore.module.css";
+import css from "./Explore_PAGE.module.css";
 import "../../styles/Swiper.css";
 
 import Profile_PREVIEW from "../../components/Profile_PREVIEW/Profile_PREVIEW";
@@ -31,7 +31,7 @@ const decoy_PROPS = {
   zIndex: 1,
 };
 
-export default function Explore({
+export default function Explore_PAGE({
   shuffled_PROFILES,
   tags,
   tagUsages,

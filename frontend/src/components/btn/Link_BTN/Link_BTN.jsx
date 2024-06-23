@@ -6,7 +6,6 @@ import { Link } from "react-aria-components";
 export function Link_BTN({
   styles,
   text,
-  FIRE_clickEvent = true,
   left_ICON,
   right_ICON,
   test_ID,
@@ -17,9 +16,6 @@ export function Link_BTN({
     <Link
       className={styles ? styles.map((style) => css[style]).join(" ") : css["btn-36"]}
       href={href}
-      onPress={() => {
-        if (FIRE_clickEvent) document.dispatchEvent(new Event("click")); // for the dropdowns
-      }}
       aria-label={aria_LABEL}
       data-testid={test_ID}
     >

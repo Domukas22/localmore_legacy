@@ -2,7 +2,7 @@
 //
 
 import { FieldError, Input, Label, TextArea, TextField } from "react-aria-components";
-import css from "../../Form.module.css";
+import css from "../Inputs.module.css";
 import { ICON_error } from "../../../icons/icons";
 
 export default function Text_AREA({

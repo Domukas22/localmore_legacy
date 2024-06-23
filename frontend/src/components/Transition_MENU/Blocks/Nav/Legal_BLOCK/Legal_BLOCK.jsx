@@ -2,14 +2,14 @@
 //
 
 import css from "../../Blocks.module.css";
-import { Btn } from "../../../../Btn/Btn";
+import { Link_BTN } from "../../../../Btn/Link_BTN/Link_BTN";
 
 export function Legal_BLOCK() {
   return (
     <div className={css.Block}>
       <p>Legal</p>
       <li>
-        <Btn
+        <Link_BTN
           styles={["btn-40", "flex", "text-left-auto"]}
           text="Impressum"
           aria_LABEL=""
@@ -19,38 +19,31 @@ export function Legal_BLOCK() {
               style={{ opacity: "0.7" }}
             />
           }
-          onClick={() => {}}
-          FIRE_clickEvent={false}
+          href="/impressum"
         />
       </li>
       <li>
-        <Btn
+        <Link_BTN
           styles={["btn-40", "flex", "text-left-auto"]}
           text="Datenschutz"
-          aria_LABEL=""
-          onClick={() => {}}
-          FIRE_clickEvent={false}
           left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/2592/2592317.png"></img>}
+          href="/privacy"
         />
       </li>
       <li>
-        <Btn
+        <Link_BTN
           styles={["btn-40", "flex", "text-left-auto"]}
           text="Einwillingung" // Einwilligungseinstellungen
           left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/4315/4315445.png"></img>}
-          aria_LABEL=""
-          onClick={() => {}}
-          FIRE_clickEvent={false}
+          href="/einwilligung"
         />
       </li>
       <li>
-        <Btn
+        <Link_BTN
           styles={["btn-40", "flex", "text-left-auto"]}
           text="Attributions"
           left_ICON={<img src="https://cdn-icons-png.flaticon.com/512/2448/2448648.png"></img>}
-          aria_LABEL=""
-          onClick={() => {}}
-          FIRE_clickEvent={false}
+          href="/attributions"
         />
       </li>
     </div>

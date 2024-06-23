@@ -11,7 +11,8 @@ const icon_SCHEMA = new Schema(
     },
     url: { type: String, required: true },
     desc: { type: String, required: true },
-    attribution: { type: String, required: true },
+    attribution_TEXT: { type: String, required: true },
+    attribution_URL: { type: String, required: true },
   },
   { timestamps: true, collection: "icons" }
 );

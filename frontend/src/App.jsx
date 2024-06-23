@@ -2,7 +2,7 @@ import "./styles/reset.css";
 import "./styles/App.css";
 
 import { useMemo, useRef, useState } from "react";
-import Explore from "./pages/explore/explore.jsx";
+import Explore_PAGE from "./pages/Explore_PAGE/Explore_PAGE.jsx";
 import { USE_windowSize } from "./hooks/USE_windowSize";
 import { USE_fetchData } from "./hooks/fetch/USE_fetchData.js";
 import { base_URL } from "./config.js";
@@ -69,7 +69,7 @@ export function App() {
         {search !== "" && <SearchResults_MODAL search={search} profiles={profiles} />}
       </AnimatePresence>
 
-      <Explore
+      <Explore_PAGE
         profiles_OBJ={{ shuffled_PROFILES, LOADING_profiles }}
         tags={tags}
         tagUsages={tagUsages}
