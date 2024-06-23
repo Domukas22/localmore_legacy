@@ -16,6 +16,7 @@ import Consent_PAGE from "./pages/simple/Consent_PAGE/Consent_PAGE.jsx";
 import Privacy_PAGE from "./pages/simple/Privacy_PAGE/Privacy_PAGE.jsx";
 import AppProviders from "./contexts/AppProviders.jsx";
 import Impressum_PAGE from "./pages/simple/Impressum_PAGE/Impressum_PAGE.jsx";
+import _404_PAGE from "./pages/simple/_404_PAGE/_404_PAGE.jsx";
 
 // Use Node's process.env to check if in production
 const isProduction = import.meta.env.PROD;
@@ -31,7 +32,7 @@ console.log();
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AppProviders>
-      <BrowserRouter basename={new URL(base_URL).pathname}>
+      <BrowserRouter basename={isProduction ? "/localmore" : "/"}>
         <Routes>
           {RENDER_route("/", <App />)}
           {RENDER_route("/profile/:id", <Profile_PAGE />)}
@@ -46,7 +47,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           {RENDER_route("/consent", <Consent_PAGE />)}
           {RENDER_route("/privacy", <Privacy_PAGE />)}
           {RENDER_route("/attributions", <Attributions_PAGE />)}
-          {/* <Route path="*" element={<NoPageFound />} /> */}
+          <Route path="*" element={<_404_PAGE />} />
         </Routes>
       </BrowserRouter>
     </AppProviders>
