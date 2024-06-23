@@ -37,7 +37,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           {RENDER_route("/", <App />)}
           {RENDER_route("/profile/:id", <Profile_PAGE />)}
 
-          {RENDER_route("/contact", <Contact_PAGE />)}
+          {RENDER_route("/localmore/contact", <Contact_PAGE />)}
 
           {RENDER_route("/suggestIdea", <SuggestIdea_PAGE />)}
           {RENDER_route("/reportProblem", <ReportProblem_PAGE />)}
