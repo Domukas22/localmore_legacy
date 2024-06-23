@@ -10,8 +10,8 @@ console.log("isProduction", isProduction);
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/localmore/",
-  // base: isProduction ? "/localmore/" : "/",
+  // base: "/localmore/",
+  base: isProduction ? "/localmore/" : "/",
   plugins: [react()],
   test: {
     globals: true,
