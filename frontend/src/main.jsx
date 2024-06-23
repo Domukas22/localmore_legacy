@@ -5,7 +5,7 @@ import { App } from "./App.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Profile_PAGE } from "./pages/Profile_PAGE/Profile_PAGE.jsx";
 
-import { base_URL } from "./config.js";
+// import { base_URL } from "./config.js";
 
 import Contact_PAGE from "./pages/simple/Contact_PAGE/Contact_PAGE.jsx";
 import ReportProblem_PAGE from "./pages/simple/ReportProblem_PAGE/ReportProblem_PAGE.jsx";
