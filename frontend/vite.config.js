@@ -4,11 +4,14 @@ import process from "process";
 
 // Use Node's process.env to check if in production
 const isProduction = process.env.NODE_ENV === "production";
+const isProduction_2 = import.meta.env.PROD;
+console.log("isProduction", isProduction);
+console.log("isProduction_2", isProduction_2);
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // base: "/localmore/",
-  base: isProduction ? "/localmore/" : "/",
+  base: "/localmore/",
+  // base: isProduction ? "/localmore/" : "/",
   plugins: [react()],
   test: {
     globals: true,
