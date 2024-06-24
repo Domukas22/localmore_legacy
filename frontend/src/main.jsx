@@ -26,8 +26,6 @@ const RENDER_route = (path, element) => {
   return <Route path={`${basePath}${path}`} element={element} />;
 };
 
-console.log();
-
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AppProviders>

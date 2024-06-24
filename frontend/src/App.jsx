@@ -12,7 +12,12 @@ import { AnimatePresence } from "framer-motion";
 import { SearchResults_MODAL } from "./components/Modals/SearchResults_MODAL/SearchResults_MODAL.jsx";
 import { USE_getCategories } from "./hooks/USE_getCategories.js";
 
+const isProduction = import.meta.env.PROD;
+const meta = import.meta;
+
 export function App() {
+  console.log(meta);
+
   const [search, SET_search] = useState("");
   const { width } = USE_windowSize();
 
