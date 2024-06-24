@@ -19,6 +19,7 @@ import _404_PAGE from "./pages/simple/_404_PAGE/_404_PAGE.jsx";
 // Use Node's process.env to check if in production
 const isProduction = import.meta.env.PROD;
 const basePath = isProduction ? "/localmore" : "";
+console.log("basePath", basePath);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
