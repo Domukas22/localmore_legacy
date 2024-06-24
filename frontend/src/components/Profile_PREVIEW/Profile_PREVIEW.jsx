@@ -25,6 +25,7 @@ import "swiper/css/free-mode";
 import { USE_windowSize } from "../../hooks/USE_windowSize";
 import { HeartConfetti } from "../HeartConfetti/HeartConfetti";
 import { FontSizeContext } from "../../contexts/fontSize";
+import { base_PATH } from "../../config";
 
 const Motion_PROPS = {
   initial: { opacity: 0 },
@@ -153,7 +154,7 @@ export default function Profile_PREVIEW({
       // onMouseLeave={() => SET_hover(false)}
       onHoverStart={() => SET_hover(true)}
       onHoverEnd={() => SET_hover(false)}
-      href={`/profile/${profile?._id}`}
+      href={`${base_PATH}/profile/${profile?._id}`}
     >
       <div className={css.upper}>
         <header className={css.top}>

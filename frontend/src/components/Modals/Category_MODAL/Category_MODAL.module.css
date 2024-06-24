@@ -35,7 +35,7 @@
   & .menu_WRAP {
     position: relative;
     overflow-y: scroll;
-    overflox-x: hidden;
+    overflow-x: hidden;
     padding-bottom: var(--mobile-scroll-bottom-padding);
     height: 105%;
   }

@@ -2,6 +2,7 @@
 //
 import css from "../Btn.module.css";
 import { Link } from "react-aria-components";
+import { base_PATH } from "../../../config";
 
 export function Link_BTN({
   styles,
@@ -15,7 +16,7 @@ export function Link_BTN({
   return (
     <Link
       className={styles ? styles.map((style) => css[style]).join(" ") : css["btn-36"]}
-      href={href}
+      href={base_PATH + href}
       aria-label={aria_LABEL}
       data-testid={test_ID}
     >
