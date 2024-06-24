@@ -2,7 +2,7 @@
 //
 
 import { USE_fetchData } from "./USE_fetchData";
-import { base_URL } from "../../config";
+import { database_URL } from "../../config";
 import { useEffect, useState } from "react";
 
 export default function USE_fetchCategories() {
@@ -12,7 +12,7 @@ export default function USE_fetchCategories() {
     data: categories,
     loading: LOADING_categories,
     error: categories_ERROR,
-  } = USE_fetchData(`${base_URL}/categories`);
+  } = USE_fetchData(`${database_URL}/categories`);
 
   useEffect(() => {
     if (categories) {
