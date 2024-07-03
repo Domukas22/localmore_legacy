@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import process from "process";
+import path from "path"; // Import path module from Node.js
 
 // Use Node's process.env to check if in production
 // this occurs when you run the "npm run build" command
@@ -33,10 +34,5 @@ export default defineConfig({
         assetFileNames: "assets/[name].[hash].[ext]",
       },
     },
-  },
-
-  // Add a function to log the base value
-  configResolved(config) {
-    console.log("Resolved base:", config.base);
   },
 });

@@ -37,7 +37,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="/privacy" element={<Privacy_PAGE />} />
           <Route path="/attributions" element={<Attributions_PAGE />} />
           <Route path="*" element={<_404_PAGE />} />
-          <Route path="*" element={<_404_PAGE />} />
         </Routes>
       </BrowserRouter>
     </AppProviders>
